@@ -1,0 +1,44 @@
+@font-face {
+	font-family: 'GothicA1';
+	font-weight: 400;
+	font-style: normal;
+	src: url('https://cdn.jsdelivr.net/gh/webfontworld/GothicA1/GothicA1-Regular.eot');
+	src: url('https://cdn.jsdelivr.net/gh/webfontworld/GothicA1/GothicA1-Regular.eot?#iefix') format('embedded-opentype'),
+	url('https://cdn.jsdelivr.net/gh/webfontworld/GothicA1/GothicA1-Regular.woff2') format('woff2'),
+	url('https://cdn.jsdelivr.net/gh/webfontworld/GothicA1/GothicA1-Regular.woff') format('woff'),
+	url('https://cdn.jsdelivr.net/gh/webfontworld/GothicA1/GothicA1-Regular.ttf') format("truetype");
+	font-display: swap;
+}
+@font-face {
+	font-family: 'GothicA1';
+	font-weight: 500;
+	font-style: normal;
+	src: url('https://cdn.jsdelivr.net/gh/webfontworld/GothicA1/GothicA1-Medium.eot');
+	src: url('https://cdn.jsdelivr.net/gh/webfontworld/GothicA1/GothicA1-Medium.eot?#iefix') format('embedded-opentype'),
+	url('https://cdn.jsdelivr.net/gh/webfontworld/GothicA1/GothicA1-Medium.woff2') format('woff2'),
+	url('https://cdn.jsdelivr.net/gh/webfontworld/GothicA1/GothicA1-Medium.woff') format('woff'),
+	url('https://cdn.jsdelivr.net/gh/webfontworld/GothicA1/GothicA1-Medium.ttf') format("truetype");
+	font-display: swap;
+}
+@font-face {
+	font-family: 'GothicA1';
+	font-weight: 600;
+	font-style: normal;
+	src: url('https://cdn.jsdelivr.net/gh/webfontworld/GothicA1/GothicA1-SemiBold.eot');
+	src: url('https://cdn.jsdelivr.net/gh/webfontworld/GothicA1/GothicA1-SemiBold.eot?#iefix') format('embedded-opentype'),
+	url('https://cdn.jsdelivr.net/gh/webfontworld/GothicA1/GothicA1-SemiBold.woff2') format('woff2'),
+	url('https://cdn.jsdelivr.net/gh/webfontworld/GothicA1/GothicA1-SemiBold.woff') format('woff'),
+	url('https://cdn.jsdelivr.net/gh/webfontworld/GothicA1/GothicA1-SemiBold.ttf') format("truetype");
+	font-display: swap;
+}
+@font-face {
+	font-family: 'GothicA1';
+	font-weight: 700;
+	font-style: normal;
+	src: url('https://cdn.jsdelivr.net/gh/webfontworld/GothicA1/GothicA1-Bold.eot');
+	src: url('https://cdn.jsdelivr.net/gh/webfontworld/GothicA1/GothicA1-Bold.eot?#iefix') format('embedded-opentype'),
+	url('https://cdn.jsdelivr.net/gh/webfontworld/GothicA1/GothicA1-Bold.woff2') format('woff2'),
+	url('https://cdn.jsdelivr.net/gh/webfontworld/GothicA1/GothicA1-Bold.woff') format('woff'),
+	url('https://cdn.jsdelivr.net/gh/webfontworld/GothicA1/GothicA1-Bold.ttf') format("truetype");
+	font-display: swap;
+}

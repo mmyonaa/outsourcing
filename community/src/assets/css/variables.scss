@@ -1,0 +1,267 @@
+/**
+COLOR LIST
+ */
+// 메인컬러
+$colorPrimaryOld: #8976fd;
+$colorPrimary: #644BFF;
+$colorSecondary: #736e92;
+$colorTertiary: #f7f6ff;
+//폰트 컬러
+$colorFont: #332c5c;
+//그 외 컬러
+$colorWhite: #ffffff;
+$colorTagOld: #edebff;
+$colorTag: rgba(100, 75, 255, 0.1);
+$colorEditorHover: #f4f3ff;
+
+/**
+FONT LIST
+ */
+@mixin font12Bold5 {
+  font-weight: 500;
+  font-size: 1.5rem;
+  line-height: 1.2;
+}
+@mixin font12Bold6 {
+  font-weight: 600;
+  font-size: 1.5rem;
+  line-height: 1.2;
+}
+@mixin font12Bold7 {
+  font-weight: 700;
+  font-size: 1.5rem;
+  line-height: 1.2;
+}
+@mixin font14Bold4 {
+  font-weight: 400;
+  font-size: 1.75rem;
+  line-height: 1.2;
+}
+@mixin font14Bold5 {
+  font-weight: 500;
+  font-size: 1.75rem;
+  line-height: 1.2;
+}
+@mixin font14Bold6 {
+  font-weight: 600;
+  font-size: 1.75rem;
+  line-height: 1.2;
+}
+@mixin font14Bold7 {
+  font-weight: 700;
+  font-size: 1.75rem;
+  line-height: 1.2;
+}
+@mixin font16Bold4 {
+  font-weight: 400;
+  font-size: 2rem;
+  line-height: 1.2;
+}
+@mixin font16Bold5 {
+  font-weight: 500;
+  font-size: 2rem;
+  line-height: 1.2;
+}
+@mixin font16Bold6 {
+  font-weight: 600;
+  font-size: 2rem;
+  line-height: 1.2;
+}
+@mixin font16Bold7 {
+  font-weight: 700;
+  font-size: 2rem;
+  line-height: 1.2;
+}
+@mixin font20Bold5 {
+  font-weight: 500;
+  font-size: 2.5rem;
+  line-height: 1.2;
+}
+@mixin font20Bold6 {
+  font-weight: 600;
+  font-size: 2.5rem;
+  line-height: 1.2;
+}
+@mixin font20Bold7 {
+  font-weight: 700;
+  font-size: 2.5rem;
+  line-height: 1.2;
+}
+@mixin font24Bold6 {
+  font-weight: 600;
+  font-size: 3rem;
+  line-height: 1.2;
+}
+@mixin font24Bold7 {
+  font-weight: 700;
+  font-size: 3rem;
+  line-height: 1.2;
+}
+@mixin font30Bold6 {
+  font-weight: 600;
+  font-size: 3.75rem;
+  line-height: 1.2;
+}
+@mixin font30Bold7 {
+  font-weight: 700;
+  font-size: 3.75rem;
+  line-height: 1.2;
+}
+@mixin font32Bold6 {
+  font-weight: 600;
+  font-size: 4rem;
+  line-height: 1.2;
+}
+@mixin font32Bold7 {
+  font-weight: 700;
+  font-size: 4rem;
+  line-height: 1.2;
+}
+/**
+RESOLUTION LIST
+ */
+@mixin s-mobile {
+  @media (max-width: 375px) {
+    @content;
+  }
+}
+@mixin mobile {
+  @media (max-width: 424px) {
+    @content;
+  }
+}
+@mixin big-mobile {
+  @media (max-width: 500px) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (max-width: 767px) {
+    @content;
+  }
+}
+
+@mixin big-tablet {
+  @media (max-width: 820px) {
+    @content;
+  }
+}
+
+@mixin s-pc {
+  @media (max-width: 1023px) {
+    @content;
+  }
+}
+
+@mixin pc {
+  @media (max-width: 1280px) {
+    @content;
+  }
+}
+
+@mixin touch-device-hover {
+  @media (hover: hover) and (pointer: fine) {
+    @content;
+  }
+}
+
+
+// 반응형 범위 tablet
+@mixin mobile-header {
+  @media (max-width: 767px) {
+    @content;
+  }
+}
+// s-pc
+@mixin range-tablet-header {
+  @media (max-width: 1023px) {
+    @content;
+  }
+}
+
+@mixin tablet-header {
+  @media (min-width: 768px) and (max-width: 1023px) {
+    @content;
+  }
+}
+
+@mixin pc-header {
+  @media (min-width: 1024px) and (max-width: 99999px) {
+    @content;
+  }
+}
+
+/***************/
+
+/**
+Grid controller
+ */
+@mixin grid-col($colNum) {
+  grid-template-columns: repeat($colNum, 1fr);
+}
+
+/**
+ $startIndex = 시작 인덱스 + 1;
+ $endIndex = 종료 인덱스 + 1;
+ */
+@mixin grid-area($startIndex, $endIndex) {
+  grid-column-start: $startIndex;
+  grid-column-end: $endIndex;
+}
+
+/**
+예제 : @include transform(rotate(0deg));
+ */
+@mixin transform($transform...) {
+  -webkit-transform: $transform;
+  -moz-transform: $transform;
+  -ms-transform: $transform;
+  -o-transform: $transform;
+  transform: $transform;
+  //image-rendering: pixelated;
+  //image-rendering: -moz-pixelated;
+  //image-rendering: -webkit-pixelated;
+  //image-rendering: -o-pixelated;
+  image-rendering: crisp-edges;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -webkit-crisp-edges;
+  image-rendering: -o-crisp-edges;
+}
+
+/**
+예제 : @include transition(width 0.25s linear);
+ */
+@mixin transition($transition...) {
+  -webkit-transition: $transition;
+  -moz-transition: $transition;
+  -ms-transition: $transition;
+  -o-transition: $transition;
+  transition: $transition;
+}
+
+/**
+예제 : @include border-radius(20px);
+ */
+@mixin border-radius($boxradius...) {
+  -webkit-border-radius: $boxradius;
+  -moz-border-radius: $boxradius;
+  border-radius: $boxradius;
+  overflow: hidden;
+  z-index: 1;
+}
+
+// 텍스트 줄 수 제한
+@mixin ellipsis($line) {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: $line; // 원하는 라인수
+  -webkit-box-orient: vertical;
+}
+
+@mixin backdrop-filter-blur($size) {
+  backdrop-filter: blur($size);
+  -webkit-backdrop-filter: blur($size);
+  -moz-backdrop-filter: blur($size);
+}

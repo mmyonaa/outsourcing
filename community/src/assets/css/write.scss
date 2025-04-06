@@ -1,0 +1,436 @@
+.write-page {
+  flex: 1;
+  .write-header-section {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 5;
+    background-color: $colorWhite;
+    @include tablet {
+      position: relative;
+    }
+    .write-pc-header {
+      display: block;
+      @include tablet {
+        display: none;
+      }
+      .header-external-wrapper {
+        background-color: #f5f5f5;
+        padding: 0 3rem;
+        height: 4rem;
+        .external-list {
+          display: flex;
+          @include font14Bold5();
+          color: #585858;
+
+          @include mobile {
+            @include font12Bold5();
+          }
+          .external-item {
+            cursor: pointer;
+            max-width: 15rem;
+            width: 100%;
+            padding: 1rem;
+            text-align: center;
+            line-height: 17px;
+            &.community {
+              background-color: $colorWhite;
+            }
+            &.studio,
+            &.apoc {
+              border-right: 1px solid;
+              margin: 1rem 0 1rem 1rem;
+              padding: 0 1rem 0 0;
+            }
+          }
+        }
+      }
+      .header-wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 40px;
+        margin: 2.5rem 3rem 2.5rem 3rem;
+
+        .left-area {
+          display: flex;
+          align-items: center;
+          height: 100%;
+          .mobile-menu-icon {
+            display: none;
+            cursor: pointer;
+            @include big-tablet {
+              display: inline-block;
+              margin-right: 2rem;
+            }
+
+            @include mobile {
+              img {
+                width: 80%;
+              }
+            }
+          }
+          .logo-area {
+            cursor: pointer;
+            display: inline-block;
+            z-index: 2;
+            img {
+              @include tablet {
+                width: 25rem;
+              }
+              @include mobile {
+                width: 21.25rem;
+              }
+              @include s-mobile {
+                width: 19.5rem;
+              }
+            }
+            &.search-active {
+              display: none;
+            }
+          }
+        }
+        .right-area {
+          display: flex;
+          gap: 2rem;
+          margin: 3rem 0;
+          height: 100%;
+          .private-select-area {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            cursor: pointer;
+            .private-select-checkbox {
+              border: 1.3px solid rgba(115, 110, 146, 0.2);
+              width: 20px;
+              height: 20px;
+              border-radius: 0.25rem;
+              &.is-private {
+                background-color: $colorPrimary;
+                border: none;
+              }
+            }
+            .private-select-text {
+              align-self: center;
+              @include font14Bold4();
+              line-height: 20px;
+            }
+          }
+          .apoc-select {
+            &.board-select-area {
+              color: $colorPrimary;
+              border-color: $colorPrimary;
+              background-color: $colorTertiary;
+            }
+            &.service-select-area {
+              color: $colorFont;
+              border-color: rgba(115, 110, 146, 0.2);
+              background-color: $colorWhite;
+
+              img {
+                width: 18px;
+              }
+            }
+            &.exist-tag {
+              color: #332c5c52;
+            }
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            box-sizing: border-box;
+            position: relative;
+            width: 104px;
+            border: 1px solid;
+            border-radius: 0.5rem;
+            @include font14Bold6();
+            cursor: pointer;
+            padding: 10px 8px 10px 12px;
+            img {
+              height: 20px;
+              cursor: pointer;
+              object-fit: contain;
+            }
+            .selected-area {
+              width: 100%;
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+              height: inherit;
+              border: 0 none;
+              outline: 0 none;
+              background: transparent;
+              img {
+                padding: 5px 0;
+              }
+            }
+            .option-list-area-wrapper {
+              position: absolute;
+              background-color: $colorWhite;
+              border-radius: 0.5rem;
+              top: 100%;
+              left: 0;
+              width: 100%;
+              margin-top: 0.5rem;
+              list-style-type: none;
+              overflow: scroll;
+              -ms-overflow-style: none; /* 인터넷 익스플로러 */
+              scrollbar-width: none; /* 파이어폭스 */
+              z-index: 10;
+              border: 1px solid #e5e5e5;
+              padding: 1rem;
+              @include dropDownUp;
+              .option-item {
+                padding: 1.25rem 1rem;
+                cursor: pointer;
+                color: $colorFont;
+                &:hover {
+                  color: $colorPrimary;
+                }
+
+                &.is-selected {
+                  color: $colorPrimary;
+                }
+              }
+            }
+          }
+          .save-btn {
+            border-radius: 0.5rem;
+            padding: 1.25rem 2.25rem;
+            background-color: $colorPrimary;
+            @include font14Bold5();
+            color: $colorWhite;
+            line-height: 20px;
+          }
+        }
+      }
+    }
+    .write-mobile-header {
+      display: none;
+      @include tablet {
+        width: 100%;
+        padding: 2rem 3rem 2rem 1.5rem;
+        display: flex;
+        justify-content: space-between;
+      }
+      .close-btn {
+        cursor: pointer;
+        img {
+          width: 40px;
+          height: 40px;
+        }
+      }
+      .save-btn {
+        border-radius: 0.5rem;
+        padding: 1.25rem 2.25rem;
+        background-color: $colorPrimary;
+        @include font14Bold5();
+        color: $colorWhite;
+        line-height: 20px;
+      }
+    }
+  }
+  .write-editor-section {
+    min-height: 100%;
+    background-color: #f5f5f5;
+    display: flex;
+    flex-direction: column;
+    @include tablet {
+      min-height: inherit;
+    }
+    .toolbar-area {
+      &.is-hidden {
+        display: none;
+      }
+      position: sticky;
+      top: 10rem;
+      z-index: 2;
+      width: 100%;
+      padding: 0.75rem 0;
+      font-family: "Famppy", sans-serif;
+      border-top: 1px solid rgba(115, 110, 146, 0.2);
+      border-bottom: 1px solid rgba(115, 110, 146, 0.2);
+      box-shadow: 0 0.5rem 1rem 0 rgba(155, 155, 155, 0.25);
+      background-color: #ffffff;
+      box-sizing: border-box;
+      @include tablet {
+        position: static;
+        top: 9rem;
+        padding: 1rem 3rem;
+        box-shadow: none;
+      }
+    }
+    .editor-area {
+      flex: 1;
+      background-color: $colorWhite;
+      max-width: 140rem;
+      width: 100%;
+      margin: 0 auto;
+      padding-top: 10rem;
+      @include tablet {
+        padding-top: 0;
+      }
+      .write-title-area {
+        width: 100%;
+        .write-title {
+          @include font30Bold7();
+          color: $colorFont;
+          line-height: 35.8px;
+          padding: 12.5rem 8rem 5rem 8rem;
+          @include tablet {
+            padding: 3rem;
+          }
+
+          textarea {
+            width: 100%;
+            resize: none;
+            outline: none;
+            caret-color: $colorPrimary;
+          }
+        }
+        .write-title-divider {
+          border-bottom: 1px solid rgba(115, 110, 146, 0.2);
+          margin: 0 8rem;
+          @include tablet {
+            margin: 0 3rem;
+          }
+        }
+      }
+      .editor-divider {
+        border-top: 1px solid rgba(115, 110, 146, 0.2);
+        margin: 0 8rem;
+        padding-bottom: 8rem;
+        @include tablet {
+          padding-bottom: 0;
+          border-top: none;
+        }
+      }
+      .empty-area {
+        height: 15rem;
+        @include tablet {
+          height: 8rem;
+        }
+      }
+    }
+  }
+  .write-bottom-option-section {
+    display: none;
+    @include tablet {
+      display: inline-block;
+    }
+    width: 100%;
+    border-top: 1px solid rgba(115, 110, 146, 0.2);
+    .write-bottom-option-wrapper {
+      display: grid;
+      grid-template-columns: 9rem auto;
+      grid-template-areas:
+        'a b'
+        'c d'
+        'e f';
+      grid-gap: 2rem;
+      align-items: center;
+
+      width: 100%;
+      height: 100%;
+      padding: 3rem;
+
+      @include font14Bold4();
+      .apoc-select {
+        &.board-select-area {
+          color: $colorPrimary;
+          border-color: $colorPrimary;
+          background-color: rgba(100, 75, 255, 0.10);
+        }
+        &.service-select-area {
+          color: $colorFont;
+          border-color: rgba(115, 110, 146, 0.2);
+          background-color: $colorWhite;
+          &.exist-tag {
+            color: #332c5c52
+          }
+          img {
+            width: 18px;
+          }
+        }
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        box-sizing: border-box;
+        position: relative;
+        width: 100%;
+        border: 1px solid;
+        border-radius: 0.5rem;
+        @include font14Bold6();
+        cursor: pointer;
+        padding: 10px 8px 10px 12px;
+        img {
+          height: 20px;
+          margin-left: 1rem;
+          cursor: pointer;
+          object-fit: contain;
+        }
+        .selected-area {
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          height: inherit;
+          border: 0 none;
+          outline: 0 none;
+          background: transparent;
+          img {
+            padding: 5px 0;
+          }
+        }
+        .option-list-area-wrapper {
+          position: absolute;
+          background-color: $colorWhite;
+          border-radius: 0.5rem;
+          top: 100%;
+          left: 0;
+          width: 100%;
+          margin-top: 0.5rem;
+          list-style-type: none;
+          overflow: scroll;
+          -ms-overflow-style: none; /* 인터넷 익스플로러 */
+          scrollbar-width: none; /* 파이어폭스 */
+          z-index: 10;
+          border: 1px solid #e5e5e5;
+          padding: 1rem;
+          @include dropDownUp;
+          .option-item {
+            padding: 1.25rem 1rem;
+            cursor: pointer;
+            color: $colorFont;
+            &:hover {
+              color: $colorPrimary;
+            }
+          }
+        }
+      }
+      .private-select-area {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        height: 40px;
+        cursor: pointer;
+        .private-select-checkbox {
+          border: 1.3px solid rgba(115, 110, 146, 0.2);
+          width: 20px;
+          height: 20px;
+          border-radius: 0.25rem;
+          &.is-private {
+            background-color: $colorPrimary;
+            border: none;
+          }
+        }
+        .private-select-text {
+          align-self: center;
+          @include font14Bold4();
+          line-height: 20px;
+        }
+      }
+    }
+  }
+}

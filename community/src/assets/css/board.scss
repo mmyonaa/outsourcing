@@ -1,0 +1,495 @@
+/**
+  * 게시판 상위 컴포넌트
+  */
+.board-page,
+.my-page-section {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  flex: 1;
+  width: 100%;
+  // 사이드바 옵션
+  .side-bar-wrapper {
+    width: 30rem;
+    height: fit-content;
+    position: -webkit-sticky; /* 사파리 지원 */
+    position: sticky;
+    padding: 3rem 1.5rem;
+    box-sizing: border-box;
+    top: 10rem;
+    @include s-pc {
+      display: none;
+    }
+  }
+
+  .partition {
+    width: 100%;
+    box-shadow: 1px 0 0 rgba(115, 110, 146, 0.2) inset;
+
+    @include s-pc {
+      box-shadow: none;
+    }
+    // 게시판 header 타이틀
+    .board-header-section {
+      box-sizing: border-box;
+      position: -webkit-sticky; /* 사파리 지원 */
+      position: sticky;
+      top: 10rem;
+      width: 100%;
+      box-shadow: 1px -1px 0 rgba(115, 110, 146, 0.2) inset;
+      background-color: $colorWhite;
+      z-index: 1;
+
+      @include s-pc {
+        box-shadow: 0 -1px 0 rgba(115, 110, 146, 0.2) inset;
+      }
+      @include tablet {
+        top: 15rem;
+      }
+      .board-header-wrapper {
+        box-sizing: border-box;
+        max-width: 130rem;
+        margin: 0 auto;
+        padding: 4rem 3rem 3rem 2.5rem;
+        display: flex;
+        gap: 1rem;
+        flex-direction: column;
+
+
+        .icon {
+          width: 80px;
+          height: 80px;
+          transition: all 0.15s linear;
+        }
+
+        .board-title-area {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          width: 100%;
+          .title {
+            @include font30Bold7;
+            color: $colorFont;
+            margin-left: 0.75rem;
+
+            @include mobile {
+              margin-left: 0;
+            }
+          }
+
+          .write-btn {
+            cursor: pointer;
+            @include font16Bold6;
+            color: $colorWhite;
+            border-radius: 1rem;
+            background-color: $colorPrimary;
+            padding: 1.75rem 2.75rem;
+          }
+        }
+
+        @include tablet {
+          padding: 3rem 3rem 2rem 3rem;
+          flex-direction: row;
+          gap: 0.5rem;
+          align-items: flex-end;
+
+          .icon {
+            width: 56px;
+            height: 56px;
+            position: relative;
+            top: 5px;
+          }
+
+          .board-title-area {
+            .title {
+              margin-left: 0;
+              margin-top: 2px;
+            }
+          }
+        }
+      }
+      // 스크롤 이벤트시 동작
+      &.scroll {
+        .board-header-wrapper {
+          padding: 3rem 3rem 2rem 3rem;
+          flex-direction: row;
+          gap: 0.5rem;
+          align-items: flex-end;
+
+          .icon {
+            width: 56px;
+            height: 56px;
+            position: relative;
+            top: 5px;
+          }
+
+          .board-title-area {
+            .title {
+              margin-left: 0;
+              margin-top: 2px;
+            }
+          }
+        }
+      }
+    }
+    .board-main-section {
+      // 게시판 태그 셀렉터
+      position: relative;
+      width: 100%;
+      height: 100%;
+      max-width: 130rem;
+      margin: 0 auto;
+
+      .board-tag-section {
+        position: absolute;
+        top: 16px;
+        left: 0;
+        height: 6rem;
+        padding: 0 3rem;
+        white-space: nowrap;
+
+        width: 100%;
+        overflow: scroll;
+        -ms-overflow-style: none; /* 인터넷 익스플로러 */
+        scrollbar-width: none; /* 파이어폭스 */
+
+        .tag {
+          width: fit-content;
+          border-radius: 3rem;
+          padding: 1.75rem 2.75rem;
+          background-color: $colorTag;
+          white-space: nowrap;
+
+          display: inline-block;
+          margin-right: 1rem;
+
+          @include font16Bold5;
+          line-height: 1.25;
+          color: #1a1a1a;
+
+          cursor: pointer;
+
+          @include touch-device-hover {
+            &:hover {
+              background-color: $colorPrimary;
+              color: $colorWhite;
+            }
+          }
+
+          &.active {
+            background-color: $colorPrimary;
+            color: $colorWhite;
+          }
+          &:last-child {
+            margin-right: 0;
+          }
+        }
+      }
+      .empty-section {
+        // 태그 영역과 구분
+        padding-top: 14rem;
+        .empty {
+          text-align: center;
+          @include font20Bold5();
+          padding: 15rem 0;
+          color: $colorSecondary;
+        }
+      }
+      // 게시판 리스트 영역
+      .board-list-section {
+        display: flex;
+        flex-direction: column;
+        // 태그 영역과 구분
+        padding-top: 6rem;
+        .board-list-area {
+          padding: 0 3rem;
+        }
+
+        &.tag-exist {
+          padding-top: 14rem;
+        }
+      }
+
+
+      // 페이지네이션 영역
+      .pagination-section {
+        padding-top: 5rem;
+        padding-bottom: 9.25rem;
+        .pagination {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 2rem;
+
+          .page-number-section {
+            display: flex;
+            .page-number {
+              width: 4rem;
+              height: 4rem;
+              border-radius: 1rem;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+
+              user-select: none;
+              cursor: pointer;
+              color: black;
+              @include font16Bold5;
+
+              &.active {
+                background-color: #eae8f6;
+                color: $colorFont;
+              }
+
+              &.noCursor {
+                cursor: default;
+              }
+            }
+          }
+          .page-number:nth-last-child(1) {
+            @include font14Bold5();
+          }
+        }
+      }
+
+      .board-card-list-section {
+        padding-top: 6rem;
+        .board-card-list-area {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          grid-template-areas: 'a b c d';
+          grid-gap: 2rem;
+          justify-items: center;
+          padding: 0 3rem;
+
+          @include s-pc {
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-areas: 'a b c';
+          }
+          @include tablet {
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-areas: 'a b';
+          }
+
+          .card-item-component {
+            display: flex;
+            flex-direction: column;
+            //max-height: 39.1rem;
+            max-height: fit-content;
+            height: 100%;
+            border-radius: 1rem;
+            width: 100%;
+
+            .thumbnail-area {
+              //height: 17rem;
+              //height: 100%;
+            }
+
+            .body-wrapper {
+              //height: 100%;
+              padding: 2rem;
+
+              .text-section {
+                .tag-list {
+                  .tag {
+                    padding: 5px 7px;
+                    @include font12Bold5;
+                    margin: 0 0.5rem 0.5rem 0;
+                  }
+                }
+
+                .title {
+                  @include font20Bold7;
+                  line-height: 33px;
+                  @include ellipsis(1);
+                }
+
+                .content {
+                  margin-top: 0.5rem;
+                  @include font14Bold5;
+                  color: $colorSecondary;
+                  line-height: 21px;
+                }
+              }
+
+              .time-section {
+                display: flex;
+                flex-direction: row;
+                gap: 0.5rem;
+                align-items: center;
+                margin-top: 4.5rem;
+
+                .icon {
+                  width: 24px;
+                  height: 24px;
+                }
+
+                .time {
+                  @include font12Bold5;
+                  color: $colorSecondary;
+                }
+              }
+            }
+          }
+        }
+
+        .board-list-skeleton-card {
+          @include s-pc {
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-areas: 'a b c';
+          }
+          @include big-mobile {
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-areas: 'a b';
+          }
+
+        }
+
+        .board-list-skeleton-wrapper {
+          padding: 0 3rem;
+        }
+
+        &.tag-exist {
+          padding-top: 14rem;
+        }
+      }
+    }
+  }
+}
+/**
+  * 게시판 리스트 아이템 컴포넌트
+  */
+.board-list-item-component {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding-top: 3rem;
+  padding-bottom: 4.25rem;
+  border-bottom: 1px solid $colorTag;
+
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  &:first-child {
+    padding-top: 0;
+  }
+
+  // 보드아이템의 태그, 제목, 글, 사진이 들어갑니다
+  .board-list-item-main-section {
+    display: flex;
+    flex-direction: row;
+    gap: 3rem;
+    cursor: pointer;
+    .text-wrapper {
+      .text-area {
+        display: flex;
+        gap: 1rem;
+        flex-direction: column;
+      }
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      flex-shrink: 1;
+      justify-content: space-between;
+
+      .tag-list {
+        display: flex;
+        gap: 0.5rem;
+        .tag {
+          width: fit-content;
+          border-radius: 3rem;
+          padding: 0.5rem 1rem;
+          background-color: $colorTag;
+          white-space: nowrap;
+
+          @include font12Bold5;
+          line-height: 2.5rem;
+          color: $colorPrimary;
+        }
+      }
+      .title {
+        @include font20Bold5;
+        line-height: 3rem;
+        color: $colorFont;
+        @include ellipsis(1);
+        word-break: break-all;
+        cursor: pointer;
+
+        span {
+          display: block;
+          line-height: inherit;
+        }
+      }
+      .body {
+        @include font14Bold4;
+        line-height: 2.5rem;
+        color: $colorSecondary;
+        @include ellipsis(2);
+        word-break: break-all;
+        min-height: 5rem;
+      }
+    }
+    .thumbnail {
+      flex-shrink: 0;
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      @include tablet {
+        width: 100px;
+        height: 100px;
+      }
+    }
+  }
+  // 보드 좋아요 조회수 등 정보가 담깁니다
+  .board-list-item-info-section {
+    display: flex;
+    flex-direction: row;
+    gap: 1.5rem;
+    margin-top: 3rem;
+    align-items: flex-end;
+
+    @include font14Bold4;
+    line-height: 2.09rem;
+    color: $colorFont;
+    .like {
+      display: flex;
+      flex-direction: row;
+      gap: 0.5rem;
+      align-items: flex-end;
+      .icon {
+        width: 18px;
+        height: 18px;
+      }
+      span {
+        margin-top: 0.25rem;
+      }
+    }
+    .comment {
+      display: flex;
+      flex-direction: row;
+      gap: 0.5rem;
+      align-items: flex-end;
+      .icon {
+        width: 18px;
+        height: 18px;
+      }
+    }
+  }
+}
+
+.board-card-item-wrapper {
+  max-height: 313px;
+  max-width: 236px;
+  height: 100%;
+  margin: 0 3rem;
+
+  .card-item {
+    .thumbnail-area {
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+}

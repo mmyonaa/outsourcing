@@ -1,0 +1,99 @@
+.my-page-section {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  // 사이드바 옵션
+  .side-bar-wrapper {
+    width: 30rem;
+    height: fit-content;
+    position: -webkit-sticky; /* 사파리 지원 */
+    position: sticky;
+    top: 104.8px;
+    padding: 3rem 1.5rem;
+    box-sizing: border-box;
+    @include s-pc {
+      display: none;
+    }
+  }
+
+  .profile-edit-section {
+    margin: auto;
+    .password-check-wrapper {
+      display: flex;
+      flex-direction: column;
+      .apoc-input {
+        border: 1px solid #d8d3ff;
+        border-radius: 1rem;
+        @include font16Bold5();
+        input {
+          padding: 1rem !important;
+          &:focus::placeholder {
+            color: transparent;
+          }
+        }
+      }
+
+      .apoc-button {
+        background-color: $colorPrimary;
+        color: $colorWhite;
+        margin-top: 1rem;
+        border-radius: 1rem;
+        @include font20Bold7();
+      }
+    }
+
+    .profile-edit-wrapper {
+      display: flex;
+      flex-direction: column;
+      .nickname {
+        @include font16Bold5();
+        .apoc-input {
+          border: 1px solid #d8d3ff;
+          border-radius: 1rem;
+          @include font16Bold5();
+          input {
+            padding: 1rem !important;
+            &:focus::placeholder {
+              color: transparent;
+            }
+          }
+        }
+      }
+      .new-password {
+        @include font16Bold5();
+        .apoc-input {
+          border: 1px solid #d8d3ff;
+          border-radius: 1rem;
+          @include font16Bold5();
+          input {
+            padding: 1rem !important;
+            &:focus::placeholder {
+              color: transparent;
+            }
+          }
+        }
+      }
+      .new-password-check {
+        @include font16Bold5();
+        .apoc-input {
+          border: 1px solid #d8d3ff;
+          border-radius: 1rem;
+          @include font16Bold5();
+          input {
+            padding: 1rem !important;
+            &:focus::placeholder {
+              color: transparent;
+            }
+          }
+        }
+      }
+      .save-btn {
+        background-color: $colorPrimary;
+        color: $colorWhite;
+        margin-top: 1rem;
+        border-radius: 1rem;
+        @include font20Bold7();
+      }
+    }
+  }
+}

@@ -1,0 +1,160 @@
+#app .footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8rem 3rem 5rem;
+  background-color: rgba(164, 115, 255, 0.05);
+  &.is-hidden {
+    display: none;
+  }
+  .footer-wrapper {
+    max-width: 140rem;
+    width: 100%;
+    color: $colorFont;
+
+    .footer-top-area {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-template-areas: 'a a a a b b c c d d e e';
+      grid-column-gap: 2rem;
+
+      @include s-pc {
+        grid-template-areas:
+          'a a a a a a . . . . . .'
+          'b b b c c c d d d e e e';
+        margin-bottom: 8rem;
+      }
+      @include tablet {
+        grid-template-columns: repeat(1, 1fr);
+        grid-template-areas:
+          'a'
+          'b'
+          'c'
+          'd'
+          'e';
+      }
+
+      .footer-info {
+        @include font16Bold4();
+        grid-area: a;
+        margin-bottom: 8rem;
+
+        @include tablet {
+          margin-bottom: 2.75rem;
+        }
+        .logo-area {
+          margin-bottom: 3rem;
+          line-height: 0;
+          img {
+
+          }
+        }
+        .desc-area {
+          margin-bottom: 9.25rem;
+          line-height: 3.6rem;
+
+          @include s-pc {
+            margin-bottom: 6rem;
+          }
+        }
+
+        .sns-list {
+          display: flex;
+          gap: 2.5rem;
+          .sns-item {
+            background-color: $colorPrimary;
+            border-radius: 50%;
+            width: 5rem;
+            height: 5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            .apoc-link {
+              display: flex;
+            }
+          }
+        }
+      }
+      .footer-link-section {
+        .title {
+          @include font20Bold7();
+          margin-bottom: 3rem;
+          line-height: 4.5rem;
+
+          @include tablet {
+            margin: 6rem 0 4.5rem 0;
+          }
+        }
+        .link-list {
+          display: flex;
+          flex-direction: column;
+          gap: 2rem;
+
+          @include tablet {
+            gap: 3.75rem;
+          }
+          .link-item {
+            @include font16Bold5();
+            line-height: 3.6rem;
+          }
+        }
+        &.apoc-news {
+          grid-area: b;
+        }
+        &.tutorial {
+          grid-area: c;
+        }
+        &.free {
+          grid-area: d;
+        }
+        &.notice {
+          grid-area: e;
+        }
+      }
+    }
+
+    .footer-bottom-area {
+      border-top: 1px solid rgba(51, 44, 92, 0.2);
+      padding-top: 5rem;
+      @include font16Bold4();
+      display: flex;
+      justify-content: space-between;
+
+      @include tablet {
+        gap: 3rem;
+        flex-direction: column;
+
+      }
+
+      .left-area {
+        display: flex;
+        align-items: center;
+        gap: 3rem;
+
+        @include tablet {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .copyright-item {
+          line-height: 2.25rem;
+          &:first-child {
+            margin-right: 4rem;
+
+            @include tablet {
+              margin-bottom: 2rem;
+            }
+
+            strong {
+              color: $colorPrimary;
+              @include font16Bold7();
+            }
+          }
+        }
+      }
+      .right-area {
+      }
+    }
+  }
+}

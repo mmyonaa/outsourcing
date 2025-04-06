@@ -1,0 +1,621 @@
+// 각 사이트 active/hover 시 색상
+$colorApoc: #000000;
+$colorPlay: #a473ff;
+$colorStudio: #ff8fff;
+$colorAsset: #130e62;
+$colorComm: #644bff;
+
+// common color
+$colorWhite: #ffffff;
+$colorText: #332c5c;
+$colorBorder: #eaeaea;
+$colorSubMenu: #736e92;
+
+// 반응형 범위 tablet
+@mixin mobile-header {
+	@media (max-width: 767px) {
+		@content;
+	}
+}
+// s-pc
+@mixin range-tablet-header {
+	@media (max-width: 1023px) {
+		@content;
+	}
+}
+
+@mixin tablet-header {
+	@media (min-width: 768px) and (max-width: 1023px) {
+		@content;
+	}
+}
+
+@mixin pc-header {
+	@media (min-width: 1024px) and (max-width: 99999px) {
+		@content;
+	}
+}
+
+.mega-menu {
+	&.is-hidden {
+		display: none;
+	}
+}
+header {
+	z-index: 99; // dim 배경 z-index에 따라 조절
+	position: fixed;
+	width: 100vw;
+	height: 10rem;
+	display: flex;
+	justify-content: center;
+	background-color: $colorWhite;
+
+
+	&.is-hidden {
+		display: none;
+	}
+
+	&.opacity {
+		background: rgba(255, 255, 255, 0.8);
+		@include backdrop-filter-blur(4px);
+
+	}
+	&.white-background {
+		background-color: $colorWhite;
+		.sub-menu-section {
+			background: $colorWhite;
+		}
+	}
+	//&.border {
+	//	border-bottom: 1px solid rgba(115, 110, 146, 0.2);
+	//}
+	//&.active-border {
+	//	box-shadow: 0 4px 4px rgb(153, 153, 153, 0.1);
+	//}
+	//
+	//&.none-border {
+	//	border-bottom: 1px solid transparent;
+	//}
+	@include mobile-header {
+		height: 7rem;
+	}
+}
+
+// header 전체 wrapper
+.main-header-wrapper {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+	padding: 0 3rem;
+	position: relative;
+	box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.05);
+	z-index: 52;
+
+	// TODO : bottom shadow
+	// box-shadow: 0px 2px 2px 0px #0000000d;
+
+	// 메인 로고
+	.main-header-logo {
+		width: 112px;
+		img {
+			width: 100%;
+			height: 100%;
+		}
+	}
+	@include range-tablet-header {
+		width: calc(100%);
+		padding: 0 1rem 0 2rem;
+	}
+	@include tablet-header {
+		.main-header-logo {
+			width: 86px;
+		}
+	}
+	@include mobile-header {
+		.main-header-logo {
+			width: 66px;
+		}
+	}
+}
+
+// menu item 공통 스타일
+.menu-list {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	height: 100%;
+	li {
+		list-style-type: none;
+		padding: 2.5rem 1.5rem;
+		cursor: pointer;
+	}
+	.menu {
+		width: 100%;
+		box-sizing: border-box;
+		&:nth-child(1) {
+			width: 71px;
+		}
+
+		&:nth-child(2) {
+			width: 64px;
+		}
+
+		&:nth-child(3) {
+			width: 81px;
+		}
+
+		&:nth-child(4) {
+			width: 72px;
+		}
+
+		&:nth-child(5) {
+			width: 125px;
+		}
+	}
+}
+
+// 메인 메뉴
+.main-menu-section {
+	@include transform(translate(-50%, -50%)); // 정가운데 위치 고정
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	height: 100%;
+
+	.menu-list {
+		gap: 4rem;
+	}
+	li {
+		color: $colorApoc;
+		font-size: 20px;
+		line-height: 20px;
+		font-weight: 500; // sofia pro라서 weight + 100
+		&.active {
+			font-weight: 800; // sofia pro라서 weight + 100
+			color: $colorPlay;
+		}
+		&:hover {
+			color: $colorPlay;
+		}
+	}
+	//.apoc {
+	//	&:hover,
+	//	&.active {
+	//		color: $colorApoc;
+	//	}
+	//}
+	//.play {
+	//	&:hover,
+	//	&.active {
+	//		color: $colorPlay;
+	//	}
+	//}
+	//.studio {
+	//	&:hover,
+	//	&.active {
+	//		color: $colorStudio;
+	//	}
+	//}
+	//.asset {
+	//	&:hover,
+	//	&.active {
+	//		color: $colorAsset;
+	//	}
+	//}
+	//.community {
+	//	&:hover,
+	//	&.active {
+	//		color: $colorComm;
+	//	}
+	//}
+	@include range-tablet-header {
+		display: none;
+	}
+}
+
+// dropdown으로 열리는 search bar
+.mega-search-bar-wrapper {
+	height: 120px;
+	width: 100%;
+	background-color: $colorComm;
+	left: 0;
+	top: 10rem;
+	@include dropDownUpHeader;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	position: absolute;
+
+	@include mobile-header {
+		top: 7rem;
+	}
+
+	.mega-search-bar {
+		height: 64px;
+		padding: 16px;
+		box-sizing: border-box;
+		border-radius: 15px;
+		background-color: $colorWhite;
+		max-width: 824px;
+		width: calc(100% - 200px);
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		gap: 16px;
+		img {
+			width: 30px;
+			height: 30px;
+		}
+		.apoc-input {
+			width: 100%;
+			height: 100%;
+			@include font16Bold4;
+		}
+
+	}
+	&.mobile {
+		display: none;
+		@include mobile-header {
+			display: flex;
+		}
+	}
+
+	@include tablet-header {
+		height: 112px;
+		.mega-search-bar {
+			height: 56px;
+			padding: 12px;
+			width: calc(100% - 160px);
+
+		}
+	}
+	@include mobile-header {
+		height: 64px;
+		.mega-search-bar {
+			height: 40px;
+			padding: 8px;
+			width: calc(100% - 32px);
+			img {
+				width: 24px;
+				height: 24px;
+			}
+			.apoc-input {
+				@include font14Bold4;
+			}
+		}
+	}
+}
+
+// dropdown으로 열리는 sub menu
+.sub-menu-section {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: start;
+	position: absolute;
+	width: 100%;
+	min-height: 42.5rem;
+	background-color: $colorWhite;
+	//padding-top: 2rem; // lang dropdown 열린 상태일 때 완전히 가려지게 하기 위해
+	left: 0;
+	top: 10rem;
+	gap: 4rem;
+	z-index: 51;
+	box-shadow: 0px 4px 8px 0px rgba(164, 115, 255, 0.10);
+	@include dropDownUpHeader();
+
+	@include mobile-header {
+		top: 8rem;
+	}
+
+	&.opacity {
+		background: rgba(255, 255, 255, .8);
+	}
+
+	.sub-menu-list {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		li {
+			padding: 16px 12px;
+			white-space: nowrap;
+			font-size: 16px;
+			line-height: 18px;
+			font-weight: 500;
+			color: $colorText;
+			&.active {
+				color: $colorPlay;
+			}
+
+			&:hover {
+				color: $colorPlay;
+			}
+		}
+		//&.apoc {
+		//	li:hover {
+		//		color: $colorApoc;
+		//	}
+		//}
+		//&.play {
+		//	li:hover {
+		//		color: $colorPlay;
+		//	}
+		//}
+		//&.studio {
+		//	li:hover {
+		//		color: $colorStudio;
+		//	}
+		//}
+		//&.asset {
+		//	li:hover {
+		//		color: $colorAsset;
+		//	}
+		//}
+		//&.community {
+		//	li:hover {
+		//		color: $colorPlay;
+		//	}
+		//}
+	}
+}
+
+// 우측 사이드
+.login-section {
+	.menu-list {
+		gap: 4px;
+		@include range-tablet-header {
+			gap: 0;
+		}
+	}
+	li {
+		height: 40px;
+		display: flex;
+		align-items: center;
+		padding: 0 !important;
+
+
+		@include tablet-header {
+			height: 48px;
+			&.menu-icon {
+				padding: 12px 9px !important;
+			}
+		}
+
+		@include mobile-header {
+			&.menu-icon {
+				padding: 10px 9px !important;
+			}
+		}
+	}
+
+	.search-icon {
+		width: 20px;
+		height: 20px;
+		margin: 0 0.75rem;
+		@include tablet-header {
+			width: 24px;
+			height: 24px;
+		}
+		@include mobile-header {
+			display: none;
+		}
+	}
+
+	.lang-select {
+		padding: 0 4px;
+	}
+
+	.my-page-menu {
+		padding: 11px 8px;
+		color: $colorComm;
+		font-size: 16px;
+		font-weight: 800; // sofia pro라서 weight + 100
+		@include tablet-header {
+			padding: 12px 6px;
+			font-size: 18px;
+			font-size: 18px;
+			font-weight: 700; // sofia pro라서 weight + 100
+		}
+		@include mobile-header {
+			padding: 11px 8px;
+			font-size: 16px;
+			font-weight: 800; // sofia pro라서 weight + 100
+		}
+	}
+
+	// (tablet~) 메뉴 햄버거 버튼
+	.tab-icon {
+		display: none;
+		width: 30px;
+		height: 24px;
+		@include range-tablet-header {
+			display: block;
+		}
+		@include mobile-header {
+			width: 20px;
+			height: 16px;
+		}
+	}
+
+	// play > studio (make btn)
+	.make-btn {
+		color: $colorWhite;
+		background-color: $colorPlay;
+		border: none;
+		height: 40px;
+		padding: 12px 18px;
+		border-radius: 8px;
+		font-size: 14px;
+		font-weight: 700;
+		line-height: 18px;
+	}
+}
+
+// 우측에서 슬라이드로 열리는 menu
+.main-menu-section-tablet {
+	background-color: $colorWhite;
+	position: fixed;
+	right: 0;
+	top: 0;
+	height: 100vh;
+	width: 320px;
+	box-sizing: border-box;
+	padding: 2rem 0 0 5rem;
+	z-index: 102; // dim 배경 z-index에 따라 조절
+	@include slideInOutRight;
+	box-shadow: -2px 0 2px 0 rgba(0, 0, 0, 0.05);
+
+	// 메뉴 닫기 버튼
+	.close-wrapper {
+		display: flex;
+		align-items: flex-start;
+		justify-content: space-between;
+		padding: 0;
+		margin-bottom: 22px;
+		padding-right: 16px;
+		.logo-img {
+			margin-top: 1rem;
+			cursor: pointer;
+			width: 86px;
+		}
+		.close-btn {
+			padding: 11px;
+			cursor: pointer;
+		}
+	}
+
+	// main menu item
+	.menu {
+		list-style: none;
+		width: calc(100% - 30px);
+		font-size: 20px;
+		font-weight: 700; // sofia pro라서 weight + 100
+		line-height: 20px;
+		padding: 13px 0;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		color: $colorApoc;
+		border-bottom: 1px solid $colorBorder;
+		cursor: pointer;
+
+		.svg {
+			margin-right: -2px;
+		}
+
+		// 현재 서비스 타입
+		&.active {
+			color: $colorPlay;
+			.svg path {
+				stroke: $colorPlay;
+			}
+		}
+
+		&:hover {
+			color: $colorPlay;
+		}
+
+		// sub menu가 열림
+		&.opened {
+			&.active {
+				border-bottom: 1px solid $colorPlay;
+			}
+			.svg {
+				display: inline-block;
+				transform: rotate(180deg);
+			}
+		}
+	}
+
+	// sub menu item
+	.sub-menu-tablet {
+		@include dropDownUpHeader;
+		ul {
+			display: flex;
+			flex-direction: column;
+			width: calc(100% - 28px);
+			li {
+				font-size: 16px;
+				font-weight: 600;
+				padding: 13px 16px;
+				color: $colorSubMenu;
+				border-bottom: 1px solid $colorBorder;
+				cursor: pointer;
+				&.active {
+					color: $colorPlay;
+				}
+			}
+		}
+	}
+}
+
+// mega menu dropdown (component, 기존 스타일 그대로, 아직 리뉴얼 전) - lang dropdown
+.mega-dropdown {
+	position: relative;
+	display: flex;
+	height: 40px;
+	cursor: pointer;
+	.selected-area {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		gap: 2px;
+		.placeholder-img {
+			width: 20px;
+			height: 20px;
+		}
+		.placeholder {
+			font-size: 16px;
+			font-weight: 700; // sofia pro라서 weight + 100
+			color: $colorText;
+			@include tablet-header {
+				font-size: 18px;
+				font-weight: 700; // sofia pro라서 weight + 100
+			}
+			@include mobile-header {
+				font-size: 16px;
+				font-weight: 700; // sofia pro라서 weight + 100
+			}
+		}
+	}
+	.option-list-area-wrapper {
+		@include dropDownUpHeader;
+		z-index: 50;
+		position: absolute;
+		background-color: $colorWhite;
+		border-radius: 1rem;
+		width: fit-content;
+		box-sizing: border-box;
+		padding: 1rem;
+		top: calc(100% + 1.5rem);
+		right: 0;
+		filter: drop-shadow(0px 1px 3px rgba(0, 0, 0, 0.35));
+
+		.option-list-area {
+			list-style: none;
+			li {
+				gap: 1rem;
+				white-space: nowrap;
+				cursor: pointer;
+				text-align: left;
+				color: $colorText;
+				font-size: 14px;
+				padding: 0.5rem 1rem !important;
+				&:hover {
+					border-radius: 1rem;
+					background: rgba(51, 44, 92, 0.05);
+				}
+				.option-list-desc {
+					//padding: 0.5rem 1rem;
+
+					span:first-child {
+						font-size: 2rem;
+					}
+				}
+
+			}
+		}
+	}
+}

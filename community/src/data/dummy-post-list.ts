@@ -1,0 +1,28 @@
+export const dummyPostList = [
+  {
+    boardIdx: 'abc123',
+    title: 'APOC과 함께하는 용인시 공유학교',
+    body: '화창한 6월에 APOC이 용인시 환경부와 함께 공유학교를 개최했어요. 초등학생부터 부모님까지 모두가 함께 할 수 있는 인터렉티브 콘텐츠! 학생, 부모님 한 명도 빠짐없이 APOC 콘텐츠를 즐겨주셨어요. 이번 공유학교에 참여한 학생 및 부모님들은 환경에 대해 더 알 수 있었다는 소감을 남겨주시기도 했답니다.',
+    tag: 'STUDIO',
+    thumbnail: '/assets/images/common/default-img.webp',
+    regDt: '2022-11-21',
+    regrUser: 'neck',
+    likeCount: 0,
+    commentCount: 0,
+    isLike: null,
+    playTime: 0,
+  },
+  {
+    boardIdx: 'abc124',
+    title: 'APOC과 함께하는 용인시 공유학교',
+    body: '화창한 6월에 APOC이 용인시 환경부와 함께 공유학교를 개최했어요. 초등학생부터 부모님까지 모두가 함께 할 수 있는 인터렉티브 콘텐츠! 학생, 부모님 한 명도 빠짐없이 APOC 콘텐츠를 즐겨주셨어요. 이번 공유학교에 참여한 학생 및 부모님들은 환경에 대해 더 알 수 있었다는 소감을 남겨주시기도 했답니다.',
+    tag: 'APOC',
+    thumbnail: null,
+    regDt: '2022-11-20',
+    regrUser: 'neck',
+    likeCount: 0,
+    commentCount: 0,
+    isLike: null,
+    playTime: 0,
+  },
+];

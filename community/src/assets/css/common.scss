@@ -1,0 +1,280 @@
+#app {
+  height: 100%;
+  .apoc-input {
+    input {
+      padding: 0;
+      border: none;
+      outline: none;
+      width: 100%;
+      height: 100%;
+      font-size: inherit;
+      font-weight: inherit;
+      line-height: inherit;
+      letter-spacing: inherit;
+      text-indent: inherit;
+      border-radius: inherit;
+    }
+
+    input::placeholder {
+      color: $colorSecondary;
+    }
+  }
+
+  .apoc-button {
+    cursor: pointer;
+
+    button {
+      padding: 0;
+      border: none;
+      outline: none;
+      width: 100%;
+      height: 100%;
+      font-size: inherit;
+      font-weight: inherit;
+      line-height: inherit;
+      letter-spacing: inherit;
+      text-indent: inherit;
+      border-radius: inherit;
+      background-color: inherit;
+      color: inherit;
+      cursor: pointer;
+    }
+  }
+
+  .apoc-link {
+    -webkit-tap-highlight-color: transparent;
+    color: inherit;
+    text-decoration: none;
+    cursor: pointer;
+    display: inline-block;
+  }
+
+  .drop-down-body {
+    @include dropDownUp;
+  }
+
+  .apoc-drop-down {
+    @include font14Bold6();
+    color: $colorFont;
+
+    .drop-down-title {
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.25rem 1.5rem;
+
+      .title {
+        line-height: 3rem;
+        color: $colorSecondary;
+      }
+
+      .arrow-down {
+        &.is-open {
+          transform: rotate(180deg);
+        }
+      }
+    }
+
+    .drop-down-body {
+      display: flex;
+      flex-direction: column;
+
+      .sub-menu-item {
+        line-height: 3rem;
+        padding: 1.25rem 1.5rem;
+        cursor: pointer;
+
+        &.active {
+          color: $colorPrimary;
+          background-color: $colorTertiary;
+          border-radius: 1rem;
+        }
+
+        @include touch-device-hover {
+          &:hover {
+            color: $colorPrimary;
+            background-color: $colorTertiary;
+            border-radius: 1rem;
+          }
+        }
+      }
+    }
+  }
+
+  .card-item-component {
+    position: relative;
+    border-radius: 1rem;
+    cursor: pointer;
+    //@include black-box-shadow;
+    box-shadow: 0 2px 8px 4px rgba(100, 75, 255, 0.05);
+    overflow: hidden;
+
+
+    @include tablet {
+      height: 100%;
+    }
+
+    .thumbnail-area {
+      border-radius: 1rem 1rem 0 0;
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+
+      img {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center center;
+        padding: 2px 2px 0 2px;
+        border-radius: 1rem 1rem 0 0;
+      }
+
+      @include tablet {
+        //height: 11.5rem;
+      }
+    }
+
+    .body-wrapper {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: rgba(255, 255, 255, 0.70);
+      @include backdrop-filter-blur(7.5px);
+      flex: 1;
+
+      @include tablet {
+        padding: 1.5rem;
+      }
+
+      .text-section {
+        .tag {
+          display: inline-block;
+          border-radius: 0.5rem;
+          background-color: #F5F5F5;
+          color: $colorPrimary;
+
+          @include tablet {
+            display: none;
+          }
+        }
+
+        .title {
+          color: $colorFont;
+        }
+
+        .content {
+          color: $colorSecondary;
+        }
+
+        @include tablet {
+          .title {
+            @include font16Bold7;
+            margin-top: 0;
+            line-height: 2.5rem;
+          }
+          .content {
+            margin-top: 0.5rem;
+          }
+        }
+      }
+
+      .time-section {
+        display: flex;
+        flex-direction: row;
+        gap: 0.5rem;
+        align-items: center;
+
+        .icon {
+          width: 24px;
+          height: 24px;
+        }
+
+        .time {
+          @include font12Bold5;
+          color: $colorSecondary;
+        }
+
+        @include tablet {
+          margin-top: 3rem;
+        }
+      }
+    }
+  }
+}
+
+.page {
+  min-height: calc(100% - 10rem);
+  // 헤더 영역 10rem
+  padding-top: 10rem;
+  //overflow: hidden;
+  display: flex;
+  transition: all 0.4s;
+  &.hidden-header {
+    min-height: 100%;
+    padding-top: 0;
+  }
+
+  &.search-bar-open-page {
+    padding-top: 25rem;
+    @include tablet-header {
+      padding-top: 24rem;
+    }
+    @include mobile-header {
+      padding-top: 15rem;
+    }
+  }
+
+  @include tablet {
+    min-height: calc(100% - 15rem);
+    padding-top: 15rem;
+  }
+}
+
+#app .side-bar-wrapper {
+  .side-menu-list {
+    @include font14Bold6();
+    color: $colorFont;
+    line-height: 3rem;
+
+    .menu-item {
+      .default-menu-list {
+        .title {
+          color: $colorSecondary;
+          padding: 1.2rem 1.5rem;
+          font-weight: 700;
+        }
+
+        .sub-menu-title {
+          cursor: pointer;
+          color: $colorFont;
+
+          &:hover,
+          &.active {
+            color: $colorPrimary;
+            background-color: rgba(100, 75, 255, 0.1);
+            border-radius: 1rem;
+          }
+        }
+      }
+    }
+  }
+}
+
+/**
+ * CommonCarousel.vue
+ */
+.carousel-viewport {
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+
+  .carousel-viewport-transition {
+    transition: transform 150ms linear;
+  }
+
+  .carousel-area {
+    transition: transform 50ms; //끊겨 보인다는 피드백으로 애니메이션 추가
+  }
+}
