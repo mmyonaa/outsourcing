@@ -10,14 +10,12 @@ import { HeaderSelectOption, POPUP_TYPE } from '@/types';
 import { loadLocalData, removeLocalData } from '@/utils/common-util';
 import { ssoLogin } from '@/utils/common-util';
 import { computed, defineComponent, onMounted, onUnmounted, ref, watch } from 'vue';
-import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 
 export default defineComponent({
   name: 'MegaMenu',
   components: { ApocInput, ApocLink, ApocImageSet, ArrowDown, MegaMenuDropdown },
   setup() {
-    const { t } = useI18n({ useScope: 'global' });
     const storeManager = initStore();
     const token = computed(() => loadLocalData(AppConfig.KEYS.LOGIN_TOKEN));
     const authToken = computed(() => storeManager.dataStore.authToken);
@@ -209,12 +207,7 @@ export default defineComponent({
     };
 
     const onClickLogout = () => {
-      removeLocalData(AppConfig.KEYS.LOGIN_TOKEN);
-      removeLocalData(AppConfig.KEYS.LOGIN_USER);
-      storeManager.dataStore.setAuthToken('');
-      window.location.href = `${AppConfig.SSO_URL}/auth/logout?type=new&re=${btoa(AppConfig.FRONT_HOST)}`;
-      // window.alert('로그아웃 되었습니다.');
-      // router.push('/');
+ 
     };
 
     const onClickOpenSearchBar = () => {

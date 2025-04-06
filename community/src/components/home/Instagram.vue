@@ -11,7 +11,6 @@ import { AutoPlay } from '@egjs/flicking-plugins';
 import Flicking from '@egjs/vue3-flicking';
 import moment from 'moment';
 import { defineComponent, onMounted, ref } from 'vue';
-import { useI18n } from 'vue-i18n';
 
 export default defineComponent({
   name: 'Instagram',
@@ -21,7 +20,6 @@ export default defineComponent({
     const apiClient = getApiClient(AppConfig.API_SERVER, storeManager);
     const mediaItems = ref<InstagramInterface[]>([]);
     const plugins = [new AutoPlay({ duration: 2000, direction: 'NEXT', stopOnHover: false })];
-    const { t } = useI18n({ useScope: 'global' });
 
     // 인스타 피드를 가져온다
     const getInstagramFeed = async () => {
@@ -40,7 +38,6 @@ export default defineComponent({
       getInstagramFeed();
     });
     return {
-      t,
       moment,
       mediaItems,
       onClickExternal,

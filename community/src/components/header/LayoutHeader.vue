@@ -127,13 +127,7 @@ export default defineComponent({
 
     // 로그아웃 검수용 삭제 예정
     const onClickLogout = async () => {
-      // await fetch(`${AppConfig.SSO_API_SERVER}/auth/logout`, { method: 'POST', credentials: 'include' });
-      removeLocalData(AppConfig.KEYS.LOGIN_TOKEN);
-      removeLocalData(AppConfig.KEYS.LOGIN_USER);
-      storeManager.dataStore.setAuthToken('');
-      // window.alert('로그아웃 되었습니다.');
-      router.push('/');
-      isClickMy.value = false;
+
     };
     watch(
       () => storeManager.dataStore.authToken,

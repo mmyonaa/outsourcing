@@ -186,15 +186,7 @@ export default defineComponent({
     };
 
     const onClickLogout = async () => {
-      // await fetch(`${AppConfig.SSO_API_SERVER}/auth/logout`, { method: 'POST', credentials: 'include' });
-      window.location.href = `${AppConfig.SSO_API_SERVER}/auth/logout`;
-      // window.open(`${AppConfig.SSO_API_SERVER}/auth/logout`);
-      // removeLocalData(AppConfig.KEYS.LOGIN_TOKEN);
-      // removeLocalData(AppConfig.KEYS.LOGIN_USER);
-      // storeManager.dataStore.setAuthToken('');
-      // window.alert('로그아웃 되었습니다.');
-      // router.push('/');
-      isClickMy.value = false;
+
     };
     watch(
       () => storeManager.dataStore.authToken,

@@ -3,7 +3,6 @@ import AppConfig from '@/constants';
 import type { CategoryType } from '@/types';
 import { SUB_TAB_TYPE } from '@/types';
 import lzString from 'lz-string';
-import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 
 export enum MobileOS {
@@ -81,36 +80,6 @@ export const setEntityParameters = (targetEntity: any, obj: any) => {
     }
   }
 };
-
-/**
- * 웹앱 대응 라우터 이동
- * @param url
- * @param isExternal
- */
-export function pushView(url: string, isExternal?: boolean, query?: string): void {
-  const { t } = useI18n({ useScope: 'global' });
-  if (typeof url === 'undefined' || ('' + url).trim() === '') {
-    window.alert(t('msg.RESULT_ADDRESS_NOT_FOUND'));
-    return;
-  }
-  if (!isExternal && url.indexOf('http') < 0) {
-    const getUrl = window.location;
-    const baseUrl = getUrl.protocol + '//' + getUrl.host + getUrl.pathname;
-    url = baseUrl + '#' + url;
-    if (query) url = url + '?' + query;
-  }
-  // @ts-ignore
-  if (window.apocApp && window.apocApp.pushView) {
-    // @ts-ignore
-    window.apocApp.pushView(url);
-    // @ts-ignore
-  } else if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.pushView) {
-    // @ts-ignore
-    window.webkit.messageHandlers.pushView.postMessage(url);
-  } else {
-    window.location.href = url;
-  }
-}
 
 // 쿼리 가져오기
 export const getQueryString = (query: string) => {
@@ -271,17 +240,7 @@ export const convertSeconds = (seconds: number) => {
 };
 
 export const ssoLogin = () => {
-  const redirectUrl = `${AppConfig.API_SERVER}/users/ssoLogin`;
-  const encodedRedirectUrl = btoa(redirectUrl);
-  const lang = loadLocalData(AppConfig.KEYS.LANG) === 'ko' ? 'KO' : 'EN';
 
-  // URL 파라미터를 추가하여 이동
-  const url = new URL(`${AppConfig.SSO_API_SERVER}/auth/login`);
-  url.searchParams.append('ru', encodedRedirectUrl);
-  url.searchParams.append('sc', 'COMM');
-  url.searchParams.append('lang', lang);
-
-  window.location.href = url.toString();
 };
 
 /**

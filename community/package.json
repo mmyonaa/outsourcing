@@ -31,7 +31,6 @@
     "quill-magic-url": "4.2.0",
     "storybook": "^7.0.25",
     "vue": "3.3.4",
-    "vue-i18n": "9.2.2",
     "vue-router": "4.2.2",
     "vue3-click-away": "1.2.4"
   },

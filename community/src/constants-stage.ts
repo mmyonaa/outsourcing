@@ -10,8 +10,6 @@ const AppConfig = {
   ENV: APP_ENV_TYPE.STAGE,
   API_SERVER: 'https://community-api-dev.apoc.day/api',
   APOC_API_SERVER: 'https://api.apoc.day/api/v2',
-  SSO_URL: 'https://sso-dev.apoc.day',
-  CHAT_URL: 'https://chat-stage.apoc.day',
   FRONT_HOST: ' https://comm.apoc.day',
   FILE_SERVER: 'https://apoc-community.s3.ap-northeast-2.amazonaws.com/',
   KEYS,

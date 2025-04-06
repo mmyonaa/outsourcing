@@ -4,7 +4,6 @@ import ApocImageSet from '@/components/common/ApocImageSet.vue';
 import AppConfig from '@/constants';
 import { convertSeconds, getBoardCategoryV2, loadLocalData } from '@/utils/common-util';
 import { type PropType, computed, defineComponent, onMounted, ref } from 'vue';
-import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 
 export default defineComponent({
@@ -27,7 +26,6 @@ export default defineComponent({
     const route = useRoute();
     const subTab = ref<string | undefined>(undefined);
     const tag = ref<string | undefined>(undefined);
-    const { t } = useI18n({ useScope: 'global' });
     const category = getBoardCategoryV2(props.board);
     const lang = ref<string>('');
 
@@ -48,7 +46,6 @@ export default defineComponent({
     });
 
     return {
-      t,
       tag,
       subTab,
       category,

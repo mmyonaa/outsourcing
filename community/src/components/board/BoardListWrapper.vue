@@ -14,7 +14,6 @@ import { MAIN_TAB_TYPE, ORDER_TYPE, SAVE_STATE, STATE_YN, SUB_TAB_TYPE, VIEW_MOD
 import { getApiClient } from '@/utils/apiClient';
 import { decodeHTMLEntities, getBoardSrcImg, loadLocalData, ssoLogin } from '@/utils/common-util';
 import { type PropType, computed, defineComponent, onMounted, onUnmounted, ref, watch } from 'vue';
-import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 
 export default defineComponent({
@@ -26,7 +25,6 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const { t } = useI18n({ useScope: 'global' });
     const storeManager = initStore();
     const apiClient = getApiClient(AppConfig.API_SERVER, storeManager);
     const router = useRouter();

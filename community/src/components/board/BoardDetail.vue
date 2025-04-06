@@ -8,7 +8,6 @@ import { UserFollowRecEntity, UserInfoEntityDto } from '@/api/dto/user.dto';
 import { updateEvaluation } from '@/api/evaluation.api';
 import { updateFollowUser } from '@/api/user.api';
 import BoardListCardItem from '@/components/board/BoardListCardItem.vue';
-import CommentWrapper from '@/components/board/comment/CommentWrapper.vue';
 import ApocButton from '@/components/common/ApocButton.vue';
 import ApocImageSet from '@/components/common/ApocImageSet.vue';
 import BoardDetailSkeleton from '@/components/common/BoardDetailSkeleton.vue';
@@ -20,14 +19,12 @@ import { getFirstImageSrc, loadLocalData, setOpenGraph, setSeoMeta, ssoLogin } f
 import copy from 'copy-to-clipboard';
 import moment from 'moment';
 import { computed, defineComponent, onMounted, onUnmounted, ref } from 'vue';
-import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 
 export default defineComponent({
   name: 'BoardDetail',
-  components: { BoardDetailSkeleton, BoardListCardItem, CommentWrapper, ApocButton, ApocImageSet },
+  components: { BoardDetailSkeleton, BoardListCardItem, ApocButton, ApocImageSet },
   setup() {
-    const { t } = useI18n({ useScope: 'global' });
     const router = useRouter();
     const route = useRoute();
     const storeManager = initStore();
@@ -288,34 +285,19 @@ export default defineComponent({
       }
     };
 
-    // const getSubCategory = () => {
-    //   const mainCategory = CATEGORY_INFO.find(category => category.type === mainTab.value);
-    //   if (mainCategory) {
-    //     const subItem = mainCategory.subItems?.find(subItem => subItem.type === route.query.type);
-    //     if (subItem) {
-    //       subTabCode.value = subItem.typeCode as string;
-    //     }
-    //   }
-    // };
-
     onMounted(() => {
       getBoardDetailFunc();
       getCommentList();
       getBoardDataList();
       getUserInfo();
       getBoardPrevNextIdxFunc();
-      window.addEventListener('COMMENT_LIST_UPDATE', getCommentList);
     });
 
     onUnmounted(() => {
-      window.removeEventListener('COMMENT_LIST_UPDATE', getCommentList);
-      // seo 관련 초기화
-      setSeoMeta('APOC COMMUNITY', 'Interactive XR content platform that empowers world to bridge the experiential gap in Metaverse');
-      setOpenGraph('APOC COMMUNITY', '');
+
     });
 
     return {
-      t,
       boardDetail,
       commentList,
       tutorialDataList,
