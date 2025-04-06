@@ -3,18 +3,16 @@ import ApocImageSet from '@/components/common/ApocImageSet.vue';
 import ApocInput from '@/components/common/ApocInput.vue';
 import ApocLink from '@/components/common/ApocLink.vue';
 import ArrowDown from '@/components/header/ArrowDown.vue'; // dropdown 화살표 (svg 파일로 관리)
-import MegaMenuDropdown from '@/components/header/MegaMenuDropdown.vue';
 import AppConfig, { APP_ENV_TYPE } from '@/constants';
 import { initStore } from '@/stores/store-manager';
-import { HeaderSelectOption, POPUP_TYPE } from '@/types';
-import { loadLocalData, removeLocalData } from '@/utils/common-util';
-import { ssoLogin } from '@/utils/common-util';
+import { POPUP_TYPE } from '@/types';
+import { loadLocalData, ssoLogin } from '@/utils/common-util';
 import { computed, defineComponent, onMounted, onUnmounted, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
 export default defineComponent({
   name: 'MegaMenu',
-  components: { ApocInput, ApocLink, ApocImageSet, ArrowDown, MegaMenuDropdown },
+  components: { ApocInput, ApocLink, ApocImageSet, ArrowDown },
   setup() {
     const storeManager = initStore();
     const token = computed(() => loadLocalData(AppConfig.KEYS.LOGIN_TOKEN));
@@ -39,55 +37,7 @@ export default defineComponent({
 
     // 드롭다운 열림 관리 변수
     const isSubMenuVisible = ref<boolean>(false); // sub menu dropdown 열림 변수
-    const isSearchVisible = ref<boolean>(false); // search bar dropdown 열림 변수
     const isTabletMenuVisibleType = ref<ServiceType | undefined>(curServiceType); // 현재 서비스 값으로 초기 설정!!!
-
-    // 마이페이지 옵션
-    const myMenuOptions = ref<HeaderSelectOption[]>([
-      {
-        value: 'profile-change',
-        label: t('layout.header.my.profileChange'),
-        router: '/my-profile',
-      },
-      {
-        value: t('layout.header.myPage'),
-        label: t('layout.header.myPage'),
-        router: '/my-page',
-        imageSrc: '/assets/images/common/icons/header/icon_mypage.svg',
-      },
-      {
-        value: t('layout.header.my.myContents'),
-        label: t('layout.header.my.myContents'),
-        router: '/my-contents',
-        imageSrc: '/assets/images/common/icons/header/icon_draw-polygon2.svg',
-      },
-      {
-        value: t('layout.header.my.save'),
-        label: t('layout.header.my.save'),
-        router: '/my-page?tab=save',
-        imageSrc: '/assets/images/common/icons/header/icon_bookmark.svg',
-      },
-      {
-        value: t('layout.header.my.follwing'),
-        label: t('layout.header.my.follwing'),
-        router: '/my-page?tab=following',
-        imageSrc: '/assets/images/common/icons/header/icon_people.svg',
-      },
-      {
-        value: t('layout.header.my.infoChange'),
-        label: t('layout.header.my.infoChange'),
-        router: '/my-page/edit',
-        imageSrc: '/assets/images/common/icons/header/icon_setting.svg',
-      },
-      {
-        value: t('layout.header.my.logout'),
-        label: t('layout.header.my.logout'),
-        imageSrc: '/assets/images/common/icons/header/icon_logout.svg',
-        func: () => {
-          // ssoLogout();
-        },
-      },
-    ]);
 
     // local/dev/stage/prod 별 사이트 주소
     const url = {
@@ -97,21 +47,7 @@ export default defineComponent({
         [ServiceType.STUDIO]: 'https://studio-dev.apoc.day/',
         [ServiceType.ASSET]: 'https://kit-dev.apoc.day/',
         [ServiceType.COMM]: 'https://community-dev.apoc.day/',
-      },
-      [APP_ENV_TYPE.STAGE]: {
-        [ServiceType.APOC]: 'https://brand.apoc.day/',
-        [ServiceType.PLAY]: 'https://stage.apoc.day/',
-        [ServiceType.STUDIO]: 'https://studio-stage.apoc.day/',
-        [ServiceType.ASSET]: 'https://kit-stage.apoc.day/',
-        [ServiceType.COMM]: 'https://community-dev.apoc.day/',
-      },
-      [APP_ENV_TYPE.PROD]: {
-        [ServiceType.APOC]: 'https://brand.apoc.day/',
-        [ServiceType.PLAY]: 'https://www.apoc.day/',
-        [ServiceType.STUDIO]: 'https://studio.apoc.day/',
-        [ServiceType.ASSET]: 'https://kit.apoc.day/',
-        [ServiceType.COMM]: 'https://comm.apoc.day/',
-      },
+      }
     };
 
     const headerType = computed(() => {
@@ -175,14 +111,6 @@ export default defineComponent({
       window.location.href = fullUrl;
     };
 
-    // 검색창에서 엔터 키 누를 시에 실행할 함수
-    const onEnter = (e: KeyboardEvent): void => {
-      if (e.code === 'Enter') {
-        alert('coming soon');
-        // router.push({ path: '/search', query: { keyword: keyword.value } });
-      }
-    };
-
     // (tablet ~ mobile) 우측 사이드 메뉴의 main menu 클릭 > sub menu dropdown 열기
     const onClickOpenSubMenu = (service: ServiceType) => {
       if (isTabletMenuVisibleType.value === service) isTabletMenuVisibleType.value = undefined;
@@ -210,20 +138,6 @@ export default defineComponent({
  
     };
 
-    const onClickOpenSearchBar = () => {
-      isSearchVisible.value = !isSearchVisible.value;
-      storeManager.stateStore.setIsOpenSearchBar(isSearchVisible.value);
-    };
-
-    watch(
-      () => route.path,
-      () => {
-        // 페이지 이동 시에 검색바 닫히게
-        isSearchVisible.value = false;
-        storeManager.stateStore.setIsOpenSearchBar(isSearchVisible.value);
-      },
-    );
-
     watch(
       () => storeManager.stateStore.popupMode,
       () => {
@@ -242,8 +156,6 @@ export default defineComponent({
     });
 
     return {
-      t,
-      myMenuOptions,
       user,
       token,
       ServiceType,
@@ -251,7 +163,6 @@ export default defineComponent({
       headerType,
       isActive,
       mainTab,
-      isSearchVisible,
       keyword,
       isTabletMenuVisibleType,
       storeManager,
@@ -262,12 +173,10 @@ export default defineComponent({
       handleMouseEnter,
       handleMouseLeave,
       handleMouseSubLeave,
-      onEnter,
       onClickOpenSubMenu,
       onClickTabletMenu,
       ssoLogin,
       onClickLogout,
-      onClickOpenSearchBar,
     };
   },
 });
@@ -300,14 +209,6 @@ export default defineComponent({
 			<!-- 우측 : 언어, 마이페이지/로그인 -->
 			<section class="login-section">
 				<ul class="menu-list">
-					<!-- 검색바 여는 아이콘 -->
-					<li @click="onClickOpenSearchBar">
-						<apoc-image-set class="search-icon" :img-sets="3" src="/assets/images/common/icons/search-header.webp" />
-					</li>
-					<!-- 언어 선택 드롭다운 -->
-					<li>
-						<MegaMenuDropdown class="lang-select" />
-					</li>
 					<!-- 마이페이지 드롭다운 / 로그인 드롭다운 -->
 					<li>
 						<!-- TODO : my page 연결 -->
@@ -321,24 +222,6 @@ export default defineComponent({
 				</ul>
 			</section>
 		</div>
-
-		<!-- (pc ~ tablet) dropdown으로 열리는 검색창 -->
-		<transition name="dropdown">
-			<section v-show="isSearchVisible" class="mega-search-bar-wrapper">
-				<div class="mega-search-bar">
-					<apoc-image-set class="tab-icon" :img-sets="3" src="/assets/images/common/icons/search-comm.webp" />
-					<apoc-input v-model="keyword" @keyup="onEnter" />
-				</div>
-			</section>
-		</transition>
-
-		<!-- (mobile) 항상 열려있는 검색창 -->
-		<section class="mega-search-bar-wrapper mobile">
-			<div class="mega-search-bar">
-				<apoc-image-set class="tab-icon" :img-sets="3" src="/assets/images/common/icons/search-comm.webp" />
-				<apoc-input v-model="keyword" @keyup="onEnter" />
-			</div>
-		</section>
 
 		<!-- (pc) dropdown으로 열리는 sub menu -->
 		<transition name="dropdown">
@@ -361,10 +244,10 @@ export default defineComponent({
 					<li @click="onClickExternal(ServiceType.ASSET, 'service')">help center</li>
 				</ul>
 				<ul class="sub-menu-list community menu">
-					<li @click="onClickExternal(ServiceType.COMM, 'board/apoc_news?type=NOW', true)" :class="{ active: mainTab === 'apoc_news' }">{{ t('menu.mainMenu.apocNews') }}</li>
-					<li @click="onClickExternal(ServiceType.COMM, 'board/tutorial?type=TUTORIAL', true)" :class="{ active: mainTab === 'tutorial' }">{{ t('menu.mainMenu.tutorial') }}</li>
-					<li @click="onClickExternal(ServiceType.COMM, 'board/board?type=TIPS', true)" :class="{ active: mainTab === 'board' }">{{ t('menu.mainMenu.board') }}</li>
-					<li @click="onClickExternal(ServiceType.COMM, 'board/notice?type=NOTICE', true)" :class="{ active: mainTab === 'notice' }">{{ t('menu.mainMenu.notice') }}</li>
+					<li @click="onClickExternal(ServiceType.COMM, 'board/apoc_news?type=NOW', true)" :class="{ active: mainTab === 'apoc_news' }">{{ 'apocNews' }}</li>
+					<li @click="onClickExternal(ServiceType.COMM, 'board/tutorial?type=TUTORIAL', true)" :class="{ active: mainTab === 'tutorial' }">{{ 'tutorial' }}</li>
+					<li @click="onClickExternal(ServiceType.COMM, 'board/board?type=TIPS', true)" :class="{ active: mainTab === 'board' }">{{ 'board' }}</li>
+					<li @click="onClickExternal(ServiceType.COMM, 'board/notice?type=NOTICE', true)" :class="{ active: mainTab === 'notice' }">{{ 'notice' }}</li>
 				</ul>
 			</section>
 		</transition>
@@ -417,10 +300,10 @@ export default defineComponent({
 						:class="{ opened: isTabletMenuVisibleType === ServiceType.COMM }">
 						<ul>
 							<li @click="onClickExternal(ServiceType.COMM, '', true)">community home</li>
-							<li @click="onClickExternal(ServiceType.COMM, 'board/apoc_news?type=NOW', true)" :class="{ active: mainTab === 'apoc_news' }">{{ t('menu.mainMenu.apocNews') }}</li>
-							<li @click="onClickExternal(ServiceType.COMM, 'board/tutorial?type=TUTORIAL', true)" :class="{ active: mainTab === 'tutorial' }">{{ t('menu.mainMenu.tutorial') }}</li>
-							<li @click="onClickExternal(ServiceType.COMM, 'board/board?type=TIPS', true)" :class="{ active: mainTab === 'board' }">{{ t('menu.mainMenu.board') }}</li>
-							<li @click="onClickExternal(ServiceType.COMM, 'board/notice?type=NOTICE', true)" :class="{ active: mainTab === 'notice' }">{{ t('menu.mainMenu.notice') }}</li>
+							<li @click="onClickExternal(ServiceType.COMM, 'board/apoc_news?type=NOW', true)" :class="{ active: mainTab === 'apoc_news' }">{{ 'apocNews' }}</li>
+							<li @click="onClickExternal(ServiceType.COMM, 'board/tutorial?type=TUTORIAL', true)" :class="{ active: mainTab === 'tutorial' }">{{ 'tutorial' }}</li>
+							<li @click="onClickExternal(ServiceType.COMM, 'board/board?type=TIPS', true)" :class="{ active: mainTab === 'board' }">{{ 'board' }}</li>
+							<li @click="onClickExternal(ServiceType.COMM, 'board/notice?type=NOTICE', true)" :class="{ active: mainTab === 'notice' }">{{ 'notice' }}</li>
 						</ul>
 					</section>
 				</transition>

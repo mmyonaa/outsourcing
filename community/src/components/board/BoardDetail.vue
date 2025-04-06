@@ -15,7 +15,7 @@ import AppConfig from '@/constants';
 import { initStore } from '@/stores/store-manager';
 import { EVAL_TARGET_TYPE, EVAL_TYPE, MAIN_TAB_TYPE, ORDER_TYPE, POPUP_TYPE, SAVE_STATE, STATE_YN } from '@/types';
 import { getApiClient } from '@/utils/apiClient';
-import { getFirstImageSrc, loadLocalData, setOpenGraph, setSeoMeta, ssoLogin } from '@/utils/common-util';
+import { getFirstImageSrc, loadLocalData, setOpenGraph, setSeoMeta } from '@/utils/common-util';
 import copy from 'copy-to-clipboard';
 import moment from 'moment';
 import { computed, defineComponent, onMounted, onUnmounted, ref } from 'vue';
@@ -174,19 +174,7 @@ export default defineComponent({
         query: { ...route.query },
       });
     };
-    const onClickReportBtn = () => {
-      // 로그인하지 않은 유저가 댓글을 등록하는 경우 튕기기
-      const user = loadLocalData(AppConfig.KEYS.LOGIN_USER);
-      if (!user) {
-        alert(t('msg.RESULT_LOGIN_REQUIRED'));
-        ssoLogin();
-        return;
-      }
-      storeManager.stateStore.setPopupMode({
-        type: POPUP_TYPE.REPORT_POPUP,
-        detail: { targetIdx: boardDetail.value?.boardIdx, targetType: 'BOARD' },
-      });
-    };
+
     const onClickEditBtn = () => {
       router.push({
         name: 'Edit',
@@ -208,81 +196,6 @@ export default defineComponent({
           console.error(res.resultMsg);
         }
       });
-    };
-    // 좋아요 버튼 누른 경우
-    const onClickBoardLikeBtn = async () => {
-      // 로그인하지 않은 유저가 댓글을 등록하는 경우 튕기기
-      const user = loadLocalData(AppConfig.KEYS.LOGIN_USER);
-      if (!user) {
-        alert(t('msg.RESULT_LOGIN_REQUIRED'));
-        ssoLogin();
-        return;
-      }
-      const param = new EvaluationEntity();
-      param.targetIdx = route.params.boardIdx as string;
-      param.targetType = EVAL_TARGET_TYPE.BOARD;
-      param.evalCode = EVAL_TYPE.LIKE;
-      await updateEvaluation(apiClient, param).then(res => {
-        if (res.resultCode === 0) {
-          // 화면에 보이는 좋아요 수정 따로 데이터 로드는 하지 않음
-          // 서버 로드 줄이기
-          if (isLike.value) {
-            likeCount.value = Number(likeCount.value) - 1;
-          } else {
-            likeCount.value = Number(likeCount.value) + 1;
-          }
-          isLike.value = !isLike.value;
-        } else {
-          console.error('like function error !');
-        }
-      });
-    };
-
-    const onClickFollowBtn = async () => {
-      // 로그인하지 않은 유저가 댓글을 등록하는 경우 튕기기
-      const user = loadLocalData(AppConfig.KEYS.LOGIN_USER);
-      if (!user) {
-        alert(t('msg.RESULT_LOGIN_REQUIRED'));
-        ssoLogin();
-        return;
-      }
-      const param = new UserFollowRecEntity();
-      param.targetUserIdx = boardDetail.value?.regrUserIdx;
-      await updateFollowUser(apiClient, param).then(res => {
-        if (res.resultCode === 0) {
-          isFollow.value = !isFollow.value;
-        } else {
-          console.error('follow function error !');
-        }
-      });
-    };
-
-    // 공유시 카운트 증가
-    const addShareCount = async () => {
-      const param = new updateBoardStaticsDto();
-      param.boardIdx = route.params.boardIdx as string;
-      await updateBoardShareCount(apiClient, param).then(res => {
-        if (res.resultCode === 0) {
-        } else {
-          console.error('share function error !');
-        }
-      });
-    };
-
-    const onClickShareBtn = () => {
-      copy(AppConfig.FRONT_HOST + route.path);
-      addShareCount();
-      if (
-        !storeManager.stateStore.popupMode ||
-        !storeManager.stateStore.popupMode.type ||
-        storeManager.stateStore.popupMode.type === POPUP_TYPE.NONE
-      ) {
-        storeManager.stateStore.setPopupMode({ type: POPUP_TYPE.COPY_TOAST });
-        const timer = setTimeout(() => {
-          storeManager.stateStore.setPopupMode({ type: POPUP_TYPE.NONE });
-          clearTimeout(timer);
-        }, 3000);
-      }
     };
 
     onMounted(() => {
@@ -315,12 +228,8 @@ export default defineComponent({
       onClickGoListBtn,
       onClickPrevNextBoardBtn,
       getCommentList,
-      onClickReportBtn,
-      onClickBoardLikeBtn,
-      onClickFollowBtn,
       onClickEditBtn,
       onClickDeleteBtn,
-      onClickShareBtn,
     };
   },
 });

@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { getCategoryListV2 } from '@/api/category.api';
-import { ssoUserCheck } from '@/api/sso.api';
 import LayoutFooter from '@/components/footer/LayoutFooter.vue';
 import MegaMenu from '@/components/header/MegaMenu.vue';
 import MobileMenu from '@/components/header/MobileMenu.vue';
@@ -11,11 +9,11 @@ import { POPUP_TYPE } from '@/types';
 import { getApiClient, removeApiToken, setApiToken } from '@/utils/apiClient';
 import { loadLocalData, removeLocalData, saveLocalData } from '@/utils/common-util';
 import { useHead } from '@unhead/vue';
-import { computed, onBeforeMount, onMounted, ref, watch } from 'vue';
+import { computed, watch } from 'vue';
 import { RouterView, useRoute } from 'vue-router';
 
 useHead({
-  title: 'APOC COMMUNITY',
+  title: 'COMMUNITY',
   meta: [{ name: 'description', content: '' }],
 });
 
@@ -42,28 +40,10 @@ const setLoginToken = (token: string) => {
 const token = loadLocalData(AppConfig.KEYS.LOGIN_TOKEN) || '';
 setLoginToken(token);
 
-// 카테고리 불러오기
-const categoryLoading = ref(true);
-const getCategory = async () => {
-  const apiClient = getApiClient(AppConfig.API_SERVER, storeManager);
-  try {
-    const res = await getCategoryListV2(apiClient);
-    if (res.resultCode === 0 && res.data) {
-      saveLocalData(AppConfig.KEYS.CATEGORY, JSON.stringify(res.data));
-      categoryLoading.value = false;
-    }
-  } catch (error) {
-    console.error('Failed to load categories', error);
-  }
-};
-
 const onClickBg = () => {
   storeManager.stateStore.setPopupMode({ type: POPUP_TYPE.NONE });
 };
 
-onMounted(async () => {
-  await getCategory();
-});
 
 watch(
   () => storeManager.dataStore.authToken,
@@ -76,12 +56,10 @@ watch(
 <template>
   <popup-manager />
 	<div class="popup-bg" v-if="isPopupBg" @click="onClickBg"></div>
-  <!--  <layout-header :class="{ 'is-hidden': isHiddenHeader }"></layout-header>-->
-<!--  <layout-header2 :class="{ 'is-hidden': isHiddenHeader }"></layout-header2>-->
   <mega-menu :class="{ 'is-hidden': isHiddenHeader }"></mega-menu>
-  <mobile-menu :class="{ 'is-open': isOpenMobileMenu }" v-if="!categoryLoading"></mobile-menu>
+  <mobile-menu :class="{ 'is-open': isOpenMobileMenu }"></mobile-menu>
   <div class="page" :class="[{ 'hidden-header': isHiddenHeader, 'search-bar-open-page': storeManager.stateStore.isOpenSearchBar }]">
-    <router-view :key="$route.path" v-if="!categoryLoading" />
+    <router-view :key="$route.path" />
   </div>
   <layout-footer :class="{ 'is-hidden': isHiddenFooter }"></layout-footer>
 </template>

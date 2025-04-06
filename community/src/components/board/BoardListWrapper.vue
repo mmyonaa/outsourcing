@@ -12,7 +12,7 @@ import AppConfig from '@/constants';
 import { initStore } from '@/stores/store-manager';
 import { MAIN_TAB_TYPE, ORDER_TYPE, SAVE_STATE, STATE_YN, SUB_TAB_TYPE, VIEW_MODE_TYPE } from '@/types';
 import { getApiClient } from '@/utils/apiClient';
-import { decodeHTMLEntities, getBoardSrcImg, loadLocalData, ssoLogin } from '@/utils/common-util';
+import { decodeHTMLEntities, getBoardSrcImg, loadLocalData } from '@/utils/common-util';
 import { type PropType, computed, defineComponent, onMounted, onUnmounted, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
@@ -160,7 +160,6 @@ export default defineComponent({
     const onClickWriteBtn = () => {
       if (!isCheckUser.value) {
         alert(t('msg.RESULT_LOGIN_REQUIRED'));
-        ssoLogin();
       } else {
         storeManager.dataStore.setBeforePageCategory(curSubTabInfo.value as ICategory);
         router.push({ name: 'Write' });
