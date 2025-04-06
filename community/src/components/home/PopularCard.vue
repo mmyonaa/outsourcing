@@ -2,8 +2,8 @@
 import { BoardEntityDto } from '@/api/dto/board.dto';
 import ApocImageSet from '@/components/common/ApocImageSet.vue';
 import AppConfig from '@/constants';
-import { getBoardCategoryV2, loadLocalData } from '@/utils/common-util';
-import { type PropType, defineComponent, onMounted, ref } from 'vue';
+import { getBoardCategoryV2 } from '@/utils/common-util';
+import { type PropType, defineComponent } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
 export default defineComponent({
@@ -20,7 +20,6 @@ export default defineComponent({
     const router = useRouter();
     const route = useRoute();
     const category = getBoardCategoryV2(props.board);
-    const lang = ref<string>('');
 
     const onClickBoard = (boardIdx: string) => {
       if (!category || !category.mainTab || !category.subTab) return;
@@ -33,14 +32,10 @@ export default defineComponent({
         },
       });
     };
-
-    onMounted(() => {
-      lang.value = loadLocalData(AppConfig.KEYS.LANG) as string;
-    });
+   
     return {
       onClickBoard,
       category,
-      lang,
       AppConfig,
     };
   },
@@ -52,7 +47,6 @@ export default defineComponent({
     <section class="text-section">
       <span class="title">{{ board?.title }}</span>
       <section class="a-tag-section">
-        <div class="a-tag">{{ category && category?.subTab ? lang === 'ko' ? category?.subTab.categoryKrName : category?.subTab.categoryEnName : '-' }}</div>
         <div class="icon">
           <apoc-image-set :img-sets="3" src="/assets/images/home/icon/home-icon-purple-right-arrow.webp" />
         </div>

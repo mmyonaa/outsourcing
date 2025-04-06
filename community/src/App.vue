@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import LayoutFooter from '@/components/footer/LayoutFooter.vue';
 import MegaMenu from '@/components/header/MegaMenu.vue';
-import MobileMenu from '@/components/header/MobileMenu.vue';
-import PopupManager from '@/components/popup/PopupManager.vue';
 import AppConfig from '@/constants';
 import { initStore } from '@/stores/store-manager';
 import { POPUP_TYPE } from '@/types';
@@ -54,10 +52,10 @@ watch(
 </script>
 
 <template>
-  <popup-manager />
 	<div class="popup-bg" v-if="isPopupBg" @click="onClickBg"></div>
   <mega-menu :class="{ 'is-hidden': isHiddenHeader }"></mega-menu>
-  <mobile-menu :class="{ 'is-open': isOpenMobileMenu }"></mobile-menu>
+  <!-- 일단 주석.... 오류 준나 나.... -->
+  <!-- <mobile-menu :class="{ 'is-open': isOpenMobileMenu }"></mobile-menu> -->
   <div class="page" :class="[{ 'hidden-header': isHiddenHeader, 'search-bar-open-page': storeManager.stateStore.isOpenSearchBar }]">
     <router-view :key="$route.path" />
   </div>

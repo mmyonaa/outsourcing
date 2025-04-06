@@ -1,22 +1,13 @@
 <script lang="ts">
 import ApocImageSet from '@/components/common/ApocImageSet.vue';
 import ApocLink from '@/components/common/ApocLink.vue';
-import AppConfig from '@/constants';
 import { defineComponent } from 'vue';
-import { useI18n } from 'vue-i18n';
 
 export default defineComponent({
   name: 'LayoutFooter',
   components: { ApocImageSet, ApocLink },
   setup() {
-    const onClickExternal = (site?: string) => {
-      window.open(site);
-    };
-    const { t } = useI18n({ useScope: 'global' });
-
     return {
-      t,
-      onClickExternal,
     };
   },
 });
@@ -25,7 +16,7 @@ export default defineComponent({
 <template>
   <div class="footer">
     <div class="footer-wrapper">
-      <div class="footer-top-area">
+      <!-- <div class="footer-top-area">
         <div class="footer-info">
           <div class="logo-area">
             <apoc-image-set src="/assets/images/logo/footer-logo.webp" :img-sets="3" alt="logo" />
@@ -114,13 +105,10 @@ export default defineComponent({
 						</li>
           </ul>
         </div>
-      </div>
+      </div> -->
       <div class="footer-bottom-area">
         <div class="left-area">
           <div class="copyright-item">© 2024 <strong>FAMPPY</strong> Inc.</div>
-<!--          <div class="copyright-item">이용약관</div>-->
-<!--          <div class="copyright-item">개인정보취급방침</div>-->
-<!--          <div class="copyright-item">사업자정보</div>-->
         </div>
         <div class="right-area">
           <div class="copyright-item">All Right Reserved @apoc.day</div>

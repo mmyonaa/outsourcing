@@ -3,16 +3,11 @@ import { BoardEntityDto } from '@/api/dto/board.dto';
 import ApocImageSet from '@/components/common/ApocImageSet.vue';
 import AppConfig from '@/constants';
 import { convertSeconds, getBoardCategoryV2, loadLocalData } from '@/utils/common-util';
-import { type PropType, computed, defineComponent, onMounted, ref } from 'vue';
+import { type PropType, defineComponent, onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
 export default defineComponent({
   name: 'BoardListCardItem',
-  computed: {
-    AppConfig() {
-      return AppConfig;
-    },
-  },
   components: { ApocImageSet },
   props: {
     // 게시글 요소 정보
@@ -61,18 +56,18 @@ export default defineComponent({
   <div class="card-item-component" @click="onClickBoard(board?.boardIdx as string)">
     <div class="thumbnail-area">
       <!-- 썸네일 -->
-      <apoc-image-set :src="AppConfig.FILE_SERVER+board.boardMainImg" class="thumbnail" />
+      <apoc-image-set :src="''" class="thumbnail" />
     </div>
     <div class="body-wrapper">
       <section class="text-section">
         <div class="title">
           <span>{{ board?.title }}</span>
         </div>
-				<div class="content"><span>{{ t('menu.mainMenu.tutorial') }} > </span>{{ category?.subTab ? lang === 'ko' ? category?.subTab.categoryKrName : category?.subTab.categoryEnName : '-' }}</div>
+				<div class="content"><span>{{ 'tutorial' }} > </span>{{ category?.subTab ? lang === 'ko' ? category?.subTab.categoryKrName : category?.subTab.categoryEnName : '-' }}</div>
       </section>
       <section class="time-section">
         <apoc-image-set :img-sets="3" class="icon" src="/assets/images/home/icon/home-icon-time.webp" />
-        <div class="time">{{ convertSeconds(board?.playTime) }} {{ t('quantity') }}</div>
+        <div class="time">{{ convertSeconds(board?.playTime) }} {{ 'quantity' }}</div>
       </section>
     </div>
   </div>

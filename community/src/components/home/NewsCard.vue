@@ -3,7 +3,6 @@ import { BoardEntityDto } from '@/api/dto/board.dto';
 import ApocImageSet from '@/components/common/ApocImageSet.vue';
 import { MAIN_TAB_TYPE, SUB_TAB_TYPE } from '@/types';
 import { type PropType, defineComponent } from 'vue';
-import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 
 export default defineComponent({
@@ -24,7 +23,6 @@ export default defineComponent({
   setup(props) {
     const router = useRouter();
     const route = useRoute();
-    const { t } = useI18n({ useScope: 'global' });
 
     const onClickCard = () => {
       if (!props.board) {
@@ -51,7 +49,6 @@ export default defineComponent({
 
     return {
       onClickCard,
-      t,
     };
   },
 });
@@ -63,7 +60,7 @@ export default defineComponent({
       {{ isLast ? '아폭의 더 많은 소식을 접해보세요!' : board?.title }}
     </section>
     <section class="a-tag-section" :class="{ last: isLast }">
-      <div class="a-tag">{{ t('more') }}</div>
+      <div class="a-tag">{{ 'more' }}</div>
       <div class="icon" :class="{ last: isLast }">
         <apoc-image-set class="light" :img-sets="3" src="/assets/images/home/icon/home-icon-light-gray-right-arrow.webp" />
         <apoc-image-set class="purple" :img-sets="3" src="/assets/images/home/icon/home-icon-purple-right-arrow.webp" />

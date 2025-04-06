@@ -9,7 +9,6 @@ import { MAIN_TAB_TYPE, ORDER_TYPE, SAVE_STATE, STATE_YN, SUB_TAB_TYPE } from '@
 import { getApiClient } from '@/utils/apiClient';
 import moment from 'moment';
 import { defineComponent, onMounted, ref } from 'vue';
-import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 
 export default defineComponent({
@@ -24,7 +23,6 @@ export default defineComponent({
     const onClickMore = () => {
       router.push({ name: 'Board', params: { mainTab: MAIN_TAB_TYPE.NOTICE.toLowerCase() }, query: { type: SUB_TAB_TYPE.NOTICE } });
     };
-    const { t } = useI18n({ useScope: 'global' });
     const getBoardDataList = async () => {
       storeManager.stateStore.setLoading(true);
       const param = new SearchBoardDto();
@@ -45,20 +43,11 @@ export default defineComponent({
         storeManager.stateStore.setLoading(false);
       });
     };
-    // const onClickCard = (boardIdx: string) => {
-    //   router.push({
-    //     name: 'BoardDetail',
-    //     params: { mainTab: MAIN_TAB_TYPE.NOTICE, boardIdx },
-    //     query: {
-    //       type: SUB_TAB_TYPE.NOTICE,
-    //     },
-    //   });
-    // };
+
     onMounted(() => {
       getBoardDataList();
     });
     return {
-      t,
       boardDataList,
       moment,
       onClickMore,
@@ -73,9 +62,9 @@ export default defineComponent({
     <section class="notice-text-section">
       <div class="notice-title">
         <apoc-image-set :img-sets="3" class="icon" src="/assets/images/home/icon/home-icon-ring.webp " />
-				<span class="title"><span class="text-gradient-color-1">{{ t('home.notice') }}</span>{{ t('home.notice2') }}</span>
+				<span class="title"><span class="text-gradient-color-1">{{'notice' }}</span>{{ 'notice2' }}</span>
       </div>
-      <span class="notice-more" @click="onClickMore">+{{ t('more') }}</span>
+      <span class="notice-more" @click="onClickMore">+{{ 'more' }}</span>
     </section>
     <!-- 공지 카드 영역 -->
     <section class="notice-card-section">

@@ -54,7 +54,7 @@ export default defineComponent({
     <section class="instagram-text-section">
       <div class="instagram-title">
         <apoc-image-set :img-sets="3" class="icon" src="/assets/images/home/icon/home-icon-instagram.webp" />
-				<span class="title">{{ t('home.instagram') }}</span>
+				<span class="title">{{ 'instagram' }}</span>
       </div>
     </section>
     <!-- 인스타 카드 영역 -->

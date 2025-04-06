@@ -8,11 +8,6 @@ import { type PropType, defineComponent, onMounted, ref } from 'vue';
 
 export default defineComponent({
   name: 'BoardListItem',
-  computed: {
-    AppConfig() {
-      return AppConfig;
-    },
-  },
   components: { ApocImageSet },
   props: {
     // 게시글 요소 정보
@@ -72,9 +67,6 @@ export default defineComponent({
       <div class="text-wrapper">
 				<div class="text-area">
 					<div class="tag-list" v-if="category?.tag && category?.tag.length > 0">
-						<div class="tag" v-for="(tag, index) in category?.tag" :key="index">
-							<span>{{ tag ? lang === 'ko' ? tag.categoryKrName : tag.categoryEnName : '' }}</span>
-						</div>
 					</div>
 					<div class="title">
 						<span>{{ board?.title }}</span>
@@ -104,7 +96,7 @@ export default defineComponent({
 				</section>
       </div>
       <!-- 썸네일 -->
-      <apoc-image-set v-if="board?.boardMainImg" :src="board.boardMainImg.includes('http')?board.boardMainImg:AppConfig.FILE_SERVER+board.boardMainImg" class="thumbnail" />
+      <apoc-image-set v-if="board?.boardMainImg" :src="''" class="thumbnail" />
     </section>
     <!-- 하단부분 -->
 

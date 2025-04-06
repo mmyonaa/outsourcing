@@ -5,11 +5,9 @@ import ApocImageSet from '@/components/common/ApocImageSet.vue';
 import PopularCard from '@/components/home/PopularCard.vue';
 import AppConfig from '@/constants';
 import { initStore } from '@/stores/store-manager';
-import { ORDER_TYPE, SAVE_STATE, STATE_YN, TAG_CODE_TYPE } from '@/types';
+import { ORDER_TYPE, SAVE_STATE, STATE_YN } from '@/types';
 import { getApiClient } from '@/utils/apiClient';
-import { decodeHTMLEntities } from '@/utils/common-util';
 import { defineComponent, onMounted, ref } from 'vue';
-import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 
 export default defineComponent({
@@ -20,16 +18,10 @@ export default defineComponent({
     const apiClient = getApiClient(AppConfig.API_SERVER, storeManager);
     const router = useRouter();
     const route = useRoute();
-
     const boardDataList = ref<BoardEntityDto[]>([]); // 데이터 리스트
-
     const totalPage = ref<number>(0); // 총 페이지
     const pagesPerGroup = 6; // 6개 노출
-    const { t } = useI18n({ useScope: 'global' });
 
-    /**
-     * Function
-     */
     // 게시글 가져오기
     const getBoardDataList = async () => {
       // 스크롤 초기화
@@ -44,22 +36,9 @@ export default defineComponent({
         } else {
           if (res.data) {
             boardDataList.value = res.data;
-            removeHTMLtag(boardDataList.value);
             totalPage.value = Math.ceil(res.totalCount / pagesPerGroup);
           }
         }
-      });
-    };
-
-    // HTML 태그 제거
-    const removeHTMLtag = (item: BoardEntityDto[]) => {
-      // console.clear();
-      item.forEach((i: BoardEntityDto) => {
-        if (!i.body) return;
-        // 이미지태그 제거 및 모든 태그를 p태그 처리
-        i.body = i.body.replace(/<[^>]*>?/g, ' ');
-        i.body = `<p>${i.body}</p>`;
-        i.body = decodeHTMLEntities(i.body);
       });
     };
 
@@ -67,7 +46,6 @@ export default defineComponent({
       getBoardDataList();
     });
     return {
-      t,
       boardDataList,
     };
   },
@@ -79,7 +57,7 @@ export default defineComponent({
     <!-- 인기 게시글 제목 영역 -->
     <section class="popular-text-section">
       <apoc-image-set :img-sets="3" class="icon" src="/assets/images/home/icon/home-icon-speaker.webp" />
-			<span class="title"><span class="text-gradient-color-1">{{ t('home.popular') }}</span> {{ t('home.post') }}</span>
+			<span class="title"><span class="text-gradient-color-1">{{ 'popular' }}</span> {{ 'post' }}</span>
     </section>
     <!-- 인기 게시글 제목 카드 -->
     <section class="popular-card-section grid">
@@ -89,10 +67,6 @@ export default defineComponent({
 		<div class="home-bg-purple-stain-center"></div>
 		<div class="home-bg-pink-stain"></div>
   </div>
-  <!-- 인기 게시글 전체 배경 영역 -->
-<!--  <div class="popular-background-pattern-1">-->
-<!--    <apoc-image-set src="/assets/images/home/background/home-bg-pattern-1.webp" :img-sets="3" />-->
-<!--  </div>-->
   <div class="popular-background-logo-pattern">
     <apoc-image-set src="/assets/images/home/background/home-bg-logo-pattern.webp" :img-sets="3" />
   </div>

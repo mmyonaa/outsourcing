@@ -2,7 +2,6 @@
 import { computed, defineComponent } from 'vue';
 import type { PropType } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { useI18n } from 'vue-i18n';
 import ApocImageSet from '@/components/common/ApocImageSet.vue';
 import AppConfig from '@/constants';
 
@@ -19,7 +18,6 @@ export default defineComponent({
     const router = useRouter();
     const route = useRoute();
     const PAGES_PER_GROUP = AppConfig.KEYS.PAGING_ROW; // 한 묶음당 노출할 페이지 수
-    const { t } = useI18n({ useScope: 'global' });
     const currentPage = computed(() => (route.query.pageNo ? Number(route.query.pageNo) : 1));
     const totalPages = computed<number>(() => (props.totalPageNum ? props.totalPageNum : 1));
     const currentGroup = computed(() => Math.ceil(currentPage.value / PAGES_PER_GROUP));
@@ -84,7 +82,6 @@ export default defineComponent({
       PAGES_PER_GROUP,
       currentGroup,
       lastGroup,
-      t,
       goToPage,
       prevGroup,
       prevNum,

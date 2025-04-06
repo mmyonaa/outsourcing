@@ -26,7 +26,7 @@ export default defineComponent({
     <section class="search-section">
       <search />
     </section>
-    <!-- <section class="tutorial-section">
+    <section class="tutorial-section">
       <tutorial />
     </section>
     <section class="news-section">
@@ -40,6 +40,6 @@ export default defineComponent({
     </div>
     <div class="instagram-section">
       <instagram />
-    </div> -->
+    </div>
   </div>
 </template>

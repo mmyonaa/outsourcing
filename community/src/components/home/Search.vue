@@ -2,9 +2,7 @@
 import { PopularSearchEntity } from '@/api/dto/popularSearch.dto';
 import ApocImageSet from '@/components/common/ApocImageSet.vue';
 import ApocInput from '@/components/common/ApocInput.vue';
-import { initStore } from '@/stores/store-manager';
 import { defineComponent, ref } from 'vue';
-import { useI18n } from 'vue-i18n';
 
 export default defineComponent({
   name: 'Search',
@@ -13,10 +11,8 @@ export default defineComponent({
     const popularKeywordList = ref<PopularSearchEntity[]>([]);
     const videoSrcPc = ref<string>('/assets/videos/search_background_video_v2.mp4');
     const videoSrcTablet = ref<string>('/assets/videos/search_background_video_v2_tablet.mp4');
-    const { t } = useI18n({ useScope: 'global' });
     
     return {
-      t,
       videoSrcPc,
       videoSrcTablet,
       popularKeywordList,
