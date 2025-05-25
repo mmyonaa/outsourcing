@@ -1,9 +1,9 @@
 // 각 사이트 active/hover 시 색상
-$colorApoc: #000000;
-$colorPlay: #a473ff;
-$colorStudio: #ff8fff;
-$colorAsset: #130e62;
-$colorComm: #644bff;
+$colorApoc: #e34363;
+$colorPlay: #e34363;
+$colorStudio: #e34363;
+$colorAsset: #e34363;
+$colorComm: #e34363;
 
 // common color
 $colorWhite: #ffffff;
@@ -146,11 +146,7 @@ header {
 		}
 
 		&:nth-child(4) {
-			width: 72px;
-		}
-
-		&:nth-child(5) {
-			width: 125px;
+			width: 100px;
 		}
 	}
 }
@@ -167,48 +163,18 @@ header {
 		gap: 4rem;
 	}
 	li {
-		color: $colorApoc;
+		color: $colorFont;
 		font-size: 20px;
 		line-height: 20px;
 		font-weight: 500; // sofia pro라서 weight + 100
 		&.active {
 			font-weight: 800; // sofia pro라서 weight + 100
-			color: $colorPlay;
+			color: $colorPrimary;
 		}
 		&:hover {
-			color: $colorPlay;
+			color: $colorPrimary;
 		}
 	}
-	//.apoc {
-	//	&:hover,
-	//	&.active {
-	//		color: $colorApoc;
-	//	}
-	//}
-	//.play {
-	//	&:hover,
-	//	&.active {
-	//		color: $colorPlay;
-	//	}
-	//}
-	//.studio {
-	//	&:hover,
-	//	&.active {
-	//		color: $colorStudio;
-	//	}
-	//}
-	//.asset {
-	//	&:hover,
-	//	&.active {
-	//		color: $colorAsset;
-	//	}
-	//}
-	//.community {
-	//	&:hover,
-	//	&.active {
-	//		color: $colorComm;
-	//	}
-	//}
 	@include range-tablet-header {
 		display: none;
 	}
@@ -330,34 +296,9 @@ header {
 			}
 
 			&:hover {
-				color: $colorPlay;
+				color: $colorFont;
 			}
 		}
-		//&.apoc {
-		//	li:hover {
-		//		color: $colorApoc;
-		//	}
-		//}
-		//&.play {
-		//	li:hover {
-		//		color: $colorPlay;
-		//	}
-		//}
-		//&.studio {
-		//	li:hover {
-		//		color: $colorStudio;
-		//	}
-		//}
-		//&.asset {
-		//	li:hover {
-		//		color: $colorAsset;
-		//	}
-		//}
-		//&.community {
-		//	li:hover {
-		//		color: $colorPlay;
-		//	}
-		//}
 	}
 }
 
@@ -497,7 +438,7 @@ header {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		color: $colorApoc;
+		color: $colorFont;
 		border-bottom: 1px solid $colorBorder;
 		cursor: pointer;
 
@@ -507,20 +448,20 @@ header {
 
 		// 현재 서비스 타입
 		&.active {
-			color: $colorPlay;
+			color: $colorPrimary;
 			.svg path {
-				stroke: $colorPlay;
+				stroke: $colorPrimary;
 			}
 		}
 
 		&:hover {
-			color: $colorPlay;
+			color: $colorPrimary;
 		}
 
 		// sub menu가 열림
 		&.opened {
 			&.active {
-				border-bottom: 1px solid $colorPlay;
+				border-bottom: 1px solid $colorPrimary;
 			}
 			.svg {
 				display: inline-block;
@@ -544,7 +485,7 @@ header {
 				border-bottom: 1px solid $colorBorder;
 				cursor: pointer;
 				&.active {
-					color: $colorPlay;
+					color: $colorFont;
 				}
 			}
 		}
