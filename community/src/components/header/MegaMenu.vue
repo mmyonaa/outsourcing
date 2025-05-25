@@ -6,7 +6,6 @@ import ArrowDown from '@/components/header/ArrowDown.vue'; // dropdown 화살표
 import AppConfig, { APP_ENV_TYPE } from '@/constants';
 import { initStore } from '@/stores/store-manager';
 import { POPUP_TYPE } from '@/types';
-import { loadLocalData, ssoLogin } from '@/utils/common-util';
 import { computed, defineComponent, onMounted, onUnmounted, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
@@ -15,9 +14,6 @@ export default defineComponent({
   components: { ApocInput, ApocLink, ApocImageSet, ArrowDown },
   setup() {
     const storeManager = initStore();
-    const token = computed(() => loadLocalData(AppConfig.KEYS.LOGIN_TOKEN));
-    const authToken = computed(() => storeManager.dataStore.authToken);
-    const user = computed(() => loadLocalData(AppConfig.KEYS.LOGIN_USER));
     const keyword = ref<string>(''); // 검색창 입력
     const router = useRouter();
     const route = useRoute();
@@ -25,7 +21,6 @@ export default defineComponent({
     const mainTab = computed(() => route.params.mainTab);
 
     enum ServiceType { // apoc service
-      APOC = 'APOC',
       PLAY = 'PLAY',
       STUDIO = 'STUDIO',
       ASSET = 'ASSET',
@@ -42,7 +37,6 @@ export default defineComponent({
     // local/dev/stage/prod 별 사이트 주소
     const url = {
       [APP_ENV_TYPE.DEV]: {
-        [ServiceType.APOC]: 'https://brand.apoc.day/',
         [ServiceType.PLAY]: 'https://dev.apoc.day/',
         [ServiceType.STUDIO]: 'https://studio-dev.apoc.day/',
         [ServiceType.ASSET]: 'https://kit-dev.apoc.day/',
@@ -134,10 +128,6 @@ export default defineComponent({
       }
     };
 
-    const onClickLogout = () => {
- 
-    };
-
     watch(
       () => storeManager.stateStore.popupMode,
       () => {
@@ -147,7 +137,6 @@ export default defineComponent({
     );
 
     onMounted(() => {
-      // checkUserInfo();
       document.addEventListener('scroll', handleScroll);
     });
 
@@ -156,7 +145,6 @@ export default defineComponent({
     });
 
     return {
-      user,
       token,
       ServiceType,
       isSubMenuVisible,
@@ -175,8 +163,6 @@ export default defineComponent({
       handleMouseSubLeave,
       onClickOpenSubMenu,
       onClickTabletMenu,
-      ssoLogin,
-      onClickLogout,
     };
   },
 });
@@ -189,18 +175,16 @@ export default defineComponent({
 		<div class="main-header-wrapper">
 			<!-- 좌측 : 로고 -->
 			<apoc-link class="main-header-logo" href="/">
-				<apoc-image-set :img-sets="3" src="/assets/images/logo/comm-logo-l.webp" />
+				<img src="/assets/images/logo/theater.png" />
 			</apoc-link>
-
 			<!-- main menu -->
 			<section class="main-menu-section" @mouseenter="handleMouseEnter" @mouseleave="handleMouseLeave">
 				<ul class="menu-list">
-					<li class="menu apoc" @click="onClickExternal(ServiceType.APOC)">apoc</li>
-					<li class="menu play" :class="{ active: curServiceType === ServiceType.PLAY }" @click="onClickExternal(ServiceType.PLAY)">play</li>
-					<li class="menu studio" :class="{ active: curServiceType === ServiceType.STUDIO }" @click="onClickExternal(ServiceType.STUDIO)">studio</li>
-					<li class="menu asset" :class="{ active: curServiceType === ServiceType.ASSET }" @click="onClickExternal(ServiceType.ASSET)">asset</li>
+					<li class="menu play" :class="{ active: curServiceType === ServiceType.PLAY }" @click="onClickExternal(ServiceType.PLAY)">소개</li>
+					<li class="menu studio" :class="{ active: curServiceType === ServiceType.STUDIO }" @click="onClickExternal(ServiceType.STUDIO)">공연</li>
+					<li class="menu asset" :class="{ active: curServiceType === ServiceType.ASSET }" @click="onClickExternal(ServiceType.ASSET)">대관</li>
 					<li class="menu community" :class="{ active: curServiceType === ServiceType.COMM }" @click="onClickExternal(ServiceType.COMM)">
-						community
+						공지사항
 					</li>
 				</ul>
 			</section>
@@ -210,15 +194,12 @@ export default defineComponent({
 			<section class="login-section">
 				<ul class="menu-list">
 					<!-- 마이페이지 드롭다운 / 로그인 드롭다운 -->
-					<li>
-						<!-- TODO : my page 연결 -->
-						<span v-if="authToken" class="my-page-menu" @click="onClickLogout">Logout</span>
-						<span v-else class="my-page-menu login" @click="ssoLogin()">Login</span>
-					</li>
 					<!-- (tablet ~ mobile) 메뉴 햄버거 버튼 -->
-					<li @click="onClickTabletMenu(true)" class="menu-icon">
-						<apoc-image-set class="tab-icon" :img-sets="3" src="/assets/images/common/icons/mobile-menu-icon.webp" />
-					</li>
+					<li @click="onClickTabletMenu(true)" class="menu-icon hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+          </li>
 				</ul>
 			</section>
 		</div>
@@ -226,28 +207,23 @@ export default defineComponent({
 		<!-- (pc) dropdown으로 열리는 sub menu -->
 		<transition name="dropdown">
 			<section v-show="isSubMenuVisible" class="sub-menu-section menu-list" @mouseleave="handleMouseSubLeave" >
-				<ul class="sub-menu-list apoc menu">
-					<li></li>
-				</ul>
 				<ul class="sub-menu-list play menu">
-					<li></li>
+						<li @click="onClickExternal(ServiceType.PLAY)">극장 소개</li>
+						<li @click="onClickExternal(ServiceType.PLAY, 'asset-menu?assetType=3D_STICKER')">단체 소개</li>
+						<li @click="onClickExternal(ServiceType.PLAY, 'asset-menu?assetType=REALITY_3D')">오시는 길</li>
 				</ul>
 				<ul class="sub-menu-list studio menu">
-					<li></li>
+          <li @click="onClickExternal(ServiceType.STUDIO)">역대 공연</li>
+          <li @click="onClickExternal(ServiceType.STUDIO, 'asset-menu?assetType=REALITY_3D')">예정 공연</li>
 				</ul>
 				<ul class="sub-menu-list asset menu">
-					<li @click="onClickExternal(ServiceType.ASSET, 'asset-menu?assetType=3D_STICKER')">icon 3D</li>
-					<li @click="onClickExternal(ServiceType.ASSET, 'asset-menu?assetType=REALITY_3D')">reality 3D</li>
-					<li @click="onClickExternal(ServiceType.ASSET, 'asset-menu?assetType=MADE_3D')">made 3D</li>
-					<li @click="onClickExternal(ServiceType.ASSET, 'asset-menu?assetType=BACKGROUND')">background</li>
-					<li @click="onClickExternal(ServiceType.ASSET, 'subscribe')">pricing</li>
-					<li @click="onClickExternal(ServiceType.ASSET, 'service')">help center</li>
+					<li @click="onClickExternal(ServiceType.ASSET, 'asset-menu?assetType=3D_STICKER')">극장 상세사항</li>
+					<li @click="onClickExternal(ServiceType.ASSET, 'asset-menu?assetType=REALITY_3D')">대관 안내</li>
+					<li @click="onClickExternal(ServiceType.ASSET, 'asset-menu?assetType=MADE_3D')">대관 스케줄</li>
+					<li @click="onClickExternal(ServiceType.ASSET, 'asset-menu?assetType=BACKGROUND')">대관 신청링크</li>
 				</ul>
 				<ul class="sub-menu-list community menu">
-					<li @click="onClickExternal(ServiceType.COMM, 'board/apoc_news?type=NOW', true)" :class="{ active: mainTab === 'apoc_news' }">{{ 'apocNews' }}</li>
-					<li @click="onClickExternal(ServiceType.COMM, 'board/tutorial?type=TUTORIAL', true)" :class="{ active: mainTab === 'tutorial' }">{{ 'tutorial' }}</li>
-					<li @click="onClickExternal(ServiceType.COMM, 'board/board?type=TIPS', true)" :class="{ active: mainTab === 'board' }">{{ 'board' }}</li>
-					<li @click="onClickExternal(ServiceType.COMM, 'board/notice?type=NOTICE', true)" :class="{ active: mainTab === 'notice' }">{{ 'notice' }}</li>
+					<li @click="onClickExternal(ServiceType.COMM, 'board/apoc_news?type=NOW', true)" :class="{ active: mainTab === 'apoc_news' }">공지 상세사항</li>
 				</ul>
 			</section>
 		</transition>
@@ -258,17 +234,39 @@ export default defineComponent({
 		<section v-show="storeManager.stateStore.popupMode?.type === POPUP_TYPE.TABLET_SIDE_MENU" class="main-menu-section-tablet">
 			<ul>
 				<li class="close-wrapper">
-					<apoc-image-set class="logo-img" :img-sets="3" src="/assets/images/logo/comm-logo-m.webp" />
+					<img class="logo-img" src="/assets/images/logo/theater.png" />
 					<apoc-image-set class="close-btn" :img-sets="3" src="/assets/images/common/icons/black-close-icon.webp" @click="onClickTabletMenu(false)" />
 				</li>
-				<li class="menu apoc" :class="{ active: curServiceType === ServiceType.APOC }" @click="onClickExternal(ServiceType.APOC)">apoc</li>
-				<li class="menu play" :class="{ active: curServiceType === ServiceType.PLAY }">play</li>
-				<li class="menu studio" :class="{ active: curServiceType === ServiceType.STUDIO }" @click="onClickExternal(ServiceType.STUDIO)">studio</li>
+				<li class="menu play" :class="{ opened: isTabletMenuVisibleType === ServiceType.PLAY, active: curServiceType === ServiceType.PLAY }" @click="() => onClickOpenSubMenu(ServiceType.PLAY)">소개<ArrowDown /></li>
+        <transition name="dropdown">
+					<section
+						v-show="isTabletMenuVisibleType === ServiceType.PLAY"
+						class="sub-menu-tablet"
+						:class="{ opened: isTabletMenuVisibleType === ServiceType.PLAY }">
+						<ul>
+							<li @click="onClickExternal(ServiceType.PLAY)">극장 소개</li>
+							<li @click="onClickExternal(ServiceType.PLAY, 'asset-menu?assetType=3D_STICKER')">단체 소개</li>
+							<li @click="onClickExternal(ServiceType.PLAY, 'asset-menu?assetType=REALITY_3D')">오시는 길</li>
+						</ul>
+					</section>
+				</transition>
+				<li class="menu studio" :class="{ opened: isTabletMenuVisibleType === ServiceType.STUDIO,active: curServiceType === ServiceType.STUDIO }" @click="() => onClickOpenSubMenu(ServiceType.STUDIO)">공연<ArrowDown /></li>
+        <transition name="dropdown">
+					<section
+						v-show="isTabletMenuVisibleType === ServiceType.STUDIO"
+						class="sub-menu-tablet"
+						:class="{ opened: isTabletMenuVisibleType === ServiceType.STUDIO }">
+						<ul>
+							<li @click="onClickExternal(ServiceType.STUDIO)">역대 공연</li>
+							<li @click="onClickExternal(ServiceType.STUDIO, 'asset-menu?assetType=REALITY_3D')">예정 공연</li>
+						</ul>
+					</section>
+				</transition>
 				<li
 					class="menu asset"
 					:class="{ opened: isTabletMenuVisibleType === ServiceType.ASSET, active: curServiceType === ServiceType.ASSET }"
 					@click="() => onClickOpenSubMenu(ServiceType.ASSET)">
-					asset<ArrowDown />
+					대관<ArrowDown />
 				</li>
 				<transition name="dropdown">
 					<section
@@ -276,22 +274,18 @@ export default defineComponent({
 						class="sub-menu-tablet"
 						:class="{ opened: isTabletMenuVisibleType === ServiceType.ASSET }">
 						<ul>
-							<li @click="onClickExternal(ServiceType.ASSET)">asset home</li>
-							<li @click="onClickExternal(ServiceType.ASSET, 'asset-menu?assetType=3D_STICKER')">icon 3D</li>
-							<li @click="onClickExternal(ServiceType.ASSET, 'asset-menu?assetType=REALITY_3D')">reality 3D</li>
-							<li @click="onClickExternal(ServiceType.ASSET, 'asset-menu?assetType=MADE_3D')">made 3D</li>
-							<li @click="onClickExternal(ServiceType.ASSET, 'asset-menu?assetType=BACKGROUND')">background</li>
-							<li @click="onClickExternal(ServiceType.ASSET, 'subscribe')">pricing</li>
-							<li @click="onClickExternal(ServiceType.ASSET, 'service')">help center</li>
+							<li @click="onClickExternal(ServiceType.ASSET)">극장 상세사항</li>
+							<li @click="onClickExternal(ServiceType.ASSET, 'asset-menu?assetType=3D_STICKER')">대관 안내</li>
+							<li @click="onClickExternal(ServiceType.ASSET, 'asset-menu?assetType=REALITY_3D')">대관 스케줄</li>
+							<li @click="onClickExternal(ServiceType.ASSET, 'asset-menu?assetType=MADE_3D')">대관 신청링크</li>
 						</ul>
 					</section>
 				</transition>
-
 				<li
 					class="menu community"
 					:class="{ opened: isTabletMenuVisibleType === ServiceType.COMM, active: curServiceType === ServiceType.COMM }"
 					@click="() => onClickOpenSubMenu(ServiceType.COMM)">
-					community<ArrowDown />
+					공지사항<ArrowDown />
 				</li>
 				<transition name="dropdown">
 					<section
@@ -299,11 +293,7 @@ export default defineComponent({
 						class="sub-menu-tablet"
 						:class="{ opened: isTabletMenuVisibleType === ServiceType.COMM }">
 						<ul>
-							<li @click="onClickExternal(ServiceType.COMM, '', true)">community home</li>
-							<li @click="onClickExternal(ServiceType.COMM, 'board/apoc_news?type=NOW', true)" :class="{ active: mainTab === 'apoc_news' }">{{ 'apocNews' }}</li>
-							<li @click="onClickExternal(ServiceType.COMM, 'board/tutorial?type=TUTORIAL', true)" :class="{ active: mainTab === 'tutorial' }">{{ 'tutorial' }}</li>
-							<li @click="onClickExternal(ServiceType.COMM, 'board/board?type=TIPS', true)" :class="{ active: mainTab === 'board' }">{{ 'board' }}</li>
-							<li @click="onClickExternal(ServiceType.COMM, 'board/notice?type=NOTICE', true)" :class="{ active: mainTab === 'notice' }">{{ 'notice' }}</li>
+							<li @click="onClickExternal(ServiceType.COMM, '', true)">공지 게시판</li>
 						</ul>
 					</section>
 				</transition>
