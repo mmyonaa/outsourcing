@@ -145,7 +145,6 @@ export default defineComponent({
     });
 
     return {
-      token,
       ServiceType,
       isSubMenuVisible,
       headerType,
@@ -156,7 +155,6 @@ export default defineComponent({
       storeManager,
       POPUP_TYPE,
       curServiceType,
-      authToken,
       onClickExternal,
       handleMouseEnter,
       handleMouseLeave,
