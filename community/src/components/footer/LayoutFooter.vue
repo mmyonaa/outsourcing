@@ -16,102 +16,26 @@ export default defineComponent({
 <template>
   <div class="footer">
     <div class="footer-wrapper">
-      <!-- <div class="footer-top-area">
-        <div class="footer-info">
-          <div class="logo-area">
-            <apoc-image-set src="/assets/images/logo/footer-logo.webp" :img-sets="3" alt="logo" />
-          </div>
-          <div class="desc-area">
-            <pre>{{ t('footer.footerDesc') }}</pre
-            >
-          </div>
-          <div class="sns-area">
-            <ul class="sns-list">
-              <li class="sns-item instagram">
-                <apoc-link href="#" @click="onClickExternal('https://www.instagram.com/apoc.day?igsh=ZzVsbmhyZmE0aGJq')">
-                  <apoc-image-set src="/assets/images/common/icons/instagram.webp" alt="instagram" :img-sets="3" />
-                </apoc-link>
-              </li>
-              <li class="sns-item youtube">
-                <apoc-link href="#" @click="onClickExternal('https://www.youtube.com/@apoc7306')">
-                  <apoc-image-set src="/assets/images/common/icons/youtube.webp" alt="youtube" :img-sets="3" />
-                </apoc-link>
-              </li>
-              <li class="sns-item linkedin">
-                <apoc-link href="#" @click="onClickExternal('https://www.linkedin.com/company/apoc-famppy/mycompany/verification/')">
-                  <apoc-image-set src="/assets/images/common/icons/linkedin.webp" alt="linkedin" :img-sets="3" />
-                </apoc-link>
-              </li>
-            </ul>
-          </div>
+      <div class="footer-logo-img">
+				<img src="/assets/images/logo/theater.png" />
+      </div>
+      <div class="footer-info-wrapper">
+        <div>
+          <div>사업자 대표 | 강민수</div>
+          <div>사업자 번호 | 213-90-10920</div>
         </div>
-        <div class="footer-link-section apoc-news">
-          <div class="title">{{ t('menu.mainMenu.apocNews') }}</div>
-          <ul class="link-list">
-            <li class="link-item">
-              <apoc-link :href="'/board/apoc_news?type=NOW'">{{ t('menu.subMenu.now') }}</apoc-link>
-            </li>
-            <li class="link-item">
-              <apoc-link :href="'/board/apoc_news?type=INTERVIEW'">{{ t('menu.subMenu.interview') }}</apoc-link>
-            </li>
-            <li class="link-item">
-              <apoc-link :href="'/board/apoc_news?type=NEWS_ROOM'">{{ t('menu.subMenu.newsRoom') }}</apoc-link>
-            </li>
-
-          </ul>
+        <div>
+          <div>주소 | 용산구 장문로 19길 4</div>
+          <div>전화번호 | 02-794-5803</div>
         </div>
-        <div class="footer-link-section tutorial">
-          <div class="title">{{ t('menu.mainMenu.tutorial') }}</div>
-          <ul class="link-list">
-            <li class="link-item">
-              <apoc-link :href="'/board/tutorial?type=TUTORIAL'">{{ t('menu.subMenu.tutorial') }}</apoc-link>
-            </li>
-            <li class="link-item">
-              <apoc-link :href="'/board/tutorial?type=USE_STUDIO'">{{ t('menu.subMenu.useStudio') }}</apoc-link>
-            </li>
-            <li class="link-item">
-              <apoc-link :href="'/board/tutorial?type=USE_PLAY'">{{ t('menu.subMenu.usePlay') }}</apoc-link>
-            </li>
-						<li class="link-item">
-							<apoc-link :href="'/board/tutorial?type=USE_ASSET'">{{ t('menu.subMenu.useAsset') }}</apoc-link>
-						</li>
-          </ul>
+        <div> 이메일 | bokwang_theater@naver.com</div>
+      </div>
+      <div class="footer-sns-wrapper">
+        <div>
+          <apoc-image-set :img-sets="3" class="icon" src="/assets/images/home/icon/home-icon-instagram.webp" />
         </div>
-        <div class="footer-link-section free">
-          <div class="title">{{ t('menu.mainMenu.board') }}</div>
-          <ul class="link-list">
-            <li class="link-item">
-              <apoc-link :href="'/board/board?type=TIPS'">{{ t('menu.subMenu.tips') }}</apoc-link>
-            </li>
-            <li class="link-item">
-              <apoc-link :href="'/board/board?type=FREE'">{{ t('menu.subMenu.free') }}</apoc-link>
-            </li>
-            <li class="link-item">
-              <apoc-link :href="'/board/board?type=FUNCTION'">{{ t('menu.subMenu.function') }}</apoc-link>
-            </li>
-          </ul>
-        </div>
-        <div class="footer-link-section notice">
-          <div class="title">{{ t('menu.mainMenu.notice') }}</div>
-          <ul class="link-list">
-            <li class="link-item">
-              <apoc-link :href="'/board/notice?type=NOTICE'">{{ t('menu.subMenu.notice') }}</apoc-link>
-            </li>
-            <li class="link-item">
-              <apoc-link :href="'/board/notice?type=EVENT'">{{ t('menu.subMenu.event') }}</apoc-link>
-            </li>
-						<li class="link-item">
-							<apoc-link :href="'/board/notice?type=RELEASE'">{{ t('menu.subMenu.release') }}</apoc-link>
-						</li>
-          </ul>
-        </div>
-      </div> -->
-      <div class="footer-bottom-area">
-        <div class="left-area">
-          <div class="copyright-item">© 2024 <strong>FAMPPY</strong> Inc.</div>
-        </div>
-        <div class="right-area">
-          <div class="copyright-item">All Right Reserved @apoc.day</div>
+        <div>
+          <apoc-image-set :img-sets="3" class="icon" src="/assets/images/home/icon/home-icon-instagram.webp" />
         </div>
       </div>
     </div>
