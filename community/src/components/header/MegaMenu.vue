@@ -28,19 +28,19 @@ export default defineComponent({
     }
 
     // 현재 서비스 (각 서비스에 맞게 설정 필요)
-    const curServiceType = ServiceType.COMM;
+    const curServiceType = ref<ServiceType>(ServiceType.PLAY)
 
     // 드롭다운 열림 관리 변수
     const isSubMenuVisible = ref<boolean>(false); // sub menu dropdown 열림 변수
-    const isTabletMenuVisibleType = ref<ServiceType | undefined>(curServiceType); // 현재 서비스 값으로 초기 설정!!!
+    const isTabletMenuVisibleType = ref<ServiceType | undefined>(curServiceType.value); // 현재 서비스 값으로 초기 설정!!!
 
     // local/dev/stage/prod 별 사이트 주소
     const url = {
       [APP_ENV_TYPE.DEV]: {
-        [ServiceType.PLAY]: 'https://dev.apoc.day/',
-        [ServiceType.STUDIO]: 'https://studio-dev.apoc.day/',
-        [ServiceType.ASSET]: 'https://kit-dev.apoc.day/',
-        [ServiceType.COMM]: 'https://community-dev.apoc.day/',
+        [ServiceType.PLAY]: '/introduce',
+        [ServiceType.STUDIO]: '/performance',
+        [ServiceType.ASSET]: '/rental',
+        [ServiceType.COMM]: '/notice',
       }
     };
 
@@ -95,14 +95,10 @@ export default defineComponent({
 			@isLocal : local에서 테스트 시 true 값 주기
 		*/
     const onClickExternal = (service: ServiceType, append?: string, isLocal?: boolean) => {
-      const baseUrl = isLocal ? AppConfig.FRONT_HOST + '/' : url[AppConfig.ENV][service];
-      const fullUrl = append ? `${baseUrl}${append}` : baseUrl;
-
       // 우측 메뉴바 닫음
       storeManager.stateStore.setPopupMode({ type: POPUP_TYPE.NONE });
-
-      // 메뉴 클릭 시 기존 창으로 페이지 열림
-      window.location.href = fullUrl;
+      router.push(url[AppConfig.ENV][service])
+      curServiceType.value = service
     };
 
     // (tablet ~ mobile) 우측 사이드 메뉴의 main menu 클릭 > sub menu dropdown 열기
@@ -132,7 +128,7 @@ export default defineComponent({
       () => storeManager.stateStore.popupMode,
       () => {
         // (tablet ~ mobile) 우측 사이드 메뉴 닫힐 때마다, active되어 있는 service type 초기화
-        isTabletMenuVisibleType.value = curServiceType;
+        isTabletMenuVisibleType.value = curServiceType.value;
       },
     );
 
