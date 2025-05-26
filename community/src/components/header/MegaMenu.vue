@@ -97,7 +97,7 @@ export default defineComponent({
     const onClickExternal = (service: ServiceType, append?: string, isLocal?: boolean) => {
       // 우측 메뉴바 닫음
       storeManager.stateStore.setPopupMode({ type: POPUP_TYPE.NONE });
-      router.push(url[AppConfig.ENV][service])
+      router.push(url[AppConfig.ENV][service] + (append ? append : ''))
       curServiceType.value = service
     };
 
@@ -203,8 +203,8 @@ export default defineComponent({
 			<section v-show="isSubMenuVisible" class="sub-menu-section menu-list" @mouseleave="handleMouseSubLeave" >
 				<ul class="sub-menu-list play menu">
 						<li @click="onClickExternal(ServiceType.PLAY)">극장 소개</li>
-						<li @click="onClickExternal(ServiceType.PLAY, 'asset-menu?assetType=3D_STICKER')">단체 소개</li>
-						<li @click="onClickExternal(ServiceType.PLAY, 'asset-menu?assetType=REALITY_3D')">오시는 길</li>
+						<li @click="onClickExternal(ServiceType.PLAY, '/org')">단체 소개</li>
+						<li @click="onClickExternal(ServiceType.PLAY, '/route')">오시는 길</li>
 				</ul>
 				<ul class="sub-menu-list studio menu">
           <li @click="onClickExternal(ServiceType.STUDIO)">역대 공연</li>
