@@ -5,41 +5,63 @@ import Notice from '@/components/home/Notice.vue';
 import Popular from '@/components/home/Popular.vue';
 import Search from '@/components/home/Search.vue';
 import Tutorial from '@/components/home/Tutorial.vue';
-import { defineComponent, onMounted } from 'vue';
+import { defineComponent, onMounted, ref } from 'vue';
 
 export default defineComponent({
-  name: 'Home',
+  name: 'performance',
   components: { Instagram, Notice, Popular, Tutorial, Search, News },
   setup() {
+
+  const activeIndex = ref<number>(0)
+
+  const posters = [
+    {
+      image: '/assets/images/theater/introduce-1.JPG',
+      description: 'Poster 1에 대한 설명입니다.',
+    },
+    {
+      image: '/assets/images/theater/introduce-1.JPG',
+      description: 'Poster 2에 대한 설명입니다.',
+    },
+    {
+      image: '/assets/images/theater/introduce-1.JPG',
+      description: 'Poster 3에 대한 설명입니다.',
+    },
+    {
+      image: '/assets/images/theater/introduce-1.JPG',
+      description: 'Poster 4에 대한 설명입니다.',
+    },
+  ]
 
     onMounted(() => {
   
     });
     return {
+      posters,
+      activeIndex
     };
   },
 });
 </script>
 
 <template>
-  <div class="home-page">
-    <section class="search-section">
-      <search />
-    </section>
-    <section class="tutorial-section">
-      <tutorial />
-    </section>
-    <section class="news-section">
-      <news />
-    </section>
-    <div class="popular-section">
-      <popular />
-    </div>
-    <div class="notice-section">
-      <notice />
-    </div>
-    <div class="instagram-section">
-      <instagram />
+  <div class="page-common introduce-page">
+    <h1>역대 공연</h1>
+    <div class="wrapper">
+    <div class="poster-gallery">
+    <div
+      class="poster"
+      v-for="(poster, index) in posters"
+      :key="index"
+      :class="{ active: activeIndex === index }"
+      @click="activeIndex = index"
+    >
+      <img :src="poster.image" :alt="'Poster ' + (index + 1)" />
+      <div class="description" v-if="activeIndex === index">
+        {{ poster.description }}
+      </div>
     </div>
   </div>
+  </div>
+</div>
 </template>
