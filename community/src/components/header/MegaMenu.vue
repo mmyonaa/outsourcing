@@ -124,6 +124,10 @@ export default defineComponent({
       }
     };
 
+    const openSubMenu = () =>{
+      isSubMenuVisible.value=true;
+    }
+
     watch(
       () => storeManager.stateStore.popupMode,
       () => {
@@ -157,6 +161,7 @@ export default defineComponent({
       handleMouseSubLeave,
       onClickOpenSubMenu,
       onClickTabletMenu,
+      openSubMenu
     };
   },
 });
