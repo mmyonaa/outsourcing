@@ -8,7 +8,7 @@ import Tutorial from '@/components/home/Tutorial.vue';
 import { defineComponent, onMounted } from 'vue';
 
 export default defineComponent({
-  name: 'Home',
+  name: 'introduce',
   components: { Instagram, Notice, Popular, Tutorial, Search, News },
   setup() {
 

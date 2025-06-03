@@ -87,3 +87,55 @@
         margin-left:20px;
     }
 }
+
+.poster-gallery {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  padding: 20px;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.poster {
+  cursor: pointer;
+  text-align: center;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+  opacity: 0.4;            // 기본 dim 처리
+  filter: grayscale(60%);  // 회색톤 효과
+  transform: scale(0.97);
+
+  img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+  }
+
+  &.active {
+    opacity: 1;               // 밝게 활성화
+    filter: none;             // 회색 제거
+    transform: scale(1.02);   // 살짝 확대
+
+    img {
+      transform: scale(1.05);
+    }
+
+    .description {
+      margin-top: 20px;
+      background-color: #f9f9f9;
+      padding: 12px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: bold;
+    }
+  }
+}
+

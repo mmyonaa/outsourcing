@@ -213,16 +213,16 @@ export default defineComponent({
 				</ul>
 				<ul class="sub-menu-list studio menu">
           <li @click="onClickExternal(ServiceType.STUDIO)">역대 공연</li>
-          <li @click="onClickExternal(ServiceType.STUDIO, 'asset-menu?assetType=REALITY_3D')">예정 공연</li>
+          <li @click="onClickExternal(ServiceType.STUDIO, '/next')">예정 공연</li>
 				</ul>
 				<ul class="sub-menu-list asset menu">
-					<li @click="onClickExternal(ServiceType.ASSET, 'asset-menu?assetType=3D_STICKER')">극장 상세사항</li>
-					<li @click="onClickExternal(ServiceType.ASSET, 'asset-menu?assetType=REALITY_3D')">대관 안내</li>
-					<li @click="onClickExternal(ServiceType.ASSET, 'asset-menu?assetType=MADE_3D')">대관 스케줄</li>
-					<li @click="onClickExternal(ServiceType.ASSET, 'asset-menu?assetType=BACKGROUND')">대관 신청링크</li>
+					<li @click="onClickExternal(ServiceType.ASSET)">극장 상세사항</li>
+					<li @click="onClickExternal(ServiceType.ASSET, '/info')">대관 안내</li>
+					<li @click="onClickExternal(ServiceType.ASSET, '/schedule')">대관 스케줄</li>
+					<li @click="onClickExternal(ServiceType.ASSET, '/link')">대관 신청링크</li>
 				</ul>
 				<ul class="sub-menu-list community menu">
-					<li @click="onClickExternal(ServiceType.COMM, 'board/apoc_news?type=NOW', true)" :class="{ active: mainTab === 'apoc_news' }">공지 상세사항</li>
+					<li @click="onClickExternal(ServiceType.COMM)" :class="{ active: mainTab === 'apoc_news' }">공지 상세사항</li>
 				</ul>
 			</section>
 		</transition>
