@@ -210,48 +210,6 @@
         }
       }
 
-
-      // 페이지네이션 영역
-      .pagination-section {
-        padding-top: 5rem;
-        padding-bottom: 9.25rem;
-        .pagination {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          gap: 2rem;
-
-          .page-number-section {
-            display: flex;
-            .page-number {
-              width: 4rem;
-              height: 4rem;
-              border-radius: 1rem;
-              display: flex;
-              justify-content: center;
-              align-items: center;
-
-              user-select: none;
-              cursor: pointer;
-              color: black;
-              @include font16Bold5;
-
-              &.active {
-                background-color: #eae8f6;
-                color: $colorFont;
-              }
-
-              &.noCursor {
-                cursor: default;
-              }
-            }
-          }
-          .page-number:nth-last-child(1) {
-            @include font14Bold5();
-          }
-        }
-      }
-
       .board-card-list-section {
         padding-top: 6rem;
         .board-card-list-area {
