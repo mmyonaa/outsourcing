@@ -1,0 +1,118 @@
+.notice-page{
+  width:100%;
+  font-size: 16px;
+
+}
+
+.notice-list {
+  width: 100%;
+  padding: 1rem;
+
+  .notice-header,
+  .row-content {
+    display: grid;
+    grid-template-columns: 50px 1fr 80px 100px 120px;
+    padding: 1.5rem 2.5rem;
+    font-weight: 600;
+    border-bottom: 1px solid #ddd;
+
+    .col {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  .notice-header {
+    font-size: 18px;
+  }
+
+  .row-content {
+    font-weight: 400;
+    cursor: pointer;
+    transition: background 0.2s;
+
+    &:hover {
+      background-color: #f8f9fa;
+    }
+  }
+
+  // 모바일
+  .mobile-card {
+    border: 1px solid #e1e1e1;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+
+    .title {
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .meta {
+      color: #555;
+    }
+  }
+
+  /* 디스플레이 제어 */
+  .mobile-only {
+    display: none;
+  }
+
+  .desktop-only {
+    display: grid;
+  }
+
+  @media (max-width: 768px) {
+    .desktop-only {
+      display: none;
+    }
+
+    .mobile-only {
+      display: block;
+    }
+  }
+}
+
+      // 페이지네이션 영역
+      .pagination-section {
+        padding-top: 5rem;
+        padding-bottom: 9.25rem;
+        .pagination {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 2rem;
+
+          .page-number-section {
+            display: flex;
+            .page-number {
+              width: 4rem;
+              height: 4rem;
+              border-radius: 1rem;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+
+              user-select: none;
+              cursor: pointer;
+              color: black;
+              @include font16Bold5;
+
+              &.active {
+                background-color: $colorPrimaryMute;
+                color: $colorFont;
+              }
+
+              &.noCursor {
+                cursor: default;
+              }
+            }
+          }
+          .page-number:nth-last-child(1) {
+            @include font14Bold5();
+          }
+        }
+      }
