@@ -1,38 +1,32 @@
 <script lang="ts">
-import Instagram from '@/components/home/Instagram.vue';
-import News from '@/components/home/News.vue';
-import Notice from '@/components/home/Notice.vue';
-import Popular from '@/components/home/Popular.vue';
-import Search from '@/components/home/Search.vue';
-import Tutorial from '@/components/home/Tutorial.vue';
 import { defineComponent, onMounted } from 'vue';
 
 declare const naver: any;
 export default defineComponent({
   name: 'Home',
-  components: { Instagram, Notice, Popular, Tutorial, Search, News },
+  components: { },
   setup() {
 
 
     onMounted(() => {
-      const lat = 37.541; // 원하는 위도
-      const lng = 126.986; // 원하는 경도
+      // const lat = 37.541; // 원하는 위도
+      // const lng = 126.986; // 원하는 경도
 
-      const map = new naver.maps.Map('map', {
-        center: new naver.maps.LatLng(lat, lng),
-        zoom: 15,
-      });
+      // const map = new naver.maps.Map('map', {
+      //   center: new naver.maps.LatLng(lat, lng),
+      //   zoom: 15,
+      // });
 
-      const marker = new naver.maps.Marker({
-        position: new naver.maps.LatLng(lat, lng),
-        map,
-      });
+      // const marker = new naver.maps.Marker({
+      //   position: new naver.maps.LatLng(lat, lng),
+      //   map,
+      // });
 
-      // 클릭 시 네이버 지도 웹으로 이동
-      naver.maps.Event.addListener(marker, 'click', () => {
-        const url = `https://map.naver.com/p/search/${lat},${lng}`;
-        window.open(url, '_blank');
-      });
+      // // 클릭 시 네이버 지도 웹으로 이동
+      // naver.maps.Event.addListener(marker, 'click', () => {
+      //   const url = `https://map.naver.com/p/search/${lat},${lng}`;
+      //   window.open(url, '_blank');
+      // });
 
     });
     return {
@@ -47,8 +41,8 @@ export default defineComponent({
     <div class="wrapper">
       <div class="wrapper-item">
       <div class="theater-img">
-          <!-- <img src="/assets/images/theater/introduce-1.JPG" /> -->
-          <div id="map" style="width: 100%; height: 400px;"></div>
+          <img src="/assets/images/theater/introduce-1.JPG" /> 
+          <!-- <div id="map" style="width: 100%; height: 400px;"></div> -->
       </div>
       <div class="text">
        <h2>대중교통</h2>
