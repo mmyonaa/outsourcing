@@ -1,41 +1,113 @@
 <script lang="ts">
-import News from '@/components/home/News.vue';
-import Notice from '@/components/home/Notice.vue';
-import Popular from '@/components/home/Popular.vue';
-import Search from '@/components/home/Search.vue';
-import Tutorial from '@/components/home/Tutorial.vue';
-import { defineComponent, onMounted } from 'vue';
+import ApocImageSet from '@/components/common/ApocImageSet.vue';
+import { defineComponent, onMounted, ref } from 'vue';
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
   name: 'Home',
-  components: { Notice, Popular, Tutorial, Search, News },
+  components: { ApocImageSet, },
   setup() {
+    const router=useRouter();
+    const activeIndex = ref<number>(0)
+    const posters = [
+    {
+      image: '/assets/images/theater/introduce-1.JPG',
+      description: 'Poster 1에 대한 설명입니다.',
+    },
+    {
+      image: '/assets/images/theater/introduce-1.JPG',
+      description: 'Poster 2에 대한 설명입니다.',
+    },
+    {
+      image: '/assets/images/theater/introduce-1.JPG',
+      description: 'Poster 3에 대한 설명입니다.',
+    },
+    {
+      image: '/assets/images/theater/introduce-1.JPG',
+      description: 'Poster 4에 대한 설명입니다.',
+    },
+  ]
+
+  const notices = [
+  {
+    id: 1,
+    title: '서버 점검 안내 (6월 5일)',
+    date: '2025-06-01',
+  },
+  {
+    id: 2,
+    title: '신규 기능 업데이트',
+    date: '2025-05-28',
+  },
+  {
+    id: 3,
+    title: '정책 변경 안내',
+    date: '2025-05-20',
+  },
+  {
+    id: 4,
+    title: '서비스 개선 안내',
+    date: '2025-05-18',
+  },
+]
 
     onMounted(() => {
   
     });
     return {
+      posters,
+      notices,
+      activeIndex,
     };
   },
 });
 </script>
 
 <template>
-  <div class="home-page">
-    <section class="search-section">
-      <search />
+  <div class="page-common home-page">
+    <section class="home-section-item">
+
     </section>
-    <section class="tutorial-section">
-      <tutorial />
+    <section class="home-section-item">
+      <div class="title-wrapper">
+			 <div class="title">
+          역대 공연
+       </div>
+       <router-link to="/pereformance" class="more-link">+ more</router-link>
+      </div>
+      <div class="poster-gallery">
+        <div
+          class="poster"
+          v-for="(poster, index) in posters"
+          :key="index"
+          :class="{ active: activeIndex === index }"
+          @click="activeIndex = index"
+        >
+          <img :src="poster.image" :alt="'Poster ' + (index + 1)" />
+          <div class="description" v-if="activeIndex === index">
+            {{ poster.description }}
+          </div>
+        </div>
+      </div>
     </section>
-    <section class="news-section">
-      <news />
+    <section class="home-section-item">
+      <div class="title-wrapper">
+			 <div class="title">
+          공지사항
+       </div>
+       <router-link to="/notice" class="more-link">+ more</router-link>
+      </div>
+      <div class="card-grid">
+        <router-link
+          v-for="notice in notices.slice(0, 3)"
+          :key="notice.id"
+          :to="`/notice/${notice.id}`"
+          class="notice-card"
+        >
+          <div class="title">{{ notice.title }}</div>
+          <div class="date">{{ notice.date }}</div>
+        </router-link>
+      </div>
     </section>
-    <div class="popular-section">
-      <popular />
-    </div>
-    <div class="notice-section">
-      <notice />
-    </div>
   </div>
 </template>
