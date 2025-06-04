@@ -1,15 +1,9 @@
 <script lang="ts">
-import Instagram from '@/components/home/Instagram.vue';
-import News from '@/components/home/News.vue';
-import Notice from '@/components/home/Notice.vue';
-import Popular from '@/components/home/Popular.vue';
-import Search from '@/components/home/Search.vue';
-import Tutorial from '@/components/home/Tutorial.vue';
 import { defineComponent, onMounted } from 'vue';
 
 export default defineComponent({
   name: 'introduce',
-  components: { Instagram, Notice, Popular, Tutorial, Search, News },
+  components: {  },
   setup() {
 
     onMounted(() => {
