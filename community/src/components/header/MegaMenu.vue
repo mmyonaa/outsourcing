@@ -124,6 +124,11 @@ export default defineComponent({
       }
     };
 
+    // 로고 클릭 시 active service type 초기화
+    const onClickLogo = () => {
+      curServiceType.value = ServiceType.PLAY;
+    }
+
     watch(
       () => storeManager.stateStore.popupMode,
       () => {
@@ -156,7 +161,8 @@ export default defineComponent({
       handleMouseLeave,
       handleMouseSubLeave,
       onClickOpenSubMenu,
-      onClickTabletMenu
+      onClickTabletMenu,
+      onClickLogo
     };
   },
 });
@@ -168,8 +174,8 @@ export default defineComponent({
 		<!-- 상단에 고정되는 헤더 -->
 		<div class="main-header-wrapper">
 			<!-- 좌측 : 로고 -->
-			<apoc-link class="main-header-logo" href="/">
-				<img src="/assets/images/logo/theater.png" />
+			<apoc-link class="main-header-logo" href="/" >
+				<img src="/assets/images/logo/theater.png" @click="onClickLogo"/>
 			</apoc-link>
 			<!-- main menu -->
 			<section class="main-menu-section" @mouseenter="handleMouseEnter" @mouseleave="handleMouseLeave">
