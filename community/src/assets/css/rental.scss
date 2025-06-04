@@ -29,3 +29,69 @@
          }
     }
 }
+
+
+.calendar {
+    max-width: 550px;
+    margin: 2rem auto;
+    border: 1px solid #ddd;
+    border-radius: 1rem;
+    overflow: hidden;
+    font-family: sans-serif;
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+
+    font-size: 16px;
+  }
+  
+  .calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: $colorPrimaryMute;
+    color: white;
+    padding: 1.5rem;
+  
+    h2 {
+      margin: 0;
+      font-size: 18px;
+    }
+  
+    button {
+      background: transparent;
+      border: none;
+      color: white;
+      cursor: pointer;
+    }
+  }
+  
+  .calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    padding: 1.5rem;
+  
+    .day-name {
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 0.5rem;
+      color: #333;
+    }
+  
+    .day-cell {
+      height: 40px;
+      text-align: center;
+      line-height: 40px;
+      margin: 2px 0;
+      border-radius: 4px;
+      transition: background 0.2s ease;
+      cursor: pointer;
+  
+      &:hover {
+        background: #f0f0f0;
+      }
+    }
+  
+    .not-current-month {
+      color: #aaa;
+    }
+  }
