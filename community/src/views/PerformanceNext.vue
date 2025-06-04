@@ -40,7 +40,7 @@ export default defineComponent({
 
 <template>
   <div class="page-common introduce-page">
-    <h1>역대 공연</h1>
+    <h1>예정 공연</h1>
     <div class="wrapper">
     <div class="poster-gallery">
     <div
