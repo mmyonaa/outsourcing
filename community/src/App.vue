@@ -11,7 +11,7 @@ import { computed, watch } from 'vue';
 import { RouterView, useRoute } from 'vue-router';
 
 useHead({
-  title: 'COMMUNITY',
+  title: 'BKTHEATER',
   meta: [{ name: 'description', content: '' }],
 });
 

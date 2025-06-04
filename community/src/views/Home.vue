@@ -1,5 +1,4 @@
 <script lang="ts">
-import Instagram from '@/components/home/Instagram.vue';
 import News from '@/components/home/News.vue';
 import Notice from '@/components/home/Notice.vue';
 import Popular from '@/components/home/Popular.vue';
@@ -9,7 +8,7 @@ import { defineComponent, onMounted } from 'vue';
 
 export default defineComponent({
   name: 'Home',
-  components: { Instagram, Notice, Popular, Tutorial, Search, News },
+  components: { Notice, Popular, Tutorial, Search, News },
   setup() {
 
     onMounted(() => {
@@ -37,9 +36,6 @@ export default defineComponent({
     </div>
     <div class="notice-section">
       <notice />
-    </div>
-    <div class="instagram-section">
-      <instagram />
     </div>
   </div>
 </template>
