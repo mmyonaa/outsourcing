@@ -71,9 +71,10 @@ export default defineComponent({
     <section class="home-section-item">
       <div class="title-wrapper">
 			 <div class="title">
+        <img src="/assets/images/home/performance.png"/>
           역대 공연
        </div>
-       <router-link to="/pereformance" class="more-link">+ more</router-link>
+       <router-link to="/pereformance">+ more</router-link>
       </div>
       <div class="poster-gallery">
         <div
@@ -93,9 +94,10 @@ export default defineComponent({
     <section class="home-section-item">
       <div class="title-wrapper">
 			 <div class="title">
+        <img src="/assets/images/home/notice.png"/>
           공지사항
        </div>
-       <router-link to="/notice" class="more-link">+ more</router-link>
+       <router-link to="/notice">+ more</router-link>
       </div>
       <div class="card-grid">
         <router-link
