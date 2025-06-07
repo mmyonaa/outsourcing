@@ -56,22 +56,6 @@
       }
     }
   }
-}
-
-.impact-text {
-  // font-size: clamp(2.5rem, 6vw, 3rem); // 반응형 큰 글씨
-  // font-weight: 900;                   // 매우 굵게
-  // color: #111;                        // 진한 색상 (또는 브랜드 컬러)
-  // letter-spacing: -0.03em;            // 약간 붙여서 임팩트 강화
-  // text-align: start;
-  // line-height: 1.1;
-  // margin: 2rem 0;
-
-  // /* 선택적 추가 효과 */
-  // background: linear-gradient(90deg,  $colorSecondary, $colorPrimary);
-  // -webkit-background-clip: text;
-  // -webkit-text-fill-color: transparent;
-}
 
   .card-grid {
     margin-top:3rem;
@@ -146,3 +130,4 @@
       }
     }
   }
+}

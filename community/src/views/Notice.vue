@@ -63,7 +63,14 @@ export default defineComponent({
       <!-- 데스크탑 행 -->
       <div class="row-content desktop-only">
         <div class="col index">{{ index + 1 }}</div>
-        <div class="col title">{{ notice.title }}</div>
+        
+        <div class="col title">
+          <router-link
+          v-for="notice in notices.slice(0, 3)"
+          :key="notice.id"
+          :to="`/notice/detail?id=${notice.id}`"
+          class="notice-card"
+        >{{ notice.title }}</router-link></div>
         <div class="col views">{{ notice.views }}</div>
         <div class="col author">{{ notice.author }}</div>
         <div class="col date">{{ notice.date }}</div>

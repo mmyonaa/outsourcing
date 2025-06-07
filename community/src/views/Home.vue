@@ -103,7 +103,7 @@ export default defineComponent({
         <router-link
           v-for="notice in notices.slice(0, 3)"
           :key="notice.id"
-          :to="`/notice/${notice.id}`"
+          :to="`/notice/detail?id=${notice.id}`"
           class="notice-card"
         >
           <div class="title">{{ notice.title }}</div>

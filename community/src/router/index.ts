@@ -67,9 +67,9 @@ export const routesList = [
     name: 'notice',
     component: () => import('../views/Notice.vue'),
   },
-  // {
-  //   path: '/notice/detail',
-  //   name: 'noticeDetail',
-  //   component: () => import('../views/NoticeDetail.vue'),
-  // },
+  {
+    path: '/notice/detail',
+    name: 'noticeDetail',
+    component: () => import('../views/NoticeDetail.vue'),
+  },
 ];
