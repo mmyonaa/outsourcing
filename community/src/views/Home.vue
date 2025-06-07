@@ -76,7 +76,7 @@ export default defineComponent({
         <img src="/assets/images/home/performance.png"/>
           역대 공연
        </div>
-       <router-link to="/pereformance">+ more</router-link>
+       <router-link to="/performance">+ more</router-link>
       </div>
       <div class="poster-gallery">
         <div
