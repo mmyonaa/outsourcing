@@ -72,7 +72,13 @@
             display: flex;
             flex-direction: row;
             align-items: center;
-            gap:1rem;
+            gap:2rem;
+            img {
+                width: 6rem;
+            }
+            .insta { 
+                width: 6.5rem;
+            }
         }
     }
     @include range-tablet-header {
