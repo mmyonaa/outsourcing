@@ -9,6 +9,7 @@ export default defineComponent({
   setup() {
     const router=useRouter();
     const activeIndex = ref<number>(0)
+    const activeReserveIndex = ref<number>(0)
     const posters = [
     {
       image: '/assets/images/theater/introduce-1.JPG',
@@ -58,6 +59,7 @@ export default defineComponent({
       posters,
       notices,
       activeIndex,
+      activeReserveIndex
     };
   },
 });
@@ -86,6 +88,29 @@ export default defineComponent({
         >
           <img :src="poster.image" :alt="'Poster ' + (index + 1)" />
           <div class="description" v-if="activeIndex === index">
+            {{ poster.description }}
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="home-section-item">
+      <div class="title-wrapper">
+			 <div class="title">
+        <img src="/assets/images/home/ticket.png"/>
+          공연 예매
+       </div>
+       <router-link to="/performance/next">+ more</router-link>
+      </div>
+      <div class="poster-gallery">
+        <div
+          class="poster"
+          v-for="(poster, index) in posters"
+          :key="index"
+          :class="{ active: activeReserveIndex === index }"
+          @click="activeReserveIndex = index"
+        >
+          <img :src="poster.image" :alt="'Poster ' + (index + 1)" />
+          <div class="description" v-if="activeReserveIndex === index">
             {{ poster.description }}
           </div>
         </div>
