@@ -16,11 +16,15 @@
   
     .theater-img {
       flex: 1;
-      border: 2px solid $colorTertiary;
       
+      #map {
+        border: 2px solid $colorTertiary;
+      }
+
       img {
         width: 100%;
         height: auto;
+        border-radius: 1rem;
       }
     }
   
