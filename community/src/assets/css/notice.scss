@@ -2,6 +2,11 @@
   width:100%;
   font-size: 16px;
 
+  a {
+    text-decoration: none;
+    color:$colorFont
+  }
+
 }
 
 .notice-list {
@@ -114,5 +119,82 @@
           .page-number:nth-last-child(1) {
             @include font14Bold5();
           }
+        }
+      }
+
+      .notice-detail {
+        margin: 2rem auto;
+        padding: 2rem;
+        border: 1px solid #e0e0e0;
+        border-radius: 12px;
+        background-color: #fff;
+        font-family: 'Pretendard', sans-serif;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+      }
+      
+      .notice-title {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 1rem;
+        color: #222;
+      }
+      
+      .notice-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        font-size: 14px;
+        color: #666;
+        margin-bottom: 1.5rem;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 0.8rem;
+      }
+      
+      .notice-content {
+        white-space: pre-wrap;
+        line-height: 1.6;
+        font-size: 14px;
+        color: #333;
+      }
+
+      .back-button-wrapper {
+        margin-top: 2rem;
+        text-align: right;
+      }
+
+      .back-button {
+        background-color: $colorPrimaryMute;
+        color: white;
+        border: none;
+        padding: 1rem 1.5rem;
+        font-size: 14px;
+        font-weight: bold;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background 0.2s ease;
+      }
+      
+      .back-button:hover {
+        background-color: $colorPrimary;
+      }
+      
+      /* ✅ 모바일 대응 */
+      @media (max-width: 768px) {
+        .notice-detail {
+          padding: 1rem;
+        }
+      
+        .notice-title {
+          font-size: 16px;
+        }
+      
+        .notice-meta {
+          font-size: 14px;
+          flex-direction: column;
+          gap: 0.5rem;
+        }
+      
+        .notice-content {
+          font-size: 14px;
         }
       }

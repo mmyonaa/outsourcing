@@ -8,14 +8,10 @@ export class BoardEntity {
   title: string | undefined = undefined;
   // 내용
   body: string | undefined = undefined;
-  // 저장상태
-  saveState: SAVE_STATE = SAVE_STATE.DRAFT;
-  // 재생시간
-  playTime = 0;
-  // 게시글공개여부
-  openYn: STATE_YN = STATE_YN.Y;
-  // 게시글상단고정여부
-  pinYn: STATE_YN = STATE_YN.N;
+  // 조회수
+  views : number=0;
+  // 관리자
+  author: string | undefined = undefined;
   // 등록자회원고유번호
   regrUserIdx: string | undefined = undefined;
   // 등록일시
