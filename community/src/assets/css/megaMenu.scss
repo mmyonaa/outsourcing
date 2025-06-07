@@ -105,16 +105,16 @@ header {
 	}
 	@include range-tablet-header {
 		width: calc(100%);
-		padding: 0 1rem 0 2rem;
+		padding: 0 2rem;
 	}
 	@include tablet-header {
 		.main-header-logo {
-			width: 86px;
+			width: 90px;
 		}
 	}
 	@include mobile-header {
 		.main-header-logo {
-			width: 66px;
+			width: 80px;
 		}
 	}
 }
