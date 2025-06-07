@@ -111,10 +111,16 @@
       font-weight: bold;
       margin-bottom: 40px;
       text-align: center;
+      @media (max-width: 600px) {
+        font-size: 25px;
+      }
     }
 
     h2 {
         font-size: 21px;
         font-weight: bold;
+        @media (max-width: 600px) {
+            font-size: 18px;
+        }
     }
 }
