@@ -6,25 +6,24 @@ export default defineComponent({
   name: 'Home',
   setup() {
     onMounted(() => {
-      const container = document.getElementById('map');
-      const options = {
-        center: new kakao.maps.LatLng(37.5665, 126.978), // 서울시청
-        level: 3,
-      };
+  kakao.maps.load(() => {
+    const container = document.getElementById('map');
+    const options = {
+      center: new kakao.maps.LatLng(37.5665, 126.978),
+      level: 3
+    };
+    const map = new kakao.maps.Map(container, options);
 
-      const map = new kakao.maps.Map(container, options);
-
-      const marker = new kakao.maps.Marker({
-        position: options.center,
-      });
-
-      marker.setMap(map);
-
-      kakao.maps.event.addListener(marker, 'click', () => {
-        window.open('https://map.kakao.com/link/map/서울시청,37.5665,126.978', '_blank');
-      });
+    const marker = new kakao.maps.Marker({
+      position: options.center
     });
+    marker.setMap(map);
 
+    kakao.maps.event.addListener(marker, 'click', () => {
+      window.open('https://map.kakao.com/link/map/서울시청,37.5665,126.978', '_blank');
+    });
+  });
+});
     return {};
   },
 });
