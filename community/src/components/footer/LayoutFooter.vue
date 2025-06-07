@@ -14,7 +14,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="footer">
+  <div class="footer new-footer">
     <div class="footer-wrapper">
       <div class="footer-logo-img">
 				<img src="/assets/images/logo/theater.png" />
@@ -32,10 +32,24 @@ export default defineComponent({
       </div>
       <div class="footer-sns-wrapper">
         <div>
-          <apoc-image-set :img-sets="3" class="icon" src="/assets/images/home/icon/home-icon-instagram.webp" />
+          <!-- 인스타 -->
+          <a href="https://www.instagram.com/bokwang_theater"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="social-link"
+          >
+          <img src="/assets/images/home/insta.png" class="insta"/>
+        </a>
         </div>
         <div>
-          <apoc-image-set :img-sets="3" class="icon" src="/assets/images/home/icon/home-icon-instagram.webp" />
+          <!-- 카톡 -->
+          <a href="https://pf.kakao.com/_ZtDLxb"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="social-link"
+          >
+          <img src="/assets/images/home/kakao.png" />
+          </a>
         </div>
       </div>
     </div>
