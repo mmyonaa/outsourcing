@@ -166,11 +166,17 @@
   margin-bottom: 1.5rem;
   white-space: nowrap;
   font-family: 'Do Hyeon', sans-serif;
+  @media (max-width: 600px) {
+    font-size: 25px;
+    }
 }
 
 .banner-text p {
   font-size: 16px;
   white-space: nowrap;
   font-family: 'Do Hyeon', sans-serif;
+  @media (max-width: 600px) {
+    font-size: 16px;
+    }
 }
 
