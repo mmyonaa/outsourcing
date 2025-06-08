@@ -403,9 +403,9 @@ header {
 	right: 0;
 	top: 0;
 	height: 100vh;
-	width: 320px;
+	width: 250px;
 	box-sizing: border-box;
-	padding: 2rem 0 0 5rem;
+	padding: 2rem 0 0 3rem;
 	z-index: 102; // dim 배경 z-index에 따라 조절
 	@include slideInOutRight;
 	box-shadow: -2px 0 2px 0 rgba(0, 0, 0, 0.05);
