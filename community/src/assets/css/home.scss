@@ -49,6 +49,7 @@
     }
   
     @media (max-width: 600px) {
+     padding: 16px 0;
       grid-template-columns: repeat(2, 1fr);
       .poster:nth-child(n + 3) {
         display: none;
