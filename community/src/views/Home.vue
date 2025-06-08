@@ -66,10 +66,20 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="page-common home-page">
-    <section class="home-section-item">
-
+  <div class="main-page-wrapper">
+  <!-- ✅ 상단 배너 영역 -->
+  <section class="home-banner-section">
+      <!-- <img
+        src="/assets/images/home/banner.jpg"
+        alt="Main Banner"
+        class="banner-image"
+      /> -->
+      <div class="banner-text">
+        <h2>보광 극장에 오신 것을 환영합니다!</h2>
+        <p>다양한 공연과 대관 서비스를 만나보세요.</p>
+      </div>
     </section>
+  <div class="page-common home-page">
     <section class="home-section-item">
       <div class="title-wrapper">
 			 <div class="title">
@@ -137,4 +147,5 @@ export default defineComponent({
       </div>
     </section>
   </div>
+</div>
 </template>

@@ -37,6 +37,7 @@ $colorSubMenu: #736e92;
 }
 
 .mega-menu {
+	font-family: 'Do Hyeon', sans-serif !important;
 	&.is-hidden {
 		display: none;
 	}
@@ -83,6 +84,7 @@ header {
 
 // header 전체 wrapper
 .main-header-wrapper {
+    font-family: 'Do Hyeon', sans-serif !important;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -296,7 +298,7 @@ header {
 			}
 
 			&:hover {
-				color: $colorFont;
+				color: $colorPlay;
 			}
 		}
 	}
