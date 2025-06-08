@@ -216,6 +216,10 @@
     padding-top: 0;
   }
 
+  @include mobile-header {
+    padding-top: 7rem;
+  }
+
   &.search-bar-open-page {
     padding-top: 25rem;
     @include tablet-header {
