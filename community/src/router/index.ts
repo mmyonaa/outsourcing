@@ -66,4 +66,12 @@ export const routesList = [
     name: 'noticeDetail',
     component: () => import('../views/NoticeDetail.vue'),
   },
+//************ ADMIN ************* */
+{
+  path: '/admin',
+  name: 'admin',
+  component: () => import('../views/Admin.vue'),
+},
 ];
+
+
