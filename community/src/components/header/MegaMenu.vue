@@ -17,7 +17,7 @@ export default defineComponent({
     const route = useRoute();
 
     const isActive = ref<boolean>(false);
-    const isSubMenuVisible = ref<boolean>(true);
+    const isSubMenuVisible = ref<boolean>(false);
     const isTabletMenuVisibleType = ref<string | null>(null);
 
     // 경로 기준으로 active 메뉴 판단용
