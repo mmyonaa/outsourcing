@@ -41,8 +41,7 @@ export default defineComponent({
           <img src="/assets/images/home/insta.png" class="insta"/>
         </a>
         </div>
-        <div>
-          <!-- 카톡 -->
+        <!-- <div>
           <a href="https://pf.kakao.com/_ZtDLxb"
             target="_blank"
             rel="noopener noreferrer"
@@ -50,7 +49,7 @@ export default defineComponent({
           >
           <img src="/assets/images/home/kakao.png" />
           </a>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
