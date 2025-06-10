@@ -16,12 +16,12 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="page-common introduce-page">
+  <div class="page-common introduce-page org">
     <h1>단체 소개</h1>
     <div class="wrapper">
       <div class="wrapper-item">
       <div class="theater-img">
-          <img src="/assets/images/theater/introduce-1.JPG" />
+          <img src="/assets/images/theater/main.jpeg" />
       </div>
       <div class="text">
         <strong>
