@@ -162,7 +162,7 @@ header {
 	height: 100%;
 
 	.menu-list {
-		gap: 4rem;
+		gap: 6rem;
 	}
 	li {
 		color: $colorFont;
@@ -269,7 +269,7 @@ header {
 	//padding-top: 2rem; // lang dropdown 열린 상태일 때 완전히 가려지게 하기 위해
 	left: 0;
 	top: 10rem;
-	gap: 4rem;
+	gap: 6rem;
 	z-index: 51;
 	box-shadow: 0px 4px 8px 0px rgba(164, 115, 255, 0.10);
 	@include dropDownUpHeader();
