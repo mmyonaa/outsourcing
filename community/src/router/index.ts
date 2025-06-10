@@ -55,12 +55,6 @@ export const routesList = [
     name: 'rentalSchedule',
     component: () => import('../views/RentalSchedule.vue'),
   },
-  // 대관 신청 링크
-  {
-    path: '/rental/link',
-    name: 'rentalLink',
-    component: () => import('../views/RentalLink.vue'),
-  },
   // 4. 공지사항
   {
     path: '/notice',

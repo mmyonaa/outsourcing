@@ -8,7 +8,6 @@ export default defineComponent({
   components: { ApocImageSet, },
   setup() {
     const router=useRouter();
-    const activeIndex = ref<number>(0)
     const activeReserveIndex = ref<number>(0)
     const posters = [
     {
@@ -58,7 +57,6 @@ export default defineComponent({
     return {
       posters,
       notices,
-      activeIndex,
       activeReserveIndex
     };
   },
@@ -80,29 +78,6 @@ export default defineComponent({
       </div>
     </section>
   <div class="page-common home-page">
-    <section class="home-section-item">
-      <div class="title-wrapper">
-			 <div class="title">
-        <img src="/assets/images/home/performance.png"/>
-          역대 공연
-       </div>
-       <router-link to="/performance">+ more</router-link>
-      </div>
-      <div class="poster-gallery">
-        <div
-          class="poster"
-          v-for="(poster, index) in posters"
-          :key="index"
-          :class="{ active: activeIndex === index }"
-          @click="activeIndex = index"
-        >
-          <img :src="poster.image" :alt="'Poster ' + (index + 1)" />
-          <div class="description" v-if="activeIndex === index">
-            {{ poster.description }}
-          </div>
-        </div>
-      </div>
-    </section>
     <section class="home-section-item">
       <div class="title-wrapper">
 			 <div class="title">
