@@ -2,8 +2,7 @@
 import ApocImageSet from '@/components/common/ApocImageSet.vue';
 import ApocInput from '@/components/common/ApocInput.vue';
 import ApocLink from '@/components/common/ApocLink.vue';
-import ArrowDown from '@/components/header/ArrowDown.vue'; 
-import AppConfig, { APP_ENV_TYPE } from '@/constants';
+import ArrowDown from '@/components/header/ArrowDown.vue';
 import { initStore } from '@/stores/store-manager';
 import { POPUP_TYPE } from '@/types';
 import { computed, defineComponent, onMounted, onUnmounted, ref, watch } from 'vue';
@@ -18,7 +17,7 @@ export default defineComponent({
     const route = useRoute();
 
     const isActive = ref<boolean>(false);
-    const isSubMenuVisible = ref<boolean>(false);
+    const isSubMenuVisible = ref<boolean>(true);
     const isTabletMenuVisibleType = ref<string | null>(null);
 
     // 경로 기준으로 active 메뉴 판단용
