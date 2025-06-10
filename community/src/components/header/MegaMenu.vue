@@ -282,7 +282,6 @@ export default defineComponent({
                 <li @click="() => onClickMenu('/rental')">극장 상세사항</li>
                 <li @click="() => onClickMenu('/rental/info')">대관 안내</li>
                 <li @click="() => onClickMenu('/rental/schedule')">대관 스케줄</li>
-                <li @click="() => onClickMenu('/rental/link')">대관 신청링크</li>
               </ul>
             </section>
           </transition>
