@@ -1,0 +1,44 @@
+.user-wrapper {
+  display: flex;
+  width: 335px;
+  padding: 80px 0 80px;
+  margin: auto;
+  flex-direction: column;
+  .user-login-header {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    text-align: center;
+    .user-login-header-title {
+      @include font30Bold7;
+    }
+  }
+  .user-login-section {
+    margin-top: 50px;
+    padding: 0 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    @include font16Bold5;
+    .id {
+      margin-bottom: 10px;
+      height: 5rem;
+      border-bottom: 1px solid #999;
+    }
+    .pwd {
+      margin-bottom: 10px;
+      display: flex;
+      height: 5rem;
+      border-bottom: 1px solid #999;
+    }
+    .login-btn {
+      width: 100%;
+      margin-top: 2rem;
+      height: 5rem;
+      background-color: $colorPrimary;
+      color: white;
+      @include font16Bold7;
+      border-radius: 5px;
+    }
+  }
+}

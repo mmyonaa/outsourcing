@@ -1,0 +1,138 @@
+.hamburger {
+    width: 24px;
+    height: 18px;
+    position: relative;
+    cursor: pointer;
+    height:unset !important;
+
+    // display: flex;
+    // align-items: center;
+    // justify-content: center;
+    span {
+      display: block;
+      position: absolute;
+      height: 2px;
+      width: 100%;
+      background-color: #333;
+      border-radius: 2px;
+      opacity: 1;
+      left: 0;
+      transition: all 0.3s ease-in-out;
+  
+      &:nth-child(1) {
+        top: 0;
+      }
+      &:nth-child(2) {
+        top: 8px;
+      }
+      &:nth-child(3) {
+        top: 16px;
+      }
+    }
+
+    display: none !important;
+    @include tablet-header {
+        display: flex !important;
+    }
+
+    @include mobile-header {
+        display: flex !important;
+        
+    }
+}
+
+.footer{
+    background-color: $colorTertiary !important;
+    .footer-wrapper{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        width:100%;
+        .footer-logo-img{
+            img{
+                width:120px;
+            }   
+        }
+        .footer-info-wrapper{
+            display: flex;
+            flex-direction: row;
+            align-items: end;
+            justify-content: space-between;
+            gap:3rem;
+            div {
+                font-size: 16px;
+				font-weight: 600;
+                display: flex;
+                flex-direction: column;
+                gap:1.5rem;
+            }
+        }
+        .footer-sns-wrapper{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap:2rem;
+            img {
+                width: 6rem;
+            }
+            .insta { 
+                width: 6.5rem;
+            }
+        }
+    }
+    @include range-tablet-header {
+        .footer-wrapper{
+            flex-direction: column;   
+            align-items: start; 
+            gap:3rem;        
+        }
+    }
+    @include mobile-header {
+        .footer-wrapper{
+            .footer-info-wrapper{
+                flex-direction: column;   
+                align-items: start; 
+                gap:1rem;
+            }
+        }
+    }
+}
+
+.page-common {
+    padding: 40px 20px 80px 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+    color: $colorFont;
+
+    @media (max-width: 600px) {
+        padding: 30px 20px 80px 20px;
+    }
+  
+    h1 {
+      font-size: 30px;
+      margin-bottom: 40px;
+      text-align: center;
+      font-family: 'Do Hyeon', sans-serif;
+      @media (max-width: 600px) {
+        font-size: 25px;
+        margin-bottom: 20px;
+      }
+    }
+
+    h2 {
+        font-family: 'Do Hyeon', sans-serif;
+        font-size: 21px;
+        @media (max-width: 600px) {
+            font-size: 18px;
+        }
+    }
+}
+
+
+.main-page-wrapper {
+    width:100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

@@ -1,0 +1,168 @@
+@mixin dropDown {
+  animation-name: dropDown;
+  animation-duration: 300ms;
+  animation-direction: normal;
+  animation-timing-function: ease-in-out;
+}
+@keyframes dropDown {
+  from {
+    opacity: 0;
+    transform: translateY(-1rem);
+    height: 0;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+  to {
+    opacity: 1;
+    transition: all 0.3s;
+  }
+}
+
+@mixin dropUp {
+  animation-name: dropUp;
+  animation-duration: 300ms;
+  animation-direction: normal;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease-in-out;
+}
+
+@keyframes dropUp {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+    transition: all 0.3s;
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(-1rem);
+    height: 0;
+    overflow: hidden;
+  }
+}
+
+@mixin dropDownUp {
+  &.dropdown-enter-active,
+  &.dropdown-enter-to {
+    @include dropDown;
+  }
+  &.dropdown-leave-from,
+  &.dropdown-leave-active {
+    @include dropUp;
+  }
+}
+
+
+
+
+// 사이드바 열림/닫힘 애니메이션
+@mixin slideInRight {
+  animation-name: slideInRight;
+  animation-duration: 400ms;
+  animation-direction: normal;
+  animation-fill-mode: forwards;
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(100%); // 화면 오른쪽에서 시작
+    height: 100%;
+    overflow: hidden;
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0); // 원래 위치로 이동
+  }
+}
+
+@mixin slideOutRight {
+  animation-name: slideOutRight;
+  animation-duration: 400ms;
+  animation-direction: normal;
+  animation-fill-mode: forwards;
+}
+
+@keyframes slideOutRight {
+  from {
+    opacity: 1;
+    transform: translateX(0); // 현재 위치
+  }
+  to {
+    opacity: 0;
+    transform: translateX(100%); // 화면 밖으로 사라짐
+    overflow: hidden;
+  }
+}
+
+@mixin slideInOutRight {
+  &.slide-enter-active,
+  &.slide-enter-to {
+    @include slideInRight;
+  }
+  &.slide-leave-active,
+  &.slide-leave-to {
+    @include slideOutRight;
+  }
+}
+
+// 회전 시 애니메이션
+@keyframes spin {
+  0% {
+    @include transform(rotate(0deg));
+  }
+  100% {
+    @include transform(rotate(360deg));
+  }
+}
+
+
+// 드롭다운 열림/닫힘 (위/아래) 애니메이션
+@mixin dropDownHeader {
+  animation-name: dropDown;
+  animation-duration: 400ms;
+  animation-direction: normal;
+}
+@keyframes dropDownHeader {
+  from {
+    opacity: 0;
+    transform: translateY(-2rem);
+    height: 0;
+    overflow: hidden;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@mixin dropUpHeader {
+  animation-name: dropUpHeader;
+  animation-duration: 400ms;
+  animation-direction: normal;
+  animation-fill-mode: forwards;
+}
+
+@keyframes dropUpHeader {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(-2rem);
+    height: 0;
+    overflow: hidden;
+  }
+}
+
+@mixin dropDownUpHeader {
+  &.dropdown-enter-active,
+  &.dropdown-enter-to {
+    @include dropDownHeader;
+  }
+  &.dropdown-leave-from,
+  &.dropdown-leave-active {
+    @include dropUpHeader;
+  }
+}

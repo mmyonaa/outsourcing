@@ -1,0 +1,267 @@
+.introduce-page {
+    .wrapper{
+        display: flex;
+        flex-direction: column;
+        gap:5rem;
+    }
+    .wrapper-item {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      @media (min-width: 768px) {
+        flex-direction: row;
+        gap: 40px;
+      }
+    }
+  
+    .theater-img {
+      flex: 1;
+      
+      #map {
+        border: 2px solid $colorTertiary;
+      }
+
+      img {
+        width: 100%;
+        height: auto;
+        border-radius: 1rem;
+      }
+    }
+  
+    .text {
+      flex: 1;
+      font-size: 16px;
+      line-height: 1.8;
+      word-break: keep-all;
+
+      strong{
+        font-size: 18px;
+        font-weight: 600;
+      }
+  
+      .text-divider {
+        height: 2px;
+        background-color: #ccc;
+        margin: 24px 0;
+      }
+    }
+  }
+  
+.history-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-width: 800px;
+  margin: 0 auto;
+
+  .history-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #333;
+
+    .year {
+      font-weight: bold;
+      min-width: 100px;
+      color: #444;
+    }
+
+    .desc {
+      flex: 1;
+    }
+  }
+
+  .divider {
+    height: 1px;
+    background-color: #ddd;
+    margin: 8px 0;
+  }
+
+  h2 {
+    font-size: 25px;
+    font-weight: bold;
+  }
+}
+
+.route-page{
+  width:100%;
+    h3 {
+        font-weight: bold;
+    }
+    .indent{
+        margin-left:20px;
+    }
+}
+
+.poster-gallery {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  padding: 20px;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 600px) {
+    padding: 8px;
+    grid-template-columns: 1fr;
+  }
+}
+
+.poster {
+  cursor: pointer;
+  text-align: center;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+  opacity: 0.4;            // 기본 dim 처리
+  filter: grayscale(60%);  // 회색톤 효과
+  transform: scale(0.97);
+
+  img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+  }
+
+  &.active {
+    opacity: 1;               // 밝게 활성화
+    filter: none;             // 회색 제거
+    transform: scale(1.02);   // 살짝 확대
+
+    img {
+      transform: scale(1.05);
+    }
+
+    .description {
+      margin-top: 20px;
+      background-color: #f9f9f9;
+      padding: 12px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: bold;
+    }
+  }
+}
+
+// next
+.reservation-page {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 20px;
+  color: #333;
+
+
+.content-wrapper {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  justify-content: center;
+  font-size: 16px;
+}
+
+/* 포스터 영역 */
+.poster img {
+  width: 320px;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.15);
+}
+
+/* 공연 정보 영역 */
+.info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  font-weight: 700;
+  margin: 0 0 12px 0;
+}
+
+.btn-reserve {
+  width: 140px;
+  padding: 10px 0;
+  margin-bottom: 20px;
+  background-color: $colorPrimary;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.btn-reserve:hover {
+  background-color: $colorPrimaryStrong;
+}
+
+.date {
+  margin-bottom: 16px;
+  color: #555;
+}
+
+.quote {
+  font-size: 18px;
+  font-style: italic;
+  margin-bottom: 24px;
+  white-space: pre-line;
+  line-height: 1.4;
+  color: #444;
+  border-left: 3px solid $colorPrimary;
+  padding-left: 12px;
+}
+
+.details {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  row-gap: 12px;
+  column-gap: 16px;
+  color: #666;
+}
+.details dt {
+  font-weight: 700;
+  margin-bottom:8px;
+}
+.details dd {
+  margin: 0;
+}
+
+/* 모바일 반응형 */
+@media (max-width: 600px) {
+  .content-wrapper {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .poster img {
+    margin-bottom: 24px;
+  }
+
+  .info {
+    width: 100%;
+  }
+
+  .btn-reserve {
+    width: 100%;
+  }
+}
+}
+
+.org {
+  .theater-img {
+    img {
+      width:100%;
+      height: 80%;
+      object-fit: cover;
+      object-position: center bottom; 
+      @media (max-width: 600px) {
+        width:100%;
+        height: 60%;
+      }
+    }
+  }
+}

@@ -1,0 +1,26 @@
+html,
+body {
+  /* 루트 요소 폰트 사이즈 */
+  /* 1rem = 8px */
+  font-size: 8px;
+  height: 100%;
+  font-family: "Famppy", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.grid {
+  display: grid;
+  max-width: 140rem;
+
+  @include grid-col(12);
+  grid-gap: 2rem;
+  @include s-pc {
+    @include grid-col(6);
+  }
+  @include tablet {
+    @include grid-col(2);
+    grid-gap: 1.5rem;
+  }
+  @include mobile {
+    @include grid-col(1);
+  }
+}

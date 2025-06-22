@@ -1,0 +1,99 @@
+.board-list-skeleton-wrapper {
+  .board-list-skeleton-default {
+    padding: 0 3rem;
+    .list-skeleton-item {
+      height: 160px;
+      margin: 20px 0;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+
+      .board-tag {
+        background-color: #f9fafe;
+        width: 50px;
+        height: 28px;
+        border-radius: 24px;
+      }
+
+      .board-body {
+        background-color: #f9fafe;
+        height: 9rem;
+        border-radius: inherit;
+      }
+
+      .board-info {
+        background-color: #f9fafe;
+        height: 2rem;
+        width: 30%;
+        border-radius: inherit;
+        margin-top: 2rem;
+      }
+    }
+  }
+
+  .board-list-skeleton-card {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-areas: 'a b c d';
+    grid-gap: 2rem;
+    justify-items: center;
+
+    @include s-pc {
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-areas: 'a b c';
+    }
+    @include tablet {
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-areas: 'a b';
+    }
+
+
+    .list-skeleton-item {
+      height: 200px;
+      border-radius: 1rem;
+      background-color: #f9fafe;
+      max-height: 39.1rem;
+      width: 100%;
+    }
+  }
+}
+
+.board-header-skeleton-area {
+  height: 22.5rem;
+  width: 100%;
+  padding: 4.5rem 3rem 4rem;
+  border-bottom: 1px solid rgba(115, 110, 146, 0.2);
+  .board-header {
+    max-width: 130rem;
+    width: 100%;
+    margin: 0 auto;
+
+    .back-btn {
+      height: 2.5rem;
+      width: 14rem;
+      background-color: #f9fafe;
+      margin-bottom: 3rem;
+      border-radius: 24px;
+    }
+
+    .board-title {
+      height: 4.5rem;
+      background-color: #f9fafe;
+      border-radius: 24px;
+    }
+
+    .board-info {
+      background-color: #f9fafe;
+      height: 2.5rem;
+      width: 24rem;
+      border-radius: 24px;
+      margin-top: 2rem;
+    }
+  }
+}
+
+.board-body {
+  height: 50rem;
+  width: 100%;
+}
