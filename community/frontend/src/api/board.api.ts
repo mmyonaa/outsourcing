@@ -2,7 +2,6 @@ import type { AxiosInstance } from 'axios';
 import { ResponseDto } from '@/api/dto/response.dto';
 import { BoardEntity, BoardEntityDto, BoardStatisticsEntity, InsertBoardDto, SearchBoardDto, updateBoardStaticsDto } from '@/api/dto/board.dto';
 import { getApiHeader } from '@/utils/apiClient';
-import { BoardCommentEntity } from '@/api/dto/boardComment.dto';
 
 /**
  * 상품 수정

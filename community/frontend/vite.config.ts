@@ -38,7 +38,8 @@ export default defineConfig({
   },
   build: {
     rollupOptions: {
-      // external: ['lz-string'],  // 문제가 되는 모듈 추가
+      external: ['lz-string'],  // 문제가 되는 모듈 추가
     },
   },
+  assetsInclude: ['**/*.JPG', '**/*.png', '**/*.jpeg', '**/*.svg'],
 })
