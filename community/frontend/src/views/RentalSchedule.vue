@@ -15,7 +15,7 @@ const currentYear = computed(() => currentDate.value.getFullYear())
 
 const weekDays = ['일', '월', '화', '수', '목', '금', '토']
 
-const getCalendarDays = (date) => {
+const getCalendarDays = (date: Date) => {
   const year = date.getFullYear()
   const month = date.getMonth()
 
@@ -47,11 +47,11 @@ const getCalendarDays = (date) => {
 
   // 다음 달 날짜 채우기 (42칸 유지)
   while (calendar.length < 42) {
-    const nextDate = calendar.length - (startDay + endDay) + 1
-    calendar.push({
-      date: new Date(year, month + 1, nextDate),
-      currentMonth: false,
-    })
+    // const nextDate = calendar.length - (startDay + endDay) + 1
+    // calendar.push({
+    //   date: new Date(year, month + 1, nextDate),
+    //   currentMonth: false,
+    // })
   }
 
   return calendar
