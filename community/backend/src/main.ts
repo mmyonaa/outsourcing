@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import express from 'express';
 import { DataSource } from 'typeorm';
-import { User } from './src/entities/User'; // entity 경로에 맞게 조정하세요
+import { User } from './entities/User'; // entity 경로에 맞게 조정하세요
 
 const app = express();
 app.use(express.json());
