@@ -7,6 +7,7 @@
     "dev": "vite --host --port 4000",
     "build": "run-p type-check build-ssg",
     "preview": "vite preview",
+    "start": "vite preview",
     "test:unit": "vitest",
     "test:e2e": "playwright test",
     "build-only": "vite build",
