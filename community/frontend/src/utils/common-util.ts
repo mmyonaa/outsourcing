@@ -158,44 +158,6 @@ export const getBoardCategoryV2 = (board: BoardEntityDto) => {
   return { mainTab, subTab, tag };
 };
 
-export const getBoardSrcImg = (boardName: string) => {
-  // console.log('board', boardName);
-  switch (boardName) {
-    case SUB_TAB_TYPE.NOW:
-      return '/assets/images/board/icon/now-apoc.webp';
-    case SUB_TAB_TYPE.INTERVIEW:
-      return '/assets/images/board/icon/interview.webp';
-    case SUB_TAB_TYPE.NEWS_ROOM:
-      return '/assets/images/board/icon/news.webp';
-    case SUB_TAB_TYPE.RELEASE:
-      return '/assets/images/board/icon/release.webp';
-
-    case SUB_TAB_TYPE.USE_PLAY:
-      return '/assets/images/board/icon/use-play.webp';
-    case SUB_TAB_TYPE.USE_ASSET:
-      return '/assets/images/board/icon/use-asset.webp';
-    case SUB_TAB_TYPE.USE_STUDIO:
-      return '/assets/images/board/icon/use-studio.webp';
-    case SUB_TAB_TYPE.TUTORIAL:
-      return '/assets/images/board/icon/tutorial.webp';
-
-    case SUB_TAB_TYPE.TIPS:
-      return '/assets/images/board/icon/tips.webp';
-    case SUB_TAB_TYPE.FREE:
-      return '/assets/images/board/icon/free.webp';
-    case SUB_TAB_TYPE.FUNCTION:
-      return '/assets/images/board/icon/function.webp';
-
-    case SUB_TAB_TYPE.NOTICE:
-      return '/assets/images/board/icon/notice.webp';
-    case SUB_TAB_TYPE.EVENT:
-      return '/assets/images/board/icon/event.webp';
-
-    default:
-      return '/assets/images/common/default-img.webp';
-  }
-};
-
 // 스크롤 비활성화
 export function scrollDisable() {
   window.addEventListener('scroll', preventDefault, { passive: false });
