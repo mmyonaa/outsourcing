@@ -25,12 +25,10 @@
       "ESNext",
       "DOM",
       "DOM.Iterable"
-    ],
+    ]
   },
   "include": [
-    "src/**/*.d.ts",
-    "src/**/*.ts",
-    "src/**/*.vue"
+    "src"
   ],
   "references": [
     {
@@ -41,5 +39,8 @@
     "node_modules",
     "dist",
     "public",
+    ".vite",
+    ".output",
+    ".cache"
   ]
 }
