@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<!-- <script setup lang="ts">
 import LayoutFooter from '@/components/footer/LayoutFooter.vue';
 import MegaMenu from '@/components/header/MegaMenu.vue';
 import AdminMegaMenu from '@/components/header/AdminMegaMenu.vue';
@@ -34,8 +34,6 @@ const onClickBg = () => {
 	<div class="popup-bg" v-if="isPopupBg" @click="onClickBg"></div>
   <admin-mega-menu v-if="route.path.includes('admin')" :class="{ 'is-hidden': isHiddenHeader }"></admin-mega-menu>
   <mega-menu v-else :class="{ 'is-hidden': isHiddenHeader }"></mega-menu>
-  <!-- 일단 주석.... 오류 준나 나.... -->
-  <!-- <mobile-menu :class="{ 'is-open': isOpenMobileMenu }"></mobile-menu> -->
   <div class="page" :class="[{ 'hidden-header': isHiddenHeader, 'search-bar-open-page': storeManager.stateStore.isOpenSearchBar }]">
     <router-view :key="$route.path" />
   </div>
@@ -44,4 +42,11 @@ const onClickBg = () => {
 
 <style lang="scss">
 @import 'assets/css/app.scss';
-</style>
+</style> -->
+<template>
+  <div>Hello Minimal Build</div>
+</template>
+
+<script setup lang="ts">
+// 최소한의 코드만 남기기
+</script>
