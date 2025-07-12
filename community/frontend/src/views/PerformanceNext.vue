@@ -1,28 +1,29 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue';
+import ApocImageSet from '@/components/common/ApocImageSet.vue';
 
 export default defineComponent({
   name: 'performance',
-  components: {  },
+  components: { ApocImageSet },
   setup() {
 
   const activeIndex = ref<number>(0)
 
   const posters = [
     {
-      image: new URL('/assets/images/theater/introduce-1.JPG', import.meta.url).href,
+      image: '/assets/images/theater/introduce-1.JPG',
       description: 'Poster 1에 대한 설명입니다.',
     },
     {
-      image: new URL('/assets/images/theater/introduce-1.JPG', import.meta.url).href,
+      image: '/assets/images/theater/introduce-1.JPG',
       description: 'Poster 2에 대한 설명입니다.',
     },
     {
-      image: new URL('/assets/images/theater/introduce-1.JPG', import.meta.url).href,
+      image: '/assets/images/theater/introduce-1.JPG',
       description: 'Poster 3에 대한 설명입니다.',
     },
     {
-      image: new URL('/assets/images/theater/introduce-1.JPG', import.meta.url).href,
+      image: '/assets/images/theater/introduce-1.JPG',
       description: 'Poster 4에 대한 설명입니다.',
     },
   ]
@@ -32,7 +33,7 @@ export default defineComponent({
     });
     return {
       posters,
-      activeIndex
+      activeIndex,
     };
   },
 });
@@ -43,7 +44,7 @@ export default defineComponent({
     <h1>예정 공연</h1>
     <div class="content-wrapper">
       <div class="poster">
-        <img src="/assets/images/theater/introduce-1.JPG" alt="맨땅에 헤딩 포스터" />
+        <apoc-image-set src="/assets/images/theater/introduce-1.JPG" alt="맨땅에 헤딩 포스터" />
       </div>
       <div class="info">
         <h2 class="title">맨땅에 헤딩</h2>

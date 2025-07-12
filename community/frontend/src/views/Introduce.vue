@@ -1,9 +1,10 @@
 <script lang="ts">
 import { defineComponent, onMounted } from 'vue';
+import ApocImageSet from '@/components/common/ApocImageSet.vue';
 
 export default defineComponent({
   name: 'introduce',
-  components: {  },
+  components: { ApocImageSet },
   setup() {
 
     onMounted(() => {
@@ -21,8 +22,8 @@ export default defineComponent({
     <div class="wrapper">
       <div class="wrapper-item">
         <div class="theater-img">
-            <img src="/assets/images/theater/introduce-1.JPG" />
-        </div>
+          <apoc-image-set src="/assets/images/theater/introduce-1.JPG" />
+      </div>
         <div class="text">
           <strong>
             예술을 사랑하는 젊은 청년들 (寶, 보배 보)이 모여
@@ -37,7 +38,7 @@ export default defineComponent({
       </div>
     <div class="wrapper-item">
       <div class="theater-img">
-            <img src="/assets/images/theater/introduce-2.JPG" />
+          <apoc-image-set src="/assets/images/theater/introduce-2.JPG" />
         </div>
       <div class="text history-timeline">
         <div class="history-item">
