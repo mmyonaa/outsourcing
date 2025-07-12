@@ -11,19 +11,19 @@ export default defineComponent({
     const activeReserveIndex = ref<number>(0)
     const posters = [
     {
-      image: '/assets/images/theater/introduce-1.JPG',
+      image: new URL('/assets/images/theater/introduce-1.JPG', import.meta.url).href,
       description: 'Poster 1에 대한 설명입니다.',
     },
     {
-      image: '/assets/images/theater/introduce-1.JPG',
+      image: new URL('/assets/images/theater/introduce-1.JPG', import.meta.url).href,
       description: 'Poster 2에 대한 설명입니다.',
     },
     {
-      image: '/assets/images/theater/introduce-1.JPG',
+      image: new URL('/assets/images/theater/introduce-1.JPG', import.meta.url).href,
       description: 'Poster 3에 대한 설명입니다.',
     },
     {
-      image: '/assets/images/theater/introduce-1.JPG',
+      image: new URL('/assets/images/theater/introduce-1.JPG', import.meta.url).href,
       description: 'Poster 4에 대한 설명입니다.',
     },
   ]
