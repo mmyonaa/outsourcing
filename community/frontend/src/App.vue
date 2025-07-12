@@ -1,4 +1,4 @@
-<!-- <script setup lang="ts">
+<script setup lang="ts">
 import LayoutFooter from '@/components/footer/LayoutFooter.vue';
 import MegaMenu from '@/components/header/MegaMenu.vue';
 import AdminMegaMenu from '@/components/header/AdminMegaMenu.vue';
@@ -42,11 +42,4 @@ const onClickBg = () => {
 
 <style lang="scss">
 @import 'assets/css/app.scss';
-</style> -->
-<template>
-  <div>Hello Minimal Build</div>
-</template>
-
-<script setup lang="ts">
-// 최소한의 코드만 남기기
-</script>
+</style>
