@@ -1,45 +1,33 @@
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
-import { VitePWA } from 'vite-plugin-pwa'
-import path from 'path'
+import { fileURLToPath, URL } from 'node:url';
 
+import { defineConfig } from 'vite';
+import { VitePWA } from 'vite-plugin-pwa';
+import vue from '@vitejs/plugin-vue';
+import * as path from 'path';
+
+// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    vue(),
+    vue({ isProduction: true }),
     VitePWA({
-      // 필수 옵션만 넣어보세요.
+      injectRegister: null,
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.svg', 'robots.txt'],
-      manifest: {
-        name: 'Your App Name',
-        short_name: 'App',
-        start_url: '.',
-        display: 'standalone',
-        background_color: '#ffffff',
-        icons: [
-          {
-            src: 'pwa-192x192.png',
-            sizes: '192x192',
-            type: 'image/png'
-          },
-          {
-            src: 'pwa-512x512.png',
-            sizes: '512x512',
-            type: 'image/png'
-          }
-        ],
-      }
-    })
+      workbox: {
+        globPatterns: ['**/*{js,html,wasm,css}'],
+        maximumFileSizeToCacheInBytes: 5000000,
+        cleanupOutdatedCaches: false,
+      },
+    }),
   ],
+  ssgOptions: {
+    script: 'async',
+  },
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, 'src'),  // <-- 여기 경로 맞게 조정
+      '@src': path.resolve(__dirname, './src'),
+      '@api': path.resolve(__dirname, './src/api'),
+      '@types': path.resolve(__dirname, './src/types'),
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
-  build: {
-    rollupOptions: {
-      // external: ['lz-string'],  // 문제가 되는 모듈 추가
-    },
-  },
-  assetsInclude: ['**/*.JPG', '**/*.png', '**/*.jpeg', '**/*.svg'],
-})
+});
