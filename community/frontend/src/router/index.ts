@@ -67,11 +67,16 @@ export const routesList = [
     component: () => import('../views/NoticeDetail.vue'),
   },
 //************ ADMIN ************* */
-{
-  path: '/admin',
-  name: 'admin',
-  component: () => import('../views/Admin.vue'),
-},
+  {
+    path: '/admin',
+    name: 'admin',
+    component: () => import('../views/Admin.vue'),
+  },
+    {
+    path: '/admin/notice',
+    name: 'adminNotice',
+    component: () => import('../views/AdminNotice.vue'),
+  },
 ];
 
 
