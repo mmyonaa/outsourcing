@@ -31,7 +31,6 @@
     }
   }
 
-
   .poster-gallery {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -54,6 +53,24 @@
       .poster:nth-child(n + 3) {
         display: none;
       }
+    }
+
+    &.text {
+      padding-bottom: 0;
+    }
+
+    &.rental {
+      grid-template-columns: repeat(3, 1fr);
+      .poster:nth-child(n + 4) {
+        display: none;
+      }
+     @media (max-width: 600px) {
+     padding: 16px 0;
+      grid-template-columns: repeat(2, 1fr);
+      .poster:nth-child(n + 3) {
+        display: none;
+      }
+    }
     }
   }
 
@@ -181,3 +198,15 @@
     }
 }
 
+.home-rental-link {
+      background-color: #f9f9f9;
+      padding: 20px;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+    }
+}

@@ -78,6 +78,10 @@ export default defineComponent({
   },
 ]
 
+const onClickRental = () => {
+  router.push('/rental/info')
+}
+
     onMounted(() => {
   
     });
@@ -86,7 +90,8 @@ export default defineComponent({
       notices,
       activeReserveIndex,
       activeRentalIndex,
-      rentalPosters
+      rentalPosters,
+      onClickRental
     };
   },
 });
@@ -115,7 +120,7 @@ export default defineComponent({
        </div>
        <router-link to="/rental">+ more</router-link>
       </div>
-      <div class="poster-gallery">
+      <div class="poster-gallery rental">
         <div
           class="poster"
           v-for="(poster, index) in rentalPosters"
@@ -129,6 +134,7 @@ export default defineComponent({
           </div> -->
         </div>
       </div>
+      <div class="home-rental-link" @click="onClickRental">극장 대관 안내 보러가기</div>
     </section>
     <section class="home-section-item">
       <div class="title-wrapper">
@@ -138,7 +144,7 @@ export default defineComponent({
        </div>
        <router-link to="/performance/next">+ more</router-link>
       </div>
-      <div class="poster-gallery">
+      <div class="poster-gallery text">
         <div
           class="poster"
           v-for="(poster, index) in posters"
