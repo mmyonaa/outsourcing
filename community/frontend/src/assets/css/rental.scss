@@ -99,3 +99,41 @@
       color: #aaa;
     }
   }
+
+// 대관 신청 페이지
+.page-common.rental-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.content-wrapper {
+  background-color: white;
+  padding: 30px 40px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  width: 100%;
+  text-align: center;
+}
+
+.description {
+  font-size: 18px;
+  color: #34495e;
+  margin-bottom: 20px;
+}
+  .rental-link {
+  display: inline-block;
+  background-color: $colorPrimaryMute;
+  color: white;
+  font-size: 20px;
+  font-weight: 600;
+  text-decoration: none;
+  padding: 15px 25px;
+  border-radius: 12px;
+  transition: background-color 0.3s;
+
+  &:hover {
+  background-color: $colorPrimary;
+}
+}

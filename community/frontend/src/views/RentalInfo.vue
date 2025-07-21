@@ -2,38 +2,30 @@
 import { defineComponent, onMounted } from 'vue';
 
 export default defineComponent({
-  name: 'Home',
-  components: {  },
+  name: 'RentalInfo',
   setup() {
-
     onMounted(() => {
-  
     });
-    return {
-    };
+    return {};
   },
 });
 </script>
 
 <template>
-  <div class="home-page">
-    <section class="search-section">
-      <search />
-    </section>
-    <section class="tutorial-section">
-      <tutorial />
-    </section>
-    <section class="news-section">
-      <news />
-    </section>
-    <div class="popular-section">
-      <popular />
-    </div>
-    <div class="notice-section">
-      <notice />
-    </div>
-    <div class="instagram-section">
-      <instagram />
+  <div class="page-common rental-page">
+    <h1>대관 안내</h1>
+    <div class="content-wrapper">
+      <p class="description">
+        아래 링크를 통해 극장 대관 신청서를 작성해 주세요.
+      </p>
+      <a
+        class="rental-link"
+        href="https://docs.google.com/forms/d/e/1FAIpQLScfMXsg6D2XDxpHAjClhDgyTfTvlMGMFSBuZ1zOTCOw4xRtxQ/viewform"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        대관 신청 바로가기
+      </a>
     </div>
   </div>
 </template>

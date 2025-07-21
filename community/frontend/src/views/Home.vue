@@ -9,39 +9,66 @@ export default defineComponent({
   setup() {
     const router=useRouter();
     const activeReserveIndex = ref<number>(0)
+    const activeRentalIndex = ref<number>(0)
+    const rentalPosters = [
+    {
+      image: '/assets/images/theater/theater-1.JPG',
+      description: 'Image 1에 대한 설명입니다.',
+    },
+    {
+      image: '/assets/images/theater/theater-2.JPG',
+      description: 'Image 2에 대한 설명입니다.',
+    },
+    {
+      image: '/assets/images/theater/theater-3.JPG',
+      description: 'Image 3에 대한 설명입니다.',
+    },
+    {
+      image: '/assets/images/theater/theater-4.JPG',
+      description: 'Image 4에 대한 설명입니다.',
+    },
+    {
+      image: '/assets/images/theater/theater-5.JPG',
+      description: 'Image 5에 대한 설명입니다.',
+    },
+    {
+      image: '/assets/images/theater/theater-6.JPG',
+      description: 'Image 6에 대한 설명입니다.',
+    },
+  ]
     const posters = [
     {
       image: '/assets/images/theater/introduce-1.JPG',
-      description: 'Poster 1에 대한 설명입니다.',
+      description: '준비 중입니다',
     },
     {
       image: '/assets/images/theater/introduce-1.JPG',
-      description: 'Poster 2에 대한 설명입니다.',
+      description: '준비 중입니다',
     },
     {
       image: '/assets/images/theater/introduce-1.JPG',
-      description: 'Poster 3에 대한 설명입니다.',
+      description: '준비 중입니다',
     },
     {
       image: '/assets/images/theater/introduce-1.JPG',
-      description: 'Poster 4에 대한 설명입니다.',
+      description: '준비 중입니다',
     },
   ]
 
   const notices = [
   {
     id: 1,
-    title: '서버 점검 안내 (6월 5일)',
+    title: '준비 중입니다',
     date: '2025-06-01',
   },
   {
     id: 2,
-    title: '신규 기능 업데이트',
+    title: '준비 중입니다',
     date: '2025-05-28',
   },
   {
     id: 3,
-    title: '정책 변경 안내',
+    title: '준비 중입니다',
     date: '2025-05-20',
   },
   {
@@ -57,7 +84,9 @@ export default defineComponent({
     return {
       posters,
       notices,
-      activeReserveIndex
+      activeReserveIndex,
+      activeRentalIndex,
+      rentalPosters
     };
   },
 });
@@ -78,6 +107,29 @@ export default defineComponent({
       </div>
     </section>
   <div class="page-common home-page">
+    <section class="home-section-item">
+      <div class="title-wrapper">
+			 <div class="title">
+        <img src="/assets/images/home/theater.png"/>
+          극장 대관
+       </div>
+       <router-link to="/rental">+ more</router-link>
+      </div>
+      <div class="poster-gallery">
+        <div
+          class="poster"
+          v-for="(poster, index) in rentalPosters"
+          :key="index"
+          :class="{ active: activeRentalIndex === index }"
+          @click="activeRentalIndex = index"
+        >
+          <img :src="poster.image" :alt="'Poster ' + (index + 1)" />
+          <!-- <div class="description" v-if="activeRentalIndex === index">
+            {{ poster.description }}
+          </div> -->
+        </div>
+      </div>
+    </section>
     <section class="home-section-item">
       <div class="title-wrapper">
 			 <div class="title">
