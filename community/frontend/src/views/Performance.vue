@@ -11,19 +11,19 @@ export default defineComponent({
   const posters = [
     {
       image: '/assets/images/theater/introduce-1.JPG',
-      description: 'Poster 1에 대한 설명입니다.',
+      description: '사이트 준비 중입니다',
     },
     {
       image: '/assets/images/theater/introduce-1.JPG',
-      description: 'Poster 2에 대한 설명입니다.',
+      description: '사이트 준비 중입니다',
     },
     {
       image: '/assets/images/theater/introduce-1.JPG',
-      description: 'Poster 3에 대한 설명입니다.',
+      description: '사이트 준비 중입니다',
     },
     {
       image: '/assets/images/theater/introduce-1.JPG',
-      description: 'Poster 4에 대한 설명입니다.',
+      description: '사이트 준비 중입니다',
     },
   ]
 

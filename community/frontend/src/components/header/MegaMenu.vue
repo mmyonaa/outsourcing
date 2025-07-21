@@ -199,7 +199,7 @@ export default defineComponent({
           <ul class="sub-menu-list asset menu">
             <li @click="() => onClickMenu('/rental')">극장 상세사항</li>
             <li @click="() => onClickMenu('/rental/info')">대관 안내</li>
-            <li @click="() => onClickMenu('/rental/schedule')">대관 스케줄</li>
+            <!-- <li @click="() => onClickMenu('/rental/schedule')">대관 스케줄</li> -->
           </ul>
           <ul class="sub-menu-list community menu">
             <li @click="() => onClickMenu('/notice')">공지 상세사항</li>
@@ -281,7 +281,7 @@ export default defineComponent({
               <ul>
                 <li @click="() => onClickMenu('/rental')">극장 상세사항</li>
                 <li @click="() => onClickMenu('/rental/info')">대관 안내</li>
-                <li @click="() => onClickMenu('/rental/schedule')">대관 스케줄</li>
+                <!-- <li @click="() => onClickMenu('/rental/schedule')">대관 스케줄</li> -->
               </ul>
             </section>
           </transition>

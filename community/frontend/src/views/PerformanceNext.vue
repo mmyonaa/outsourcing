@@ -28,12 +28,17 @@ export default defineComponent({
     },
   ]
 
+  const onClickReserve = () => {
+    alert('사이트 준비 중입니다')
+  }
+
     onMounted(() => {
   
     });
     return {
       posters,
       activeIndex,
+      onClickReserve
     };
   },
 });
@@ -48,7 +53,7 @@ export default defineComponent({
       </div>
       <div class="info">
         <h2 class="title">맨땅에 헤딩</h2>
-        <button class="btn-reserve">예매하기</button>
+        <button class="btn-reserve" @click="onClickReserve">예매하기</button>
         <p class="date">25.05.09 ~ 25.05.18 평일 19시 30분 주말 15시 (월화 공연 없음)</p>
         <blockquote class="quote">
           “바다가 사라진 세상에서 펼쳐지는,<br />
