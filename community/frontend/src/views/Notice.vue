@@ -10,24 +10,10 @@ export default defineComponent({
     const notices = [
       {
         id: 1,
-        title: '서버 점검 안내 (6월 5일)',
+        title: '사이트 준비 중입니다',
         views: 152,
         author: '관리자',
         date: '2025-06-01',
-      },
-      {
-        id: 2,
-        title: '신규 기능 업데이트',
-        views: 98,
-        author: '운영팀',
-        date: '2025-05-28',
-      },
-      {
-        id: 3,
-        title: '정책 변경 안내',
-        views: 212,
-        author: '관리자',
-        date: '2025-05-20',
       },
     ]
 

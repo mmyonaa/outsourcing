@@ -39,36 +39,36 @@ export default defineComponent({
     const posters = [
     {
       image: '/assets/images/theater/introduce-1.JPG',
-      description: '준비 중입니다',
+      description: '사이트 준비 중입니다',
     },
     {
       image: '/assets/images/theater/introduce-1.JPG',
-      description: '준비 중입니다',
+      description: '사이트 준비 중입니다',
     },
     {
       image: '/assets/images/theater/introduce-1.JPG',
-      description: '준비 중입니다',
+      description: '사이트 준비 중입니다',
     },
     {
       image: '/assets/images/theater/introduce-1.JPG',
-      description: '준비 중입니다',
+      description: '사이트 준비 중입니다',
     },
   ]
 
   const notices = [
   {
     id: 1,
-    title: '준비 중입니다',
+    title: '사이트 준비 중입니다',
     date: '2025-06-01',
   },
   {
     id: 2,
-    title: '준비 중입니다',
+    title: '사이트 준비 중입니다',
     date: '2025-05-28',
   },
   {
     id: 3,
-    title: '준비 중입니다',
+    title: '사이트 준비 중입니다',
     date: '2025-05-20',
   },
   {

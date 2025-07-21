@@ -19,7 +19,7 @@ export default defineComponent({
     }
 
     onMounted(() => {
-      notice.value.body = 'bodybodybodybodybodybody'
+      notice.value.body = '사이트 준비 중입니다'
       
     });
     return {
@@ -35,7 +35,7 @@ export default defineComponent({
   <div class="page-common notice-page">
     <h1>공지사항 상세</h1>
     <div class="notice-detail">
-    <h1 class="notice-title">{{ 'title'}}</h1>
+    <div class="notice-title"># {{ '사이트 준비 중입니다'}}</div>
 
     <div class="notice-meta">
       <span>작성자: {{ 'author' }}</span>
