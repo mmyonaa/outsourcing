@@ -17,10 +17,9 @@ const routesPath = __dirname;  // 라우트 파일들이 있는 디렉토리 경
 fs.readdirSync(routesPath)
   .filter((file) => /.+\.routes\.(ts|js)$/i.test(file))
   .forEach((file) => {
+    console.log('라우터 로딩 중:', file);
+
     const route = require(path.join(routesPath, file));
-    // ES Module default export 형태면 route.default() 이렇게 호출
-    // CommonJS export면 그냥 route() 호출
-    // 상황에 맞게 조정 필요
 
     // 아래는 default export인 경우 예시
     const routerInstance = route.default ? route.default() : route();
