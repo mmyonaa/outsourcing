@@ -1,6 +1,6 @@
 import type { AxiosInstance } from 'axios';
 import { ResponseDto } from '@/api/dto/response.dto';
-import { BoardEntity, BoardEntity, BoardStatisticsEntity, InsertBoardDto, SearchBoardDto, updateBoardStaticsDto } from '@/api/dto/board.dto';
+import { BoardEntity, BoardStatisticsEntity, InsertBoardDto, SearchBoardDto, updateBoardStaticsDto } from '@/api/dto/board.dto';
 import { getApiHeader } from '@/utils/apiClient';
 
 /**
