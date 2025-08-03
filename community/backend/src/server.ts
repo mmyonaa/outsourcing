@@ -8,6 +8,7 @@ import cors from '@koa/cors';
 const app = new Koa();
 const router = new Router();
 
+app.use(cors());
 app.use(bodyParser());
 
 const routesPath = __dirname;  // 라우트 파일들이 있는 디렉토리 경로
@@ -26,7 +27,6 @@ fs.readdirSync(routesPath)
     router.use(routerInstance.allowedMethods());
   });
 
-app.use(cors());
 app.use(router.routes());
 app.use(router.allowedMethods());
 
