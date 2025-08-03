@@ -3,6 +3,7 @@ import Router from '@koa/router';
 import bodyParser from 'koa-bodyparser';
 import fs from 'fs';
 import path from 'path';
+import cors from 'cors';
 
 const app = new Koa();
 const router = new Router();
@@ -25,6 +26,7 @@ fs.readdirSync(routesPath)
     router.use(routerInstance.allowedMethods());
   });
 
+app.use(cors());
 app.use(router.routes());
 app.use(router.allowedMethods());
 
