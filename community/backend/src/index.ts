@@ -4,7 +4,7 @@ import express from 'express';
 import { DataSource } from 'typeorm';
 import { User } from './entities/User';
 import dotenv from 'dotenv';
-import { getServer } from './koaServer'; // ← 여기 중요
+import { getServer } from './server'; // ← 여기 중요
 
 dotenv.config();
 
