@@ -1,0 +1,12 @@
+# 인증서 관련
+*.pem
+*.key
+*.crt
+*.cert
+
+node_modules
+dist
+package.lock
+.DS_Store
+.vscode/*
+pnpm-lock.yaml
