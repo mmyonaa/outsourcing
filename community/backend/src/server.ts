@@ -3,7 +3,7 @@ import Router from '@koa/router';
 import bodyParser from 'koa-bodyparser';
 import fs from 'fs';
 import path from 'path';
-import cors from 'cors';
+import cors from '@koa/cors';
 
 const app = new Koa();
 const router = new Router();
