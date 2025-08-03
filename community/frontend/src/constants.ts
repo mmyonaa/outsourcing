@@ -8,7 +8,7 @@ export const APP_ENV_TYPE = {
 
 const AppConfig = {
   ENV: APP_ENV_TYPE.DEV,
-  API_SERVER: 'http://localhost:3300',
+  API_SERVER: 'http://localhost:3000',
   FRONT_HOST: 'http://localhost:4000',
   FILE_SERVER: 'https://apoc-community.s3.ap-northeast-2.amazonaws.com/',
   KEYS,
