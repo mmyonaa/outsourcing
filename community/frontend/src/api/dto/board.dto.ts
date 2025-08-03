@@ -28,12 +28,6 @@ export class BoardEntity {
 
 export class SearchBoardDto extends BasicListDto {
   boardIdx: string | undefined = undefined;
-  // 제목
-  title: string | undefined = undefined;
-  // 내용
-  body: string | undefined = undefined;
-  // 공개여부
-  openYn: STATE_YN = STATE_YN.Y;
 }
 
 export class BoardEntityDto extends BoardEntity {
