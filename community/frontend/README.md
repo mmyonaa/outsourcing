@@ -1,77 +1,28 @@
-# vue-typescript-boilerplate
-This template should help get you started developing with Vue 3 in Vite.
+# 보광 극장 홍보 및 대관 사이트
 
-## Project Copy
-```bash
-   sh copyProject.sh ${TARGET_YOUR_PROJECT_PATH}
-```
-폴더 경로를 첫번째 인자로 넘겨주시면 되며, 폴더가 있으면 생성, 없으면 그대로 복사됩니다.
+보광극장의 공연 정보 홍보 및 대관 예약을 위한 웹사이트입니다. 사용자 친화적인 예약 흐름과 관리자 기능을 포함하여, 공연 운영의 효율성을 높이기 위한 목적으로 제작되었습니다.
 
+## 🛠️ 기술 스택
 
-## Recommended IDE Setup
+- **Frontend**: Vue.js, SCSS
+- **Backend**: Express.js (Node.js)
+- **Database**: PostgreSQL
+- **Infra/DevOps**: AWS EC2, PM2
+- **API 활용**: Kakao Maps API
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+## 🚀 주요 기능
 
-## Type Support for `.vue` Imports in TS
+### 사용자
+- 공연 및 극장 리스트 조회
+- 대관 예약 요청 및 진행 상태 확인
+- 카카오맵 연동을 통한 위치 안내
+- PC 및 모바일 대응 반응형 UI
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
+### 관리자
+- 공연 및 공지사항 등록 및 관리
+- 대관 예약 요청 관리 기능
+- 콘텐츠 운영 및 수정 편의 기능
 
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
-
-1. Disable the built-in TypeScript Extension
-    1) Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-    2) Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Type-Check, Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Run Unit Tests with [Vitest](https://vitest.dev/)
-
-```sh
-npm run test:unit
-```
-
-### Run End-to-End Tests with [Playwright](https://playwright.dev)
-
-```sh
-# Install browsers for the first run
-npx playwright install
-
-# When testing on CI, must build the project first
-npm run build
-
-# Runs the end-to-end tests
-npm run test:e2e
-# Runs the tests only on Chromium
-npm run test:e2e -- --project=chromium
-# Runs the tests of a specific file
-npm run test:e2e -- tests/example.spec.ts
-# Runs the tests in debug mode
-npm run test:e2e -- --debug
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+## 📝 라이선스
+👤 개발자: Hyona Lim
+✉️ 문의: [your-email@example.com]
