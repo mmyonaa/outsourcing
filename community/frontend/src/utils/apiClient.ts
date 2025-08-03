@@ -49,7 +49,7 @@ export const getApiFileHeader = () => {
   const header = {
     'Content-type': 'multipart/form-data',
   };
-  if (apiToken) Object.assign(header, { Authorization: `APOC_COMMUNITY ${apiToken}` });
+  if (apiToken) Object.assign(header, { Authorization: `BK_THEATER ${apiToken}` });
 
   return {
     headers: header,
@@ -64,28 +64,6 @@ export function getApiClient(baseUrl = AppConfig.API_SERVER, storeManager?: Stor
         'Content-type': 'application/json',
       },
     });
-    apiClient.interceptors.request.use(
-      conf => {
-        // if (conf.url !== 'api/v2/content/getContentList') {
-        // 	storeManager?.commonStore.setLoading(true);
-        // }
-        return conf;
-      },
-      error => {
-        storeManager?.commonStore.setLoading(false);
-        return Promise.reject(error);
-      },
-    );
-    apiClient.interceptors.response.use(
-      response => {
-        storeManager?.commonStore.setLoading(false);
-        return response;
-      },
-      error => {
-        storeManager?.commonStore.setLoading(false);
-        return Promise.reject(error);
-      },
-    );
   }
 
   setApiBaseUrl(baseUrl);

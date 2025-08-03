@@ -8,7 +8,8 @@ import cors from '@koa/cors';
 const app = new Koa();
 const router = new Router();
 
-app.use(cors());
+// app.use(cors());
+app.use(cors({ origin: 'http://bktheater.com', credentials: true }));
 app.use(bodyParser());
 
 const routesPath = __dirname;  // 라우트 파일들이 있는 디렉토리 경로
