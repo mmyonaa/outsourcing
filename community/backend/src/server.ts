@@ -5,6 +5,8 @@ import fs from 'fs';
 import path from 'path';
 import cors from '@koa/cors';
 
+export const getServer = async() => {
+
 const app = new Koa();
 const router = new Router();
 
@@ -33,3 +35,4 @@ app.use(router.allowedMethods());
 app.listen(3000, '0.0.0.0', () => {
   console.log('Server running on http://0.0.0.0:3000');
 });
+}

@@ -1,15 +1,16 @@
+// index.ts
 import 'reflect-metadata';
 import express from 'express';
 import { DataSource } from 'typeorm';
-import { User } from './entities/User'; 
-import dotenv from 'dotenv'
+import { User } from './entities/User';
+import dotenv from 'dotenv';
+import { getServer } from './koaServer'; // ← 여기 중요
 
-dotenv.config(); 
+dotenv.config();
 
 const app = express();
 app.use(express.json());
 
-// TypeORM DB 연결 세팅
 const AppDataSource = new DataSource({
   type: 'postgres',
   host: process.env.DB_HOST,
@@ -23,10 +24,10 @@ const AppDataSource = new DataSource({
 });
 
 AppDataSource.initialize()
-  .then(() => {
+  .then(async () => {
     console.log('📦 DB 연결 성공');
-    app.listen(3000, () => {
-      console.log('🚀 서버 실행 중: http://localhost:3000');
-    });
+
+    // Koa 서버 실행
+    await getServer();
   })
   .catch((error) => console.error('❌ DB 연결 실패:', error));
