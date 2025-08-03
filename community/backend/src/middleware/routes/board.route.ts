@@ -8,8 +8,8 @@ export default () => {
 
   router.get('/getBoardList', boardController.getBoardList);
   router.post('/insertBoard', boardController.insertBoard);
-  router.post('/deleteBoard', boardController.deleteBoard);
   router.post('/updateBoard', boardController.updateBoard);
+  router.post('/deleteBoard', boardController.deleteBoard);
 
   return router;
 };

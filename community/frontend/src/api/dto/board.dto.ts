@@ -34,30 +34,6 @@ export class SearchBoardDto extends BasicListDto {
   body: string | undefined = undefined;
   // 공개여부
   openYn: STATE_YN = STATE_YN.Y;
-  // 저장상태
-  saveState: SAVE_STATE = SAVE_STATE.DRAFT;
-  // 등록자회원고유번호
-  regrUserIdx: string | undefined = undefined;
-  // 등록일시
-  regDt: Date | undefined = undefined;
-  // 메인탭 코드
-  mainTabCode: string | undefined = undefined;
-  // 서브탭 코드
-  subTabCode: string | undefined = undefined;
-  // 태그탭 코드
-  tagCode: string | undefined = undefined;
-  // 메인탭 코드
-  mainTabIdx: string | undefined = undefined;
-  // 서브탭 코드
-  subTabIdx: string | undefined = undefined;
-  // 태그탭 코드
-  tagIdx: string | undefined = undefined;
-  // 좋아요 여부
-  isLike = false;
-  // 좋아요 누른 콘텐츠
-  likeContents: STATE_YN = STATE_YN.N;
-  // 내 콘텐츠
-  myContents: STATE_YN = STATE_YN.N;
 }
 
 export class BoardEntityDto extends BoardEntity {

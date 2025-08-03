@@ -1,6 +1,6 @@
 import { Context } from 'koa'
 import { ResponseDto } from '../repository/dto/response.dto';
-import { SearchBoardDto } from '../repository/dto/board.dto';
+import { BoardEntity, SearchBoardDto } from '../repository/dto/board.dto';
 import { setEntityParameters } from '../utils/common.util';
 import { RESULT_CODE } from '../../types';
 import * as boardService from '../service/board.service'
@@ -24,7 +24,6 @@ export const getBoardList = async (ctx: Context) => {
   }
 }
 
-
 /**
  * 글 작성
  * @param {Context} ctx Koa context
@@ -32,10 +31,48 @@ export const getBoardList = async (ctx: Context) => {
 export const insertBoard = async (ctx: Context) => {
   const result = new ResponseDto();
   try {
-    const reqParam = new SearchBoardDto();
+    const reqParam = new BoardEntity();
     setEntityParameters(reqParam, ctx.request.body);
 
     const resultData = await boardService.insertBoard(reqParam);
+
+    result.data = resultData;
+    result.setResultCode(RESULT_CODE.SUCCESS);
+  } catch (e) {
+    result.setErrorObject(e);
+  }
+}
+
+/**
+ * 글 수정
+ * @param {Context} ctx Koa context
+ * */
+export const updateBoard = async (ctx: Context) => {
+  const result = new ResponseDto();
+  try {
+    const reqParam = new BoardEntity();
+    setEntityParameters(reqParam, ctx.request.body);
+
+    const resultData = await boardService.updateBoard(reqParam);
+
+    result.data = resultData;
+    result.setResultCode(RESULT_CODE.SUCCESS);
+  } catch (e) {
+    result.setErrorObject(e);
+  }
+}
+
+/**
+ * 글 수정
+ * @param {Context} ctx Koa context
+ * */
+export const deleteBoard = async (ctx: Context) => {
+  const result = new ResponseDto();
+  try {
+    const reqParam = new SearchBoardDto();
+    setEntityParameters(reqParam, ctx.request.body);
+
+    const resultData = await boardService.deleteBoard(reqParam);
 
     result.data = resultData;
     result.setResultCode(RESULT_CODE.SUCCESS);
