@@ -24,5 +24,5 @@
 - 콘텐츠 운영 및 수정 편의 기능
 
 ## 📝 라이선스
-- 👤 개발자: Hyona Lim
-- ✉️ 문의: [your-email@example.com]
+- 👤 개발자: Hyonah Im
+- ✉️ 문의: [apddfhsajrwk@gmail.com]
