@@ -1,10 +1,10 @@
 import 'reflect-metadata';
 import express from 'express';
 import { DataSource } from 'typeorm';
-import { User } from './entities/User'; // entity 경로에 맞게 조정하세요
+import { User } from './entities/User'; 
 import dotenv from 'dotenv'
 
-dotenv.config(); // 이 부분 꼭 추가하세요!
+dotenv.config(); 
 
 const app = express();
 app.use(express.json());

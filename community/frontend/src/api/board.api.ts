@@ -1,6 +1,6 @@
 import type { AxiosInstance } from 'axios';
 import { ResponseDto } from '@/api/dto/response.dto';
-import { BoardEntity, BoardEntityDto, BoardStatisticsEntity, InsertBoardDto, SearchBoardDto, updateBoardStaticsDto } from '@/api/dto/board.dto';
+import { BoardEntity, BoardEntity, BoardStatisticsEntity, InsertBoardDto, SearchBoardDto, updateBoardStaticsDto } from '@/api/dto/board.dto';
 import { getApiHeader } from '@/utils/apiClient';
 
 /**
@@ -8,8 +8,8 @@ import { getApiHeader } from '@/utils/apiClient';
  * @param apiFileClient
  * @param params
  */
-export function getBoardList(apiFileClient: AxiosInstance, params: SearchBoardDto): Promise<ResponseDto<BoardEntityDto[]>> {
-  const promiseFn = (fnResolve: (value: ResponseDto<BoardEntityDto[]>) => void, fnReject: (reason?: any) => void) => {
+export function getBoardList(apiFileClient: AxiosInstance, params: SearchBoardDto): Promise<ResponseDto<BoardEntity[]>> {
+  const promiseFn = (fnResolve: (value: ResponseDto<BoardEntity[]>) => void, fnReject: (reason?: any) => void) => {
     apiFileClient
       .get('/board/getBoardList', { headers: getApiHeader().headers, params: params })
       .then(res => {
@@ -17,7 +17,7 @@ export function getBoardList(apiFileClient: AxiosInstance, params: SearchBoardDt
           console.error(res);
           fnReject('msg.' + res.data.resultMsg);
         } else {
-          fnResolve(new ResponseDto<BoardEntityDto[]>(res.data));
+          fnResolve(new ResponseDto<BoardEntity[]>(res.data));
         }
       })
       .catch(err => {
@@ -34,8 +34,8 @@ export function getBoardList(apiFileClient: AxiosInstance, params: SearchBoardDt
  * @param apiFileClient
  * @param params
  */
-export function getBoardListV2(apiFileClient: AxiosInstance, params: SearchBoardDto): Promise<ResponseDto<BoardEntityDto[]>> {
-  const promiseFn = (fnResolve: (value: ResponseDto<BoardEntityDto[]>) => void, fnReject: (reason?: any) => void) => {
+export function getBoardListV2(apiFileClient: AxiosInstance, params: SearchBoardDto): Promise<ResponseDto<BoardEntity[]>> {
+  const promiseFn = (fnResolve: (value: ResponseDto<BoardEntity[]>) => void, fnReject: (reason?: any) => void) => {
     apiFileClient
       .get('/board/getBoardListV2', { headers: getApiHeader().headers, params: params })
       .then(res => {
@@ -43,7 +43,7 @@ export function getBoardListV2(apiFileClient: AxiosInstance, params: SearchBoard
           console.error(res);
           fnReject('msg.' + res.data.resultMsg);
         } else {
-          fnResolve(new ResponseDto<BoardEntityDto[]>(res.data));
+          fnResolve(new ResponseDto<BoardEntity[]>(res.data));
         }
       })
       .catch(err => {
@@ -54,8 +54,8 @@ export function getBoardListV2(apiFileClient: AxiosInstance, params: SearchBoard
 
   return new Promise(promiseFn);
 }
-export function getBoardDetail(apiFileClient: AxiosInstance, params: BoardEntityDto): Promise<ResponseDto<BoardEntityDto>> {
-  const promiseFn = (fnResolve: (value: ResponseDto<BoardEntityDto>) => void, fnReject: (reason?: any) => void) => {
+export function getBoardDetail(apiFileClient: AxiosInstance, params: BoardEntity): Promise<ResponseDto<BoardEntity>> {
+  const promiseFn = (fnResolve: (value: ResponseDto<BoardEntity>) => void, fnReject: (reason?: any) => void) => {
     apiFileClient
       .get('/board/getBoardDetail', { headers: getApiHeader().headers, params: params })
       .then(res => {
@@ -63,7 +63,7 @@ export function getBoardDetail(apiFileClient: AxiosInstance, params: BoardEntity
           console.error(res);
           fnReject('msg.' + res.data.resultMsg);
         } else {
-          fnResolve(new ResponseDto<BoardEntityDto>(res.data));
+          fnResolve(new ResponseDto<BoardEntity>(res.data));
         }
       })
       .catch(err => {
@@ -95,8 +95,8 @@ export function insertBoard(apiClient: AxiosInstance, params: InsertBoardDto): P
   return new Promise(promiseFn);
 }
 
-export function getBoardPrevNextIdx(apiFileClient: AxiosInstance, params: SearchBoardDto): Promise<ResponseDto<BoardEntityDto>> {
-  const promiseFn = (fnResolve: (value: ResponseDto<BoardEntityDto>) => void, fnReject: (reason?: any) => void) => {
+export function getBoardPrevNextIdx(apiFileClient: AxiosInstance, params: SearchBoardDto): Promise<ResponseDto<BoardEntity>> {
+  const promiseFn = (fnResolve: (value: ResponseDto<BoardEntity>) => void, fnReject: (reason?: any) => void) => {
     apiFileClient
       .get('/board/getBoardPrevNextIdx', { headers: getApiHeader().headers, params: params })
       .then(res => {
@@ -104,7 +104,7 @@ export function getBoardPrevNextIdx(apiFileClient: AxiosInstance, params: Search
           console.error(res);
           fnReject('msg.' + res.data.resultMsg);
         } else {
-          fnResolve(new ResponseDto<BoardEntityDto>(res.data));
+          fnResolve(new ResponseDto<BoardEntity>(res.data));
         }
       })
       .catch(err => {
