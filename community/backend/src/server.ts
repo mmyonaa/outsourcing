@@ -23,7 +23,7 @@ console.log('존재 여부:', fs.existsSync(routesPath));
 console.log('파일 목록:', fs.readdirSync(routesPath));
 
   fs.readdirSync(routesPath)
-    .filter((file) => /.+\.routes\.(ts|js)$/i.test(file))
+    .filter((file) => /.+\.route\.(ts|js)$/i.test(file))
     .forEach((file) => {
       console.log('라우터 로딩 중:', file);
       const route = require(path.join(routesPath, file));
