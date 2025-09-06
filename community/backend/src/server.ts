@@ -26,12 +26,6 @@ export const getServer = async () => {
       router.use(routerInstance.allowedMethods());
     });
 
-  console.log('등록된 라우트 목록:');
-  router.stack.forEach((r) => {
-    console.log(`${r.methods.join(',')} ${r.path}`);
-  });
-router.stack.forEach(r => console.log(r.methods.join(','), r.path, r.stack));
-
   app.use(router.routes());
   app.use(router.allowedMethods());
 
