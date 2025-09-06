@@ -13,9 +13,18 @@ export const getServer = async () => {
   app.use(cors({ origin: 'http://bktheater.com', credentials: true }));
   app.use(bodyParser());
 
+  console.log('__dirname:', __dirname); // 현재 경로 확인
+
   // === API 라우터 등록 ===
-  router.use(boardRouter().routes());
-  router.use(boardRouter().allowedMethods());
+  const br = boardRouter();
+  router.use(br.routes());
+  router.use(br.allowedMethods());
+
+  // 실제 router stack 확인
+  console.log('등록된 라우트 목록:');
+  router.stack.forEach((r) => {
+    console.log(r.methods.join(','), r.path, r.stack);
+  });
 
   app.use(router.routes());
   app.use(router.allowedMethods());
