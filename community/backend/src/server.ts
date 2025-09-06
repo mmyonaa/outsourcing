@@ -14,13 +14,7 @@ export const getServer = async () => {
   app.use(bodyParser());
 
   // === API 라우터 등록 ===
-  // const routesPath = __dirname; // 라우트 파일들이 있는 디렉토리 경로
-  const routesPath = path.join(__dirname, 'middleware', 'routes');
-
-
-console.log('라우트 경로:', routesPath);
-console.log('존재 여부:', fs.existsSync(routesPath));
-console.log('파일 목록:', fs.readdirSync(routesPath));
+  const routesPath = path.join(__dirname, 'middleware', 'routes'); // 라우트 파일들이 있는 디렉토리 경로
 
   fs.readdirSync(routesPath)
     .filter((file) => /.+\.route\.(ts|js)$/i.test(file))
@@ -31,6 +25,11 @@ console.log('파일 목록:', fs.readdirSync(routesPath));
       router.use(routerInstance.routes());
       router.use(routerInstance.allowedMethods());
     });
+
+  console.log('등록된 라우트 목록:');
+  router.stack.forEach((r) => {
+    console.log(`${r.methods.join(',')} ${r.path}`);
+  });
 
   app.use(router.routes());
   app.use(router.allowedMethods());
