@@ -14,7 +14,8 @@ export const getServer = async () => {
   app.use(bodyParser());
 
   // === API 라우터 등록 ===
-  const routesPath = __dirname; // 라우트 파일들이 있는 디렉토리 경로
+  // const routesPath = __dirname; // 라우트 파일들이 있는 디렉토리 경로
+  const routesPath = path.join(__dirname, 'middleware', 'routes');
 
   fs.readdirSync(routesPath)
     .filter((file) => /.+\.routes\.(ts|js)$/i.test(file))
