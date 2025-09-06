@@ -59,7 +59,7 @@ export const getApiFileHeader = () => {
 export function getApiClient(baseUrl = AppConfig.API_SERVER, storeManager?: StoreManager): AxiosInstance {
   if (!apiClient) {
     apiClient = axios.create({
-      baseURL: '',
+      baseURL: AppConfig.API_SERVER,
       headers: {
         'Content-type': 'application/json',
       },
