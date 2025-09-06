@@ -17,6 +17,11 @@ export const getServer = async () => {
   // const routesPath = __dirname; // 라우트 파일들이 있는 디렉토리 경로
   const routesPath = path.join(__dirname, 'middleware', 'routes');
 
+
+console.log('라우트 경로:', routesPath);
+console.log('존재 여부:', fs.existsSync(routesPath));
+console.log('파일 목록:', fs.readdirSync(routesPath));
+
   fs.readdirSync(routesPath)
     .filter((file) => /.+\.routes\.(ts|js)$/i.test(file))
     .forEach((file) => {
