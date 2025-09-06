@@ -30,6 +30,7 @@ export const getServer = async () => {
   router.stack.forEach((r) => {
     console.log(`${r.methods.join(',')} ${r.path}`);
   });
+router.stack.forEach(r => console.log(r.methods.join(','), r.path, r.stack));
 
   app.use(router.routes());
   app.use(router.allowedMethods());

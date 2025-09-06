@@ -20,8 +20,6 @@ export const getBoardList = async (ctx: Context) => {
 
     result.data = resultData;
     result.setResultCode(RESULT_CODE.SUCCESS);
-
-    console.log('tlfgod')
   } catch (e) {
     result.setErrorObject(e);
   }
