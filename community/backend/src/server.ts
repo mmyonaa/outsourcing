@@ -8,7 +8,7 @@ import boardRouter from './middleware/routes/board.route';
 
 export const getServer = async () => {
   const app = new Koa();
-  const router = new Router({ prefix: '/api' });
+  const router = new Router();
 
   app.use(cors({ origin: 'http://bktheater.com', credentials: true }));
   app.use(bodyParser());
