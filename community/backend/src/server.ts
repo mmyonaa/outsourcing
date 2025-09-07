@@ -19,8 +19,19 @@ export const getServer = async () => {
   console.log('등록된 라우트 목록:');
   router.stack.forEach(r => console.log(r.methods.join(','), r.path));
 
+  // 라우터 등록
   app.use(router.routes());
   app.use(router.allowedMethods());
+
+  // 404 및 요청 로그 미들웨어 (라우터 뒤)
+  app.use(async (ctx, next) => {
+    await next();
+    if (ctx.status === 404) {
+      console.log(`404 발생: ${ctx.method} ${ctx.path}`);
+    } else {
+      console.log(`${ctx.method} ${ctx.path} -> ${ctx.status}`);
+    }
+  });
 
   app.listen(3000, '0.0.0.0', () => {
     console.log('Server running on http://0.0.0.0:3000');
