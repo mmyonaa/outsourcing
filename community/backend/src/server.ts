@@ -25,12 +25,14 @@ export const getServer = async () => {
 
   // 404 및 요청 로그 미들웨어 (라우터 뒤)
   app.use(async (ctx, next) => {
-    await next();
-    if (ctx.status === 404) {
-      console.log(`404 발생: ${ctx.method} ${ctx.path}`);
-    } else {
-      console.log(`${ctx.method} ${ctx.path} -> ${ctx.status}`);
+    try {
+      await next();
+    } catch (err: any) {
+      console.error('Error 발생:', err);
+      ctx.status = err.status || 500;
+      ctx.body = { message: err.message };
     }
+    console.log(`${ctx.method} ${ctx.path} -> ${ctx.status}`);
   });
 
   app.listen(3000, '0.0.0.0', () => {
