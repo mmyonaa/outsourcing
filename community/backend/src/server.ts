@@ -3,22 +3,19 @@ import Router from '@koa/router';
 import bodyParser from 'koa-bodyparser';
 import cors from '@koa/cors';
 
-// 라우터 직접 import
+// router 직접 import
 import boardRouter from './middleware/routes/board.route';
 
 export const getServer = async () => {
   const app = new Koa();
-  const router = new Router();
+  const router = new Router({ prefix: '/api' }); // /api 상위 prefix
 
   app.use(cors({ origin: 'http://bktheater.com', credentials: true }));
   app.use(bodyParser());
 
-  console.log('__dirname:', __dirname); // 현재 경로 확인
-
   // === API 라우터 등록 ===
-  const br = boardRouter();
-  router.use(br.routes());
-  router.use(br.allowedMethods());
+  router.use(boardRouter.routes());
+  router.use(boardRouter.allowedMethods());
 
   // 실제 router stack 확인
   console.log('등록된 라우트 목록:');
