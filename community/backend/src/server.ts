@@ -2,13 +2,11 @@ import Koa from 'koa';
 import Router from '@koa/router';
 import bodyParser from 'koa-bodyparser';
 import cors from '@koa/cors';
-
-// router 직접 import
 import boardRouter from './middleware/routes/board.route';
 
 export const getServer = async () => {
   const app = new Koa();
-  const router = new Router({ prefix: '/api' }); // /api 상위 prefix
+  const router = new Router({ prefix: '/api' }); // /api prefix 한 번만
 
   app.use(cors({ origin: 'http://bktheater.com', credentials: true }));
   app.use(bodyParser());
@@ -17,11 +15,9 @@ export const getServer = async () => {
   router.use(boardRouter.routes());
   router.use(boardRouter.allowedMethods());
 
-  // 실제 router stack 확인
+  // 실제 router stack 확인 (디버그용)
   console.log('등록된 라우트 목록:');
-  router.stack.forEach((r) => {
-    console.log(r.methods.join(','), r.path, r.stack);
-  });
+  router.stack.forEach(r => console.log(r.methods.join(','), r.path));
 
   app.use(router.routes());
   app.use(router.allowedMethods());
