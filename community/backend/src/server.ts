@@ -6,7 +6,7 @@ import boardRouter from './middleware/routes/board.route';
 
 export const getServer = async () => {
   const app = new Koa();
-  const router = new Router({ prefix: '/api' }); // /api prefix 한 번만
+  const router = new Router({ prefix: '/api/board' }); // /api prefix 한 번만
 
   // app.use(cors({ origin: 'http://bktheater.com', credentials: true }));
   const allowedOrigins = ["http://localhost:4000", "http://bktheater.com"];
