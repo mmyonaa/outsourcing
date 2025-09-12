@@ -10,7 +10,7 @@ const AppConfig = {
   ENV: APP_ENV_TYPE.DEV,
   // API_SERVER: 'http://13.125.101.232:3000/api',
   
-  API_SERVER: "http://bktheater.com",
+  API_SERVER: "http://bktheater.com/api",
   // API_SERVER: 'http://ec2-13-125-101-232.ap-northeast-2.compute.amazonaws.com:3000',
   FRONT_HOST: 'http://localhost:4000',
   FILE_SERVER: 'https://apoc-community.s3.ap-northeast-2.amazonaws.com/',
