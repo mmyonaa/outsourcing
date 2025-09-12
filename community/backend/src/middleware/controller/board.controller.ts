@@ -23,6 +23,7 @@ export const getBoardList = async (ctx: Context) => {
   } catch (e) {
     result.setErrorObject(e);
   }
+  ctx.body = result;
 }
 
 /**
@@ -42,6 +43,7 @@ export const insertBoard = async (ctx: Context) => {
   } catch (e) {
     result.setErrorObject(e);
   }
+  ctx.body = result;
 }
 
 /**
@@ -68,6 +70,7 @@ export const updateBoard = async (ctx: Context) => {
   } catch (e) {
     result.setErrorObject(e);
   }
+  ctx.body = result;
 }
 
 /**
@@ -95,4 +98,5 @@ export const deleteBoard = async (ctx: Context) => {
   } catch (e) {
     result.setErrorObject(e);
   }
+  ctx.body = result;
 }
