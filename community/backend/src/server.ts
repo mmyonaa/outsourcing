@@ -8,7 +8,22 @@ export const getServer = async () => {
   const app = new Koa();
   const router = new Router({ prefix: '/api' }); // /api prefix 한 번만
 
-  app.use(cors({ origin: 'http://bktheater.com', credentials: true }));
+  // app.use(cors({ origin: 'http://bktheater.com', credentials: true }));
+  const allowedOrigins = ["http://localhost:4000", "http://bktheater.com"];
+  
+  app.use(
+    cors({
+      origin: (ctx) => {
+        const requestOrigin = ctx.request.header.origin;
+        if (requestOrigin && allowedOrigins.includes(requestOrigin)) {
+          return requestOrigin;
+        }
+        return "http://bktheater.com"; // fallback
+      },
+      credentials: true,
+    })
+  );
+
   app.use(bodyParser());
 
   // === API 라우터 등록 ===
@@ -21,7 +36,7 @@ export const getServer = async () => {
 
   // 라우터 등록
   app.use(router.routes());
-  app.use(router.allowedMethods());
+  app.use(router.allowedMethods()); 
 
   // 404 및 요청 로그 미들웨어 (라우터 뒤)
   app.use(async (ctx, next) => {
