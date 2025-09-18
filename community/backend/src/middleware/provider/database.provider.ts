@@ -9,9 +9,13 @@ export const sql = postgres({
   ssl: false, // 필요 시 true
   max: 10,    // connection pool
   debug: false, // 필요 시 true 또는 콜백
+  transform: {
+    ...postgres.camel,   // camelCase <-> snake_case 자동 변환
+    undefined: null,     // undefined 값을 자동으로 NULL로 변환
+  },
 });
 
-// 기존 getTransaction도 그대로 사용 가능
+// 기존 getTransaction 그대로 사용 가능
 export const getTransaction = async (
   cb: (sql: postgres.TransactionSql) => Promise<any>,
 ) => {
