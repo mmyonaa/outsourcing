@@ -10,3 +10,6 @@ package.lock
 .DS_Store
 .vscode/*
 pnpm-lock.yaml
+
+# TypeORM XML metadata
+*.xml
