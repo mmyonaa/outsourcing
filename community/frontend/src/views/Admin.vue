@@ -9,17 +9,23 @@ export default defineComponent({
   setup() {
     const router=useRouter();
 
+    const goBack = () =>{
+      router.push('/')
+    }
+
     return {
+      goBack
     };
   },
 });
 </script>
 
 <template>
-  <div class="page-common">
+  <div class="page-common admin-main">
     <div class="admin-main-wrapper">
       <img class="admin-icon" src="/assets/images/admin/admin.png"/>
-      관리자 페이지 홈입니다.
+      <h1>관리자 페이지 홈입니다.</h1>
     </div>
+    <button class="back-button" @click="goBack">사이트 홈으로 돌아가기</button>
   </div>
 </template>
