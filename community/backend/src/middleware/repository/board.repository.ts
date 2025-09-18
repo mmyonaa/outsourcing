@@ -4,7 +4,7 @@ import { BoardEntity, SearchBoardDto } from "./dto/board.dto";
 export const getBoardList = (sql: postgres.Sql, reqParam: SearchBoardDto) => {
   return sql<BoardEntity[]>`
       SELECT *
-      FROM board
+      FROM public.board
       WHERE 1 = 1
         AND del_yn = 'N' 
           ${reqParam.boardIdx
