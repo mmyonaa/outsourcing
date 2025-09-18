@@ -22,6 +22,8 @@ export class BoardEntity {
   modDt: Date | undefined = undefined;
   // 삭제여부
   delYn: STATE_YN = STATE_YN.N;
+  // 여부
+  bestYn: STATE_YN = STATE_YN.N;
   // 토탈 카운트
   totalCount = 0;
 }

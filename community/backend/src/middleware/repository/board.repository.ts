@@ -16,7 +16,7 @@ export const getBoardList = (sql: postgres.Sql, reqParam: SearchBoardDto) => {
 
 export const insertBoard = (sql: postgres.Sql, reqParam: BoardEntity): Promise<any> => {
   return sql`
-    INSERT INTO board 
+    INSERT INTO public.board 
         ${sql(
         reqParam,
         'title',
@@ -28,7 +28,7 @@ export const insertBoard = (sql: postgres.Sql, reqParam: BoardEntity): Promise<a
 
 export const updateBoard = (sql: postgres.Sql, reqParam: BoardEntity): Promise<any> => {
   return sql`
-    UPDATE INTO board 
+    UPDATE INTO public.board 
     SET mod_dt = CURRENT_TIMESTAMP
         ${sql(
         reqParam,
