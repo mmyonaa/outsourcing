@@ -18,6 +18,7 @@ export const getBoardList = async (
  } catch (e: any) {
   console.error(e);
   console.log(process.env.DB_HOST)
+  console.log(process.env.DB_PORT)
   console.log(process.env.DB_NAME)
   console.log(process.env.DB_USER)
       throw new CustomError(
