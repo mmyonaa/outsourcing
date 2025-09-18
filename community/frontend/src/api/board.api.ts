@@ -74,7 +74,7 @@ export function getBoardDetail(apiFileClient: AxiosInstance, params: BoardEntity
 
   return new Promise(promiseFn);
 }
-export function insertBoard(apiClient: AxiosInstance, params: InsertBoardDto): Promise<ResponseDto<BoardEntity>> {
+export function insertBoard(apiClient: AxiosInstance, params: BoardEntity): Promise<ResponseDto<BoardEntity>> {
   const promiseFn = (fnResolve: (value: ResponseDto<BoardEntity>) => void, fnReject: (reason?: any) => void) => {
     apiClient
       .post('/board/insertBoard', params, getApiHeader())

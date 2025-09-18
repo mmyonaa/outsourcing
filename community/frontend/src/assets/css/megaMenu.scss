@@ -50,6 +50,7 @@ header {
 	display: flex;
 	justify-content: center;
 	background-color: $colorWhite;
+	box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.05);
 
 
 	&.is-hidden {
@@ -91,7 +92,6 @@ header {
 	width: 100%;
 	padding: 0 3rem;
 	position: relative;
-	box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.05);
 	z-index: 52;
 	max-width:1000px;
 
@@ -104,6 +104,17 @@ header {
 		img {
 			width: 100%;
 			height: 100%;
+		}
+
+		position: relative;
+
+		.admin-icon {
+			position: absolute;
+			width: 2rem;
+			height: auto;
+			
+			right: -2.2rem;
+			top: 3.4rem;
 		}
 	}
 	@include range-tablet-header {

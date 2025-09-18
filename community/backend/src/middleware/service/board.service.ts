@@ -16,11 +16,6 @@ export const getBoardList = async (
   const data = await boardRepo.getBoardList(sql, reqParam);
   return data
  } catch (e: any) {
-  console.error(e);
-  console.log(process.env.DB_HOST)
-  console.log(process.env.DB_PORT)
-  console.log(process.env.DB_NAME)
-  console.log(process.env.DB_USER)
       throw new CustomError(
         RESULT_CODE.DB_ERROR.code,
         RESULT_CODE.DB_ERROR.msg,

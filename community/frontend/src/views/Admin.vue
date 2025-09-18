@@ -8,60 +8,18 @@ export default defineComponent({
   components: { ApocImageSet, },
   setup() {
     const router=useRouter();
-    const activeReserveIndex = ref<number>(0)
-    const posters = [
-    {
-      image: '/assets/images/theater/introduce-1.JPG',
-      description: 'Poster 1에 대한 설명입니다.',
-    },
-    {
-      image: '/assets/images/theater/introduce-1.JPG',
-      description: 'Poster 2에 대한 설명입니다.',
-    },
-    {
-      image: '/assets/images/theater/introduce-1.JPG',
-      description: 'Poster 3에 대한 설명입니다.',
-    },
-    {
-      image: '/assets/images/theater/introduce-1.JPG',
-      description: 'Poster 4에 대한 설명입니다.',
-    },
-  ]
 
-  const notices = [
-  {
-    id: 1,
-    title: '서버 점검 안내 (6월 5일)',
-    date: '2025-06-01',
-  },
-  {
-    id: 2,
-    title: '신규 기능 업데이트',
-    date: '2025-05-28',
-  },
-  {
-    id: 3,
-    title: '정책 변경 안내',
-    date: '2025-05-20',
-  },
-  {
-    id: 4,
-    title: '서비스 개선 안내',
-    date: '2025-05-18',
-  },
-]
-
-    onMounted(() => {
-  
-    });
     return {
-      posters,
-      notices,
-      activeReserveIndex
     };
   },
 });
 </script>
 
 <template>
+  <div class="page-common">
+    <div class="admin-main-wrapper">
+      <img class="admin-icon" src="/assets/images/admin/admin.png"/>
+      관리자 페이지 홈입니다.
+    </div>
+  </div>
 </template>

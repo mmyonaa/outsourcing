@@ -3,6 +3,8 @@ import { defineComponent, onMounted, ref } from 'vue';
 import ApocPagination from '@/components/common/ApocPagination.vue';
 import { useRoute, useRouter } from 'vue-router';
 import { BoardEntity } from '@/api/dto/board.dto';
+import { getApiClient } from '@/utils/apiClient';
+import { insertBoard } from '@/api/board.api';
 
 export default defineComponent({
   name: 'adminNotice',
@@ -12,13 +14,19 @@ export default defineComponent({
     const route = useRoute();
     const router = useRouter();
     const notice = ref<BoardEntity>(new BoardEntity())
+    const apiClient = getApiClient();
 
     const goBack = () => {
       router.push('/notice') // 공지 목록 페이지 경로
     }
 
-    const submitNotice = () => {
-      // TODO
+    const submitNotice = async () => {
+      await insertBoard(apiClient, notice.value)
+      .then((res)=>{
+        if(res.resultCode === 0 && res.data){
+          console.log(res.data)
+        }
+      })
     }
 
     onMounted(() => {

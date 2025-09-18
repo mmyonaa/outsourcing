@@ -135,8 +135,9 @@ export default defineComponent({
       ]"
     >
       <div class="main-header-wrapper">
-        <apoc-link class="main-header-logo" href="/">
+        <apoc-link class="main-header-logo" href="/admin">
           <img src="/assets/images/logo/theater.png" @click="onClickLogo" />
+          <img class="admin-icon" src="/assets/images/admin/admin.png"/>
         </apoc-link>
 
         <!-- PC main menu -->
