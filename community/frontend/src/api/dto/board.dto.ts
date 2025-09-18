@@ -11,7 +11,7 @@ export class BoardEntity {
   // 조회수
   views : number=0;
   // 관리자
-  author: string | undefined = undefined;
+  author: string = '관리자';
   // 등록자회원고유번호
   regrUserIdx: string | undefined = undefined;
   // 등록일시

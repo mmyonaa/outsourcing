@@ -5,6 +5,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { BoardEntity } from '@/api/dto/board.dto';
 import { getApiClient } from '@/utils/apiClient';
 import { insertBoard } from '@/api/board.api';
+import { STATE_YN } from '@/types';
 
 export default defineComponent({
   name: 'adminNotice',
@@ -15,16 +16,18 @@ export default defineComponent({
     const router = useRouter();
     const notice = ref<BoardEntity>(new BoardEntity())
     const apiClient = getApiClient();
+    const bestValue = ref<boolean>(false)
 
     const goBack = () => {
       router.push('/notice') // 공지 목록 페이지 경로
     }
 
     const submitNotice = async () => {
+      notice.value.bestYn = bestValue ? STATE_YN.Y : STATE_YN.N;
       await insertBoard(apiClient, notice.value)
       .then((res)=>{
         if(res.resultCode === 0 && res.data){
-          console.log(res.data)
+          alert('공지 등록이 완료되었습니다.')
         }
       })
     }
@@ -36,6 +39,7 @@ export default defineComponent({
     return {
       notice,
       totalPage,
+      bestValue,
       submitNotice,
       goBack
     };
@@ -47,6 +51,9 @@ export default defineComponent({
   <div class="page-common notice-page admin">
     <h1>공지사항 등록</h1>
     <div class="notice-detail">
+      <label class="checkbox">
+        <input type="checkbox" v-model="bestValue" /> 중요 공지 여부
+      </label>
       <input
         v-model="notice.title"
         class="notice-input"

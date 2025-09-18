@@ -11,6 +11,7 @@
     .notice-input {
       width: 100%;
       padding: 10px;
+      margin-top: 2rem;
       margin-bottom: 2rem;
       border: 1px solid #ccc;
       border-radius: 4px;
@@ -39,15 +40,28 @@
   .notice-header,
   .row-content {
     display: grid;
-    grid-template-columns: 50px 1fr 80px 100px 120px;
+    grid-template-columns: 30px 50px 1fr 80px 100px 120px;
     padding: 1.5rem 2.5rem;
     font-weight: 600;
     border-bottom: 1px solid #ddd;
+      &.important {
+        background-color: $colorEditorHover;
+      }
 
     .col {
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+      display: flex;
+      align-items: center;
+
+      &.important {
+        width: 3rem;
+
+        img {
+          width: 100%;
+        }
+      }
     }
   }
 
@@ -74,9 +88,20 @@
     background-color: #fff;
     box-shadow: 0 2px 4px rgba(0,0,0,0.03);
 
+    &.important {
+      background-color: $colorEditorHover;
+    }
+
+    .impor-icon {
+       width: 3rem;
+    }
+
     .title {
       font-weight: 600;
       margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
     }
 
     .meta {
