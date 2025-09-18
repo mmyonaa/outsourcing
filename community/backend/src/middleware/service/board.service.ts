@@ -16,6 +16,7 @@ export const getBoardList = async (
   const data = await boardRepo.getBoardList(sql, reqParam);
   return data
  } catch (e: any) {
+  console.log(e)
       throw new CustomError(
         RESULT_CODE.DB_ERROR.code,
         RESULT_CODE.DB_ERROR.msg,
@@ -36,6 +37,7 @@ export const insertBoard = async (
   const data = await boardRepo.insertBoard(sql, reqParam);
   return data
  } catch (e: any) {
+  console.log(e)
       throw new CustomError(
         RESULT_CODE.DB_ERROR.code,
         RESULT_CODE.DB_ERROR.msg,
@@ -56,6 +58,7 @@ export const updateBoard = async (
   const data = await boardRepo.updateBoard(sql, reqParam);
   return data
  } catch (e: any) {
+  console.log(e)
       throw new CustomError(
         RESULT_CODE.DB_ERROR.code,
         RESULT_CODE.DB_ERROR.msg,

@@ -8,8 +8,8 @@ CREATE TABLE board (
     body TEXT,
     views INTEGER DEFAULT 0,
     best_yn CHAR(1) DEFAULT 'N',
-    reg_dt TIMESTAMP,
-    mod_dt TIMESTAMP,
+    reg_dt TIMESTAMPTZ DEFAULT NOW(),
+    mod_dt TIMESTAMPTZ DEFAULT NOW(),
     del_yn CHAR(1) DEFAULT 'N'
 );
 
@@ -21,7 +21,7 @@ CREATE TABLE performance (
     body TEXT,
     img_url VARCHAR(100),
     views INTEGER DEFAULT 0,
-    reg_dt TIMESTAMP,
-    mod_dt TIMESTAMP,
+    reg_dt TIMESTAMPTZ DEFAULT NOW(),
+    mod_dt TIMESTAMPTZ DEFAULT NOW(),
     del_yn CHAR(1) DEFAULT 'N'
 );
