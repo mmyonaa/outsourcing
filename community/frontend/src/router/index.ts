@@ -78,6 +78,16 @@ export const routesList = [
     component: () => import('../views/AdminNotice.vue'),
   },
   {
+    path: '/admin/notice/detail',
+    name: 'adminNoticeDetail',
+    component: () => import('../views/AdminNoticeDetail.vue'),
+  },
+    {
+    path: '/admin/notice/assign',
+    name: 'adminNoticeAssign',
+    component: () => import('../views/AdminNoticeAssign.vue'),
+  },
+  {
     path: '/admin/performance',
     name: 'adminPerformance',
     component: () => import('../views/AdminPerformance.vue'),

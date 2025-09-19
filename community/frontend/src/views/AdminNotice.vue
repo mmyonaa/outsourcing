@@ -1,75 +1,107 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue';
 import ApocPagination from '@/components/common/ApocPagination.vue';
-import { useRoute, useRouter } from 'vue-router';
-import { BoardEntity } from '@/api/dto/board.dto';
+import { BoardEntity, SearchBoardDto } from '@/api/dto/board.dto';
 import { getApiClient } from '@/utils/apiClient';
-import { insertBoard } from '@/api/board.api';
+import { getBoardList } from '@/api/board.api';
+import moment from 'moment';
 import { STATE_YN } from '@/types';
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
   name: 'adminNotice',
   components: { ApocPagination },
   setup() {
     const totalPage = ref<number>(0); // 총 페이지
-    const route = useRoute();
-    const router = useRouter();
-    const notice = ref<BoardEntity>(new BoardEntity())
     const apiClient = getApiClient();
-    const bestValue = ref<boolean>(false)
+    const notices = ref<BoardEntity[]>([])
+    const router = useRouter();
 
-    const goBack = () => {
-      router.push('/notice') // 공지 목록 페이지 경로
-    }
+    const loadBoardLit = async() => {
+      const param = new SearchBoardDto();
 
-    const submitNotice = async () => {
-      notice.value.bestYn = bestValue ? STATE_YN.Y : STATE_YN.N;
-      await insertBoard(apiClient, notice.value)
+      await getBoardList(apiClient, param)
       .then((res)=>{
         if(res.resultCode === 0 && res.data){
-          alert('공지 등록이 완료되었습니다.')
+          notices.value = res.data
         }
       })
     }
 
+    const assignNotice = () => {
+      router.push('/admin/notice/assign')
+    }
+
     onMounted(() => {
-      notice.value.body = ''
-      
+        loadBoardLit();
     });
     return {
-      notice,
+      notices,
       totalPage,
-      bestValue,
-      submitNotice,
-      goBack
+      moment,
+      STATE_YN,
+      assignNotice
     };
   },
 });
 </script>
 
 <template>
-  <div class="page-common notice-page admin">
-    <h1>공지사항 등록</h1>
-    <div class="notice-detail">
-      <label class="checkbox">
-        <input type="checkbox" v-model="bestValue" /> 중요 공지 여부
-      </label>
-      <input
-        v-model="notice.title"
-        class="notice-input"
-        placeholder="제목을 입력하세요"
-      />
-      <textarea
-        v-model="notice.body"
-        class="notice-textarea"
-        placeholder="내용을 입력하세요"
-      ></textarea>
+  <div class="page-common notice-page">
+    <h1>공지사항</h1>
+    <div class="back-button-wrapper">
+        <button class="back-button" @click="assignNotice">공지사항 등록</button>
+    </div>
+    <div class="notice-list">
+    <!-- 데스크탑용 테이블 -->
+    <div class="notice-header desktop-only">
+      <div class="col important"></div>
+      <div class="col index">#</div>
+      <div class="col title">제목</div>
+      <div class="col views">조회수</div>
+      <div class="col author">작성자</div>
+      <div class="col date">작성일</div>
+    </div>
 
-      <!-- 🔽 등록 버튼 -->
-      <div class="back-button-wrapper">
-        <button class="back-button" @click="goBack">← 목록으로 돌아가기</button>
-        <button class="back-button" @click="submitNotice">등록</button>
+    <div
+      class="notice-row"
+      v-for="(notice, index) in notices"
+      :key="notice.boardIdx"
+
+    >
+      <!-- 데스크탑 행 -->
+      <div class="row-content desktop-only" :class="{important:notice.bestYn === STATE_YN.Y}">
+        <div class="col important">
+          <img v-if="notice.bestYn === STATE_YN.Y" src="/assets/images/board/important.png"/>
+          <div v-else></div>
+        </div>
+        <div class="col index">{{ index + 1 }}</div>
+        
+        <div class="col title">
+          <router-link
+          :to="`/admin/notice/detail?id=${notice.boardIdx}`"
+          class="notice-card"
+        >{{ notice.title }}</router-link></div>
+        <div class="col views">{{ notice.views }}</div>
+        <div class="col author">{{ notice.author }}</div>
+        <div class="col date">{{ moment(notice.regDt).format('YY.MM.DD') }}</div>
+      </div>
+
+      <!-- 모바일 카드 -->
+      <div class="mobile-only mobile-card" :class="{important:notice.bestYn === STATE_YN.Y}">
+        <div class="title">
+          <img class="impor-icon" v-if="notice.bestYn === STATE_YN.Y" src="/assets/images/board/important.png"/>
+          {{ notice.title }}</div>
+        <div class="meta">
+          <span>{{ notice.author }}</span> ·
+          <span>{{ notice.regDt }}</span> ·
+          <span>조회수 {{ notice.views }}</span>
+        </div>
       </div>
     </div>
+    </div>
+    <section class="pagination-section">
+        <apoc-pagination :total-page-num="totalPage" />
+    </section>
   </div>
 </template>

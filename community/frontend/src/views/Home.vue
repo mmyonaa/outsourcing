@@ -1,7 +1,11 @@
 <script lang="ts">
+import { getBoardList } from '@/api/board.api';
+import { BoardEntity, SearchBoardDto } from '@/api/dto/board.dto';
 import ApocImageSet from '@/components/common/ApocImageSet.vue';
+import { getApiClient } from '@/utils/apiClient';
 import { defineComponent, onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import moment from 'moment';
 
 export default defineComponent({
   name: 'Home',
@@ -10,6 +14,9 @@ export default defineComponent({
     const router=useRouter();
     const activeReserveIndex = ref<number>(0)
     const activeRentalIndex = ref<number>(0)
+    const apiClient = getApiClient();
+    const notices = ref<BoardEntity[]>([])
+
     const rentalPosters = [
     {
       image: '/assets/images/theater/theater-1.JPG',
@@ -55,34 +62,23 @@ export default defineComponent({
     },
   ]
 
-  const notices = [
-  {
-    id: 1,
-    title: '사이트 준비 중입니다',
-    date: '2025-06-01',
-  },
-  {
-    id: 2,
-    title: '사이트 준비 중입니다',
-    date: '2025-05-28',
-  },
-  {
-    id: 3,
-    title: '사이트 준비 중입니다',
-    date: '2025-05-20',
-  },
-  {
-    id: 4,
-    title: '서비스 개선 안내',
-    date: '2025-05-18',
-  },
-]
+  const loadBoardLit = async() => {
+      const param = new SearchBoardDto();
+
+      await getBoardList(apiClient, param)
+      .then((res)=>{
+        if(res.resultCode === 0 && res.data){
+          notices.value = res.data
+        }
+      })
+    }
 
 const onClickRental = () => {
   router.push('/rental/info')
 }
 
     onMounted(() => {
+      loadBoardLit();
   
     });
     return {
@@ -91,6 +87,7 @@ const onClickRental = () => {
       activeReserveIndex,
       activeRentalIndex,
       rentalPosters,
+      moment,
       onClickRental
     };
   },
@@ -170,12 +167,12 @@ const onClickRental = () => {
       <div class="card-grid">
         <router-link
           v-for="notice in notices.slice(0, 3)"
-          :key="notice.id"
-          :to="`/notice/detail?id=${notice.id}`"
+          :key="notice.boardIdx"
+          :to="`/notice/detail?id=${notice.boardIdx}`"
           class="notice-card"
         >
           <div class="title">{{ notice.title }}</div>
-          <div class="date">{{ notice.date }}</div>
+          <div class="date">{{ moment(notice.regDt).format('YY.MM.DD') }}</div>
         </router-link>
       </div>
     </section>

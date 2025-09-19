@@ -116,7 +116,7 @@ export function getBoardPrevNextIdx(apiFileClient: AxiosInstance, params: Search
   return new Promise(promiseFn);
 }
 // 게시글 수정
-export function updateBoard(client: AxiosInstance, params: InsertBoardDto): Promise<ResponseDto<BoardEntity>> {
+export function updateBoard(client: AxiosInstance, params: BoardEntity): Promise<ResponseDto<BoardEntity>> {
   const promiseFn = (fnResolve: (value: ResponseDto<BoardEntity>) => void, fnReject: (reason?: any) => void) => {
     client
       .post('/board/updateBoard', params, getApiHeader())
