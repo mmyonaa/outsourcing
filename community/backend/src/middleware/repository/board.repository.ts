@@ -42,13 +42,13 @@ export const updateBoard = (
 
 export const deleteBoard = (
   sql: postgres.Sql,
-  boardIdx: number,
+  reqParam: BoardEntity,
 ): Promise<BoardEntity[]> => {
   return sql<BoardEntity[]>`
     UPDATE public.board
     SET del_yn = 'Y',
         mod_dt = CURRENT_TIMESTAMP
-    WHERE board_idx = ${boardIdx}
+    WHERE board_idx = ${reqParam.boardIdx}
     RETURNING *
   `;
 };
