@@ -47,7 +47,7 @@ export const updateBoard = (
 ): Promise<any> => {
   return sql`
     UPDATE public.board SET
-      ${sql(reqParam, 'title', 'body', 'bestYn', 'delYn')},
+      ${sql(reqParam, 'title', 'body', 'bestYn', 'delYn', 'views')},
       mod_dt = CURRENT_TIMESTAMP
     WHERE board_idx = ${reqParam.boardIdx}
     RETURNING *

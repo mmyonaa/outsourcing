@@ -23,11 +23,12 @@ export default defineComponent({
     }
 
     const submitNotice = async () => {
-      notice.value.bestYn = bestValue ? STATE_YN.Y : STATE_YN.N;
+      notice.value.bestYn = bestValue.value ? STATE_YN.Y : STATE_YN.N;
       await insertBoard(apiClient, notice.value)
       .then((res)=>{
         if(res.resultCode === 0 && res.data){
           alert('공지 등록이 완료되었습니다.')
+          router.push('/admin/notice')
         }
       })
     }

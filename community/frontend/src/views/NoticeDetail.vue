@@ -3,7 +3,7 @@ import { defineComponent, onMounted, ref } from 'vue';
 import ApocPagination from '@/components/common/ApocPagination.vue';
 import { useRoute, useRouter } from 'vue-router';
 import { BoardEntity, SearchBoardDto } from '@/api/dto/board.dto';
-import { getBoardList } from '@/api/board.api';
+import { getBoardList, updateBoard } from '@/api/board.api';
 import moment from 'moment';
 import { getApiClient } from '@/utils/apiClient';
 
@@ -34,9 +34,19 @@ export default defineComponent({
       })
     }
 
-    onMounted(() => {
-      loadBoardDetail();
+
+    const updateViews = async () => {
+      console.log(notice.value)
+      notice.value.boardIdx = String(noticeIdx);
+      notice.value.views ++;
+      await updateBoard(apiClient, notice.value)
+    }
+
+    onMounted(async() => {
+      await loadBoardDetail();
+      await updateViews();
     });
+
     return {
       notice,
       totalPage,

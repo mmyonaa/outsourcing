@@ -42,6 +42,7 @@ export default defineComponent({
       .then((res)=>{
         if(res.resultCode === 0 && res.data){
           alert('공지 수정이 완료되었습니다.')
+          router.push('/admin/notice')
         }
       })
     }
