@@ -18,13 +18,13 @@ export const getBoardList = (sql: postgres.Sql, reqParam: SearchBoardDto) => {
 export const getBoardListCount = (sql: postgres.Sql, reqParam: SearchBoardDto) => {
   return sql<BoardEntity[]>`
     SELECT COUNT(*) as total_count
+      FROM public.board
       WHERE 1 = 1
         AND del_yn = 'N' 
           ${reqParam.boardIdx
       ? sql` AND board_idx =${reqParam.boardIdx}`
       : sql``
     }
-    ORDER BY best_yn DESC, reg_dt DESC
   `;
 };
 
