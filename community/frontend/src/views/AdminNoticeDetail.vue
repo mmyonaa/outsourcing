@@ -37,7 +37,7 @@ export default defineComponent({
     }
 
     const submitNotice = async () => {
-      notice.value.bestYn = bestValue ? STATE_YN.Y : STATE_YN.N;
+      notice.value.bestYn = bestValue.value ? STATE_YN.Y : STATE_YN.N;
       await updateBoard(apiClient, notice.value)
       .then((res)=>{
         if(res.resultCode === 0 && res.data){

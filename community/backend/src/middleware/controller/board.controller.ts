@@ -19,6 +19,7 @@ export const getBoardList = async (ctx: Context) => {
     const resultData = await boardService.getBoardList(reqParam);
 
     result.data = resultData;
+    result.totalCount = await boardService.getBoardListCount(reqParam);
     result.setResultCode(RESULT_CODE.SUCCESS);
   } catch (e) {
     result.setErrorObject(e);
@@ -88,8 +89,20 @@ export const deleteBoard = async (ctx: Context) => {
             RESULT_CODE.INVALID_PARAMETER.msg
         )
     }
-    
-    const resultData = await boardService.deleteBoard(reqParam);
+
+    const searchParam = new SearchBoardDto();
+    searchParam.boardIdx = reqParam.boardIdx
+    const [boardItem] = await boardService.getBoardList(searchParam);
+
+    if(!boardItem) {
+        throw new CustomError(
+            RESULT_CODE.BOARD_NOT_FOUND.code,
+            RESULT_CODE.BOARD_NOT_FOUND.msg
+        )
+    }
+
+    boardItem.delYn = STATE_YN.Y
+    const resultData = await boardService.updateBoard(boardItem);
     result.data = resultData;
     result.setResultCode(RESULT_CODE.SUCCESS);
   } catch (e) {

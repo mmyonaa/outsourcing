@@ -15,6 +15,19 @@ export const getBoardList = (sql: postgres.Sql, reqParam: SearchBoardDto) => {
   `;
 };
 
+export const getBoardListCount = (sql: postgres.Sql, reqParam: SearchBoardDto) => {
+  return sql<BoardEntity[]>`
+    SELECT COUNT(*) as total_count
+      WHERE 1 = 1
+        AND del_yn = 'N' 
+          ${reqParam.boardIdx
+      ? sql` AND board_idx =${reqParam.boardIdx}`
+      : sql``
+    }
+    ORDER BY best_yn DESC, reg_dt DESC
+  `;
+};
+
 export const insertBoard = (sql: postgres.Sql, reqParam: BoardEntity): Promise<any> => {
   return sql`
     INSERT INTO public.board 
@@ -33,23 +46,9 @@ export const updateBoard = (
 ): Promise<any> => {
   return sql`
     UPDATE public.board SET
-      ${sql(reqParam, 'title', 'body', 'bestYn')},
+      ${sql(reqParam, 'title', 'body', 'bestYn', 'delYn')},
       mod_dt = CURRENT_TIMESTAMP
     WHERE board_idx = ${reqParam.boardIdx}
     RETURNING *
   `;
 };
-
-export const deleteBoard = (
-  sql: postgres.Sql,
-  reqParam: BoardEntity,
-): Promise<BoardEntity[]> => {
-  return sql<BoardEntity[]>`
-    UPDATE public.board
-    SET del_yn = 'Y',
-        mod_dt = CURRENT_TIMESTAMP
-    WHERE board_idx = ${reqParam.boardIdx}
-    RETURNING *
-  `;
-};
-
