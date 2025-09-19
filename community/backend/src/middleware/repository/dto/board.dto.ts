@@ -13,7 +13,7 @@ export class SearchBoardDto extends BasicListDto {
 
 export class BoardEntity {
   // 보드고유번호
-  boardIdx: string | undefined = undefined;
+  boardIdx: string;
   // 제목
   title: string | undefined = undefined;
   // 내용

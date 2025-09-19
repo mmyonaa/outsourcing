@@ -27,15 +27,29 @@ export const insertBoard = (sql: postgres.Sql, reqParam: BoardEntity): Promise<a
   `;
 };
 
-export const updateBoard = (sql: postgres.Sql, reqParam: BoardEntity): Promise<any> => {
+export const updateBoard = (
+  sql: postgres.Sql,
+  reqParam: BoardEntity,
+): Promise<any> => {
   return sql`
-    UPDATE INTO public.board 
-    SET mod_dt = CURRENT_TIMESTAMP
-        ${sql(
-        reqParam,
-        'title',
-        'body',
-        'bestYn'
-    )} RETURNING * 
+    UPDATE public.board SET
+      ${sql(reqParam, 'title', 'body', 'bestYn')},
+      mod_dt = CURRENT_TIMESTAMP
+    WHERE board_idx = ${reqParam.boardIdx}
+    RETURNING *
   `;
 };
+
+export const deleteBoard = (
+  sql: postgres.Sql,
+  boardIdx: number,
+): Promise<BoardEntity[]> => {
+  return sql<BoardEntity[]>`
+    UPDATE public.board
+    SET del_yn = 'Y',
+        mod_dt = CURRENT_TIMESTAMP
+    WHERE board_idx = ${boardIdx}
+    RETURNING *
+  `;
+};
+
