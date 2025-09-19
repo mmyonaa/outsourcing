@@ -64,7 +64,6 @@ export const updateBoard = async (ctx: Context) => {
     }
 
     const resultData = await boardService.updateBoard(reqParam);
-
     result.data = resultData;
     result.setResultCode(RESULT_CODE.SUCCESS);
   } catch (e) {
@@ -89,8 +88,6 @@ export const deleteBoard = async (ctx: Context) => {
             RESULT_CODE.INVALID_PARAMETER.msg
         )
     }
-
-    reqParam.delYn = STATE_YN.Y
     
     const resultData = await boardService.deleteBoard(reqParam);
     result.data = resultData;

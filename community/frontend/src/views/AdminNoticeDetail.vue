@@ -47,8 +47,9 @@ export default defineComponent({
     }
 
     const delNotice = async () => {
-      const param = new BoardEntity();
+      const param = new SearchBoardDto();
       param.boardIdx = String(noticeIdx);
+
       if(window.confirm('정말 삭제하시겠습니까?')){
         await deleteBoard(apiClient, param)
         .then((res)=>{
