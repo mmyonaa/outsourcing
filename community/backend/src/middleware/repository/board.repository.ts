@@ -35,7 +35,8 @@ export const insertBoard = (sql: postgres.Sql, reqParam: BoardEntity): Promise<a
         reqParam,
         'title',
         'body',
-        'bestYn'
+        'bestYn',
+        'author'
     )} RETURNING * 
   `;
 };

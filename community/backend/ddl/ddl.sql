@@ -6,6 +6,7 @@ CREATE TABLE board (
     board_idx UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     title VARCHAR(500),
     body TEXT,
+    author VARCHAR(500),
     views INTEGER DEFAULT 0,
     best_yn CHAR(1) DEFAULT 'N',
     reg_dt TIMESTAMPTZ DEFAULT NOW(),
