@@ -19,7 +19,7 @@ export const getPerfoList = async (ctx: Context) => {
     const resultData = await perfoService.getPerfoList(reqParam);
 
     result.data = resultData;
-    result.totalCount = await perfoService.getPerfoList(reqParam);
+    result.totalCount = await perfoService.getPerfoListCount(reqParam);
     result.setResultCode(RESULT_CODE.SUCCESS);
   } catch (e) {
     result.setErrorObject(e);
