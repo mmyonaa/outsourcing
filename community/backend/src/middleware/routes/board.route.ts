@@ -3,9 +3,9 @@ import * as boardController from '../controller/board.controller';
 
 const router = new Router(); // prefix 제거
 
-router.get('/getBoardList', boardController.getBoardList);
-router.post('/insertBoard', boardController.insertBoard);
-router.post('/updateBoard', boardController.updateBoard);
-router.post('/deleteBoard', boardController.deleteBoard);
+router.get('/board/getPerfoList', boardController.getBoardList);
+router.post('/board/insertPerfo', boardController.insertBoard);
+router.post('/board/updatePerfo', boardController.updateBoard);
+router.post('/board/deletePerfo', boardController.deleteBoard);
 
 export default router;

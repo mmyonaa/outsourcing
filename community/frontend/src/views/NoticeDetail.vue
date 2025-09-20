@@ -36,7 +36,6 @@ export default defineComponent({
 
 
     const updateViews = async () => {
-      console.log(notice.value)
       notice.value.boardIdx = String(noticeIdx);
       notice.value.views ++;
       await updateBoard(apiClient, notice.value)

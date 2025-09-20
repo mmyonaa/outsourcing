@@ -3,10 +3,11 @@ import Router from '@koa/router';
 import bodyParser from 'koa-bodyparser';
 import cors from '@koa/cors';
 import boardRouter from './middleware/routes/board.route';
+import perfoRouter from './middleware/routes/performance.route';
 
 export const getServer = async () => {
   const app = new Koa();
-  const router = new Router({ prefix: '/api/board' }); // /api prefix 한 번만
+  const router = new Router({ prefix: '/api' }); // /api prefix 한 번만
 
   // app.use(cors({ origin: 'http://bktheater.com', credentials: true }));
   const allowedOrigins = ["http://localhost:4000", "http://bktheater.com"];
@@ -29,6 +30,9 @@ export const getServer = async () => {
   // === API 라우터 등록 ===
   router.use(boardRouter.routes());
   router.use(boardRouter.allowedMethods());
+
+  router.use(perfoRouter.routes());
+  router.use(perfoRouter.allowedMethods());
 
   // 실제 router stack 확인 (디버그용)
   console.log('등록된 라우트 목록:');

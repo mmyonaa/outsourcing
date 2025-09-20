@@ -3,7 +3,7 @@ import { defineComponent, onMounted, ref } from 'vue';
 import ApocPagination from '@/components/common/ApocPagination.vue';
 import { BoardEntity, SearchBoardDto } from '@/api/dto/board.dto';
 import { getApiClient } from '@/utils/apiClient';
-import { getBoardList } from '@/api/board.api';
+import { getBoardList, updateBoard } from '@/api/board.api';
 import moment from 'moment';
 import { STATE_YN } from '@/types';
 
