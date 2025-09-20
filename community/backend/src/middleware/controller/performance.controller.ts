@@ -16,10 +16,10 @@ export const getPerfoList = async (ctx: Context) => {
     const reqParam = new SearchPerfoDto();
     setEntityParameters(reqParam, ctx.request.query);
 
-    const resultData = await perfoService.getperfoList(reqParam);
+    const resultData = await perfoService.getPerfoList(reqParam);
 
     result.data = resultData;
-    result.totalCount = await perfoService.getperfoList(reqParam);
+    result.totalCount = await perfoService.getPerfoList(reqParam);
     result.setResultCode(RESULT_CODE.SUCCESS);
   } catch (e) {
     result.setErrorObject(e);
