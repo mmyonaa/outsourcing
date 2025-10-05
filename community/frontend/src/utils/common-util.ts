@@ -1,7 +1,5 @@
 import type { BoardEntityDto } from '@/api/dto/board.dto';
 import AppConfig from '@/constants';
-import type { CategoryType } from '@/types';
-import { SUB_TAB_TYPE } from '@/types';
 import lzString from 'lz-string';
 import { useRoute } from 'vue-router';
 
@@ -14,7 +12,7 @@ export enum MobileOS {
 export function getUuid(): string {
   let dt = new Date().getTime();
   const uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-    const r = ((dt + Math.random() * 16) % 16) | 0;
+    const r = (dt + Math.random() * 16) % 16 | 0;
     dt = Math.floor(dt / 16);
     return (c === 'x' ? r : (r & 0x3) | 0x8).toString(16);
   });
@@ -101,63 +99,6 @@ export const decodeHTMLEntities = (str: string): string => {
     .replace(/&apos;/g, "'");
 };
 
-// 게시판 카체고리 가져오기
-// export const getBoardCategory = (board: BoardEntityDto) => {
-//   let tagCode: string | undefined;
-//   let subTabCode: string | undefined;
-//   let mainTabCode: string | undefined;
-//   let mainTab: CategoryInterface | undefined;
-//   let subTab: CategorySubInterface | undefined;
-//
-//   if (!board || !board.category) return;
-//   board.category?.forEach((item: CategoryType) => {
-//     switch (item.categoryTypeCode) {
-//       case 'TAG':
-//         tagCode = item.categoryCode;
-//         break;
-//       case 'SUB_TAB':
-//         subTabCode = item.categoryCode;
-//         break;
-//       case 'MAIN_TAB':
-//         mainTabCode = item.categoryCode;
-//         break;
-//     }
-//   });
-//   const mainCategory = CATEGORY_INFO.find(category => category.typeCode === mainTabCode);
-//   if (mainCategory) {
-//     mainTab = mainCategory;
-//     const subItem = mainCategory.subItems?.find(subItem => subItem.typeCode === subTabCode);
-//     if (subItem) {
-//       subTab = subItem;
-//     }
-//   }
-//   return {
-//     tag: tagCode,
-//     subTab: { code: subTabCode, type: subTab?.type, title: subTab?.title },
-//     mainTab: { code: mainTabCode, type: mainTab?.type, title: mainTab?.title },
-//   };
-// };
-export const getBoardCategoryV2 = (board: BoardEntityDto) => {
-  let mainTab: CategoryType | undefined;
-  let subTab: CategoryType | undefined;
-  const tag: CategoryType[] = [];
-  if (!board || !board.category) return;
-  board.category?.forEach((item: CategoryType) => {
-    switch (item.categoryTypeCode) {
-      case 'TAG':
-        tag.push(item);
-        break;
-      case 'SUB_TAB':
-        subTab = item;
-        break;
-      case 'MAIN_TAB':
-        mainTab = item;
-        break;
-    }
-  });
-  return { mainTab, subTab, tag };
-};
-
 // 스크롤 비활성화
 export function scrollDisable() {
   window.addEventListener('scroll', preventDefault, { passive: false });
@@ -201,9 +142,7 @@ export const convertSeconds = (seconds: number) => {
   return result.trim();
 };
 
-export const ssoLogin = () => {
-
-};
+export const ssoLogin = () => {};
 
 /**
  * @comment HTML을 TEXT로 변환
