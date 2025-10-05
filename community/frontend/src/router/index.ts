@@ -66,13 +66,13 @@ export const routesList = [
     name: 'noticeDetail',
     component: () => import('../views/NoticeDetail.vue'),
   },
-//************ ADMIN ************* */
+  //************ ADMIN ************* */
   {
     path: '/admin',
     name: 'admin',
     component: () => import('../views/admin/Admin.vue'),
   },
-    {
+  {
     path: '/admin/notice',
     name: 'adminNotice',
     component: () => import('../views/admin/AdminNotice.vue'),
@@ -82,7 +82,7 @@ export const routesList = [
     name: 'adminNoticeDetail',
     component: () => import('../views/admin/AdminNoticeDetail.vue'),
   },
-    {
+  {
     path: '/admin/notice/assign',
     name: 'adminNoticeAssign',
     component: () => import('../views/admin/AdminNoticeAssign.vue'),
@@ -93,10 +93,18 @@ export const routesList = [
     component: () => import('../views/admin/AdminPerformance.vue'),
   },
   {
+    path: '/admin/performance/detail',
+    name: 'adminPerformanceDetail',
+    component: () => import('../views/admin/AdminPerformanceDetail.vue'),
+  },
+  {
+    path: '/admin/performance/assign',
+    name: 'adminPerformanceAssign',
+    component: () => import('../views/admin/AdminPerformanceAssign.vue'),
+  },
+  {
     path: '/admin/performance/next',
     name: 'adminPerformanceNext',
     component: () => import('../views/admin/AdminPerformanceNext.vue'),
   },
 ];
-
-

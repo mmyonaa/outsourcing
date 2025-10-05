@@ -1,4 +1,3 @@
-import type { BoardEntityDto } from '@/api/dto/board.dto';
 import AppConfig from '@/constants';
 import lzString from 'lz-string';
 import { useRoute } from 'vue-router';

@@ -1,7 +1,7 @@
 import Router from '@koa/router';
 import * as boardController from '../controller/board.controller';
 
-const router = new Router(); // prefix 제거
+const router = new Router({ prefix: '/api' });
 
 router.get('/board/getPerfoList', boardController.getBoardList);
 router.post('/board/insertPerfo', boardController.insertBoard);
