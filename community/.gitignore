@@ -4,12 +4,43 @@
 *.crt
 *.cert
 
+# Dependencies
 node_modules
+
+# Build output
 dist
+
+# Lock files
 package.lock
-.DS_Store
-.vscode/*
 pnpm-lock.yaml
+
+# OS files
+.DS_Store
+
+# IDE
+.vscode/*
+.idea
+
+# Environment variables
+.env
+.env.local
+.env.*.local
 
 # TypeORM XML metadata
 *.xml
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Temporary files
+*.tmp
+*.temp
+.cache
+
+# Upload files (if stored locally)
+uploads/
+public/uploads/
