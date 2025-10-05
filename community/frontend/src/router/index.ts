@@ -70,32 +70,32 @@ export const routesList = [
   {
     path: '/admin',
     name: 'admin',
-    component: () => import('../views/Admin.vue'),
+    component: () => import('../views/admin/Admin.vue'),
   },
     {
     path: '/admin/notice',
     name: 'adminNotice',
-    component: () => import('../views/AdminNotice.vue'),
+    component: () => import('../views/admin/AdminNotice.vue'),
   },
   {
     path: '/admin/notice/detail',
     name: 'adminNoticeDetail',
-    component: () => import('../views/AdminNoticeDetail.vue'),
+    component: () => import('../views/admin/AdminNoticeDetail.vue'),
   },
     {
     path: '/admin/notice/assign',
     name: 'adminNoticeAssign',
-    component: () => import('../views/AdminNoticeAssign.vue'),
+    component: () => import('../views/admin/AdminNoticeAssign.vue'),
   },
   {
     path: '/admin/performance',
     name: 'adminPerformance',
-    component: () => import('../views/AdminPerformance.vue'),
+    component: () => import('../views/admin/AdminPerformance.vue'),
   },
   {
     path: '/admin/performance/next',
     name: 'adminPerformanceNext',
-    component: () => import('../views/AdminPerformanceNext.vue'),
+    component: () => import('../views/admin/AdminPerformanceNext.vue'),
   },
 ];
 
