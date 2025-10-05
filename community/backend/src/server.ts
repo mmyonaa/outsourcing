@@ -3,6 +3,7 @@ import bodyParser from 'koa-bodyparser';
 import cors from '@koa/cors';
 import boardRouter from './middleware/routes/board.route';
 import perfoRouter from './middleware/routes/performance.route';
+import Router from '@koa/router';
 
 export const getServer = async () => {
   const app = new Koa();
@@ -26,11 +27,13 @@ export const getServer = async () => {
   app.use(bodyParser());
 
   // === API 라우터 등록 ===
-  app.use(boardRouter.routes());
-  app.use(boardRouter.allowedMethods());
+  const router = new Router();
 
-  app.use(perfoRouter.routes());
-  app.use(perfoRouter.allowedMethods()); 
+  router.use(boardRouter.routes(), boardRouter.allowedMethods());
+  router.use(perfoRouter.routes(), perfoRouter.allowedMethods());
+
+  app.use(router.routes());
+  app.use(router.allowedMethods());
 
   // 404 및 요청 로그 미들웨어 (라우터 뒤)
   app.use(async (ctx, next) => {
