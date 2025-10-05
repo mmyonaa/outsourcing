@@ -1,5 +1,5 @@
 import { BasicListDto } from '@/api/dto/request.dto';
-import { type CategoryType, SAVE_STATE, STATE_YN } from '@/types';
+import { STATE_YN } from '@/types';
 
 export class BoardEntity {
   // 보드고유번호
@@ -9,7 +9,7 @@ export class BoardEntity {
   // 내용
   body: string | undefined = undefined;
   // 조회수
-  views : number=0;
+  views: number = 0;
   // 관리자
   author: string = '관리자';
   // 등록자회원고유번호
@@ -49,8 +49,6 @@ export class BoardEntityDto extends BoardEntity {
   userId: string | undefined = undefined;
   // 유저 닉네임
   userNickname: string | undefined = undefined;
-  // 카테고리 정보들
-  category: CategoryType[] | undefined = [];
   //반환 총갯수
   totalCount = 0;
   //게시판 이전글
