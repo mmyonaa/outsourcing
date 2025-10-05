@@ -5,6 +5,7 @@ import { setEntityParameters } from '../utils/common.util';
 import { RESULT_CODE, STATE_YN } from '../../types';
 import * as perfoService from '../service/performance.service'
 import { CustomError } from '../utils/custom.error';
+import { uploadToS3 } from '../utils/s3.util';
 
 /**
  * 글 조회
@@ -36,6 +37,12 @@ export const insertPerfo = async (ctx: Context) => {
   try {
     const reqParam = new PerfoEntity();
     setEntityParameters(reqParam, ctx.request.body);
+
+    // 이미지가 업로드된 경우 S3에 업로드
+    if ((ctx.request as any).file) {
+      const imageUrl = await uploadToS3((ctx.request as any).file, 'performance');
+      reqParam.imgUr = imageUrl;
+    }
 
     const resultData = await perfoService.insertPerfo(reqParam);
 
