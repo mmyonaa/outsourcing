@@ -9,7 +9,7 @@ export const getPerfoList = (sql: postgres.Sql, reqParam: SearchPerfoDto) => {
         AND del_yn = 'N' 
           ${reqParam.perIdx ? sql` AND per_idx =${reqParam.perIdx}` : sql``}
     ${reqParam.perType ? sql` AND per_type =${reqParam.perType}` : sql``}
-    ORDER BY best_yn DESC, reg_dt DESC
+    ORDER BY reg_dt DESC
   `;
 };
 
