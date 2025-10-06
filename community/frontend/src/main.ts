@@ -6,6 +6,7 @@ import VueClickAway from 'vue3-click-away';
 import { useCounterStore } from '@/stores/counter';
 import App from './App.vue';
 import { routesList } from './router';
+import { setMetaTags, pageSeoConfig } from '@/utils/seo.util';
 
 if (typeof window !== 'undefined') import('./pwa');
 
@@ -53,6 +54,14 @@ export const createApp = ViteSSG(
       const store = useCounterStore(pinia);
       if (typeof Window === 'undefined') return;
       if (from.name === 'Board') saveLocalData(from.path, (window.document.querySelector('html') as HTMLElement).scrollTop.toString());
+
+      // SEO 메타 태그 설정
+      if (isClient && to.name && typeof to.name === 'string') {
+        const seoConfig = pageSeoConfig[to.name];
+        if (seoConfig) {
+          setMetaTags(seoConfig);
+        }
+      }
 
       next();
     });
