@@ -3,7 +3,9 @@
     "allow": [
       "Bash(curl:*)",
       "Bash(npm run build:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git log:*)",
+      "Bash(git commit -m \"$(cat <<''EOF''\n공지사항 및 보도자료 페이지에 검색 기능 추가\n\n- 백엔드: 제목 키워드 검색 쿼리 추가\n  * SearchBoardDto에 keyword 필드 추가\n  * getBoardList: title ILIKE 검색 (대소문자 구분 없음)\n  * getBoardListCount: 검색 결과 카운트에도 동일 조건 적용\n  * boardType 필터링도 count 쿼리에 추가\n\n- 프론트엔드: 검색바 UI 추가\n  * Notice.vue: 공지사항 검색 기능\n  * News.vue: 보도자료 검색 기능\n  * searchKeyword ref로 검색어 관리\n  * handleSearch 함수로 검색 실행\n  * Enter 키 입력으로도 검색 가능\n\n- 검색바 스타일링 (notice.scss)\n  * 메인 컬러($colorPrimary) 사용\n  * 포커스 시 테두리 색상 변경 및 그림자 효과\n  * 호버 시 버튼 애니메이션 및 색상 변경\n  * 반응형 디자인 (모바일 최적화)\n  * 최대 너비 600px, 중앙 정렬\n  * 전체 페이지 UI와 통일성 유지\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")"
     ],
     "deny": [],
     "ask": []

@@ -140,7 +140,7 @@ export default defineComponent({
       if (!editorRef.value) return;
 
       // 커스텀 파일 첨부 버튼 추가
-      const icons = Quill.import('ui/icons');
+      const icons = Quill.import('ui/icons') as Record<string, string>;
       icons['file'] = '<svg viewBox="0 0 18 18"><path class="ql-stroke" d="M9,3V15M3,9H15"></path></svg>';
 
       const toolbarOptions = [
@@ -174,7 +174,7 @@ export default defineComponent({
     };
 
     const submitNotice = async () => {
-      if (!notice.value.title.trim()) {
+      if (!notice.value.title || !notice.value.title.trim()) {
         alert('제목을 입력하세요.');
         return;
       }
