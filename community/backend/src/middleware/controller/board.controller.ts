@@ -5,6 +5,7 @@ import { setEntityParameters } from '../utils/common.util';
 import { RESULT_CODE, STATE_YN } from '../../types';
 import * as boardService from '../service/board.service'
 import { CustomError } from '../utils/custom.error';
+import { uploadToS3 } from '../utils/s3.util';
 
 /**
  * 글 조회
@@ -104,6 +105,54 @@ export const deleteBoard = async (ctx: Context) => {
     boardItem.delYn = STATE_YN.Y
     const resultData = await boardService.updateBoard(boardItem);
     result.data = resultData;
+    result.setResultCode(RESULT_CODE.SUCCESS);
+  } catch (e) {
+    result.setErrorObject(e);
+  }
+  ctx.body = result;
+}
+
+/**
+ * 이미지 업로드
+ * @param {Context} ctx Koa context
+ * */
+export const uploadImage = async (ctx: Context) => {
+  const result = new ResponseDto();
+  try {
+    if (!(ctx.request as any).file) {
+      throw new CustomError(
+        RESULT_CODE.INVALID_PARAMETER.code,
+        '이미지 파일이 없습니다.'
+      );
+    }
+
+    const imageUrl = await uploadToS3((ctx.request as any).file, 'board/images');
+
+    result.data = { imageUrl };
+    result.setResultCode(RESULT_CODE.SUCCESS);
+  } catch (e) {
+    result.setErrorObject(e);
+  }
+  ctx.body = result;
+}
+
+/**
+ * 파일 업로드
+ * @param {Context} ctx Koa context
+ * */
+export const uploadFile = async (ctx: Context) => {
+  const result = new ResponseDto();
+  try {
+    if (!(ctx.request as any).file) {
+      throw new CustomError(
+        RESULT_CODE.INVALID_PARAMETER.code,
+        '파일이 없습니다.'
+      );
+    }
+
+    const fileUrl = await uploadToS3((ctx.request as any).file, 'board/files');
+
+    result.data = { fileUrl };
     result.setResultCode(RESULT_CODE.SUCCESS);
   } catch (e) {
     result.setErrorObject(e);
