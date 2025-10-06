@@ -6,17 +6,22 @@ export const getBoardList = (sql: postgres.Sql, reqParam: SearchBoardDto) => {
       SELECT *
       FROM public.board
       WHERE 1 = 1
-        AND del_yn = 'N' 
+        AND del_yn = 'N'
           ${
             reqParam.boardIdx
               ? sql` AND board_idx =${reqParam.boardIdx}`
               : sql``
           }
-                    ${
-                      reqParam.boardType
-                        ? sql` AND board_type =${reqParam.boardType}`
-                        : sql``
-                    }
+          ${
+            reqParam.boardType
+              ? sql` AND board_type =${reqParam.boardType}`
+              : sql``
+          }
+          ${
+            reqParam.keyword
+              ? sql` AND title ILIKE ${'%' + reqParam.keyword + '%'}`
+              : sql``
+          }
     ORDER BY best_yn DESC, reg_dt DESC
   `;
 };
@@ -29,10 +34,20 @@ export const getBoardListCount = (
     SELECT COUNT(*) as total_count
       FROM public.board
       WHERE 1 = 1
-        AND del_yn = 'N' 
+        AND del_yn = 'N'
           ${
             reqParam.boardIdx
               ? sql` AND board_idx =${reqParam.boardIdx}`
+              : sql``
+          }
+          ${
+            reqParam.boardType
+              ? sql` AND board_type =${reqParam.boardType}`
+              : sql``
+          }
+          ${
+            reqParam.keyword
+              ? sql` AND title ILIKE ${'%' + reqParam.keyword + '%'}`
               : sql``
           }
   `;

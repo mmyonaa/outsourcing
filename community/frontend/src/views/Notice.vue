@@ -14,16 +14,22 @@ export default defineComponent({
     const totalPage = ref<number>(0); // 총 페이지
     const apiClient = getApiClient();
     const notices = ref<BoardEntity[]>([]);
+    const searchKeyword = ref<string>('');
 
     const loadBoardLit = async () => {
       const param = new SearchBoardDto();
       param.boardType = TYPE_BOARD.NORMAL;
+      param.keyword = searchKeyword.value || undefined;
 
       await getBoardList(apiClient, param).then(res => {
         if (res.resultCode === 0 && res.data) {
           notices.value = res.data;
         }
       });
+    };
+
+    const handleSearch = () => {
+      loadBoardLit();
     };
 
     onMounted(() => {
@@ -34,6 +40,8 @@ export default defineComponent({
       totalPage,
       moment,
       STATE_YN,
+      searchKeyword,
+      handleSearch,
     };
   },
 });
@@ -42,6 +50,19 @@ export default defineComponent({
 <template>
   <div class="page-common notice-page">
     <h1>공지사항</h1>
+
+    <!-- 검색바 -->
+    <div class="search-bar-wrapper">
+      <input
+        v-model="searchKeyword"
+        type="text"
+        placeholder="제목으로 검색..."
+        class="search-input"
+        @keyup.enter="handleSearch"
+      />
+      <button class="search-button" @click="handleSearch">검색</button>
+    </div>
+
     <div class="notice-list">
       <!-- 데스크탑용 테이블 -->
       <div class="notice-header desktop-only">

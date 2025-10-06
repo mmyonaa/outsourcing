@@ -7,6 +7,75 @@
     color:$colorFont
   }
 
+  // 검색바 스타일
+  .search-bar-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin: 3rem auto 2rem;
+    max-width: 600px;
+    padding: 0 1rem;
+
+    .search-input {
+      flex: 1;
+      padding: 1.2rem 1.5rem;
+      font-size: 16px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      outline: none;
+      transition: all 0.2s ease;
+      font-family: 'Pretendard', sans-serif;
+
+      &::placeholder {
+        color: #999;
+      }
+
+      &:focus {
+        border-color: $colorPrimary;
+        box-shadow: 0 0 0 3px rgba(227, 67, 99, 0.1);
+      }
+    }
+
+    .search-button {
+      padding: 1.2rem 2rem;
+      font-size: 16px;
+      font-weight: 600;
+      color: white;
+      background-color: $colorPrimary;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+
+      &:hover {
+        background-color: $colorPrimaryStrong;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(227, 67, 99, 0.3);
+      }
+
+      &:active {
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 768px) {
+      gap: 0.8rem;
+      margin: 2rem auto 1.5rem;
+
+      .search-input {
+        padding: 1rem 1.2rem;
+        font-size: 14px;
+      }
+
+      .search-button {
+        padding: 1rem 1.5rem;
+        font-size: 14px;
+      }
+    }
+  }
+
   &.admin {
     .notice-input {
       width: 100%;

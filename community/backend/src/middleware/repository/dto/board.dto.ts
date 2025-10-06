@@ -8,6 +8,8 @@ export class SearchBoardDto extends BasicListDto {
   boardType: string | undefined = undefined;
   // 내용
   body: string | undefined = undefined;
+  // 검색어
+  keyword: string | undefined = undefined;
   // 공개여부
   openYn: STATE_YN = STATE_YN.Y;
 }
