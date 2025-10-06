@@ -19,8 +19,12 @@ export default defineConfig({
       },
     }),
   ],
+  build: {
+    outDir: 'dist',  // 빌드 출력 디렉토리를 dist로 설정
+  },
   ssgOptions: {
     script: 'async',
+    dirStyle: 'nested',
   },
   resolve: {
     alias: {

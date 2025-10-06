@@ -27,7 +27,7 @@ pnpm-lock.yaml
 .env.*.local
 
 # TypeORM XML metadata
-*.xml
+# *.xml  # sitemap.xml을 위해 주석 처리
 
 # Logs
 logs
