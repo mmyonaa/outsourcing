@@ -7,7 +7,7 @@ Disallow: /admin
 Disallow: /api/
 
 # Sitemap location
-Sitemap: https://www.bktheater.com/sitemap.xml
+Sitemap: http://bktheater.com/sitemap.xml
 
 # Crawl-delay for specific bots (optional)
 User-agent: Googlebot
