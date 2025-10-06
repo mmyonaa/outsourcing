@@ -5,7 +5,7 @@ import { BoardEntity, SearchBoardDto } from '@/api/dto/board.dto';
 import { getApiClient } from '@/utils/apiClient';
 import { getBoardList, updateBoard } from '@/api/board.api';
 import moment from 'moment';
-import { STATE_YN } from '@/types';
+import { STATE_YN, TYPE_BOARD } from '@/types';
 
 export default defineComponent({
   name: 'notice',
@@ -17,6 +17,7 @@ export default defineComponent({
 
     const loadBoardLit = async () => {
       const param = new SearchBoardDto();
+      param.boardType = TYPE_BOARD.NORMAL;
 
       await getBoardList(apiClient, param).then(res => {
         if (res.resultCode === 0 && res.data) {

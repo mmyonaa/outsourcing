@@ -5,6 +5,7 @@ export class SearchBoardDto extends BasicListDto {
   boardIdx: string | undefined = undefined;
   // 제목
   title: string | undefined = undefined;
+  boardType: string | undefined = undefined;
   // 내용
   body: string | undefined = undefined;
   // 공개여부

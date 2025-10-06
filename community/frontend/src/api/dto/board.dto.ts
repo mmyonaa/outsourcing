@@ -31,6 +31,7 @@ export class BoardEntity {
 
 export class SearchBoardDto extends BasicListDto {
   boardIdx: string | undefined = undefined;
+  boardType: string | undefined = undefined;
 }
 
 export class InsertBoardDto extends BoardEntity {

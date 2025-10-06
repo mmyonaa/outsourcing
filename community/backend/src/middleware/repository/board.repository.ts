@@ -12,6 +12,11 @@ export const getBoardList = (sql: postgres.Sql, reqParam: SearchBoardDto) => {
               ? sql` AND board_idx =${reqParam.boardIdx}`
               : sql``
           }
+                    ${
+                      reqParam.boardType
+                        ? sql` AND board_type =${reqParam.boardType}`
+                        : sql``
+                    }
     ORDER BY best_yn DESC, reg_dt DESC
   `;
 };
