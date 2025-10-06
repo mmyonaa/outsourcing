@@ -4,7 +4,7 @@ import ApocPagination from '@/components/common/ApocPagination.vue';
 import { useRoute, useRouter } from 'vue-router';
 import { PerfoEntity } from '@/api/dto/perfo.dto';
 import { insertPerfo } from '@/api/perfo.api';
-import { apiClient } from '@/utils/apiClient';
+import { getApiClient } from '@/utils/apiClient';
 
 export default defineComponent({
   name: 'adminPerformance',
@@ -16,10 +16,11 @@ export default defineComponent({
     const performance = ref<PerfoEntity>(new PerfoEntity());
     const selectedImage = ref<File | null>(null);
     const imagePreview = ref<string | null>(null);
+    const apiClient = getApiClient();
 
     const goBack = () => {
-      router.push('/performance') // 공연 목록 페이지 경로
-    }
+      router.push('/performance'); // 공연 목록 페이지 경로
+    };
 
     const handleImageSelect = (event: Event) => {
       const target = event.target as HTMLInputElement;
@@ -42,7 +43,7 @@ export default defineComponent({
 
         // 이미지 미리보기
         const reader = new FileReader();
-        reader.onload = (e) => {
+        reader.onload = e => {
           imagePreview.value = e.target?.result as string;
         };
         reader.readAsDataURL(file);
@@ -112,21 +113,12 @@ export default defineComponent({
   <div class="page-common notice-page admin">
     <h1>역대 공연 등록</h1>
     <div class="notice-detail">
-      <input
-        v-model="performance.title"
-        class="notice-input"
-        placeholder="제목을 입력하세요"
-      />
+      <input v-model="performance.title" class="notice-input" placeholder="제목을 입력하세요" />
 
       <!-- 이미지 업로드 섹션 -->
       <div class="image-upload-section">
         <label class="image-upload-label">
-          <input
-            type="file"
-            accept="image/*"
-            @change="handleImageSelect"
-            style="display: none"
-          />
+          <input type="file" accept="image/*" @change="handleImageSelect" style="display: none" />
           <span class="upload-button">📷 이미지 선택</span>
         </label>
 
@@ -137,11 +129,7 @@ export default defineComponent({
         </div>
       </div>
 
-      <textarea
-        v-model="performance.body"
-        class="notice-textarea"
-        placeholder="내용을 입력하세요"
-      ></textarea>
+      <textarea v-model="performance.body" class="notice-textarea" placeholder="내용을 입력하세요"></textarea>
 
       <!-- 🔽 등록 버튼 -->
       <div class="back-button-wrapper">
@@ -164,7 +152,7 @@ export default defineComponent({
 .upload-button {
   display: inline-block;
   padding: 10px 20px;
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
   border-radius: 4px;
   transition: background-color 0.3s;
