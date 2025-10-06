@@ -40,7 +40,7 @@ export default defineComponent({
       await updateBoard(apiClient, notice.value).then(res => {
         if (res.resultCode === 0 && res.data) {
           alert('보도자료 수정이 완료되었습니다.');
-          router.push('/admin/notice');
+          router.push('/admin/news');
         }
       });
     };
@@ -53,7 +53,7 @@ export default defineComponent({
         await deleteBoard(apiClient, param).then(res => {
           if (res.resultCode === 0 && res.data) {
             alert('보도자료 삭제가 완료되었습니다.');
-            router.push('/admin/notice');
+            router.push('/admin/news');
           }
         });
       }

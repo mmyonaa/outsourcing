@@ -5,7 +5,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { BoardEntity } from '@/api/dto/board.dto';
 import { getApiClient } from '@/utils/apiClient';
 import { insertBoard } from '@/api/board.api';
-import { STATE_YN } from '@/types';
+import { STATE_YN, TYPE_BOARD } from '@/types';
 import Quill from 'quill';
 import 'quill/dist/quill.snow.css';
 
@@ -16,15 +16,15 @@ export default defineComponent({
     const totalPage = ref<number>(0); // 총 페이지
     const route = useRoute();
     const router = useRouter();
-    const notice = ref<BoardEntity>(new BoardEntity())
+    const notice = ref<BoardEntity>(new BoardEntity());
     const apiClient = getApiClient();
-    const bestValue = ref<boolean>(false)
+    const bestValue = ref<boolean>(false);
     const editorRef = ref<HTMLElement | null>(null);
     let quillInstance: Quill | null = null;
 
     const goBack = () => {
-      router.push('/admin/notice') // 공지 목록 페이지 경로
-    }
+      router.push('/admin/notice'); // 공지 목록 페이지 경로
+    };
 
     // S3에 이미지 업로드
     const uploadImageToS3 = async (file: File): Promise<string> => {
@@ -144,13 +144,13 @@ export default defineComponent({
       icons['file'] = '<svg viewBox="0 0 18 18"><path class="ql-stroke" d="M9,3V15M3,9H15"></path></svg>';
 
       const toolbarOptions = [
-        [{ 'header': [1, 2, 3, false] }],
+        [{ header: [1, 2, 3, false] }],
         ['bold', 'italic', 'underline', 'strike'],
-        [{ 'color': [] }, { 'background': [] }],
-        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-        [{ 'align': [] }],
+        [{ color: [] }, { background: [] }],
+        [{ list: 'ordered' }, { list: 'bullet' }],
+        [{ align: [] }],
         ['link', 'image', 'file'],
-        ['clean']
+        ['clean'],
       ];
 
       quillInstance = new Quill(editorRef.value, {
@@ -161,8 +161,8 @@ export default defineComponent({
             handlers: {
               image: imageHandler,
               file: fileHandler,
-            }
-          }
+            },
+          },
         },
         placeholder: '내용을 입력하세요...',
       });
@@ -184,20 +184,20 @@ export default defineComponent({
         return;
       }
 
+      notice.value.boardType = TYPE_BOARD.NORMAL;
       notice.value.body = quillInstance.root.innerHTML;
       notice.value.bestYn = bestValue.value ? STATE_YN.Y : STATE_YN.N;
 
-      await insertBoard(apiClient, notice.value)
-      .then((res)=>{
-        if(res.resultCode === 0 && res.data){
-          alert('공지 등록이 완료되었습니다.')
-          router.push('/admin/notice')
+      await insertBoard(apiClient, notice.value).then(res => {
+        if (res.resultCode === 0 && res.data) {
+          alert('공지 등록이 완료되었습니다.');
+          router.push('/admin/notice');
         }
-      })
-    }
+      });
+    };
 
     onMounted(() => {
-      notice.value.body = ''
+      notice.value.body = '';
       initQuillEditor();
     });
 
@@ -207,7 +207,7 @@ export default defineComponent({
       bestValue,
       editorRef,
       submitNotice,
-      goBack
+      goBack,
     };
   },
 });
@@ -217,14 +217,8 @@ export default defineComponent({
   <div class="page-common notice-page admin">
     <h1>공지사항 등록</h1>
     <div class="notice-detail">
-      <label class="checkbox">
-        <input type="checkbox" v-model="bestValue" /> 중요 공지 여부
-      </label>
-      <input
-        v-model="notice.title"
-        class="notice-input"
-        placeholder="제목을 입력하세요"
-      />
+      <label class="checkbox"> <input type="checkbox" v-model="bestValue" /> 중요 공지 여부 </label>
+      <input v-model="notice.title" class="notice-input" placeholder="제목을 입력하세요" />
 
       <!-- Quill 에디터 -->
       <div ref="editorRef" class="quill-editor"></div>

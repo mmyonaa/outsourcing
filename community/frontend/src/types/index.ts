@@ -11,6 +11,11 @@ export enum TYPE_PERFO {
   NEXT = 'NEXT',
 }
 
+export enum TYPE_BOARD {
+  NORMAL = 'NORMAL',
+  NEWS = 'NEWS',
+}
+
 export enum POPUP_TYPE {
   NONE = 'NONE',
   REPORT_POPUP = 'REPORT_POPUP',

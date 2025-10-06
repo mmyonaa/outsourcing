@@ -556,6 +556,7 @@ export enum PRODUCT_META_KEY {
 export enum BOARD_TYPE {
   FAQ = 'FAQ',
   NOTICE = 'NOTICE',
+  NEWS = 'NEWS',
 }
 
 export enum CARD_BRAND {

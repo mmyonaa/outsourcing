@@ -13,13 +13,14 @@ export class SearchBoardDto extends BasicListDto {
 
 export class BoardEntity {
   // 보드고유번호
-  boardIdx: string = ""
+  boardIdx: string = "";
   // 제목
   title: string | undefined = undefined;
   // 내용
   body: string | undefined = undefined;
+  boardType: string | undefined = undefined;
   // 조회수
-  views : number=0;
+  views: number = 0;
   // 관리자
   author: string | undefined = undefined;
   // 등록자회원고유번호

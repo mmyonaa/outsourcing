@@ -8,6 +8,7 @@ export class BoardEntity {
   title: string | undefined = undefined;
   // 내용
   body: string | undefined = undefined;
+  boardType: string | undefined = undefined;
   // 조회수
   views: number = 0;
   // 관리자
@@ -30,31 +31,6 @@ export class BoardEntity {
 
 export class SearchBoardDto extends BasicListDto {
   boardIdx: string | undefined = undefined;
-}
-
-export class BoardEntityDto extends BoardEntity {
-  //게시판 썸네일 이미지
-  boardMainImg: string | undefined = undefined;
-  // 팔로우 여부
-  isFollow = false;
-  // 좋아요 여부
-  isLike = false;
-  // 좋아요 총갯수
-  likeCount = 0;
-  // 댓글 총개수
-  commentCount = 0;
-  // 유저 idx
-  userIdx: string | undefined = undefined;
-  // 유저 id
-  userId: string | undefined = undefined;
-  // 유저 닉네임
-  userNickname: string | undefined = undefined;
-  //반환 총갯수
-  totalCount = 0;
-  //게시판 이전글
-  prevBoardIdx: string | undefined = undefined;
-  //게시판 다음글
-  nextBoardIdx: string | undefined = undefined;
 }
 
 export class InsertBoardDto extends BoardEntity {

@@ -5,7 +5,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { BoardEntity } from '@/api/dto/board.dto';
 import { getApiClient } from '@/utils/apiClient';
 import { insertBoard } from '@/api/board.api';
-import { STATE_YN } from '@/types';
+import { STATE_YN, TYPE_BOARD } from '@/types';
 import Quill from 'quill';
 import 'quill/dist/quill.snow.css';
 
@@ -23,7 +23,7 @@ export default defineComponent({
     let quillInstance: Quill | null = null;
 
     const goBack = () => {
-      router.push('/admin/notice'); // 공지 목록 페이지 경로
+      router.push('/admin/news'); // 보도자료 목록 페이지 경로
     };
 
     // S3에 이미지 업로드
@@ -184,13 +184,14 @@ export default defineComponent({
         return;
       }
 
+      notice.value.boardType = TYPE_BOARD.NEWS;
       notice.value.body = quillInstance.root.innerHTML;
       notice.value.bestYn = bestValue.value ? STATE_YN.Y : STATE_YN.N;
 
       await insertBoard(apiClient, notice.value).then(res => {
         if (res.resultCode === 0 && res.data) {
           alert('보도자료 등록이 완료되었습니다.');
-          router.push('/admin/notice');
+          router.push('/admin/news');
         }
       });
     };
