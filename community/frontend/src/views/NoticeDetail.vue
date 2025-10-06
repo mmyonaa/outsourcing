@@ -76,3 +76,23 @@ export default defineComponent({
   </div>
   </div>
 </template>
+
+<style scoped>
+.notice-content :deep(img) {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 1rem 0;
+}
+
+.notice-content :deep(a) {
+  color: #0066cc;
+  text-decoration: underline;
+  word-break: break-all;
+}
+
+.notice-content {
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+</style>
