@@ -27,7 +27,10 @@ pnpm-lock.yaml
 .env.*.local
 
 # TypeORM XML metadata
-# *.xml  # sitemap.xml을 위해 주석 처리
+*.xml
+# 단, sitemap.xml과 robots.txt는 예외
+!frontend/public/sitemap.xml
+!frontend/public/robots.txt
 
 # Logs
 logs
