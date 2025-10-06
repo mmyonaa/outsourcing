@@ -119,6 +119,11 @@ export const deleteBoard = async (ctx: Context) => {
 export const uploadImage = async (ctx: Context) => {
   const result = new ResponseDto();
   try {
+    console.log('Upload request received:', {
+      hasFile: !!(ctx.request as any).file,
+      file: (ctx.request as any).file
+    });
+
     if (!(ctx.request as any).file) {
       throw new CustomError(
         RESULT_CODE.INVALID_PARAMETER.code,
@@ -131,6 +136,7 @@ export const uploadImage = async (ctx: Context) => {
     result.data = { imageUrl };
     result.setResultCode(RESULT_CODE.SUCCESS);
   } catch (e) {
+    console.error('Upload error:', e);
     result.setErrorObject(e);
   }
   ctx.body = result;
@@ -143,6 +149,11 @@ export const uploadImage = async (ctx: Context) => {
 export const uploadFile = async (ctx: Context) => {
   const result = new ResponseDto();
   try {
+    console.log('File upload request received:', {
+      hasFile: !!(ctx.request as any).file,
+      file: (ctx.request as any).file
+    });
+
     if (!(ctx.request as any).file) {
       throw new CustomError(
         RESULT_CODE.INVALID_PARAMETER.code,
@@ -155,6 +166,7 @@ export const uploadFile = async (ctx: Context) => {
     result.data = { fileUrl };
     result.setResultCode(RESULT_CODE.SUCCESS);
   } catch (e) {
+    console.error('File upload error:', e);
     result.setErrorObject(e);
   }
   ctx.body = result;

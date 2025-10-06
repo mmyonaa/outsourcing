@@ -39,10 +39,12 @@ export default defineComponent({
           },
         });
 
-        if (response.data.resultCode === 0 && response.data.data) {
+        console.log('Upload response:', response.data);
+
+        if (response.data.resultCode === 0 && response.data.data?.imageUrl) {
           return response.data.data.imageUrl;
         }
-        throw new Error('이미지 업로드 실패');
+        throw new Error('이미지 업로드 실패: ' + JSON.stringify(response.data));
       } catch (error) {
         console.error('Image upload error:', error);
         alert('이미지 업로드에 실패했습니다.');
@@ -62,10 +64,12 @@ export default defineComponent({
           },
         });
 
-        if (response.data.resultCode === 0 && response.data.data) {
+        console.log('File upload response:', response.data);
+
+        if (response.data.resultCode === 0 && response.data.data?.fileUrl) {
           return response.data.data.fileUrl;
         }
-        throw new Error('파일 업로드 실패');
+        throw new Error('파일 업로드 실패: ' + JSON.stringify(response.data));
       } catch (error) {
         console.error('File upload error:', error);
         alert('파일 업로드에 실패했습니다.');
