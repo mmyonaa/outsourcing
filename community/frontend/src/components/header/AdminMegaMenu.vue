@@ -157,7 +157,7 @@ export default defineComponent({
 
       <!-- PC dropdown submenu -->
       <transition name="dropdown">
-        <section v-show="isSubMenuVisible" class="sub-menu-section menu-list" @mouseleave="handleMouseSubLeave">
+        <section v-show="isSubMenuVisible" class="sub-menu-section menu-list admin" @mouseleave="handleMouseSubLeave">
           <ul class="sub-menu-list play menu">
             <!-- <li @click="() => onClickMenu('/introduce')">극장 소개</li>
             <li @click="() => onClickMenu('/introduce/org')">단체 소개</li>
