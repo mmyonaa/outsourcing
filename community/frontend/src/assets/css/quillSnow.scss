@@ -7,14 +7,13 @@
   margin: 0;
   position: relative;
   background-color: #ffffff;
-  padding: 5rem 8rem 8rem 8rem;
+  padding: 0;
   min-height: 50rem; // 게시글 작성 최소 영역
   @include font16Bold4();
   line-height: 24px;
   caret-color: $colorPrimary;
   word-break: break-all;
   @include tablet {
-    padding: 3rem;
   }
 }
 
@@ -940,6 +939,7 @@
 .ql-toolbar.ql-snow {
   max-width: 976px;
   margin: 0 auto;
+  padding: 0;
 }
 
 .ql-toolbar.ql-snow .ql-formats {
@@ -1199,9 +1199,9 @@
 }
 
 @media (pointer: coarse) {
-  .ql-snow.ql-toolbar .ql-formats button:hover:not(.ql-active){
+  .ql-snow.ql-toolbar .ql-formats button:hover:not(.ql-active) {
     background-color: white;
-    img{
+    img {
       filter: none;
     }
   }
