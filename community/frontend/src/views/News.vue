@@ -8,7 +8,7 @@ import moment from 'moment';
 import { STATE_YN } from '@/types';
 
 export default defineComponent({
-  name: 'notice',
+  name: 'news',
   components: { ApocPagination },
   setup() {
     const totalPage = ref<number>(0); // 총 페이지
@@ -40,7 +40,7 @@ export default defineComponent({
 
 <template>
   <div class="page-common notice-page">
-    <h1>공지사항</h1>
+    <h1>보도자료</h1>
     <div class="notice-list">
       <!-- 데스크탑용 테이블 -->
       <div class="notice-header desktop-only">

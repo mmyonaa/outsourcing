@@ -94,7 +94,7 @@ export default defineComponent({
         if (storeManager.stateStore.popupMode?.type !== POPUP_TYPE.TABLET_SIDE_MENU) {
           isTabletMenuVisibleType.value = null;
         }
-      }
+      },
     );
 
     onMounted(() => {
@@ -127,13 +127,7 @@ export default defineComponent({
 
 <template>
   <div class="mega-menu">
-    <header
-      :class="[
-        { 'active-border': isActive && headerType === 'opacity' },
-        { 'white-background': isSubMenuVisible },
-        headerType
-      ]"
-    >
+    <header :class="[{ 'active-border': isActive && headerType === 'opacity' }, { 'white-background': isSubMenuVisible }, headerType]">
       <div class="main-header-wrapper">
         <apoc-link class="main-header-logo" href="/">
           <img src="/assets/images/logo/theater.png" @click="onClickLogo" />
@@ -142,34 +136,10 @@ export default defineComponent({
         <!-- PC main menu -->
         <section class="main-menu-section" @mouseenter="handleMouseEnter" @mouseleave="handleMouseLeave">
           <ul class="menu-list">
-            <li
-              class="menu play"
-              :class="{ active: activeMenu === 'introduce' }"
-              @click="() => onClickMenu('/introduce')"
-            >
-              소개
-            </li>
-            <li
-              class="menu studio"
-              :class="{ active: activeMenu === 'performance' }"
-              @click="() => onClickMenu('/performance')"
-            >
-              공연
-            </li>
-            <li
-              class="menu asset"
-              :class="{ active: activeMenu === 'rental' }"
-              @click="() => onClickMenu('/rental')"
-            >
-              대관
-            </li>
-            <li
-              class="menu community"
-              :class="{ active: activeMenu === 'notice' }"
-              @click="() => onClickMenu('/notice')"
-            >
-              공지사항
-            </li>
+            <li class="menu play" :class="{ active: activeMenu === 'introduce' }" @click="() => onClickMenu('/introduce')">소개</li>
+            <li class="menu studio" :class="{ active: activeMenu === 'performance' }" @click="() => onClickMenu('/performance')">공연</li>
+            <li class="menu asset" :class="{ active: activeMenu === 'rental' }" @click="() => onClickMenu('/rental')">대관</li>
+            <li class="menu community" :class="{ active: activeMenu === 'notice' }" @click="() => onClickMenu('/notice')">공지사항</li>
           </ul>
         </section>
 
@@ -203,6 +173,7 @@ export default defineComponent({
           </ul>
           <ul class="sub-menu-list community menu">
             <li @click="() => onClickMenu('/notice')">공지 상세사항</li>
+            <li @click="() => onClickMenu('/news')">보도자료</li>
           </ul>
         </section>
       </transition>
@@ -218,14 +189,12 @@ export default defineComponent({
               class="close-btn"
               :img-sets="3"
               src="/assets/images/common/icons/black-close-icon.webp"
-              @click="onClickTabletMenu(false)"
-            />
+              @click="onClickTabletMenu(false)" />
           </li>
           <li
             class="menu play"
             :class="{ opened: isTabletMenuVisibleType === 'introduce', active: activeMenu === 'introduce' }"
-            @click="() => onClickOpenSubMenu('introduce')"
-          >
+            @click="() => onClickOpenSubMenu('introduce')">
             소개
             <ArrowDown />
           </li>
@@ -233,8 +202,7 @@ export default defineComponent({
             <section
               v-show="isTabletMenuVisibleType === 'introduce'"
               class="sub-menu-tablet"
-              :class="{ opened: isTabletMenuVisibleType === 'introduce' }"
-            >
+              :class="{ opened: isTabletMenuVisibleType === 'introduce' }">
               <ul>
                 <li @click="() => onClickMenu('/introduce')">극장 소개</li>
                 <li @click="() => onClickMenu('/introduce/org')">단체 소개</li>
@@ -246,8 +214,7 @@ export default defineComponent({
           <li
             class="menu studio"
             :class="{ opened: isTabletMenuVisibleType === 'performance', active: activeMenu === 'performance' }"
-            @click="() => onClickOpenSubMenu('performance')"
-          >
+            @click="() => onClickOpenSubMenu('performance')">
             공연
             <ArrowDown />
           </li>
@@ -255,8 +222,7 @@ export default defineComponent({
             <section
               v-show="isTabletMenuVisibleType === 'performance'"
               class="sub-menu-tablet"
-              :class="{ opened: isTabletMenuVisibleType === 'performance' }"
-            >
+              :class="{ opened: isTabletMenuVisibleType === 'performance' }">
               <ul>
                 <li @click="() => onClickMenu('/performance')">역대 공연</li>
                 <li @click="() => onClickMenu('/performance/next')">예정 공연</li>
@@ -267,17 +233,12 @@ export default defineComponent({
           <li
             class="menu asset"
             :class="{ opened: isTabletMenuVisibleType === 'rental', active: activeMenu === 'rental' }"
-            @click="() => onClickOpenSubMenu('rental')"
-          >
+            @click="() => onClickOpenSubMenu('rental')">
             대관
             <ArrowDown />
           </li>
           <transition name="dropdown">
-            <section
-              v-show="isTabletMenuVisibleType === 'rental'"
-              class="sub-menu-tablet"
-              :class="{ opened: isTabletMenuVisibleType === 'rental' }"
-            >
+            <section v-show="isTabletMenuVisibleType === 'rental'" class="sub-menu-tablet" :class="{ opened: isTabletMenuVisibleType === 'rental' }">
               <ul>
                 <li @click="() => onClickMenu('/rental')">극장 상세사항</li>
                 <li @click="() => onClickMenu('/rental/info')">대관 안내</li>
@@ -289,19 +250,15 @@ export default defineComponent({
           <li
             class="menu community"
             :class="{ opened: isTabletMenuVisibleType === 'notice', active: activeMenu === 'notice' }"
-            @click="() => onClickOpenSubMenu('notice')"
-          >
+            @click="() => onClickOpenSubMenu('notice')">
             공지사항
             <ArrowDown />
           </li>
           <transition name="dropdown">
-            <section
-              v-show="isTabletMenuVisibleType === 'notice'"
-              class="sub-menu-tablet"
-              :class="{ opened: isTabletMenuVisibleType === 'notice' }"
-            >
+            <section v-show="isTabletMenuVisibleType === 'notice'" class="sub-menu-tablet" :class="{ opened: isTabletMenuVisibleType === 'notice' }">
               <ul>
                 <li @click="() => onClickMenu('/notice')">공지 상세사항</li>
+                <li @click="() => onClickMenu('/news')">보도자료</li>
               </ul>
             </section>
           </transition>

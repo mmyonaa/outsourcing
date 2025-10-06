@@ -56,6 +56,7 @@ export const routesList = [
     component: () => import('../views/RentalSchedule.vue'),
   },
   // 4. 공지사항
+  // 공지사항
   {
     path: '/notice',
     name: 'notice',
@@ -65,6 +66,17 @@ export const routesList = [
     path: '/notice/detail',
     name: 'noticeDetail',
     component: () => import('../views/NoticeDetail.vue'),
+  },
+  // 보도자료
+  {
+    path: '/news',
+    name: 'news',
+    component: () => import('../views/News.vue'),
+  },
+  {
+    path: '/news/detail',
+    name: 'newsDetail',
+    component: () => import('../views/NewsDetail.vue'),
   },
   //************ ADMIN ************* */
   {
