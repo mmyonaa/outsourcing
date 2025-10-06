@@ -94,7 +94,7 @@ export default defineComponent({
         if (storeManager.stateStore.popupMode?.type !== POPUP_TYPE.TABLET_SIDE_MENU) {
           isTabletMenuVisibleType.value = null;
         }
-      }
+      },
     );
 
     onMounted(() => {
@@ -127,50 +127,20 @@ export default defineComponent({
 
 <template>
   <div class="mega-menu">
-    <header
-      :class="[
-        { 'active-border': isActive && headerType === 'opacity' },
-        { 'white-background': isSubMenuVisible },
-        headerType
-      ]"
-    >
+    <header :class="[{ 'active-border': isActive && headerType === 'opacity' }, { 'white-background': isSubMenuVisible }, headerType]">
       <div class="main-header-wrapper">
         <apoc-link class="main-header-logo" href="/admin">
           <img src="/assets/images/logo/theater.png" @click="onClickLogo" />
-          <img class="admin-icon" src="/assets/images/admin/admin.png"/>
+          <img class="admin-icon" src="/assets/images/admin/admin.png" />
         </apoc-link>
 
         <!-- PC main menu -->
         <section class="main-menu-section" @mouseenter="handleMouseEnter" @mouseleave="handleMouseLeave">
           <ul class="menu-list">
-            <li
-              class="menu play"
-              :class="{ active: activeMenu === 'introduce' }"
-              @click="() => onClickMenu('/introduce')"
-            >
-              소개
-            </li>
-            <li
-              class="menu studio"
-              :class="{ active: activeMenu === 'performance' }"
-              @click="() => onClickMenu('/performance')"
-            >
-              공연
-            </li>
-            <li
-              class="menu asset"
-              :class="{ active: activeMenu === 'rental' }"
-              @click="() => onClickMenu('/rental')"
-            >
-              대관
-            </li>
-            <li
-              class="menu community"
-              :class="{ active: activeMenu === 'notice' }"
-              @click="() => onClickMenu('/notice')"
-            >
-              공지사항
-            </li>
+            <li class="menu play" :class="{ active: activeMenu === 'introduce' }" @click="() => onClickMenu('/introduce')">소개</li>
+            <li class="menu studio" :class="{ active: activeMenu === 'performance' }" @click="() => onClickMenu('/performance')">공연</li>
+            <li class="menu asset" :class="{ active: activeMenu === 'rental' }" @click="() => onClickMenu('/rental')">대관</li>
+            <li class="menu community" :class="{ active: activeMenu === 'notice' }" @click="() => onClickMenu('/notice')">공지사항</li>
           </ul>
         </section>
 
@@ -204,6 +174,7 @@ export default defineComponent({
           </ul>
           <ul class="sub-menu-list community menu">
             <li @click="() => onClickMenu('/notice')">공지 작성</li>
+            <li @click="() => onClickMenu('/news')">보도자료 작성</li>
           </ul>
         </section>
       </transition>

@@ -100,6 +100,21 @@ export const routesList = [
     component: () => import('../views/admin/AdminNoticeAssign.vue'),
   },
   {
+    path: '/admin/news',
+    name: 'adminNews',
+    component: () => import('../views/admin/AdminNews.vue'),
+  },
+  {
+    path: '/admin/news/detail',
+    name: 'adminNewsDetail',
+    component: () => import('../views/admin/AdminNewsDetail.vue'),
+  },
+  {
+    path: '/admin/news/assign',
+    name: 'adminNewsAssign',
+    component: () => import('../views/admin/AdminNewsAssign.vue'),
+  },
+  {
     path: '/admin/performance',
     name: 'adminPerformance',
     component: () => import('../views/admin/AdminPerformance.vue'),
