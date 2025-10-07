@@ -8,19 +8,22 @@ export class SearchPerfoDto extends BasicListDto {
   // 내용
   body: string | undefined = undefined;
   perType: string | undefined = undefined;
+  category: string | undefined = undefined;
+  keyword: string | undefined = undefined;
 }
 
 export class PerfoEntity {
   // 보드고유번호
-  perIdx: string = ""
+  perIdx: string = "";
   perType: string | undefined = undefined;
   // 제목
   title: string | undefined = undefined;
   // 내용
   body: string | undefined = undefined;
-  imgUr: string | undefined = undefined;
+  category: string | undefined = undefined;
+  imgUrl: string | undefined = undefined;
   // 조회수
-  views : number=0;
+  views: number = 0;
   // 등록일시
   regDt: Date | undefined = undefined;
   // 수정자회원고유번호

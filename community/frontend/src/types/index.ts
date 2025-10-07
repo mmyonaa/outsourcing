@@ -11,6 +11,12 @@ export enum TYPE_PERFO {
   NEXT = 'NEXT',
 }
 
+export enum TYPE_PERFO_CATEGORY {
+  A = 'A',
+  B = 'B',
+  C = 'C',
+}
+
 export enum TYPE_BOARD {
   NORMAL = 'NORMAL',
   NEWS = 'NEWS',

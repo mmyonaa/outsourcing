@@ -6,6 +6,8 @@ export class PerfoEntity {
   perIdx: string | undefined = undefined;
   // 공연타입
   perType: string | undefined = undefined;
+  // 카테고리
+  category: string | undefined = undefined;
   // 제목
   title: string | undefined = undefined;
   // 내용

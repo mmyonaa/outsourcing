@@ -9,6 +9,12 @@ export const getPerfoList = (sql: postgres.Sql, reqParam: SearchPerfoDto) => {
         AND del_yn = 'N' 
           ${reqParam.perIdx ? sql` AND per_idx =${reqParam.perIdx}` : sql``}
     ${reqParam.perType ? sql` AND per_type =${reqParam.perType}` : sql``}
+    ${reqParam.category ? sql` AND category =${reqParam.category}` : sql``}
+              ${
+                reqParam.keyword
+                  ? sql` AND title ILIKE ${"%" + reqParam.keyword + "%"}`
+                  : sql``
+              }
     ORDER BY reg_dt DESC
   `;
 };
@@ -23,7 +29,14 @@ export const getPerfoListCount = (
       WHERE 1 = 1
         AND del_yn = 'N' 
           ${reqParam.perIdx ? sql` AND per_idx =${reqParam.perIdx}` : sql``}
-  `;
+    ${reqParam.perType ? sql` AND per_type =${reqParam.perType}` : sql``}
+    ${reqParam.category ? sql` AND category =${reqParam.category}` : sql``}
+              ${
+                reqParam.keyword
+                  ? sql` AND title ILIKE ${"%" + reqParam.keyword + "%"}`
+                  : sql``
+              }      
+    `;
 };
 
 export const insertPerfo = (
@@ -32,7 +45,14 @@ export const insertPerfo = (
 ): Promise<any> => {
   return sql`
     INSERT INTO public.performance 
-        ${sql(reqParam, "title", "body", "perType")} RETURNING * 
+        ${sql(
+          reqParam,
+          "title",
+          "body",
+          "perType",
+          "imgUrl",
+          "category"
+        )} RETURNING * 
   `;
 };
 
@@ -42,7 +62,7 @@ export const updatePerfo = (
 ): Promise<any> => {
   return sql`
     UPDATE public.performance SET
-      ${sql(reqParam, "title", "body", "perType", "delYn", "views")},
+      ${sql(reqParam, "title", "body", "delYn", "views", "category")},
       mod_dt = CURRENT_TIMESTAMP
     WHERE per_idx = ${reqParam.perIdx}
     RETURNING *
