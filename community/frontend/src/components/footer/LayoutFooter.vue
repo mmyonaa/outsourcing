@@ -25,7 +25,7 @@ export default defineComponent({
           <div>사업자 번호 | 213-90-10920</div>
         </div>
         <div>
-          <div>주소 | 용산구 장문로 19길 4</div>
+          <div>주소 | 서울특별시 용산구 장문로 19길 4, 지하</div>
           <div>전화번호 | 02-794-5803</div>
         </div>
         <div> 이메일 | bokwang_theater@naver.com</div>
