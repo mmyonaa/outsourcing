@@ -50,7 +50,7 @@ export default defineComponent({
     const updateViews = async () => {
       performance.value.perIdx = String(perfoIdx);
       performance.value.views++;
-      await updatePerfo(apiClient, updateData);
+      await updatePerfo(apiClient, performance.value);
     };
 
     onMounted(async () => {
