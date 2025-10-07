@@ -258,7 +258,10 @@ export default defineComponent({
   <div class="page-common notice-page admin">
     <h1>역대 공연 수정</h1>
     <div class="notice-detail">
+      <label class="section-title">제목</label>
       <input v-model="performance.title" class="notice-input" placeholder="제목을 입력하세요" />
+      <input v-model="performance.titleSec" class="notice-input" placeholder="중제목을 입력하세요" />
+      <input v-model="performance.titleThird" class="notice-input" placeholder="소제목을 입력하세요" />
 
       <!-- 카테고리 선택 -->
       <div class="category-section">

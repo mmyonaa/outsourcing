@@ -1,11 +1,11 @@
-import { Context } from 'koa'
-import { ResponseDto } from '../repository/dto/response.dto';
-import { PerfoEntity, SearchPerfoDto } from '../repository/dto/perfo.dto';
-import { setEntityParameters } from '../utils/common.util';
-import { RESULT_CODE, STATE_YN } from '../../types';
-import * as perfoService from '../service/performance.service'
-import { CustomError } from '../utils/custom.error';
-import { uploadToS3 } from '../utils/s3.util';
+import { Context } from "koa";
+import { ResponseDto } from "../repository/dto/response.dto";
+import { PerfoEntity, SearchPerfoDto } from "../repository/dto/perfo.dto";
+import { setEntityParameters } from "../utils/common.util";
+import { RESULT_CODE, STATE_YN } from "../../types";
+import * as perfoService from "../service/performance.service";
+import { CustomError } from "../utils/custom.error";
+import { uploadToS3 } from "../utils/s3.util";
 
 /**
  * 글 조회
@@ -26,7 +26,7 @@ export const getPerfoList = async (ctx: Context) => {
     result.setErrorObject(e);
   }
   ctx.body = result;
-}
+};
 
 /**
  * 글 작성
@@ -40,8 +40,11 @@ export const insertPerfo = async (ctx: Context) => {
 
     // 이미지가 업로드된 경우 S3에 업로드
     if ((ctx.request as any).file) {
-      const imageUrl = await uploadToS3((ctx.request as any).file, 'performance');
-      reqParam.imgUr = imageUrl;
+      const imageUrl = await uploadToS3(
+        (ctx.request as any).file,
+        "performance"
+      );
+      reqParam.imgUrl = imageUrl;
     }
 
     const resultData = await perfoService.insertPerfo(reqParam);
@@ -52,7 +55,7 @@ export const insertPerfo = async (ctx: Context) => {
     result.setErrorObject(e);
   }
   ctx.body = result;
-}
+};
 
 /**
  * 글 수정
@@ -64,11 +67,11 @@ export const updatePerfo = async (ctx: Context) => {
     const reqParam = new PerfoEntity();
     setEntityParameters(reqParam, ctx.request.body);
 
-    if(!reqParam.perIdx){
-        throw new CustomError(
-            RESULT_CODE.INVALID_PARAMETER.code,
-            RESULT_CODE.INVALID_PARAMETER.msg
-        )
+    if (!reqParam.perIdx) {
+      throw new CustomError(
+        RESULT_CODE.INVALID_PARAMETER.code,
+        RESULT_CODE.INVALID_PARAMETER.msg
+      );
     }
 
     const resultData = await perfoService.updatePerfo(reqParam);
@@ -78,7 +81,7 @@ export const updatePerfo = async (ctx: Context) => {
     result.setErrorObject(e);
   }
   ctx.body = result;
-}
+};
 
 /**
  * 글 수정
@@ -90,25 +93,25 @@ export const deletePerfo = async (ctx: Context) => {
     const reqParam = new PerfoEntity();
     setEntityParameters(reqParam, ctx.request.body);
 
-    if(!reqParam.perIdx){
-        throw new CustomError(
-            RESULT_CODE.INVALID_PARAMETER.code,
-            RESULT_CODE.INVALID_PARAMETER.msg
-        )
+    if (!reqParam.perIdx) {
+      throw new CustomError(
+        RESULT_CODE.INVALID_PARAMETER.code,
+        RESULT_CODE.INVALID_PARAMETER.msg
+      );
     }
 
     const searchParam = new SearchPerfoDto();
-    searchParam.perIdx = reqParam.perIdx
+    searchParam.perIdx = reqParam.perIdx;
     const [PerfoItem] = await perfoService.getPerfoList(searchParam);
 
-    if(!PerfoItem) {
-        throw new CustomError(
-            RESULT_CODE.PERFO_NOT_FOUND.code,
-            RESULT_CODE.PERFO_NOT_FOUND.msg
-        )
+    if (!PerfoItem) {
+      throw new CustomError(
+        RESULT_CODE.PERFO_NOT_FOUND.code,
+        RESULT_CODE.PERFO_NOT_FOUND.msg
+      );
     }
 
-    PerfoItem.delYn = STATE_YN.Y
+    PerfoItem.delYn = STATE_YN.Y;
     const resultData = await perfoService.updatePerfo(PerfoItem);
     result.data = resultData;
     result.setResultCode(RESULT_CODE.SUCCESS);
@@ -116,4 +119,4 @@ export const deletePerfo = async (ctx: Context) => {
     result.setErrorObject(e);
   }
   ctx.body = result;
-}
+};

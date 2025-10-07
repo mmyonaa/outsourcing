@@ -51,7 +51,9 @@ export const insertPerfo = (
           "body",
           "perType",
           "imgUrl",
-          "category"
+          "category",
+          "titleSec",
+          "titleThird"
         )} RETURNING * 
   `;
 };
@@ -62,7 +64,16 @@ export const updatePerfo = (
 ): Promise<any> => {
   return sql`
     UPDATE public.performance SET
-      ${sql(reqParam, "title", "body", "delYn", "views", "category")},
+      ${sql(
+        reqParam,
+        "title",
+        "body",
+        "delYn",
+        "views",
+        "category",
+        "titleSec",
+        "titleThird"
+      )},
       mod_dt = CURRENT_TIMESTAMP
     WHERE per_idx = ${reqParam.perIdx}
     RETURNING *
