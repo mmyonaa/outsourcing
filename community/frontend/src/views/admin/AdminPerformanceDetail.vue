@@ -30,7 +30,7 @@ export default defineComponent({
     ];
 
     const goBack = () => {
-      router.push('/performance');
+      router.push('/admin/performance');
     };
 
     // S3에 이미지 업로드
