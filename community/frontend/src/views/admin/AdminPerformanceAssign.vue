@@ -31,7 +31,7 @@ export default defineComponent({
     ];
 
     const goBack = () => {
-      router.push('/performance'); // 공연 목록 페이지 경로
+      router.push('/admin/performance'); // 공연 목록 페이지 경로
     };
 
     const handleImageSelect = (event: Event) => {
@@ -250,7 +250,7 @@ export default defineComponent({
 
         if (response.data.resultCode === 0) {
           alert('공연이 성공적으로 등록되었습니다.');
-          router.push('/performance');
+          router.push('/admin/performance');
         } else {
           alert('공연 등록에 실패했습니다.');
         }
