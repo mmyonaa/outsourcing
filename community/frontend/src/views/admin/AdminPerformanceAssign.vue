@@ -305,8 +305,10 @@ export default defineComponent({
 
       <!-- 썸네일 이미지 업로드 섹션 -->
       <div class="image-upload-section">
-        <label class="image-upload-label">
-          <span class="section-title">썸네일 이미지</span>
+        <span class="section-title">썸네일 이미지</span>
+
+        <!-- 이미지 선택 버튼 (이미지가 없을 때만 표시) -->
+        <label v-if="!imagePreview" class="image-upload-label">
           <input type="file" accept="image/*" @change="handleImageSelect" style="display: none" />
           <span class="upload-button">📷 썸네일 이미지 선택</span>
         </label>
@@ -314,7 +316,7 @@ export default defineComponent({
         <!-- 이미지 미리보기 -->
         <div v-if="imagePreview" class="image-preview-container">
           <img :src="imagePreview" alt="Preview" class="image-preview" />
-          <button class="remove-image-button" @click="removeImage">✕ 삭제</button>
+          <button class="remove-image-button" @click="removeImage">✕</button>
         </div>
       </div>
 
@@ -343,24 +345,26 @@ export default defineComponent({
 }
 
 .category-section {
-  margin: 20px 0;
+  margin: 0;
 }
 
 .category-select {
   width: 100%;
-  padding: 12px 15px;
-  font-size: 16px;
-  border: 2px solid #ddd;
+  padding: 10px;
+  margin-top: 0.5rem;
+  margin-bottom: 2rem;
+  border: 1px solid #ccc;
   border-radius: 4px;
   background-color: white;
   cursor: pointer;
-  transition: border-color 0.3s;
+  font-size: 16px;
   font-family: 'Pretendard', sans-serif;
+  transition: border-color 0.2s;
 }
 
 .category-select:focus {
   outline: none;
-  border-color: #4caf50;
+  border-color: #999;
 }
 
 .category-select:hover {

@@ -21,6 +21,8 @@ export default defineComponent({
     const perfoIdx = route.query.id;
     const editorRef = ref<HTMLElement | null>(null);
     let quillInstance: Quill | null = null;
+    const selectedImage = ref<File | null>(null); // 썸네일 이미지
+    const imagePreview = ref<string | null>(null);
 
     // 카테고리 옵션
     const categoryOptions = [
@@ -31,6 +33,37 @@ export default defineComponent({
 
     const goBack = () => {
       router.push('/admin/performance');
+    };
+
+    // 썸네일 이미지 선택
+    const handleImageSelect = (event: Event) => {
+      const target = event.target as HTMLInputElement;
+      if (target.files && target.files[0]) {
+        const file = target.files[0];
+
+        if (!file.type.startsWith('image/')) {
+          alert('이미지 파일만 업로드 가능합니다.');
+          return;
+        }
+
+        if (file.size > 5 * 1024 * 1024) {
+          alert('파일 크기는 5MB 이하여야 합니다.');
+          return;
+        }
+
+        selectedImage.value = file;
+
+        const reader = new FileReader();
+        reader.onload = e => {
+          imagePreview.value = e.target?.result as string;
+        };
+        reader.readAsDataURL(file);
+      }
+    };
+
+    const removeImage = () => {
+      selectedImage.value = null;
+      imagePreview.value = null;
     };
 
     // S3에 이미지 업로드
@@ -191,6 +224,11 @@ export default defineComponent({
         if (res.resultCode === 0 && res.data) {
           performance.value = res.data[0];
 
+          // 기존 썸네일 이미지 로드
+          if (performance.value.imgUrl) {
+            imagePreview.value = performance.value.imgUrl;
+          }
+
           // 데이터 로드 후 Quill 에디터 초기화
           initQuillEditor();
         }
@@ -249,6 +287,10 @@ export default defineComponent({
       goBack,
       delPerformance,
       categoryOptions,
+      selectedImage,
+      imagePreview,
+      handleImageSelect,
+      removeImage,
     };
   },
 });
@@ -274,6 +316,23 @@ export default defineComponent({
         </select>
       </div>
 
+      <!-- 썸네일 이미지 업로드 섹션 -->
+      <div class="image-upload-section">
+        <span class="section-title">썸네일 이미지</span>
+
+        <!-- 이미지 선택 버튼 (이미지가 없을 때만 표시) -->
+        <label v-if="!imagePreview" class="image-upload-label">
+          <input type="file" accept="image/*" @change="handleImageSelect" style="display: none" />
+          <span class="upload-button">📷 썸네일 이미지 선택</span>
+        </label>
+
+        <!-- 이미지 미리보기 -->
+        <div v-if="imagePreview" class="image-preview-container">
+          <img :src="imagePreview" alt="Preview" class="image-preview" />
+          <button class="remove-image-button" @click="removeImage">✕ 삭제</button>
+        </div>
+      </div>
+
       <!-- Quill 에디터 -->
       <div ref="editorRef" class="quill-editor"></div>
 
@@ -297,24 +356,26 @@ export default defineComponent({
 }
 
 .category-section {
-  margin: 20px 0;
+  margin: 0;
 }
 
 .category-select {
   width: 100%;
-  padding: 12px 15px;
-  font-size: 16px;
-  border: 2px solid #ddd;
+  padding: 10px;
+  margin-top: 0.5rem;
+  margin-bottom: 2rem;
+  border: 1px solid #ccc;
   border-radius: 4px;
   background-color: white;
   cursor: pointer;
-  transition: border-color 0.3s;
+  font-size: 16px;
   font-family: 'Pretendard', sans-serif;
+  transition: border-color 0.2s;
 }
 
 .category-select:focus {
   outline: none;
-  border-color: #4caf50;
+  border-color: #999;
 }
 
 .category-select:hover {
