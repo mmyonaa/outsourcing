@@ -56,6 +56,12 @@ export default defineComponent({
       }
     };
 
+    const resetFilters = () => {
+      searchKeyword.value = '';
+      selectedCategory.value = '';
+      loadPerfoList();
+    };
+
     onMounted(() => {
       loadPerfoList();
     });
@@ -69,6 +75,7 @@ export default defineComponent({
       handleSearch,
       filterByCategory,
       getCategoryLabel,
+      resetFilters,
       TYPE_PERFO_CATEGORY,
     };
   },
@@ -100,6 +107,10 @@ export default defineComponent({
           :class="{ active: selectedCategory === TYPE_PERFO_CATEGORY.EVENT }"
           @click="filterByCategory(TYPE_PERFO_CATEGORY.EVENT)">
           행사
+        </button>
+        <button class="reset-filter-btn" @click="resetFilters">
+          <span class="reset-icon">↻</span>
+          초기화
         </button>
       </div>
 
@@ -150,6 +161,7 @@ export default defineComponent({
 <style scoped>
 .performance-page {
   max-width: 1200px;
+  font-family: 'Pretendard', sans-serif;
 }
 
 /* 검색바와 카테고리 컨테이너 */
@@ -178,26 +190,30 @@ export default defineComponent({
 
 .category-filter-btn {
   padding: 1.2rem 1.8rem;
-  border: none;
   border-radius: 8px;
   font-size: 16px;
   font-weight: 700;
-  color: white;
   cursor: pointer;
   transition: all 0.2s ease;
   white-space: nowrap;
 }
 
 .category-filter-btn.category-perfo {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: rgba(115, 110, 146, 0.15);
+  color: #736e92;
+  border: 1.5px solid rgba(115, 110, 146, 0.3);
 }
 
 .category-filter-btn.category-edu {
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  background: rgba(167, 47, 71, 0.15);
+  color: #a72f47;
+  border: 1.5px solid rgba(167, 47, 71, 0.3);
 }
 
 .category-filter-btn.category-event {
-  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  background: rgba(88, 84, 64, 0.15);
+  color: #585440;
+  border: 1.5px solid rgba(88, 84, 64, 0.3);
 }
 
 .category-filter-btn:hover {
@@ -212,6 +228,41 @@ export default defineComponent({
 .category-filter-btn.active {
   /* box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.3); */
   transform: scale(1.05);
+}
+
+/* 초기화 버튼 */
+.reset-filter-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1.2rem 1.5rem;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  background: transparent;
+  color: #888;
+  border: none;
+}
+
+.reset-filter-btn .reset-icon {
+  font-size: 20px;
+  transition: transform 0.3s ease;
+}
+
+.reset-filter-btn:hover {
+  color: #555;
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.reset-filter-btn:hover .reset-icon {
+  transform: rotate(-180deg);
+}
+
+.reset-filter-btn:active {
+  transform: scale(0.95);
 }
 
 /* 그리드 레이아웃 */
@@ -276,22 +327,27 @@ export default defineComponent({
   display: inline-block;
   padding: 0.5rem 1.2rem;
   border-radius: 18px;
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   font-weight: 700;
-  color: white;
   letter-spacing: 0.5px;
 }
 
 .category-tag.category-perfo {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: rgba(115, 110, 146, 0.15);
+  color: #736e92;
+  border: 1.5px solid rgba(115, 110, 146, 0.3);
 }
 
 .category-tag.category-edu {
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  background: rgba(167, 47, 71, 0.15);
+  color: #a72f47;
+  border: 1.5px solid rgba(167, 47, 71, 0.3);
 }
 
 .category-tag.category-event {
-  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  background: rgba(88, 84, 64, 0.15);
+  color: #585440;
+  border: 1.5px solid rgba(88, 84, 64, 0.3);
 }
 
 .card-title {

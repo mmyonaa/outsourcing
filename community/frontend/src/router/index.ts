@@ -30,6 +30,11 @@ export const routesList = [
     name: 'performance',
     component: () => import('../views/Performance.vue'),
   },
+  {
+    path: '/performance/detail',
+    name: 'performanceDetail',
+    component: () => import('../views/PerformanceDetail.vue'),
+  },
   // 예정 공연
   {
     path: '/performance/next',
