@@ -48,11 +48,9 @@ export default defineComponent({
     };
 
     const updateViews = async () => {
-      const updateData = new PerfoEntity();
-      updateData.perIdx = String(perfoIdx);
-      updateData.views = (performance.value.views || 0) + 1;
+      performance.value.perIdx = String(perfoIdx);
+      performance.value.views++;
       await updatePerfo(apiClient, updateData);
-      performance.value.views = updateData.views;
     };
 
     onMounted(async () => {
