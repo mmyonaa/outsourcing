@@ -76,60 +76,42 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="page-common performance-page">
+  <div class="page-common notice-page performance-page">
     <h1>역대 공연</h1>
 
-    <!-- 검색바 및 필터 -->
-    <div class="search-filter-section">
-      <div class="search-bar-wrapper">
-        <input
-          v-model="searchKeyword"
-          type="text"
-          placeholder="제목으로 검색..."
-          class="search-input"
-          @keyup.enter="handleSearch"
-        />
-        <button class="search-button" @click="handleSearch">검색</button>
-      </div>
+    <!-- 검색바 -->
+    <div class="search-bar-wrapper">
+      <input v-model="searchKeyword" type="text" placeholder="제목으로 검색..." class="search-input" @keyup.enter="handleSearch" />
+      <button class="search-button" @click="handleSearch">검색</button>
+    </div>
 
-      <!-- 카테고리 필터 버튼 -->
-      <div class="category-filter-wrapper">
-        <button
-          class="category-filter-btn category-a"
-          :class="{ active: selectedCategory === TYPE_PERFO_CATEGORY.A }"
-          @click="filterByCategory(TYPE_PERFO_CATEGORY.A)"
-        >
-          카테고리 A
-        </button>
-        <button
-          class="category-filter-btn category-b"
-          :class="{ active: selectedCategory === TYPE_PERFO_CATEGORY.B }"
-          @click="filterByCategory(TYPE_PERFO_CATEGORY.B)"
-        >
-          카테고리 B
-        </button>
-        <button
-          class="category-filter-btn category-c"
-          :class="{ active: selectedCategory === TYPE_PERFO_CATEGORY.C }"
-          @click="filterByCategory(TYPE_PERFO_CATEGORY.C)"
-        >
-          카테고리 C
-        </button>
-      </div>
+    <!-- 카테고리 필터 버튼 -->
+    <div class="category-filter-wrapper">
+      <button
+        class="category-filter-btn category-a"
+        :class="{ active: selectedCategory === TYPE_PERFO_CATEGORY.A }"
+        @click="filterByCategory(TYPE_PERFO_CATEGORY.A)">
+        카테고리 A
+      </button>
+      <button
+        class="category-filter-btn category-b"
+        :class="{ active: selectedCategory === TYPE_PERFO_CATEGORY.B }"
+        @click="filterByCategory(TYPE_PERFO_CATEGORY.B)">
+        카테고리 B
+      </button>
+      <button
+        class="category-filter-btn category-c"
+        :class="{ active: selectedCategory === TYPE_PERFO_CATEGORY.C }"
+        @click="filterByCategory(TYPE_PERFO_CATEGORY.C)">
+        카테고리 C
+      </button>
     </div>
 
     <div class="performance-grid">
-      <div
-        class="performance-card"
-        v-for="(performance, index) in performances"
-        :key="performance.perIdx"
-      >
+      <div class="performance-card" v-for="(performance, index) in performances" :key="performance.perIdx">
         <router-link :to="`/performance/detail?id=${performance.perIdx}`" class="card-link">
           <div class="card-image">
-            <img
-              :src="performance.imgUrl || '/assets/images/theater/main.jpeg'"
-              :alt="performance.title"
-            />
+            <img :src="performance.imgUrl || '/assets/images/theater/main.jpeg'" :alt="performance.title" />
           </div>
           <div class="card-content">
             <!-- 카테고리 태그 -->
@@ -165,83 +147,21 @@ export default defineComponent({
 <style scoped>
 .performance-page {
   max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem;
-}
-
-/* 검색 및 필터 섹션 */
-.search-filter-section {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-  margin: 3rem auto 3rem;
-  max-width: 1400px;
-  padding: 0 1rem;
-  flex-wrap: wrap;
-}
-
-.search-bar-wrapper {
-  display: flex;
-  gap: 1rem;
-  flex: 1;
-  min-width: 300px;
-  max-width: 600px;
-}
-
-.search-input {
-  flex: 1;
-  padding: 1.2rem 1.5rem;
-  font-size: 16px;
-  border: 2px solid #e0e0e0;
-  border-radius: 8px;
-  outline: none;
-  transition: all 0.2s ease;
-  font-family: 'Pretendard', sans-serif;
-}
-
-.search-input::placeholder {
-  color: #999;
-}
-
-.search-input:focus {
-  border-color: var(--colorPrimary);
-  box-shadow: 0 0 0 3px rgba(227, 67, 99, 0.1);
-}
-
-.search-button {
-  padding: 1.2rem 2rem;
-  font-size: 16px;
-  font-weight: 600;
-  color: white;
-  background-color: var(--colorPrimary);
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  white-space: nowrap;
-}
-
-.search-button:hover {
-  background-color: #c13a5d;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(227, 67, 99, 0.3);
-}
-
-.search-button:active {
-  transform: translateY(0);
 }
 
 /* 카테고리 필터 버튼 */
 .category-filter-wrapper {
   display: flex;
+  justify-content: center;
   gap: 0.75rem;
   flex-wrap: wrap;
+  margin-bottom: 3rem;
+  padding: 0 1rem;
 }
 
 .category-filter-btn {
   padding: 1.2rem 1.8rem;
-  border: 2px solid transparent;
+  border: none;
   border-radius: 8px;
   font-size: 16px;
   font-weight: 700;
@@ -273,8 +193,7 @@ export default defineComponent({
 }
 
 .category-filter-btn.active {
-  border-color: #333;
-  box-shadow: 0 0 0 2px white, 0 0 0 4px #333;
+  /* box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.3); */
   transform: scale(1.05);
 }
 
@@ -359,7 +278,7 @@ export default defineComponent({
 }
 
 .card-title {
-  font-size: 1.125rem;
+  font-size: 1.5rem;
   font-weight: 700;
   color: #333;
   overflow: hidden;
@@ -371,7 +290,7 @@ export default defineComponent({
 }
 
 .card-subtitle {
-  font-size: 0.95rem;
+  font-size: 1.2rem;
   font-weight: 500;
   color: #555;
   overflow: hidden;
@@ -383,7 +302,7 @@ export default defineComponent({
 }
 
 .card-subtitle-small {
-  font-size: 0.85rem;
+  font-size: 1.05rem;
   font-weight: 400;
   color: #777;
   overflow: hidden;
@@ -398,7 +317,7 @@ export default defineComponent({
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 0.8rem;
+  font-size: 1rem;
   color: #999;
   margin-top: auto;
   padding-top: 0.5rem;
@@ -423,40 +342,11 @@ export default defineComponent({
     grid-template-columns: repeat(2, 1fr);
     gap: 1.5rem;
   }
-
-  .search-filter-section {
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-
-  .search-bar-wrapper {
-    max-width: 100%;
-  }
-
-  .category-filter-wrapper {
-    justify-content: center;
-    width: 100%;
-  }
 }
 
 @media (max-width: 768px) {
-  .performance-page {
-    padding: 1rem;
-  }
-
-  .search-filter-section {
-    margin: 2rem auto 2rem;
-    gap: 1.2rem;
-  }
-
-  .search-input {
-    padding: 1rem 1.2rem;
-    font-size: 14px;
-  }
-
-  .search-button {
-    padding: 1rem 1.5rem;
-    font-size: 14px;
+  .category-filter-wrapper {
+    margin-bottom: 2rem;
   }
 
   .category-filter-btn {
@@ -487,14 +377,6 @@ export default defineComponent({
 @media (max-width: 480px) {
   .performance-grid {
     grid-template-columns: 1fr;
-  }
-
-  .search-bar-wrapper {
-    min-width: auto;
-  }
-
-  .category-filter-wrapper {
-    width: 100%;
   }
 
   .category-filter-btn {
