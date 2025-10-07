@@ -12,9 +12,9 @@ export enum TYPE_PERFO {
 }
 
 export enum TYPE_PERFO_CATEGORY {
-  A = 'A',
-  B = 'B',
-  C = 'C',
+  PERFO = 'PERFO',
+  EDU = 'EDU',
+  EVENT = 'EVENT',
 }
 
 export enum TYPE_BOARD {

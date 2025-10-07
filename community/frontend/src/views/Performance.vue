@@ -45,12 +45,12 @@ export default defineComponent({
 
     const getCategoryLabel = (category: string | undefined) => {
       switch (category) {
-        case TYPE_PERFO_CATEGORY.A:
-          return '카테고리 A';
-        case TYPE_PERFO_CATEGORY.B:
-          return '카테고리 B';
-        case TYPE_PERFO_CATEGORY.C:
-          return '카테고리 C';
+        case TYPE_PERFO_CATEGORY.PERFO:
+          return '공연';
+        case TYPE_PERFO_CATEGORY.EDU:
+          return '교육';
+        case TYPE_PERFO_CATEGORY.EVENT:
+          return '행사';
         default:
           return '';
       }
@@ -79,32 +79,35 @@ export default defineComponent({
   <div class="page-common notice-page performance-page">
     <h1>역대 공연</h1>
 
-    <!-- 검색바 -->
-    <div class="search-bar-wrapper">
-      <input v-model="searchKeyword" type="text" placeholder="제목으로 검색..." class="search-input" @keyup.enter="handleSearch" />
-      <button class="search-button" @click="handleSearch">검색</button>
-    </div>
+    <!-- 검색바와 카테고리 필터 -->
+    <div class="search-category-container">
+      <!-- 카테고리 필터 버튼 -->
+      <div class="category-filter-wrapper">
+        <button
+          class="category-filter-btn category-perfo"
+          :class="{ active: selectedCategory === TYPE_PERFO_CATEGORY.PERFO }"
+          @click="filterByCategory(TYPE_PERFO_CATEGORY.PERFO)">
+          공연
+        </button>
+        <button
+          class="category-filter-btn category-edu"
+          :class="{ active: selectedCategory === TYPE_PERFO_CATEGORY.EDU }"
+          @click="filterByCategory(TYPE_PERFO_CATEGORY.EDU)">
+          교육
+        </button>
+        <button
+          class="category-filter-btn category-event"
+          :class="{ active: selectedCategory === TYPE_PERFO_CATEGORY.EVENT }"
+          @click="filterByCategory(TYPE_PERFO_CATEGORY.EVENT)">
+          행사
+        </button>
+      </div>
 
-    <!-- 카테고리 필터 버튼 -->
-    <div class="category-filter-wrapper">
-      <button
-        class="category-filter-btn category-a"
-        :class="{ active: selectedCategory === TYPE_PERFO_CATEGORY.A }"
-        @click="filterByCategory(TYPE_PERFO_CATEGORY.A)">
-        카테고리 A
-      </button>
-      <button
-        class="category-filter-btn category-b"
-        :class="{ active: selectedCategory === TYPE_PERFO_CATEGORY.B }"
-        @click="filterByCategory(TYPE_PERFO_CATEGORY.B)">
-        카테고리 B
-      </button>
-      <button
-        class="category-filter-btn category-c"
-        :class="{ active: selectedCategory === TYPE_PERFO_CATEGORY.C }"
-        @click="filterByCategory(TYPE_PERFO_CATEGORY.C)">
-        카테고리 C
-      </button>
+      <!-- 검색바 -->
+      <div class="search-bar-wrapper">
+        <input v-model="searchKeyword" type="text" placeholder="제목으로 검색..." class="search-input" @keyup.enter="handleSearch" />
+        <button class="search-button" @click="handleSearch">검색</button>
+      </div>
     </div>
 
     <div class="performance-grid">
@@ -149,14 +152,28 @@ export default defineComponent({
   max-width: 1200px;
 }
 
+/* 검색바와 카테고리 컨테이너 */
+.search-category-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  margin: 3rem auto 3rem;
+  padding: 0 1rem;
+}
+
+/* 검색바 스타일 오버라이드 */
+.search-category-container .search-bar-wrapper {
+  max-width: 600px;
+  flex: 0 1 600px;
+  margin: 0;
+}
+
 /* 카테고리 필터 버튼 */
 .category-filter-wrapper {
   display: flex;
-  justify-content: center;
   gap: 0.75rem;
   flex-wrap: wrap;
-  margin-bottom: 3rem;
-  padding: 0 1rem;
 }
 
 .category-filter-btn {
@@ -171,15 +188,15 @@ export default defineComponent({
   white-space: nowrap;
 }
 
-.category-filter-btn.category-a {
+.category-filter-btn.category-perfo {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
-.category-filter-btn.category-b {
+.category-filter-btn.category-edu {
   background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
 }
 
-.category-filter-btn.category-c {
+.category-filter-btn.category-event {
   background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
 }
 
@@ -259,21 +276,21 @@ export default defineComponent({
   display: inline-block;
   padding: 0.5rem 1.2rem;
   border-radius: 18px;
-  font-size: 1rem;
+  font-size: 1.2rem;
   font-weight: 700;
   color: white;
   letter-spacing: 0.5px;
 }
 
-.category-tag.category-a {
+.category-tag.category-perfo {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
-.category-tag.category-b {
+.category-tag.category-edu {
   background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
 }
 
-.category-tag.category-c {
+.category-tag.category-event {
   background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
 }
 
@@ -290,7 +307,7 @@ export default defineComponent({
 }
 
 .card-subtitle {
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   font-weight: 500;
   color: #555;
   overflow: hidden;
@@ -302,7 +319,7 @@ export default defineComponent({
 }
 
 .card-subtitle-small {
-  font-size: 1.05rem;
+  font-size: 1.3rem;
   font-weight: 400;
   color: #777;
   overflow: hidden;
@@ -317,7 +334,7 @@ export default defineComponent({
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 1rem;
+  font-size: 1.2rem;
   color: #999;
   margin-top: auto;
   padding-top: 0.5rem;
@@ -345,8 +362,18 @@ export default defineComponent({
 }
 
 @media (max-width: 768px) {
+  .search-category-container {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .search-category-container .search-bar-wrapper {
+    flex: 1;
+    max-width: 100%;
+  }
+
   .category-filter-wrapper {
-    margin-bottom: 2rem;
+    justify-content: center;
   }
 
   .category-filter-btn {

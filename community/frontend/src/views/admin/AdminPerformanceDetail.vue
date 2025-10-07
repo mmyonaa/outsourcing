@@ -26,9 +26,9 @@ export default defineComponent({
 
     // 카테고리 옵션
     const categoryOptions = [
-      { value: TYPE_PERFO_CATEGORY.A, label: '카테고리 A' },
-      { value: TYPE_PERFO_CATEGORY.B, label: '카테고리 B' },
-      { value: TYPE_PERFO_CATEGORY.C, label: '카테고리 C' },
+      { value: TYPE_PERFO_CATEGORY.PERFO, label: '공연' },
+      { value: TYPE_PERFO_CATEGORY.EDU, label: '교육' },
+      { value: TYPE_PERFO_CATEGORY.EVENT, label: '행사' },
     ];
 
     const goBack = () => {

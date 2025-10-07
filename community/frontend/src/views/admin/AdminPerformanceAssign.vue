@@ -25,9 +25,9 @@ export default defineComponent({
 
     // 카테고리 옵션
     const categoryOptions = [
-      { value: TYPE_PERFO_CATEGORY.A, label: '카테고리 A' },
-      { value: TYPE_PERFO_CATEGORY.B, label: '카테고리 B' },
-      { value: TYPE_PERFO_CATEGORY.C, label: '카테고리 C' },
+      { value: TYPE_PERFO_CATEGORY.PERFO, label: '공연' },
+      { value: TYPE_PERFO_CATEGORY.EDU, label: '교육' },
+      { value: TYPE_PERFO_CATEGORY.EVENT, label: '행사' },
     ];
 
     const goBack = () => {
@@ -233,16 +233,19 @@ export default defineComponent({
       }
 
       try {
+        // Upload thumbnail to S3 first
+        let thumbnailUrl = '';
+        if (selectedImage.value) {
+          thumbnailUrl = await uploadImageToS3(selectedImage.value);
+        }
+
         const formData = new FormData();
         formData.append('title', performance.value.title || '');
         formData.append('titleSec', performance.value.titleSec || '');
         formData.append('titleThird', performance.value.titleThird || '');
         formData.append('category', performance.value.category || '');
         formData.append('body', quillInstance.root.innerHTML);
-
-        if (selectedImage.value) {
-          formData.append('image', selectedImage.value);
-        }
+        formData.append('imgUrl', thumbnailUrl);
 
         const response = await apiClient.post('/perfo/insertperfo', formData, {
           headers: {
