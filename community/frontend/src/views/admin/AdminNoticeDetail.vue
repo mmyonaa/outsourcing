@@ -255,29 +255,72 @@ export default defineComponent({
   <div class="page-common notice-page admin">
     <h1>공지사항 수정</h1>
     <div class="notice-detail">
-      <label class="checkbox">
-        <input type="checkbox" v-model="bestValue" /> 중요 공지 여부
-      </label>
-      <input v-model="notice.title" class="notice-input" placeholder="제목을 입력하세요" />
+      <!-- 중요 공지 여부 -->
+      <div class="form-section">
+        <label class="checkbox">
+          <input type="checkbox" v-model="bestValue" /> 중요 공지 여부
+        </label>
+      </div>
+
+      <!-- 제목 -->
+      <div class="form-section">
+        <label class="section-title">제목</label>
+        <input v-model="notice.title" class="notice-input" placeholder="제목을 입력하세요" />
+      </div>
 
       <!-- Quill 에디터 -->
-      <div ref="editorRef" class="quill-editor"></div>
+      <div class="form-section">
+        <label class="section-title">내용</label>
+        <div ref="editorRef" class="quill-editor"></div>
+      </div>
 
-      <!-- 🔽 등록 버튼 -->
+      <!-- 버튼 -->
       <div class="back-button-wrapper">
         <button class="back-button" @click="goBack">← 목록으로 돌아가기</button>
-        <button class="back-button" @click="delNotice">삭제</button>
-        <button class="back-button" @click="submitNotice">수정</button>
+        <button class="back-button delete" @click="delNotice">삭제</button>
+        <button class="back-button submit" @click="submitNotice">수정</button>
       </div>
     </div>
   </div>
 </template>
 
 <style scoped>
+/* 폼 섹션 공통 스타일 */
+.form-section {
+  margin-bottom: 1.5rem;
+}
+
+.form-section:last-of-type {
+  margin-bottom: 2rem;
+}
+
+/* 라벨 스타일 */
+.section-title {
+  display: block;
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+/* 체크박스 */
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+}
+
+.checkbox input[type='checkbox'] {
+  cursor: pointer;
+}
+
+/* Quill 에디터 */
 .quill-editor {
   min-height: 400px;
   background: white;
-  margin-bottom: 20px;
 }
 
 :deep(.ql-toolbar) {

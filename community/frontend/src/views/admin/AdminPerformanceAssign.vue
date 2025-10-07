@@ -287,15 +287,26 @@ export default defineComponent({
   <div class="page-common notice-page admin">
     <h1>역대 공연 등록</h1>
     <div class="notice-detail">
-      <label class="section-title">제목</label>
-      <input v-model="performance.title" class="notice-input" placeholder="제목을 입력하세요" />
-      <input v-model="performance.titleSec" class="notice-input" placeholder="중제목을 입력하세요" />
-      <input v-model="performance.titleThird" class="notice-input" placeholder="소제목을 입력하세요" />
+      <!-- 제목 입력 섹션 -->
+      <div class="form-section">
+        <label class="section-title">제목</label>
+        <input v-model="performance.title" class="notice-input" placeholder="제목을 입력하세요" />
+      </div>
+
+      <div class="form-section">
+        <label class="section-title">중제목</label>
+        <input v-model="performance.titleSec" class="notice-input" placeholder="중제목을 입력하세요" />
+      </div>
+
+      <div class="form-section">
+        <label class="section-title">소제목</label>
+        <input v-model="performance.titleThird" class="notice-input" placeholder="소제목을 입력하세요" />
+      </div>
 
       <!-- 카테고리 선택 -->
-      <div class="category-section">
+      <div class="form-section">
         <label class="section-title">카테고리</label>
-        <select v-model="performance.category" class="category-select">
+        <select v-model="performance.category" class="notice-input">
           <option value="" disabled selected>카테고리를 선택하세요</option>
           <option v-for="option in categoryOptions" :key="option.value" :value="option.value">
             {{ option.label }}
@@ -304,13 +315,13 @@ export default defineComponent({
       </div>
 
       <!-- 썸네일 이미지 업로드 섹션 -->
-      <div class="image-upload-section">
-        <span class="section-title">썸네일 이미지</span>
+      <div class="form-section">
+        <label class="section-title">썸네일 이미지</label>
 
         <!-- 이미지 선택 버튼 (이미지가 없을 때만 표시) -->
         <label v-if="!imagePreview" class="image-upload-label">
           <input type="file" accept="image/*" @change="handleImageSelect" style="display: none" />
-          <span class="upload-button">📷 썸네일 이미지 선택</span>
+          <span class="upload-button">📷 이미지 선택</span>
         </label>
 
         <!-- 이미지 미리보기 -->
@@ -321,62 +332,43 @@ export default defineComponent({
       </div>
 
       <!-- Quill 에디터 -->
-      <div class="editor-section">
-        <span class="section-title">공연 상세 내용</span>
+      <div class="form-section">
+        <label class="section-title">공연 상세 내용</label>
         <div ref="editorRef" class="quill-editor"></div>
       </div>
 
-      <!-- 🔽 등록 버튼 -->
+      <!-- 버튼 -->
       <div class="back-button-wrapper">
         <button class="back-button" @click="goBack">← 목록으로 돌아가기</button>
-        <button class="back-button" @click="submitNotice">등록</button>
+        <button class="back-button submit" @click="submitNotice">등록</button>
       </div>
     </div>
   </div>
 </template>
 
 <style scoped>
+/* 폼 섹션 공통 스타일 */
+.form-section {
+  margin-bottom: 1.5rem;
+}
+
+.form-section:last-of-type {
+  margin-bottom: 2rem;
+}
+
+/* 라벨 스타일 */
 .section-title {
   display: block;
   font-weight: 600;
   font-size: 14px;
-  margin-bottom: 8px;
+  margin-bottom: 0.5rem;
   color: #333;
 }
 
-.category-section {
-  margin: 0;
-}
-
-.category-select {
-  width: 100%;
-  padding: 10px;
-  margin-top: 0.5rem;
-  margin-bottom: 2rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background-color: white;
-  cursor: pointer;
-  font-size: 16px;
-  font-family: 'Pretendard', sans-serif;
-  transition: border-color 0.2s;
-}
-
-.category-select:focus {
-  outline: none;
-  border-color: #999;
-}
-
-.category-select:hover {
-  border-color: #999;
-}
-
-.image-upload-section {
-  margin: 20px 0;
-}
-
+/* 이미지 업로드 */
 .image-upload-label {
   cursor: pointer;
+  display: inline-block;
 }
 
 .upload-button {
@@ -385,7 +377,7 @@ export default defineComponent({
   background-color: #4caf50;
   color: white;
   border-radius: 4px;
-  transition: background-color 0.3s;
+  transition: background-color 0.2s;
   font-size: 14px;
 }
 
@@ -394,7 +386,7 @@ export default defineComponent({
 }
 
 .image-preview-container {
-  margin-top: 15px;
+  margin-top: 0.75rem;
   position: relative;
   display: inline-block;
 }
@@ -421,21 +413,17 @@ export default defineComponent({
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background-color 0.3s;
+  transition: background-color 0.2s;
 }
 
 .remove-image-button:hover {
   background-color: rgba(255, 0, 0, 1);
 }
 
-.editor-section {
-  margin: 20px 0;
-}
-
+/* Quill 에디터 */
 .quill-editor {
   min-height: 400px;
   background: white;
-  margin-bottom: 20px;
 }
 
 :deep(.ql-toolbar) {
