@@ -10,10 +10,14 @@ export class PerfoEntity {
   category: string | undefined = undefined;
   // 제목
   title: string | undefined = undefined;
+  // 중제목
+  titleSec: string | undefined = undefined;
+  // 소제목
+  titleThird: string | undefined = undefined;
   // 내용
   body: string | undefined = undefined;
   // 이미지 URL
-  imgUr: string | undefined = undefined;
+  imgUrl: string | undefined = undefined;
   // 조회수
   views: number = 0;
   // 등록일시
@@ -36,4 +40,6 @@ export class SearchPerfoDto extends BasicListDto {
   body: string | undefined = undefined;
   // 공연타입
   perType: string | undefined = undefined;
+  // 검색 키워드
+  keyword: string | undefined = undefined;
 }

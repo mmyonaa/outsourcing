@@ -59,7 +59,7 @@ export default defineComponent({
       <div class="notice-header desktop-only">
         <div class="col index">#</div>
         <div class="col title">제목</div>
-        <div class="col type">공연타입</div>
+        <div class="col type">카테고리</div>
         <div class="col views">조회수</div>
         <div class="col date">등록일</div>
       </div>
@@ -72,7 +72,7 @@ export default defineComponent({
           <div class="col title">
             <router-link :to="`/admin/performance/detail?id=${perfo.perIdx}`" class="notice-card">{{ perfo.title }}</router-link>
           </div>
-          <div class="col type">{{ perfo.perType }}</div>
+          <div class="col type">{{ perfo.category }}</div>
           <div class="col views">{{ perfo.views }}</div>
           <div class="col date">{{ moment(perfo.regDt).format('YY.MM.DD') }}</div>
         </div>
