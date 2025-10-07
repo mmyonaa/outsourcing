@@ -42,7 +42,7 @@ export const routesList = [
     component: () => import('../views/PerformanceNext.vue'),
   },
   // 3. 대관
-  // 극장 상세사항
+  // 공간 안내
   {
     path: '/rental',
     name: 'rental',

@@ -46,7 +46,7 @@ export default defineComponent({
 
 <template>
   <div class="page-common rental-page">
-    <h1>극장 상세사항</h1>
+    <h1>공간 안내</h1>
     <div class="wrapper">
       <img :src="posters[activeIndex].image" class="big-image" />
       <!-- <div class="big-image-text">{{ posters[activeIndex].description }}</div> -->

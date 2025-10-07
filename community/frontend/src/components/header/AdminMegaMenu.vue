@@ -168,8 +168,8 @@ export default defineComponent({
             <li @click="() => onClickMenu('/performance/next')">대관 프로그램 등록</li>
           </ul>
           <ul class="sub-menu-list asset menu">
-            <!-- <li @click="() => onClickMenu('/rental')">극장 상세사항</li>
-            <li @click="() => onClickMenu('/rental/info')">대관 안내</li>
+            <!-- <li @click="() => onClickMenu('/rental')">공간 안내</li>
+            <li @click="() => onClickMenu('/rental/info')">대관 신청 링크</li>
             <li @click="() => onClickMenu('/rental/schedule')">대관 스케줄</li> -->
           </ul>
           <ul class="sub-menu-list community menu">
