@@ -46,7 +46,7 @@ export default defineComponent({
 
 <template>
   <div class="page-common introduce-page reservation-page">
-    <h1>예정 공연</h1>
+    <h1>대관 프로그램</h1>
     <div class="content-wrapper">
       <div class="poster">
         <apoc-image-set src="/assets/images/theater/introduce-1.JPG" alt="맨땅에 헤딩 포스터" />

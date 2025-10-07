@@ -37,7 +37,7 @@ export default defineComponent({
 
 <template>
   <div class="page-common notice-page admin">
-    <h1>예정 공연 등록</h1>
+    <h1>대관 프로그램 등록</h1>
     <div class="notice-detail">
       <input
         v-model="notice.title"

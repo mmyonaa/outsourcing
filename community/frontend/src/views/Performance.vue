@@ -84,7 +84,7 @@ export default defineComponent({
 
 <template>
   <div class="page-common notice-page performance-page">
-    <h1>역대 공연</h1>
+    <h1>자체 프로그램</h1>
 
     <!-- 검색바와 카테고리 필터 -->
     <div class="search-category-container">

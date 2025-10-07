@@ -26,7 +26,7 @@ export default defineComponent({
 
     // 카테고리 옵션
     const categoryOptions = [
-      { value: TYPE_PERFO_CATEGORY.PERFO, label: '공연' },
+      { value: TYPE_PERFO_CATEGORY.PERFO, label: '프로그램' },
       { value: TYPE_PERFO_CATEGORY.EDU, label: '교육' },
       { value: TYPE_PERFO_CATEGORY.EVENT, label: '행사' },
     ];
@@ -255,7 +255,7 @@ export default defineComponent({
 
       await updatePerfo(apiClient, performance.value).then(res => {
         if (res.resultCode === 0 && res.data) {
-          alert('공연 수정이 완료되었습니다.');
+          alert('프로그램 수정이 완료되었습니다.');
           router.push('/admin/performance');
         }
       });
@@ -268,7 +268,7 @@ export default defineComponent({
       if (window.confirm('정말 삭제하시겠습니까?')) {
         await deletePerfo(apiClient, param).then(res => {
           if (res.resultCode === 0 && res.data) {
-            alert('공연 삭제가 완료되었습니다.');
+            alert('프로그램 삭제가 완료되었습니다.');
             router.push('/admin/performance');
           }
         });
@@ -298,7 +298,7 @@ export default defineComponent({
 
 <template>
   <div class="page-common notice-page admin">
-    <h1>역대 공연 수정</h1>
+    <h1>자체 프로그램 수정</h1>
     <div class="notice-detail">
       <!-- 제목 입력 섹션 -->
       <div class="form-section">
@@ -346,7 +346,7 @@ export default defineComponent({
 
       <!-- Quill 에디터 -->
       <div class="form-section">
-        <label class="section-title">공연 상세 내용</label>
+        <label class="section-title">프로그램 상세 내용</label>
         <div ref="editorRef" class="quill-editor"></div>
       </div>
 

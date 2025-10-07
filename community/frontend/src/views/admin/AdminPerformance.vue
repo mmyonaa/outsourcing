@@ -50,9 +50,9 @@ export default defineComponent({
 
 <template>
   <div class="page-common notice-page">
-    <h1>역대 공연 관리</h1>
+    <h1>자체 프로그램 관리</h1>
     <div class="back-button-wrapper">
-      <button class="back-button" @click="assignPerfo">공연 등록</button>
+      <button class="back-button" @click="assignPerfo">프로그램 등록</button>
     </div>
     <div class="notice-list">
       <!-- 데스크탑용 테이블 -->

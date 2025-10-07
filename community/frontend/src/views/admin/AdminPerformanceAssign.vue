@@ -25,13 +25,13 @@ export default defineComponent({
 
     // 카테고리 옵션
     const categoryOptions = [
-      { value: TYPE_PERFO_CATEGORY.PERFO, label: '공연' },
+      { value: TYPE_PERFO_CATEGORY.PERFO, label: '프로그램' },
       { value: TYPE_PERFO_CATEGORY.EDU, label: '교육' },
       { value: TYPE_PERFO_CATEGORY.EVENT, label: '행사' },
     ];
 
     const goBack = () => {
-      router.push('/admin/performance'); // 공연 목록 페이지 경로
+      router.push('/admin/performance'); // 프로그램 목록 페이지 경로
     };
 
     const handleImageSelect = (event: Event) => {
@@ -254,14 +254,14 @@ export default defineComponent({
         });
 
         if (response.data.resultCode === 0) {
-          alert('공연이 성공적으로 등록되었습니다.');
+          alert('프로그램이 성공적으로 등록되었습니다.');
           router.push('/admin/performance');
         } else {
-          alert('공연 등록에 실패했습니다.');
+          alert('프로그램 등록에 실패했습니다.');
         }
       } catch (error) {
         console.error('Error submitting performance:', error);
-        alert('공연 등록 중 오류가 발생했습니다.');
+        alert('프로그램 등록 중 오류가 발생했습니다.');
       }
     };
 
@@ -288,7 +288,7 @@ export default defineComponent({
 
 <template>
   <div class="page-common notice-page admin">
-    <h1>역대 공연 등록</h1>
+    <h1>역대 프로그램 등록</h1>
     <div class="notice-detail">
       <!-- 제목 입력 섹션 -->
       <div class="form-section">
@@ -336,7 +336,7 @@ export default defineComponent({
 
       <!-- Quill 에디터 -->
       <div class="form-section">
-        <label class="section-title">공연 상세 내용</label>
+        <label class="section-title">프로그램 상세 내용</label>
         <div ref="editorRef" class="quill-editor"></div>
       </div>
 

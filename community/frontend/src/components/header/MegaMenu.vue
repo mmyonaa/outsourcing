@@ -137,7 +137,7 @@ export default defineComponent({
         <section class="main-menu-section" @mouseenter="handleMouseEnter" @mouseleave="handleMouseLeave">
           <ul class="menu-list">
             <li class="menu play" :class="{ active: activeMenu === 'introduce' }" @click="() => onClickMenu('/introduce')">소개</li>
-            <li class="menu studio" :class="{ active: activeMenu === 'performance' }" @click="() => onClickMenu('/performance')">공연</li>
+            <li class="menu studio" :class="{ active: activeMenu === 'performance' }" @click="() => onClickMenu('/performance')">활동</li>
             <li class="menu asset" :class="{ active: activeMenu === 'rental' }" @click="() => onClickMenu('/rental')">대관</li>
             <li class="menu community" :class="{ active: activeMenu === 'notice' }" @click="() => onClickMenu('/notice')">공지사항</li>
           </ul>
@@ -163,8 +163,8 @@ export default defineComponent({
             <li @click="() => onClickMenu('/introduce/route')">오시는 길</li>
           </ul>
           <ul class="sub-menu-list studio menu">
-            <li @click="() => onClickMenu('/performance')">역대 공연</li>
-            <li @click="() => onClickMenu('/performance/next')">예정 공연</li>
+            <li @click="() => onClickMenu('/performance')">자체 프로그램</li>
+            <li @click="() => onClickMenu('/performance/next')">대관 프로그램</li>
           </ul>
           <ul class="sub-menu-list asset menu">
             <li @click="() => onClickMenu('/rental')">극장 상세사항</li>
@@ -215,7 +215,7 @@ export default defineComponent({
             class="menu studio"
             :class="{ opened: isTabletMenuVisibleType === 'performance', active: activeMenu === 'performance' }"
             @click="() => onClickOpenSubMenu('performance')">
-            공연
+            활동
             <ArrowDown />
           </li>
           <transition name="dropdown">
@@ -224,8 +224,8 @@ export default defineComponent({
               class="sub-menu-tablet"
               :class="{ opened: isTabletMenuVisibleType === 'performance' }">
               <ul>
-                <li @click="() => onClickMenu('/performance')">역대 공연</li>
-                <li @click="() => onClickMenu('/performance/next')">예정 공연</li>
+                <li @click="() => onClickMenu('/performance')">자체 프로그램</li>
+                <li @click="() => onClickMenu('/performance/next')">대관 프로그램</li>
               </ul>
             </section>
           </transition>

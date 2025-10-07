@@ -71,7 +71,7 @@ export default defineComponent({
 
 <template>
   <div class="page-common notice-page">
-    <h1>역대 공연 상세</h1>
+    <h1>자체 프로그램 상세</h1>
     <div class="notice-detail">
       <div class="performance-detail-container">
         <!-- 좌측: 썸네일 + 카테고리 + 제목 -->
