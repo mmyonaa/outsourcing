@@ -42,4 +42,5 @@ export class SearchPerfoDto extends BasicListDto {
   perType: string | undefined = undefined;
   // 검색 키워드
   keyword: string | undefined = undefined;
+  category: string | undefined = undefined;
 }

@@ -234,10 +234,10 @@ export default defineComponent({
 
       try {
         const formData = new FormData();
-        formData.append('title', performance.value.title);
-        formData.append('titleSec', performance.value.titleSec);
-        formData.append('titleThird', performance.value.titleThird);
-        formData.append('category', performance.value.category);
+        formData.append('title', performance.value.title || '');
+        formData.append('titleSec', performance.value.titleSec || '');
+        formData.append('titleThird', performance.value.titleThird || '');
+        formData.append('category', performance.value.category || '');
         formData.append('body', quillInstance.root.innerHTML);
 
         if (selectedImage.value) {
