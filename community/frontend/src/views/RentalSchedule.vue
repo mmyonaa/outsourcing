@@ -6,7 +6,7 @@ export default defineComponent({
   setup() {
     // 구글 캘린더 ID를 여기에 설정합니다
     // 설정 방법은 google-calendar-setup.md 참조
-    const CALENDAR_ID = 'e47e39297caa50ae8518c3eefc95d52260a11fdb5f5e25be140e48088f65e87d@group.calendar.google.com';
+    const CALENDAR_ID = 'bokwangtheater@gmail.com';
 
     return {
       CALENDAR_ID,
@@ -21,7 +21,7 @@ export default defineComponent({
 
     <div class="google-calendar-container">
       <iframe
-        src="https://calendar.google.com/calendar/embed?height=600&wkst=1&bgcolor=%23ffffff&ctz=Asia%2FSeoul&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=1&showCalendars=0&mode=MONTH&hl=ko&src=e47e39297caa50ae8518c3eefc95d52260a11fdb5f5e25be140e48088f65e87d%40group.calendar.google.com"
+        src="https://calendar.google.com/calendar/embed?src=bokwangtheater%40gmail.com&ctz=Asia%2FSeoul"
         style="border: solid 1px #777"
         width="100%"
         height="600"
