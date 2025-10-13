@@ -53,6 +53,11 @@ export default defineComponent({
       await updatePerfo(apiClient, performance.value);
     };
 
+    const handleImageError = (event: Event) => {
+      const target = event.target as HTMLImageElement;
+      target.src = '/assets/images/common/default-thumbnail.svg';
+    };
+
     onMounted(async () => {
       await loadPerfoDetail();
       await updateViews();
@@ -64,6 +69,7 @@ export default defineComponent({
       moment,
       goBack,
       getCategoryLabel,
+      handleImageError,
     };
   },
 });
@@ -77,7 +83,7 @@ export default defineComponent({
         <!-- 좌측: 썸네일 + 카테고리 + 제목 -->
         <div class="left-section">
           <div class="thumbnail-wrapper">
-            <img :src="performance.imgUrl || '/assets/images/theater/main.jpeg'" :alt="performance.title" class="thumbnail-image" />
+            <img :src="performance.imgUrl || '/assets/images/common/default-thumbnail.svg'" :alt="performance.title" class="thumbnail-image" @error="handleImageError" />
           </div>
 
           <div v-if="performance.category" class="category-tag-wrapper">

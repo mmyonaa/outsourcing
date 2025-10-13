@@ -62,6 +62,11 @@ export default defineComponent({
       loadPerfoList();
     };
 
+    const handleImageError = (event: Event) => {
+      const target = event.target as HTMLImageElement;
+      target.src = '/assets/images/common/default-thumbnail.svg';
+    };
+
     onMounted(() => {
       loadPerfoList();
     });
@@ -76,6 +81,7 @@ export default defineComponent({
       filterByCategory,
       getCategoryLabel,
       resetFilters,
+      handleImageError,
       TYPE_PERFO_CATEGORY,
     };
   },
@@ -125,7 +131,7 @@ export default defineComponent({
       <div class="performance-card" v-for="(performance, index) in performances" :key="performance.perIdx">
         <router-link :to="`/performance/detail?id=${performance.perIdx}`" class="card-link">
           <div class="card-image">
-            <img :src="performance.imgUrl || '/assets/images/theater/main.jpeg'" :alt="performance.title" />
+            <img :src="performance.imgUrl || '/assets/images/common/default-thumbnail.svg'" :alt="performance.title" @error="handleImageError" />
           </div>
           <div class="card-content">
             <!-- 카테고리 태그 -->

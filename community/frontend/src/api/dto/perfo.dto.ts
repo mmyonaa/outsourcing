@@ -18,6 +18,8 @@ export class PerfoEntity {
   body: string | undefined = undefined;
   // 이미지 URL
   imgUrl: string | undefined = undefined;
+  // 작성자
+  author: string | undefined = undefined;
   // 조회수
   views: number = 0;
   // 등록일시

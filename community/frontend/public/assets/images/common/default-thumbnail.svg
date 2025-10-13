@@ -1,0 +1,31 @@
+<svg width="300" height="300" xmlns="http://www.w3.org/2000/svg">
+  <!-- 배경 -->
+  <rect width="300" height="300" fill="#f5f5f5"/>
+
+  <!-- 그라데이션 정의 -->
+  <defs>
+    <linearGradient id="iconGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#736e92;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#a79fb8;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- 이미지 아이콘 -->
+  <g transform="translate(150, 140)">
+    <!-- 사각형 프레임 -->
+    <rect x="-75" y="-62.5" width="150" height="125" rx="10" fill="url(#iconGradient)" opacity="0.2"/>
+    <rect x="-75" y="-62.5" width="150" height="125" rx="10" fill="none" stroke="url(#iconGradient)" stroke-width="4"/>
+
+    <!-- 산 모양 -->
+    <polygon points="-50,12.5 -25,-12.5 0,12.5" fill="url(#iconGradient)" opacity="0.6"/>
+    <polygon points="-12.5,12.5 12.5,-18.75 37.5,12.5" fill="url(#iconGradient)" opacity="0.8"/>
+
+    <!-- 태양/달 -->
+    <circle cx="-43.75" cy="-31.25" r="12.5" fill="url(#iconGradient)" opacity="0.7"/>
+  </g>
+
+  <!-- 텍스트 -->
+  <text x="150" y="230" font-family="Arial, sans-serif" font-size="20" fill="#999" text-anchor="middle" font-weight="500">
+    No Image
+  </text>
+</svg>

@@ -3,13 +3,14 @@ import { defineComponent, onMounted, ref } from 'vue';
 import ApocPagination from '@/components/common/ApocPagination.vue';
 import { useRoute, useRouter } from 'vue-router';
 import { PerfoEntity } from '@/api/dto/perfo.dto';
+import { insertPerfo } from '@/api/perfo.api';
 import { getApiClient } from '@/utils/apiClient';
 import { TYPE_PERFO_CATEGORY } from '@/types';
 import Quill from 'quill';
 import 'quill/dist/quill.snow.css';
 
 export default defineComponent({
-  name: 'adminPerformanceAssign',
+  name: 'adminPerformanceNextAssign',
   components: { ApocPagination },
   setup() {
     const totalPage = ref<number>(0); // 총 페이지
@@ -30,7 +31,7 @@ export default defineComponent({
     ];
 
     const goBack = () => {
-      router.push('/admin/performance'); // 프로그램 목록 페이지 경로
+      router.push('/admin/next/performance'); // 프로그램 목록 페이지 경로
     };
 
     const handleImageSelect = (event: Event) => {
@@ -287,7 +288,7 @@ export default defineComponent({
 
 <template>
   <div class="page-common notice-page admin">
-    <h1>자체 프로그램 등록</h1>
+    <h1>대관 프로그램 등록</h1>
     <div class="notice-detail">
       <!-- 제목 입력 섹션 -->
       <div class="form-section">

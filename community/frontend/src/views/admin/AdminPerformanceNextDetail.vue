@@ -2,25 +2,27 @@
 import { defineComponent, onMounted, ref } from 'vue';
 import ApocPagination from '@/components/common/ApocPagination.vue';
 import { useRoute, useRouter } from 'vue-router';
-import { PerfoEntity } from '@/api/dto/perfo.dto';
+import { PerfoEntity, SearchPerfoDto } from '@/api/dto/perfo.dto';
+import { deletePerfo, getPerfoList, updatePerfo } from '@/api/perfo.api';
 import { getApiClient } from '@/utils/apiClient';
 import { TYPE_PERFO_CATEGORY } from '@/types';
 import Quill from 'quill';
 import 'quill/dist/quill.snow.css';
 
 export default defineComponent({
-  name: 'adminPerformanceAssign',
+  name: 'adminPerformanceNextDetail',
   components: { ApocPagination },
   setup() {
-    const totalPage = ref<number>(0); // 총 페이지
+    const totalPage = ref<number>(0);
     const route = useRoute();
     const router = useRouter();
     const performance = ref<PerfoEntity>(new PerfoEntity());
-    const selectedImage = ref<File | null>(null); // 썸네일 이미지
-    const imagePreview = ref<string | null>(null);
     const apiClient = getApiClient();
+    const perfoIdx = route.query.id;
     const editorRef = ref<HTMLElement | null>(null);
     let quillInstance: Quill | null = null;
+    const selectedImage = ref<File | null>(null); // 썸네일 이미지
+    const imagePreview = ref<string | null>(null);
 
     // 카테고리 옵션
     const categoryOptions = [
@@ -30,21 +32,20 @@ export default defineComponent({
     ];
 
     const goBack = () => {
-      router.push('/admin/performance'); // 프로그램 목록 페이지 경로
+      router.push('/admin/next/performance');
     };
 
+    // 썸네일 이미지 선택
     const handleImageSelect = (event: Event) => {
       const target = event.target as HTMLInputElement;
       if (target.files && target.files[0]) {
         const file = target.files[0];
 
-        // 이미지 파일 검증
         if (!file.type.startsWith('image/')) {
           alert('이미지 파일만 업로드 가능합니다.');
           return;
         }
 
-        // 파일 크기 제한 (5MB)
         if (file.size > 5 * 1024 * 1024) {
           alert('파일 크기는 5MB 이하여야 합니다.');
           return;
@@ -52,7 +53,6 @@ export default defineComponent({
 
         selectedImage.value = file;
 
-        // 이미지 미리보기
         const reader = new FileReader();
         reader.onload = e => {
           imagePreview.value = e.target?.result as string;
@@ -66,7 +66,7 @@ export default defineComponent({
       imagePreview.value = null;
     };
 
-    // S3에 이미지 업로드 (Quill 에디터용)
+    // S3에 이미지 업로드
     const uploadImageToS3 = async (file: File): Promise<string> => {
       const formData = new FormData();
       formData.append('image', file);
@@ -89,7 +89,7 @@ export default defineComponent({
       }
     };
 
-    // S3에 파일 업로드 (Quill 에디터용)
+    // S3에 파일 업로드
     const uploadFileToS3 = async (file: File): Promise<string> => {
       const formData = new FormData();
       formData.append('file', file);
@@ -205,12 +205,37 @@ export default defineComponent({
         placeholder: '내용을 입력하세요...',
       });
 
+      // 기존 내용을 Quill에 로드
+      if (performance.value.body) {
+        quillInstance.root.innerHTML = performance.value.body;
+      }
+
+      // 콘텐츠 변경 시 performance.body 업데이트
       quillInstance.on('text-change', () => {
         performance.value.body = quillInstance?.root.innerHTML || '';
       });
     };
 
-    const submitNotice = async () => {
+    const loadPerfoDetail = async () => {
+      const param = new SearchPerfoDto();
+      param.perIdx = String(perfoIdx);
+
+      await getPerfoList(apiClient, param).then(res => {
+        if (res.resultCode === 0 && res.data) {
+          performance.value = res.data[0];
+
+          // 기존 썸네일 이미지 로드
+          if (performance.value.imgUrl) {
+            imagePreview.value = performance.value.imgUrl;
+          }
+
+          // 데이터 로드 후 Quill 에디터 초기화
+          initQuillEditor();
+        }
+      });
+    };
+
+    const submitPerformance = async () => {
       if (!performance.value.title || !performance.value.title.trim()) {
         alert('제목을 입력하세요.');
         return;
@@ -226,60 +251,46 @@ export default defineComponent({
         return;
       }
 
-      if (!selectedImage.value) {
-        alert('썸네일 이미지를 선택해주세요.');
-        return;
-      }
+      performance.value.body = quillInstance.root.innerHTML;
 
-      try {
-        // Upload thumbnail to S3 first
-        let thumbnailUrl = '';
-        if (selectedImage.value) {
-          thumbnailUrl = await uploadImageToS3(selectedImage.value);
-        }
-
-        const formData = new FormData();
-        formData.append('title', performance.value.title || '');
-        formData.append('titleSec', performance.value.titleSec || '');
-        formData.append('titleThird', performance.value.titleThird || '');
-        formData.append('category', performance.value.category || '');
-        formData.append('body', quillInstance.root.innerHTML);
-        formData.append('imgUrl', thumbnailUrl);
-
-        const response = await apiClient.post('/perfo/insertperfo', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        });
-
-        if (response.data.resultCode === 0) {
-          alert('프로그램이 성공적으로 등록되었습니다.');
+      await updatePerfo(apiClient, performance.value).then(res => {
+        if (res.resultCode === 0 && res.data) {
+          alert('프로그램 수정이 완료되었습니다.');
           router.push('/admin/performance');
-        } else {
-          alert('프로그램 등록에 실패했습니다.');
         }
-      } catch (error) {
-        console.error('Error submitting performance:', error);
-        alert('프로그램 등록 중 오류가 발생했습니다.');
+      });
+    };
+
+    const delPerformance = async () => {
+      const param = new SearchPerfoDto();
+      param.perIdx = String(perfoIdx);
+
+      if (window.confirm('정말 삭제하시겠습니까?')) {
+        await deletePerfo(apiClient, param).then(res => {
+          if (res.resultCode === 0 && res.data) {
+            alert('프로그램 삭제가 완료되었습니다.');
+            router.push('/admin/performance');
+          }
+        });
       }
     };
 
     onMounted(() => {
-      performance.value.body = '';
-      initQuillEditor();
+      loadPerfoDetail();
     });
 
     return {
       performance,
       totalPage,
-      submitNotice,
+      editorRef,
+      submitPerformance,
       goBack,
+      delPerformance,
+      categoryOptions,
       selectedImage,
       imagePreview,
       handleImageSelect,
       removeImage,
-      editorRef,
-      categoryOptions,
     };
   },
 });
@@ -287,7 +298,7 @@ export default defineComponent({
 
 <template>
   <div class="page-common notice-page admin">
-    <h1>자체 프로그램 등록</h1>
+    <h1>대관 프로그램 수정</h1>
     <div class="notice-detail">
       <!-- 제목 입력 섹션 -->
       <div class="form-section">
@@ -309,7 +320,7 @@ export default defineComponent({
       <div class="form-section">
         <label class="section-title">카테고리</label>
         <select v-model="performance.category" class="notice-input">
-          <option value="" disabled selected>카테고리를 선택하세요</option>
+          <option value="" disabled>카테고리를 선택하세요</option>
           <option v-for="option in categoryOptions" :key="option.value" :value="option.value">
             {{ option.label }}
           </option>
@@ -342,7 +353,8 @@ export default defineComponent({
       <!-- 버튼 -->
       <div class="back-button-wrapper">
         <button class="back-button" @click="goBack">← 목록으로 돌아가기</button>
-        <button class="back-button submit" @click="submitNotice">등록</button>
+        <button class="back-button delete" @click="delPerformance">삭제</button>
+        <button class="back-button submit" @click="submitPerformance">수정</button>
       </div>
     </div>
   </div>

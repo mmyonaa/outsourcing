@@ -69,6 +69,11 @@ export default defineComponent({
       loadPerfoList();
     };
 
+    const handleImageError = (event: Event) => {
+      const target = event.target as HTMLImageElement;
+      target.src = '/assets/images/common/default-thumbnail.svg';
+    };
+
     onMounted(() => {
       loadPerfoList();
     });
@@ -85,6 +90,7 @@ export default defineComponent({
       filterByCategory,
       getCategoryLabel,
       resetFilters,
+      handleImageError,
       TYPE_PERFO_CATEGORY,
     };
   },
@@ -137,8 +143,10 @@ export default defineComponent({
       <!-- 데스크탑용 테이블 -->
       <div class="notice-header desktop-only">
         <div class="col index">#</div>
+        <div class="col thumbnail">썸네일</div>
         <div class="col title">제목</div>
         <div class="col type">카테고리</div>
+        <div class="col author">작성자</div>
         <div class="col views">조회수</div>
         <div class="col date">등록일</div>
       </div>
@@ -148,10 +156,17 @@ export default defineComponent({
         <div class="row-content desktop-only">
           <div class="col index">{{ index + 1 }}</div>
 
+          <div class="col thumbnail">
+            <img :src="perfo.imgUrl || '/assets/images/common/default-thumbnail.svg'" :alt="perfo.title" class="thumbnail-img" @error="handleImageError" />
+          </div>
+
           <div class="col title">
-            <router-link :to="`/admin/performance/detail?id=${perfo.perIdx}`" class="notice-card">{{ perfo.title }}</router-link>
+            <router-link :to="`/admin/performance/detail?id=${perfo.perIdx}`" class="notice-card">
+              {{ perfo.title }}
+            </router-link>
           </div>
           <div class="col type">{{ getCategoryLabel(perfo.category) }}</div>
+          <div class="col author">{{ perfo.author }}</div>
           <div class="col views">{{ perfo.views }}</div>
           <div class="col date">{{ moment(perfo.regDt).format('YY.MM.DD') }}</div>
         </div>
@@ -162,7 +177,7 @@ export default defineComponent({
             {{ perfo.title }}
           </div>
           <div class="meta">
-            <span>{{ perfo.perType }}</span> · <span>{{ moment(perfo.regDt).format('YY.MM.DD') }}</span> ·
+            <span>{{ getCategoryLabel(perfo.category) }}</span> · <span>{{ moment(perfo.regDt).format('YY.MM.DD') }}</span> ·
             <span>조회수 {{ perfo.views }}</span>
           </div>
         </div>
@@ -304,6 +319,27 @@ export default defineComponent({
 
 .reset-filter-btn:active {
   transform: scale(0.95);
+}
+
+/* 그리드 레이아웃 오버라이드 (썸네일 추가로 7컬럼) */
+.notice-list .notice-header,
+.notice-list .row-content {
+  grid-template-columns: 30px 80px 1fr 100px 100px 80px 120px;
+}
+
+/* 썸네일 스타일 */
+.col.thumbnail {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.thumbnail-img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid #e0e0e0;
 }
 
 /* 반응형 */

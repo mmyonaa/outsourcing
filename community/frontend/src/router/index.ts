@@ -139,4 +139,14 @@ export const routesList = [
     name: 'adminPerformanceNext',
     component: () => import('../views/admin/AdminPerformanceNext.vue'),
   },
+  {
+    path: '/admin/performance/next/detail',
+    name: 'adminPerformanceNextDetail',
+    component: () => import('../views/admin/AdminPerformanceNextDetail.vue'),
+  },
+  {
+    path: '/admin/performance/next/assign',
+    name: 'adminPerformanceNextAssign',
+    component: () => import('../views/admin/AdminPerformanceNextAssign.vue'),
+  },
 ];

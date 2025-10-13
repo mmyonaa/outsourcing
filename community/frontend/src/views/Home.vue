@@ -77,9 +77,14 @@ const onClickRental = () => {
   router.push('/rental/info')
 }
 
+    const handleImageError = (event: Event) => {
+      const target = event.target as HTMLImageElement;
+      target.src = '/assets/images/common/default-thumbnail.svg';
+    };
+
     onMounted(() => {
       loadBoardLit();
-  
+
     });
     return {
       posters,
@@ -88,7 +93,8 @@ const onClickRental = () => {
       activeRentalIndex,
       rentalPosters,
       moment,
-      onClickRental
+      onClickRental,
+      handleImageError
     };
   },
 });
@@ -125,7 +131,7 @@ const onClickRental = () => {
           :class="{ active: activeRentalIndex === index }"
           @click="activeRentalIndex = index"
         >
-          <img :src="poster.image" :alt="'Poster ' + (index + 1)" />
+          <img :src="poster.image" :alt="'Poster ' + (index + 1)" @error="handleImageError" />
           <!-- <div class="description" v-if="activeRentalIndex === index">
             {{ poster.description }}
           </div> -->
@@ -149,7 +155,7 @@ const onClickRental = () => {
           :class="{ active: activeReserveIndex === index }"
           @click="activeReserveIndex = index"
         >
-          <img :src="poster.image" :alt="'Poster ' + (index + 1)" />
+          <img :src="poster.image" :alt="'Poster ' + (index + 1)" @error="handleImageError" />
           <div class="description" v-if="activeReserveIndex === index">
             {{ poster.description }}
           </div>

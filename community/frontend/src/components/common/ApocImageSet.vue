@@ -8,7 +8,7 @@ export default defineComponent({
     src: {
       type: String as PropType<string>,
       required: true,
-      default: '/assets/images/common/default-img.webp',
+      default: '/assets/images/common/default-thumbnail.svg',
     },
     originSrc: {
       type: String as PropType<string>,
@@ -21,7 +21,7 @@ export default defineComponent({
     errorImg: {
       type: String as PropType<string>,
       required: false,
-      default: '/assets/images/common/default-img.webp',
+      default: '/assets/images/common/default-thumbnail.svg',
     },
     alt: {
       type: String as PropType<string>,

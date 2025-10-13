@@ -50,6 +50,7 @@ export const insertPerfo = (
           "title",
           "body",
           "perType",
+          "author",
           "imgUrl",
           "category",
           "titleSec",

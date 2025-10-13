@@ -18,6 +18,7 @@ export class PerfoEntity {
   perType: string | undefined = undefined;
   // 제목
   title: string | undefined = undefined;
+  author: string | undefined = undefined;
   titleSec: string | undefined = undefined;
   titleThird: string | undefined = undefined;
   // 내용
