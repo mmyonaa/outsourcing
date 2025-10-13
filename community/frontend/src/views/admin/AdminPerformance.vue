@@ -5,7 +5,7 @@ import { PerfoEntity, SearchPerfoDto } from '@/api/dto/perfo.dto';
 import { getApiClient } from '@/utils/apiClient';
 import { getPerfoList } from '@/api/perfo.api';
 import moment from 'moment';
-import { STATE_YN, TYPE_PERFO } from '@/types';
+import { STATE_YN, TYPE_PERFO, TYPE_PERFO_CATEGORY } from '@/types';
 import { useRouter } from 'vue-router';
 
 export default defineComponent({
@@ -16,10 +16,14 @@ export default defineComponent({
     const apiClient = getApiClient();
     const perfos = ref<PerfoEntity[]>([]);
     const router = useRouter();
+    const searchKeyword = ref<string>('');
+    const selectedCategory = ref<string>('');
 
     const loadPerfoList = async () => {
       const param = new SearchPerfoDto();
       param.perType = TYPE_PERFO.NORMAL;
+      param.keyword = searchKeyword.value || undefined;
+      param.category = selectedCategory.value || undefined;
 
       await getPerfoList(apiClient, param).then(res => {
         if (res.resultCode === 0 && res.data) {
@@ -29,8 +33,40 @@ export default defineComponent({
       });
     };
 
+    const handleSearch = () => {
+      loadPerfoList();
+    };
+
+    const filterByCategory = (category: string) => {
+      if (selectedCategory.value === category) {
+        selectedCategory.value = '';
+      } else {
+        selectedCategory.value = category;
+      }
+      loadPerfoList();
+    };
+
     const assignPerfo = () => {
       router.push('/admin/performance/assign');
+    };
+
+    const getCategoryLabel = (category: string | undefined) => {
+      switch (category) {
+        case TYPE_PERFO_CATEGORY.PERFO:
+          return '공연';
+        case TYPE_PERFO_CATEGORY.EDU:
+          return '교육';
+        case TYPE_PERFO_CATEGORY.EVENT:
+          return '행사';
+        default:
+          return '';
+      }
+    };
+
+    const resetFilters = () => {
+      searchKeyword.value = '';
+      selectedCategory.value = '';
+      loadPerfoList();
     };
 
     onMounted(() => {
@@ -41,8 +77,15 @@ export default defineComponent({
       totalPage,
       moment,
       STATE_YN,
+      searchKeyword,
+      selectedCategory,
       assignPerfo,
       loadPerfoList,
+      handleSearch,
+      filterByCategory,
+      getCategoryLabel,
+      resetFilters,
+      TYPE_PERFO_CATEGORY,
     };
   },
 });
@@ -51,9 +94,45 @@ export default defineComponent({
 <template>
   <div class="page-common notice-page">
     <h1>자체 프로그램 관리</h1>
-    <div class="back-button-wrapper">
-      <button class="back-button" @click="assignPerfo">프로그램 등록</button>
+
+    <!-- 검색바와 카테고리 필터 -->
+    <div class="search-category-container">
+      <!-- 카테고리 필터 버튼 -->
+      <div class="category-filter-wrapper">
+        <button
+          class="category-filter-btn category-perfo"
+          :class="{ active: selectedCategory === TYPE_PERFO_CATEGORY.PERFO }"
+          @click="filterByCategory(TYPE_PERFO_CATEGORY.PERFO)">
+          공연
+        </button>
+        <button
+          class="category-filter-btn category-edu"
+          :class="{ active: selectedCategory === TYPE_PERFO_CATEGORY.EDU }"
+          @click="filterByCategory(TYPE_PERFO_CATEGORY.EDU)">
+          교육
+        </button>
+        <button
+          class="category-filter-btn category-event"
+          :class="{ active: selectedCategory === TYPE_PERFO_CATEGORY.EVENT }"
+          @click="filterByCategory(TYPE_PERFO_CATEGORY.EVENT)">
+          행사
+        </button>
+        <button class="reset-filter-btn" @click="resetFilters">
+          <span class="reset-icon">↻</span>
+          초기화
+        </button>
+      </div>
+
+      <!-- 검색바와 등록 버튼 -->
+      <div class="search-action-wrapper">
+        <div class="search-bar-wrapper">
+          <input v-model="searchKeyword" type="text" placeholder="제목으로 검색..." class="search-input" @keyup.enter="handleSearch" />
+          <button class="search-button" @click="handleSearch">검색</button>
+        </div>
+        <button class="register-button" @click="assignPerfo">프로그램 등록</button>
+      </div>
     </div>
+
     <div class="notice-list">
       <!-- 데스크탑용 테이블 -->
       <div class="notice-header desktop-only">
@@ -72,7 +151,7 @@ export default defineComponent({
           <div class="col title">
             <router-link :to="`/admin/performance/detail?id=${perfo.perIdx}`" class="notice-card">{{ perfo.title }}</router-link>
           </div>
-          <div class="col type">{{ perfo.category }}</div>
+          <div class="col type">{{ getCategoryLabel(perfo.category) }}</div>
           <div class="col views">{{ perfo.views }}</div>
           <div class="col date">{{ moment(perfo.regDt).format('YY.MM.DD') }}</div>
         </div>
@@ -94,3 +173,181 @@ export default defineComponent({
     </section>
   </div>
 </template>
+
+<style scoped>
+/* 검색바와 카테고리 컨테이너 */
+.search-category-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  margin: 3rem auto 3rem;
+  padding: 0 1rem;
+}
+
+/* 검색바와 등록 버튼을 감싸는 래퍼 */
+.search-action-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* 검색바 스타일 오버라이드 */
+.search-category-container .search-bar-wrapper {
+  max-width: 600px;
+  flex: 0 1 600px;
+  margin: 0;
+}
+
+/* 프로그램 등록 버튼 */
+.register-button {
+  padding: 1.2rem 2rem;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  background: #736e92;
+  color: white;
+  border: none;
+}
+
+.register-button:hover {
+  background: #5f5a7a;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(115, 110, 146, 0.3);
+}
+
+.register-button:active {
+  transform: translateY(0);
+}
+
+/* 카테고리 필터 버튼 */
+.category-filter-wrapper {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.category-filter-btn {
+  padding: 1.2rem 1.8rem;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.category-filter-btn.category-perfo {
+  background: rgba(115, 110, 146, 0.15);
+  color: #736e92;
+  border: 1.5px solid rgba(115, 110, 146, 0.3);
+}
+
+.category-filter-btn.category-edu {
+  background: rgba(167, 47, 71, 0.15);
+  color: #a72f47;
+  border: 1.5px solid rgba(167, 47, 71, 0.3);
+}
+
+.category-filter-btn.category-event {
+  background: rgba(88, 84, 64, 0.15);
+  color: #585440;
+  border: 1.5px solid rgba(88, 84, 64, 0.3);
+}
+
+.category-filter-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.category-filter-btn:active {
+  transform: translateY(0);
+}
+
+.category-filter-btn.active {
+  transform: scale(1.05);
+}
+
+/* 초기화 버튼 */
+.reset-filter-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1.2rem 1.5rem;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  background: transparent;
+  color: #888;
+  border: none;
+}
+
+.reset-filter-btn .reset-icon {
+  font-size: 20px;
+  transition: transform 0.3s ease;
+}
+
+.reset-filter-btn:hover {
+  color: #555;
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.reset-filter-btn:hover .reset-icon {
+  transform: rotate(-180deg);
+}
+
+.reset-filter-btn:active {
+  transform: scale(0.95);
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+  .search-category-container {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .search-action-wrapper {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .search-category-container .search-bar-wrapper {
+    flex: 1;
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .register-button {
+    width: 100%;
+  }
+
+  .category-filter-wrapper {
+    justify-content: center;
+  }
+
+  .category-filter-btn {
+    padding: 1rem 1.5rem;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 600px) {
+  .category-filter-wrapper {
+    gap: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .category-filter-btn {
+    flex: 1;
+    min-width: 0;
+  }
+}
+</style>

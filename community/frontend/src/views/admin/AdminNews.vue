@@ -5,7 +5,7 @@ import { BoardEntity, SearchBoardDto } from '@/api/dto/board.dto';
 import { getApiClient } from '@/utils/apiClient';
 import { getBoardList } from '@/api/board.api';
 import moment from 'moment';
-import { STATE_YN } from '@/types';
+import { STATE_YN, TYPE_BOARD } from '@/types';
 import { useRouter } from 'vue-router';
 
 export default defineComponent({
@@ -16,15 +16,22 @@ export default defineComponent({
     const apiClient = getApiClient();
     const notices = ref<BoardEntity[]>([]);
     const router = useRouter();
+    const searchKeyword = ref<string>('');
 
     const loadBoardLit = async () => {
       const param = new SearchBoardDto();
+      param.boardType = TYPE_BOARD.NEWS;
+      param.keyword = searchKeyword.value || undefined;
 
       await getBoardList(apiClient, param).then(res => {
         if (res.resultCode === 0 && res.data) {
           notices.value = res.data;
         }
       });
+    };
+
+    const handleSearch = () => {
+      loadBoardLit();
     };
 
     const assignNotice = () => {
@@ -39,6 +46,8 @@ export default defineComponent({
       totalPage,
       moment,
       STATE_YN,
+      searchKeyword,
+      handleSearch,
       assignNotice,
     };
   },
@@ -48,9 +57,16 @@ export default defineComponent({
 <template>
   <div class="page-common notice-page">
     <h1>보도자료</h1>
-    <div class="back-button-wrapper">
-      <button class="back-button" @click="assignNotice">보도자료 등록</button>
+
+    <!-- 검색바와 등록 버튼 -->
+    <div class="search-action-wrapper">
+      <div class="search-bar-wrapper">
+        <input v-model="searchKeyword" type="text" placeholder="제목으로 검색..." class="search-input" @keyup.enter="handleSearch" />
+        <button class="search-button" @click="handleSearch">검색</button>
+      </div>
+      <button class="register-button" @click="assignNotice">보도자료 등록</button>
     </div>
+
     <div class="notice-list">
       <!-- 데스크탑용 테이블 -->
       <div class="notice-header desktop-only">
@@ -97,3 +113,63 @@ export default defineComponent({
     </section>
   </div>
 </template>
+
+<style scoped>
+/* 검색바와 등록 버튼을 감싸는 래퍼 */
+.search-action-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin: 3rem auto 3rem;
+  padding: 0 1rem;
+}
+
+.search-bar-wrapper {
+  max-width: 600px;
+  flex: 0 1 600px;
+  margin: 0;
+}
+
+/* 등록 버튼 */
+.register-button {
+  padding: 1.2rem 2rem;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  background: #736e92;
+  color: white;
+  border: none;
+}
+
+.register-button:hover {
+  background: #5f5a7a;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(115, 110, 146, 0.3);
+}
+
+.register-button:active {
+  transform: translateY(0);
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+  .search-action-wrapper {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .search-bar-wrapper {
+    flex: 1;
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .register-button {
+    width: 100%;
+  }
+}
+</style>
