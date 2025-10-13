@@ -4,7 +4,7 @@ import ApocPagination from '@/components/common/ApocPagination.vue';
 import { useRoute, useRouter } from 'vue-router';
 import { PerfoEntity } from '@/api/dto/perfo.dto';
 import { getApiClient } from '@/utils/apiClient';
-import { TYPE_PERFO_CATEGORY } from '@/types';
+import { TYPE_PERFO, TYPE_PERFO_CATEGORY } from '@/types';
 import Quill from 'quill';
 import 'quill/dist/quill.snow.css';
 
@@ -245,6 +245,7 @@ export default defineComponent({
         formData.append('category', performance.value.category || '');
         formData.append('body', quillInstance.root.innerHTML);
         formData.append('imgUrl', thumbnailUrl);
+        formData.append('perType', TYPE_PERFO.NORMAL);
 
         const response = await apiClient.post('/perfo/insertperfo', formData, {
           headers: {

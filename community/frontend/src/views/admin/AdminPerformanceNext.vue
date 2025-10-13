@@ -21,7 +21,7 @@ export default defineComponent({
 
     const loadPerfoList = async () => {
       const param = new SearchPerfoDto();
-      param.perType = TYPE_PERFO.NORMAL;
+      param.perType = TYPE_PERFO.NEXT;
       param.keyword = searchKeyword.value || undefined;
       param.category = selectedCategory.value || undefined;
 
@@ -47,7 +47,7 @@ export default defineComponent({
     };
 
     const assignPerfo = () => {
-      router.push('/admin/next/performance/assign');
+      router.push('/admin/performance/next/assign');
     };
 
     const getCategoryLabel = (category: string | undefined) => {

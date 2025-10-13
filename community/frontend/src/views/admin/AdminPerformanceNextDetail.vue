@@ -32,7 +32,7 @@ export default defineComponent({
     ];
 
     const goBack = () => {
-      router.push('/admin/next/performance');
+      router.push('/admin/performance/next');
     };
 
     // 썸네일 이미지 선택
