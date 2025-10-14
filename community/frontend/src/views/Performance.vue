@@ -421,19 +421,28 @@ export default defineComponent({
   .search-category-container {
     flex-direction: column;
     gap: 1.5rem;
+    align-items: flex-start;
   }
 
   .search-category-container .search-bar-wrapper {
     flex: 1;
     max-width: 100%;
+    width: 100%;
   }
 
   .category-filter-wrapper {
-    justify-content: center;
+    justify-content: flex-start;
+    width: 100%;
+    flex-wrap: nowrap;
   }
 
   .category-filter-btn {
     padding: 1rem 1.5rem;
+    font-size: 14px;
+  }
+
+  .reset-filter-btn {
+    padding: 1rem 1.2rem;
     font-size: 14px;
   }
 
