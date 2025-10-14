@@ -77,30 +77,30 @@ export default defineComponent({
 
 <template>
   <div class="page-common notice-page">
-    <h1>자체 프로그램 상세</h1>
-    <div class="notice-detail">
-      <div class="performance-detail-container">
-        <!-- 좌측: 썸네일 + 카테고리 + 제목 -->
-        <div class="left-section">
-          <div class="thumbnail-wrapper">
-            <img
-              :src="performance.imgUrl || '/assets/images/common/default-thumbnail.svg'"
-              :alt="performance.title"
-              class="thumbnail-image"
-              @error="handleImageError" />
-          </div>
-
-          <div v-if="performance.category" class="category-tag-wrapper">
-            <span class="category-tag" :class="`category-${performance.category.toLowerCase()}`">
-              {{ getCategoryLabel(performance.category) }}
-            </span>
-          </div>
-
-          <div class="notice-title"># {{ performance.title }}</div>
+    <h1>대관 프로그램 상세</h1>
+    <div class="performance-detail-container">
+      <!-- 좌측: 썸네일 + 카테고리 + 제목 (border 없음) -->
+      <div class="left-section">
+        <div class="thumbnail-wrapper">
+          <img
+            :src="performance.imgUrl || '/assets/images/common/default-thumbnail.svg'"
+            :alt="performance.title"
+            class="thumbnail-image"
+            @error="handleImageError" />
         </div>
 
-        <!-- 우측: titleSec, titleThird, 메타정보, 본문 -->
-        <div class="right-section">
+        <div v-if="performance.category" class="category-tag-wrapper">
+          <span class="category-tag" :class="`category-${performance.category.toLowerCase()}`">
+            {{ getCategoryLabel(performance.category) }}
+          </span>
+        </div>
+
+        <div class="notice-title"># {{ performance.title }}</div>
+      </div>
+
+      <!-- 우측: titleSec, titleThird, 메타정보, 본문 (border 있음) -->
+      <div class="right-section">
+        <div class="notice-detail">
           <div v-if="performance.titleSec" class="subtitle">{{ performance.titleSec }}</div>
           <div v-if="performance.titleThird" class="subtitle-small">{{ performance.titleThird }}</div>
 
@@ -112,24 +112,20 @@ export default defineComponent({
           <div class="notice-content" v-html="performance.body"></div>
         </div>
       </div>
+    </div>
 
-      <div class="back-button-wrapper">
-        <button class="back-button" @click="goBack">← 목록으로 돌아가기</button>
-      </div>
+    <div class="back-button-wrapper">
+      <button class="back-button" @click="goBack">← 목록으로 돌아가기</button>
     </div>
   </div>
 </template>
 
 <style scoped>
-.notice-detail {
-  font-family: 'Pretendard', sans-serif;
-}
-
 .performance-detail-container {
   display: grid;
   grid-template-columns: 400px 1fr;
   gap: 3rem;
-  margin-bottom: 2rem;
+  margin: 2rem auto;
 }
 
 .left-section {
@@ -167,7 +163,10 @@ export default defineComponent({
 .right-section {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+}
+
+.right-section .notice-detail {
+  margin: 0;
 }
 
 .category-tag-wrapper {
@@ -224,6 +223,10 @@ export default defineComponent({
   .left-section {
     max-width: 400px;
     margin: 0 auto;
+  }
+
+  .right-section .notice-detail {
+    margin: 0;
   }
 }
 

@@ -7,6 +7,7 @@ import { getApiClient } from '@/utils/apiClient';
 import { TYPE_PERFO, TYPE_PERFO_CATEGORY } from '@/types';
 import Quill from 'quill';
 import 'quill/dist/quill.snow.css';
+import BlotFormatter from 'quill-blot-formatter';
 
 export default defineComponent({
   name: 'adminPerformanceAssign',
@@ -178,6 +179,9 @@ export default defineComponent({
     const initQuillEditor = () => {
       if (!editorRef.value) return;
 
+      // BlotFormatter 모듈 등록
+      Quill.register('modules/blotFormatter', BlotFormatter);
+
       const icons = Quill.import('ui/icons') as Record<string, string>;
       icons['file'] = '<svg viewBox="0 0 18 18"><path class="ql-stroke" d="M9,3V15M3,9H15"></path></svg>';
 
@@ -201,6 +205,7 @@ export default defineComponent({
               file: fileHandler,
             },
           },
+          blotFormatter: {},
         },
         placeholder: '내용을 입력하세요...',
       });

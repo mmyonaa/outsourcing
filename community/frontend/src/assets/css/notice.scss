@@ -272,6 +272,70 @@
   line-height: 1.6;
   font-size: 14px;
   color: #333;
+
+  // Quill 콘텐츠 스타일: 리스트 (숫자, 동그라미 등)
+  ol, ul {
+    padding-left: 1.5em;
+    margin: 0.5em 0;
+  }
+
+  ol > li,
+  ul > li {
+    list-style-type: none;
+    padding-left: 1.5em;
+    position: relative;
+  }
+
+  // Quill의 방식: ::before로 마커 표시
+  ul > li::before {
+    content: '\2022';
+    display: inline-block;
+    white-space: nowrap;
+    width: 1.2em;
+    margin-left: -1.5em;
+    margin-right: 0.3em;
+    text-align: right;
+  }
+
+  ol {
+    counter-reset: list-0 list-1 list-2 list-3 list-4 list-5 list-6 list-7 list-8 list-9;
+  }
+
+  ol > li {
+    counter-increment: list-0;
+  }
+
+  ol > li::before {
+    content: counter(list-0, decimal) '. ';
+    display: inline-block;
+    white-space: nowrap;
+    width: 1.2em;
+    margin-left: -1.5em;
+    margin-right: 0.3em;
+    text-align: right;
+  }
+
+  li {
+    margin: 0.3em 0;
+  }
+
+  // Quill 콘텐츠 스타일: 링크
+  a {
+    color: #2563eb;
+    text-decoration: underline;
+    cursor: pointer;
+
+    &:hover {
+      color: #1d4ed8;
+    }
+  }
+
+  // 들여쓰기 레벨
+  .ql-indent-1 { padding-left: 3em; }
+  .ql-indent-2 { padding-left: 6em; }
+  .ql-indent-3 { padding-left: 9em; }
+  .ql-indent-4 { padding-left: 12em; }
+  .ql-indent-5 { padding-left: 15em; }
 }
 
 .back-button-wrapper {
