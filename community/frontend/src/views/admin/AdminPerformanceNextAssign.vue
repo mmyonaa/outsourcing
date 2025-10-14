@@ -257,7 +257,7 @@ export default defineComponent({
 
         if (response.data.resultCode === 0) {
           alert('프로그램이 성공적으로 등록되었습니다.');
-          router.push('/admin/performance');
+          router.push('/admin/performance/next');
         } else {
           alert('프로그램 등록에 실패했습니다.');
         }

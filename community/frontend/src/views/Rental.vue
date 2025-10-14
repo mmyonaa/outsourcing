@@ -113,8 +113,8 @@ export default defineComponent({
 .poster-gallery {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
-  margin-top: 1.5rem;
+  gap: 0.5rem;
+  margin-top: 1rem;
 }
 
 .poster {
@@ -165,7 +165,7 @@ export default defineComponent({
 
   .poster-gallery {
     grid-template-columns: repeat(3, 1fr);
-    gap: 0.75rem;
+    gap: 0.5rem;
   }
 }
 
@@ -188,7 +188,7 @@ export default defineComponent({
 
   .poster-gallery {
     grid-template-columns: repeat(3, 1fr);
-    gap: 0.5rem;
+    gap: 0.4rem;
     margin-top: 1rem;
   }
 }

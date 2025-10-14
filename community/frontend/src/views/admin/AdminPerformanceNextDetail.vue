@@ -282,7 +282,7 @@ export default defineComponent({
         await deletePerfo(apiClient, param).then(res => {
           if (res.resultCode === 0 && res.data) {
             alert('프로그램 삭제가 완료되었습니다.');
-            router.push('/admin/performance');
+            router.push('/admin/performance/next');
           }
         });
       }
