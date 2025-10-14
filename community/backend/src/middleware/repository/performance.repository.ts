@@ -73,7 +73,8 @@ export const updatePerfo = (
         "titleThird",
         "body",
         "category",
-        "delYn"
+        "delYn",
+        "views"
       )}
       ${reqParam.imgUrl ? sql`, img_url = ${reqParam.imgUrl}` : sql``},
       mod_dt = CURRENT_TIMESTAMP
