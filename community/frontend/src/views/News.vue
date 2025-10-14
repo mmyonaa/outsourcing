@@ -1,6 +1,7 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue';
 import ApocPagination from '@/components/common/ApocPagination.vue';
+import EmptyState from '@/components/common/EmptyState.vue';
 import { BoardEntity, SearchBoardDto } from '@/api/dto/board.dto';
 import { getApiClient } from '@/utils/apiClient';
 import { getBoardList, updateBoard } from '@/api/board.api';
@@ -10,7 +11,7 @@ import { useRouter } from 'vue-router';
 
 export default defineComponent({
   name: 'news',
-  components: { ApocPagination },
+  components: { ApocPagination, EmptyState },
   setup() {
     const router = useRouter();
     const totalPage = ref<number>(0); // 총 페이지
@@ -72,7 +73,8 @@ export default defineComponent({
       <button class="search-button" @click="handleSearch">검색</button>
     </div>
 
-    <div class="notice-list">
+    <!-- 결과가 있을 때 -->
+    <div v-if="notices.length > 0" class="notice-list">
       <!-- 데스크탑용 테이블 -->
       <div class="notice-header desktop-only">
         <div class="col important"></div>
@@ -111,6 +113,9 @@ export default defineComponent({
         </div>
       </div>
     </div>
+
+    <!-- 결과가 없을 때 -->
+    <empty-state v-else message="등록된 보도자료가 없습니다" />
     <section class="pagination-section">
       <apoc-pagination :total-page-num="totalPage" />
     </section>

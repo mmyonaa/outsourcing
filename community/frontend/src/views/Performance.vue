@@ -1,6 +1,7 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue';
 import ApocPagination from '@/components/common/ApocPagination.vue';
+import EmptyState from '@/components/common/EmptyState.vue';
 import { PerfoEntity, SearchPerfoDto } from '@/api/dto/perfo.dto';
 import { getApiClient } from '@/utils/apiClient';
 import { getPerfoList } from '@/api/perfo.api';
@@ -9,7 +10,7 @@ import { TYPE_PERFO, TYPE_PERFO_CATEGORY } from '@/types';
 
 export default defineComponent({
   name: 'performance',
-  components: { ApocPagination },
+  components: { ApocPagination, EmptyState },
   setup() {
     const totalPage = ref<number>(0);
     const apiClient = getApiClient();
@@ -127,7 +128,8 @@ export default defineComponent({
       </div>
     </div>
 
-    <div class="performance-grid">
+    <!-- 결과가 있을 때 -->
+    <div v-if="performances.length > 0" class="performance-grid">
       <div class="performance-card" v-for="(performance, index) in performances" :key="performance.perIdx">
         <router-link :to="`/performance/detail?id=${performance.perIdx}`" class="card-link">
           <div class="card-image">
@@ -157,6 +159,9 @@ export default defineComponent({
         </router-link>
       </div>
     </div>
+
+    <!-- 결과가 없을 때 -->
+    <empty-state v-else message="등록된 프로그램이 없습니다" />
 
     <section class="pagination-section">
       <apoc-pagination :total-page-num="totalPage" />

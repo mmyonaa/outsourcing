@@ -1,6 +1,7 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue';
 import ApocPagination from '@/components/common/ApocPagination.vue';
+import EmptyState from '@/components/common/EmptyState.vue';
 import { PerfoEntity, SearchPerfoDto } from '@/api/dto/perfo.dto';
 import { getApiClient } from '@/utils/apiClient';
 import { getPerfoList } from '@/api/perfo.api';
@@ -10,7 +11,7 @@ import { useRouter } from 'vue-router';
 
 export default defineComponent({
   name: 'adminPerformance',
-  components: { ApocPagination },
+  components: { ApocPagination, EmptyState },
   setup() {
     const totalPage = ref<number>(0); // 총 페이지
     const apiClient = getApiClient();
@@ -146,7 +147,8 @@ export default defineComponent({
       </div>
     </div>
 
-    <div class="notice-list">
+    <!-- 결과가 있을 때 -->
+    <div v-if="perfos.length > 0" class="notice-list">
       <!-- 데스크탑용 테이블 -->
       <div class="notice-header desktop-only">
         <div class="col index">#</div>
@@ -186,6 +188,9 @@ export default defineComponent({
         </div>
       </div>
     </div>
+
+    <!-- 결과가 없을 때 -->
+    <empty-state v-else message="등록된 프로그램이 없습니다" />
     <section class="pagination-section">
       <apoc-pagination :total-page-num="totalPage" />
     </section>
