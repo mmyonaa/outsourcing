@@ -329,6 +329,41 @@
     }
   }
 
+  // 파일 다운로드 링크 스타일 (S3 URL 등)
+  a[href*="amazonaws.com"],
+  a[href*="/uploads/"],
+  a[href*="/files/"] {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    margin: 0.5rem 0;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    color: #495057;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s ease;
+
+    &::before {
+      content: '📎';
+      font-size: 18px;
+    }
+
+    &:hover {
+      background-color: #e9ecef;
+      border-color: #adb5bd;
+      color: #212529;
+      transform: translateY(-1px);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+
   // 들여쓰기 레벨
   .ql-indent-1 { padding-left: 3em; }
   .ql-indent-2 { padding-left: 6em; }
