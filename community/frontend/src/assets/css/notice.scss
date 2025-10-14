@@ -15,7 +15,7 @@
     gap: 1rem;
     margin: 3rem auto 3rem;
     max-width: 600px;
-    padding: 0 1rem;
+    // padding: 0 1rem;
 
     .search-input {
       flex: 1;
@@ -274,7 +274,8 @@
   color: #333;
 
   // Quill 콘텐츠 스타일: 리스트 (숫자, 동그라미 등)
-  ol, ul {
+  ol,
+  ul {
     padding-left: 1.5em;
     margin: 0.5em 0;
   }
@@ -330,9 +331,9 @@
   }
 
   // 파일 다운로드 링크 스타일 (S3 URL 등)
-  a[href*="amazonaws.com"],
-  a[href*="/uploads/"],
-  a[href*="/files/"] {
+  a[href*='amazonaws.com'],
+  a[href*='/uploads/'],
+  a[href*='/files/'] {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
@@ -365,11 +366,21 @@
   }
 
   // 들여쓰기 레벨
-  .ql-indent-1 { padding-left: 3em; }
-  .ql-indent-2 { padding-left: 6em; }
-  .ql-indent-3 { padding-left: 9em; }
-  .ql-indent-4 { padding-left: 12em; }
-  .ql-indent-5 { padding-left: 15em; }
+  .ql-indent-1 {
+    padding-left: 3em;
+  }
+  .ql-indent-2 {
+    padding-left: 6em;
+  }
+  .ql-indent-3 {
+    padding-left: 9em;
+  }
+  .ql-indent-4 {
+    padding-left: 12em;
+  }
+  .ql-indent-5 {
+    padding-left: 15em;
+  }
 }
 
 .back-button-wrapper {
