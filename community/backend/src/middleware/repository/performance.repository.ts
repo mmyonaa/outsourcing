@@ -44,7 +44,7 @@ export const insertPerfo = (
   reqParam: PerfoEntity
 ): Promise<any> => {
   return sql`
-    INSERT INTO public.performance 
+    INSERT INTO public.performance
         ${sql(
           reqParam,
           "title",
@@ -54,10 +54,8 @@ export const insertPerfo = (
           "perType",
           "author",
           "imgUrl",
-          "category",
-          "titleSec",
-          "titleThird"
-        )} RETURNING * 
+          "category"
+        )} RETURNING *
   `;
 };
 
@@ -73,11 +71,8 @@ export const updatePerfo = (
         "titleSec",
         "titleThird",
         "body",
-        "delYn",
-        "views",
-        "category",
-        "titleSec",
-        "titleThird"
+        "imgUrl",
+        "category"
       )},
       mod_dt = CURRENT_TIMESTAMP
     WHERE per_idx = ${reqParam.perIdx}
