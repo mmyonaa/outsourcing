@@ -186,10 +186,10 @@ export default defineComponent({
 
       // BlotFormatter 모듈 등록 (있는 경우에만)
       try {
-        if (BlotFormatter && BlotFormatter.default) {
-          Quill.register('modules/blotFormatter', BlotFormatter.default);
+        if (BlotFormatter && (BlotFormatter as any).default) {
+          Quill.register('modules/blotFormatter', (BlotFormatter as any).default);
         } else if (BlotFormatter) {
-          Quill.register('modules/blotFormatter', BlotFormatter);
+          Quill.register('modules/blotFormatter', BlotFormatter as any);
         }
       } catch (e) {
         console.warn('BlotFormatter 모듈 등록 실패:', e);
