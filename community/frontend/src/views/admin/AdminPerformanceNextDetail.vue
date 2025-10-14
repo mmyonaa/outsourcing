@@ -179,8 +179,16 @@ export default defineComponent({
     const initQuillEditor = () => {
       if (!editorRef.value) return;
 
-      // BlotFormatter 모듈 등록
-      Quill.register('modules/blotFormatter', BlotFormatter);
+      // BlotFormatter 모듈 등록 (있는 경우에만)
+      try {
+        if (BlotFormatter && BlotFormatter.default) {
+          Quill.register('modules/blotFormatter', BlotFormatter.default);
+        } else if (BlotFormatter) {
+          Quill.register('modules/blotFormatter', BlotFormatter);
+        }
+      } catch (e) {
+        console.warn('BlotFormatter 모듈 등록 실패:', e);
+      }
 
       const icons = Quill.import('ui/icons') as Record<string, string>;
       icons['file'] = '<svg viewBox="0 0 18 18"><path class="ql-stroke" d="M9,3V15M3,9H15"></path></svg>';
@@ -195,18 +203,28 @@ export default defineComponent({
         ['clean'],
       ];
 
+      const modules: any = {
+        toolbar: {
+          container: toolbarOptions,
+          handlers: {
+            image: imageHandler,
+            file: fileHandler,
+          },
+        },
+      };
+
+      // BlotFormatter가 등록되었으면 추가
+      try {
+        if (Quill.imports['modules/blotFormatter']) {
+          modules.blotFormatter = {};
+        }
+      } catch (e) {
+        // 등록 안됨, 무시
+      }
+
       quillInstance = new Quill(editorRef.value, {
         theme: 'snow',
-        modules: {
-          toolbar: {
-            container: toolbarOptions,
-            handlers: {
-              image: imageHandler,
-              file: fileHandler,
-            },
-          },
-          blotFormatter: {},
-        },
+        modules,
         placeholder: '내용을 입력하세요...',
       });
 

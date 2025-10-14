@@ -279,14 +279,14 @@
     margin: 0.5em 0;
   }
 
-  ol > li,
-  ul > li {
+  li {
     list-style-type: none;
     padding-left: 1.5em;
     position: relative;
+    margin: 0.3em 0;
   }
 
-  // Quill의 방식: ::before로 마커 표시
+  // ul 안의 li는 점(bullet) 표시
   ul > li::before {
     content: '\2022';
     display: inline-block;
@@ -297,14 +297,17 @@
     text-align: right;
   }
 
+  // ol은 counter 초기화
   ol {
     counter-reset: list-0 list-1 list-2 list-3 list-4 list-5 list-6 list-7 list-8 list-9;
   }
 
+  // ol 안의 li는 숫자 증가
   ol > li {
     counter-increment: list-0;
   }
 
+  // ol 안의 li는 숫자 표시
   ol > li::before {
     content: counter(list-0, decimal) '. ';
     display: inline-block;
@@ -313,10 +316,6 @@
     margin-left: -1.5em;
     margin-right: 0.3em;
     text-align: right;
-  }
-
-  li {
-    margin: 0.3em 0;
   }
 
   // Quill 콘텐츠 스타일: 링크
