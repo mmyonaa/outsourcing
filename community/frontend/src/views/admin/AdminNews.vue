@@ -41,7 +41,7 @@ export default defineComponent({
 
     const goToDetail = (boardIdx: string | undefined) => {
       if (boardIdx) {
-        router.push(`/admin/notice/detail?id=${boardIdx}`);
+        router.push(`/admin/news/detail?id=${boardIdx}`);
       }
     };
 
