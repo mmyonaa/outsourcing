@@ -46,6 +46,10 @@ export const uploadToS3 = async (file: Express.Multer.File, folder: string = 'pe
     Key: fileName,
     Body: file.buffer,
     ContentType: file.mimetype,
+    ContentDisposition: `attachment; filename="${encodeURIComponent(file.originalname)}"`,
+    Metadata: {
+      'original-filename': encodeURIComponent(file.originalname),
+    },
   };
 
   await s3Client.send(new PutObjectCommand(uploadParams));

@@ -47,12 +47,12 @@ export default defineComponent({
         );
 
         fileLinks.forEach(link => {
-          // 파일명 추출
           const url = link.href;
-          const fileName = url.split('/').pop()?.split('?')[0] || 'download';
+          // 링크 텍스트를 파일명으로 사용 (Quill에서 원본 파일명으로 링크를 생성했으므로)
+          const fileName = link.textContent?.trim() || url.split('/').pop()?.split('?')[0] || 'download';
 
           // download 속성 추가
-          link.setAttribute('download', decodeURIComponent(fileName));
+          link.setAttribute('download', fileName);
 
           // 클릭 이벤트로 강제 다운로드
           link.addEventListener('click', async (e) => {
@@ -64,7 +64,7 @@ export default defineComponent({
               const downloadUrl = window.URL.createObjectURL(blob);
               const a = document.createElement('a');
               a.href = downloadUrl;
-              a.download = decodeURIComponent(fileName);
+              a.download = fileName;
               document.body.appendChild(a);
               a.click();
               document.body.removeChild(a);

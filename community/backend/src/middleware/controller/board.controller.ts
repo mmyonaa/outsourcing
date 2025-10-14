@@ -161,9 +161,13 @@ export const uploadFile = async (ctx: Context) => {
       );
     }
 
-    const fileUrl = await uploadToS3((ctx.request as any).file, 'board/files');
+    const file = (ctx.request as any).file;
+    const fileUrl = await uploadToS3(file, 'board/files');
 
-    result.data = { fileUrl };
+    result.data = {
+      fileUrl,
+      fileName: file.originalname
+    };
     result.setResultCode(RESULT_CODE.SUCCESS);
   } catch (e) {
     console.error('File upload error:', e);

@@ -50,7 +50,7 @@ export default defineComponent({
     };
 
     // S3에 파일 업로드
-    const uploadFileToS3 = async (file: File): Promise<string> => {
+    const uploadFileToS3 = async (file: File): Promise<{ fileUrl: string; fileName: string }> => {
       const formData = new FormData();
       formData.append('file', file);
 
@@ -62,7 +62,10 @@ export default defineComponent({
         });
 
         if (response.data.resultCode === 0 && response.data.data) {
-          return response.data.data.fileUrl;
+          return {
+            fileUrl: response.data.data.fileUrl,
+            fileName: response.data.data.fileName || file.name
+          };
         }
         throw new Error('파일 업로드 실패');
       } catch (error) {
@@ -122,12 +125,12 @@ export default defineComponent({
         }
 
         try {
-          const fileUrl = await uploadFileToS3(file);
+          const { fileUrl, fileName } = await uploadFileToS3(file);
           const range = quillInstance?.getSelection();
           if (range) {
-            // 파일 링크를 텍스트로 삽입
-            quillInstance?.insertText(range.index, file.name, 'link', fileUrl);
-            quillInstance?.setSelection(range.index + file.name.length, 0);
+            // 원본 파일명으로 링크를 삽입
+            quillInstance?.insertText(range.index, fileName, 'link', fileUrl);
+            quillInstance?.setSelection(range.index + fileName.length, 0);
           }
         } catch (error) {
           console.error('Error uploading file:', error);
