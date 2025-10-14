@@ -980,12 +980,15 @@
   border: 1px solid #dbdade;
   box-shadow: 0 2px 16px rgba(93, 89, 108, 0.1);
   color: #4b5563;
-  padding: 1rem 2rem;
+  padding: 1rem 1.5rem;
   white-space: nowrap;
   border-radius: 4px;
-  max-width: 352px;
+  max-width: 320px;
   line-height: 36px;
-  width: 100%;
+  width: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 .ql-snow .ql-editing {
   max-width: 444px;
@@ -994,8 +997,9 @@
 .ql-snow .ql-tooltip::before {
   content: 'Visit URL';
   line-height: 26px;
-  margin-right: 2rem;
+  margin-right: 0.5rem;
   color: #5d596c;
+  flex-shrink: 0;
 }
 
 .ql-snow .ql-tooltip input[type='text'] {
@@ -1018,29 +1022,31 @@
 
 .ql-snow .ql-tooltip a.ql-preview {
   display: inline-block;
-  max-width: 200px;
-  overflow-x: hidden;
+  max-width: 150px;
+  overflow: hidden;
   text-overflow: ellipsis;
   vertical-align: top;
   color: $colorPrimary;
   line-height: 36px;
-  max-width: 125px;
-  width: 100%;
+  white-space: nowrap;
 }
 
 .ql-snow .ql-tooltip a.ql-action::after {
   border-right: 1px solid #d1d5db;
   content: 'Edit';
-  padding-right: 1.75rem;
+  padding-right: 0.75rem;
+  margin-right: 0.75rem;
   color: $colorPrimary;
   line-height: 36px;
+  flex-shrink: 0;
 }
 
 .ql-snow .ql-tooltip a.ql-remove::before {
   content: 'Remove';
-  margin-left: 1.75rem;
+  margin-left: 0;
   color: $colorPrimary;
   line-height: 36px;
+  flex-shrink: 0;
 }
 
 .ql-snow .ql-tooltip a {
