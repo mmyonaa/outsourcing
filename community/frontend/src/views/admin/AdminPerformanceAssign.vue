@@ -149,6 +149,7 @@ export default defineComponent({
 
     // 파일 첨부 핸들러
     const fileHandler = () => {
+      console.log('파일 핸들러 실행됨');
       const input = document.createElement('input');
       input.setAttribute('type', 'file');
       input.click();
@@ -157,17 +158,23 @@ export default defineComponent({
         const file = input.files?.[0];
         if (!file) return;
 
+        console.log('파일 선택됨:', file.name);
+
         if (file.size > 10 * 1024 * 1024) {
           alert('파일 크기는 10MB 이하여야 합니다.');
           return;
         }
 
         try {
+          console.log('파일 업로드 시작:', file.name);
           const fileUrl = await uploadFileToS3(file);
+          console.log('파일 업로드 완료:', fileUrl);
+
           const range = quillInstance?.getSelection();
           if (range) {
             quillInstance?.insertText(range.index, file.name, 'link', fileUrl);
             quillInstance?.setSelection(range.index + file.name.length, 0);
+            console.log('링크 삽입 완료');
           }
         } catch (error) {
           console.error('Error uploading file:', error);
@@ -231,6 +238,19 @@ export default defineComponent({
       quillInstance.on('text-change', () => {
         performance.value.body = quillInstance?.root.innerHTML || '';
       });
+
+      // 파일 버튼에 클릭 이벤트 직접 바인딩
+      setTimeout(() => {
+        const fileButton = document.querySelector('.ql-file');
+        if (fileButton) {
+          fileButton.addEventListener('click', () => {
+            console.log('파일 버튼 클릭됨 (직접 바인딩)');
+            fileHandler();
+          });
+        } else {
+          console.warn('파일 버튼을 찾을 수 없습니다.');
+        }
+      }, 100);
     };
 
     const submitNotice = async () => {

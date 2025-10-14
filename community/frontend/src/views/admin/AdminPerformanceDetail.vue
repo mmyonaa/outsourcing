@@ -237,6 +237,16 @@ export default defineComponent({
       quillInstance.on('text-change', () => {
         performance.value.body = quillInstance?.root.innerHTML || '';
       });
+
+      // 파일 버튼에 클릭 이벤트 직접 바인딩
+      setTimeout(() => {
+        const fileButton = document.querySelector('.ql-file');
+        if (fileButton) {
+          fileButton.addEventListener('click', () => {
+            fileHandler();
+          });
+        }
+      }, 100);
     };
 
     const loadPerfoDetail = async () => {
