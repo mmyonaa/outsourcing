@@ -48,6 +48,8 @@ export const insertPerfo = (
         ${sql(
           reqParam,
           "title",
+          "titleSec",
+          "titleThird",
           "body",
           "perType",
           "author",
@@ -68,6 +70,8 @@ export const updatePerfo = (
       ${sql(
         reqParam,
         "title",
+        "titleSec",
+        "titleThird",
         "body",
         "delYn",
         "views",

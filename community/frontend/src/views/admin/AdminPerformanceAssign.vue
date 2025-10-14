@@ -246,6 +246,7 @@ export default defineComponent({
         formData.append('body', quillInstance.root.innerHTML);
         formData.append('imgUrl', thumbnailUrl);
         formData.append('perType', TYPE_PERFO.NORMAL);
+        formData.append('author', '관리자');
 
         const response = await apiClient.post('/perfo/insertperfo', formData, {
           headers: {
