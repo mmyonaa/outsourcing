@@ -41,6 +41,11 @@ export const routesList = [
     name: 'performanceNext',
     component: () => import('../views/PerformanceNext.vue'),
   },
+  {
+    path: '/performance/next/detail',
+    name: 'performanceNextDetail',
+    component: () => import('../views/PerformanceNextDetail.vue'),
+  },
   // 3. 대관
   // 공간 안내
   {

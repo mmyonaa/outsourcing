@@ -145,12 +145,6 @@ export default defineComponent({
               <!-- 부제목들 -->
               <div v-if="performance.titleSec" class="poster-subtitle">{{ performance.titleSec }}</div>
               <div v-if="performance.titleThird" class="poster-subtitle-small">{{ performance.titleThird }}</div>
-
-              <!-- 메타 정보 -->
-              <div class="poster-meta">
-                <span>{{ moment(performance.regDt).format('YY.MM.DD') }}</span>
-                <span>조회수 {{ performance.views }}</span>
-              </div>
             </div>
           </router-link>
         </div>
@@ -187,12 +181,6 @@ export default defineComponent({
               <!-- 부제목들 -->
               <div v-if="performance.titleSec" class="poster-subtitle">{{ performance.titleSec }}</div>
               <div v-if="performance.titleThird" class="poster-subtitle-small">{{ performance.titleThird }}</div>
-
-              <!-- 메타 정보 -->
-              <div class="poster-meta">
-                <span>{{ moment(performance.regDt).format('YY.MM.DD') }}</span>
-                <span>조회수 {{ performance.views }}</span>
-              </div>
             </div>
           </router-link>
         </div>
