@@ -63,9 +63,19 @@ export const updatePerfo = (
   sql: postgres.Sql,
   reqParam: PerfoEntity
 ): Promise<any> => {
+  // imgUrl을 제외한 필드들만 sql() 함수로 처리
   return sql`
     UPDATE public.performance SET
-      ${sql(reqParam, "title", "titleSec", "titleThird", "body", "imgUrl", "category", "delYn")},
+      ${sql(
+        reqParam,
+        "title",
+        "titleSec",
+        "titleThird",
+        "body",
+        "category",
+        "delYn"
+      )}
+      ${reqParam.imgUrl ? sql`, img_url = ${reqParam.imgUrl}` : sql``},
       mod_dt = CURRENT_TIMESTAMP
     WHERE per_idx = ${reqParam.perIdx}
     RETURNING *
