@@ -3,6 +3,7 @@ import bodyParser from 'koa-bodyparser';
 import cors from '@koa/cors';
 import boardRouter from './middleware/routes/board.route';
 import perfoRouter from './middleware/routes/performance.route';
+import bannerRouter from './middleware/routes/banner.route';
 import Router from '@koa/router';
 
 export const getServer = async () => {
@@ -10,7 +11,7 @@ export const getServer = async () => {
 
   // app.use(cors({ origin: 'http://bktheater.com', credentials: true }));
   const allowedOrigins = ["http://localhost:4000", "http://bktheater.com"];
-  
+
   app.use(
     cors({
       origin: (ctx) => {
@@ -31,6 +32,7 @@ export const getServer = async () => {
 
   router.use(boardRouter.routes(), boardRouter.allowedMethods());
   router.use(perfoRouter.routes(), perfoRouter.allowedMethods());
+  router.use(bannerRouter.routes(), bannerRouter.allowedMethods());
 
   app.use(router.routes());
   app.use(router.allowedMethods());

@@ -26,3 +26,15 @@ CREATE TABLE performance (
     mod_dt TIMESTAMPTZ DEFAULT NOW(),
     del_yn CHAR(1) DEFAULT 'N'
 );
+
+-- 홈 배너
+CREATE TABLE banner (
+    banner_idx UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    img_url VARCHAR(500),
+    swipe_duration INTEGER DEFAULT 5,
+    display_order INTEGER DEFAULT 0,
+    active_yn CHAR(1) DEFAULT 'Y',
+    reg_dt TIMESTAMPTZ DEFAULT NOW(),
+    mod_dt TIMESTAMPTZ DEFAULT NOW(),
+    del_yn CHAR(1) DEFAULT 'N'
+);

@@ -23,17 +23,17 @@ export default defineComponent({
     // 경로 기준으로 active 메뉴 판단용
     // DEV 환경에서만 url 매핑 (필요하면 env에 따라 확장 가능)
     const urlMap = {
-      introduce: '/introduce',
+      banner: '/banner',
       performance: '/performance',
       rental: '/rental',
       notice: '/notice',
     };
 
     // 현재 상위 메뉴를 path 기준으로 판단하는 computed
-    // '/introduce', '/introduce/org' 등 포함경로 체크 (startsWith)
+    // '/banner', '/banner/org' 등 포함경로 체크 (startsWith)
     const activeMenu = computed(() => {
       const path = route.path.toLowerCase();
-      if (path.startsWith('/introduce')) return 'introduce';
+      if (path.startsWith('/banner')) return 'banner';
       if (path.startsWith('/performance')) return 'performance';
       if (path.startsWith('/rental')) return 'rental';
       if (path.startsWith('/notice')) return 'notice';
@@ -85,7 +85,7 @@ export default defineComponent({
     };
 
     const onClickLogo = () => {
-      onClickMenu(urlMap.introduce);
+      onClickMenu(urlMap.banner);
     };
 
     watch(
@@ -137,7 +137,7 @@ export default defineComponent({
         <!-- PC main menu -->
         <section class="main-menu-section" @mouseenter="handleMouseEnter" @mouseleave="handleMouseLeave">
           <ul class="menu-list">
-            <li class="menu play" :class="{ active: activeMenu === 'introduce' }" @click="() => onClickMenu('/introduce')">소개</li>
+            <li class="menu play" :class="{ active: activeMenu === 'banner' }" @click="() => onClickMenu('/banner')">배너</li>
             <li class="menu studio" :class="{ active: activeMenu === 'performance' }" @click="() => onClickMenu('/performance')">활동</li>
             <li class="menu asset" :class="{ active: activeMenu === 'rental' }" @click="() => onClickMenu('/rental')">대관</li>
             <li class="menu community" :class="{ active: activeMenu === 'notice' }" @click="() => onClickMenu('/notice')">공지사항</li>
@@ -159,9 +159,9 @@ export default defineComponent({
       <transition name="dropdown">
         <section v-show="isSubMenuVisible" class="sub-menu-section menu-list admin" @mouseleave="handleMouseSubLeave">
           <ul class="sub-menu-list play menu">
-            <!-- <li @click="() => onClickMenu('/introduce')">극장 소개</li>
-            <li @click="() => onClickMenu('/introduce/org')">단체 소개</li>
-            <li @click="() => onClickMenu('/introduce/route')">오시는 길</li> -->
+            <!-- <li @click="() => onClickMenu('/banner')">극장 배너</li>
+            <li @click="() => onClickMenu('/banner/org')">단체 배너</li>
+            <li @click="() => onClickMenu('/banner/route')">오시는 길</li> -->
           </ul>
           <ul class="sub-menu-list studio menu">
             <li @click="() => onClickMenu('/performance')">자체 프로그램 등록</li>

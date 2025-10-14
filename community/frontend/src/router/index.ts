@@ -95,6 +95,11 @@ export const routesList = [
     component: () => import('../views/admin/Admin.vue'),
   },
   {
+    path: '/admin/banner',
+    name: 'adminBanner',
+    component: () => import('../views/admin/AdminBanner.vue'),
+  },
+  {
     path: '/admin/notice',
     name: 'adminNotice',
     component: () => import('../views/admin/AdminNotice.vue'),

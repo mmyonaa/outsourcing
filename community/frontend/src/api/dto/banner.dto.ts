@@ -1,0 +1,15 @@
+export class SearchBannerDto {
+  bannerIdx: string | undefined = undefined;
+  activeYn: string = 'Y';
+}
+
+export class BannerEntity {
+  bannerIdx: string = '';
+  imgUrl: string | undefined = undefined;
+  swipeDuration: number = 5;
+  displayOrder: number = 0;
+  activeYn: string = 'Y';
+  regDt: Date | undefined = undefined;
+  modDt: Date | undefined = undefined;
+  delYn: string = 'N';
+}
