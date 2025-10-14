@@ -136,25 +136,17 @@ export default defineComponent({
             <img :src="performance.imgUrl || '/assets/images/common/default-thumbnail.svg'" :alt="performance.title" @error="handleImageError" />
           </div>
           <div class="card-content">
-            <!-- 카테고리 태그 -->
-            <div v-if="performance.category" class="category-tag-wrapper">
-              <span class="category-tag" :class="`category-${performance.category.toLowerCase()}`">
+            <!-- 카테고리 태그와 제목을 한 줄에 -->
+            <div class="category-title-wrapper">
+              <span v-if="performance.category" class="category-tag" :class="`category-${performance.category.toLowerCase()}`">
                 {{ getCategoryLabel(performance.category) }}
               </span>
+              <h3 class="card-title">{{ performance.title }}</h3>
             </div>
-
-            <!-- 제목 -->
-            <h3 class="card-title">{{ performance.title }}</h3>
 
             <!-- 부제목들 -->
             <div v-if="performance.titleSec" class="card-subtitle">{{ performance.titleSec }}</div>
             <div v-if="performance.titleThird" class="card-subtitle-small">{{ performance.titleThird }}</div>
-
-            <!-- 메타 정보 -->
-            <div class="card-meta">
-              <span>{{ moment(performance.regDt).format('YY.MM.DD') }}</span>
-              <span>조회수 {{ performance.views }}</span>
-            </div>
           </div>
         </router-link>
       </div>
@@ -306,7 +298,7 @@ export default defineComponent({
 
 .card-image {
   width: 100%;
-  aspect-ratio: 3 / 4;
+  aspect-ratio: 1 / 1;
   overflow: hidden;
   background: #f5f5f5;
 }
@@ -326,21 +318,26 @@ export default defineComponent({
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.3rem;
+  text-align: left;
 }
 
-/* 카테고리 태그 */
-.category-tag-wrapper {
-  margin-bottom: 0.25rem;
+/* 카테고리 태그와 제목을 한 줄에 배치 */
+.category-title-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 0.2rem;
 }
 
 .category-tag {
   display: inline-block;
   padding: 0.5rem 1.2rem;
   border-radius: 18px;
-  font-size: 1.3rem;
+  font-size: 14px;
   font-weight: 700;
   letter-spacing: 0.5px;
+  flex-shrink: 0;
 }
 
 .category-tag.category-perfo {
@@ -362,19 +359,20 @@ export default defineComponent({
 }
 
 .card-title {
-  font-size: 1.5rem;
+  font-size: 16px;
   font-weight: 700;
   color: #333;
   overflow: hidden;
   text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
+  white-space: nowrap;
   line-height: 1.4;
+  margin: 0;
+  flex: 1;
+  min-width: 0;
 }
 
 .card-subtitle {
-  font-size: 1.4rem;
+  font-size: 15px;
   font-weight: 500;
   color: #555;
   overflow: hidden;
@@ -383,10 +381,11 @@ export default defineComponent({
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
   line-height: 1.3;
+  text-align: left;
 }
 
 .card-subtitle-small {
-  font-size: 1.3rem;
+  font-size: 14px;
   font-weight: 400;
   color: #777;
   overflow: hidden;
@@ -395,17 +394,7 @@ export default defineComponent({
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
   line-height: 1.3;
-}
-
-.card-meta {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 1.2rem;
-  color: #999;
-  margin-top: auto;
-  padding-top: 0.5rem;
-  border-top: 1px solid #f0f0f0;
+  text-align: left;
 }
 
 /* 페이지네이션 */

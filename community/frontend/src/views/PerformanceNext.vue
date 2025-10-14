@@ -136,25 +136,17 @@ export default defineComponent({
             <img :src="performance.imgUrl || '/assets/images/common/default-thumbnail.svg'" :alt="performance.title" @error="handleImageError" />
           </div>
           <div class="card-content">
-            <!-- 카테고리 태그 -->
-            <div v-if="performance.category" class="category-tag-wrapper">
-              <span class="category-tag" :class="`category-${performance.category.toLowerCase()}`">
+            <!-- 카테고리 태그와 제목을 한 줄에 -->
+            <div class="category-title-wrapper">
+              <span v-if="performance.category" class="category-tag" :class="`category-${performance.category.toLowerCase()}`">
                 {{ getCategoryLabel(performance.category) }}
               </span>
+              <h3 class="card-title">{{ performance.title }}</h3>
             </div>
-
-            <!-- 제목 -->
-            <h3 class="card-title">{{ performance.title }}</h3>
 
             <!-- 부제목들 -->
             <div v-if="performance.titleSec" class="card-subtitle">{{ performance.titleSec }}</div>
             <div v-if="performance.titleThird" class="card-subtitle-small">{{ performance.titleThird }}</div>
-
-            <!-- 메타 정보 -->
-            <div class="card-meta">
-              <span>{{ moment(performance.regDt).format('YY.MM.DD') }}</span>
-              <span>조회수 {{ performance.views }}</span>
-            </div>
           </div>
         </router-link>
       </div>
@@ -306,7 +298,7 @@ export default defineComponent({
 
 .card-image {
   width: 100%;
-  aspect-ratio: 3 / 4;
+  aspect-ratio: 1 / 1;
   overflow: hidden;
   background: #f5f5f5;
 }
@@ -326,21 +318,26 @@ export default defineComponent({
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.3rem;
+  text-align: left;
 }
 
-/* 카테고리 태그 */
-.category-tag-wrapper {
-  margin-bottom: 0.25rem;
+/* 카테고리 태그와 제목을 한 줄에 배치 */
+.category-title-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 0.2rem;
 }
 
 .category-tag {
   display: inline-block;
   padding: 0.5rem 1.2rem;
   border-radius: 18px;
-  font-size: 1.3rem;
+  font-size: 14px;
   font-weight: 700;
   letter-spacing: 0.5px;
+  flex-shrink: 0;
 }
 
 .category-tag.category-perfo {

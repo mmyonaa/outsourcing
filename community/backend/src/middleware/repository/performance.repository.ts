@@ -75,7 +75,7 @@ export const updatePerfo = (
 
   return sql`
     UPDATE public.performance SET
-      ${sql(updateFields)},
+      ${sql(updateFields, 'imgUrl', 'title', 'titleSec', 'titleThird', 'body', 'category', 'delYn')},
       mod_dt = CURRENT_TIMESTAMP
     WHERE per_idx = ${reqParam.perIdx}
     RETURNING *
