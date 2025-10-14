@@ -74,6 +74,12 @@ export default defineComponent({
       target.src = '/assets/images/common/default-thumbnail.svg';
     };
 
+    const goToDetail = (perIdx: string | undefined) => {
+      if (perIdx) {
+        router.push(`/admin/performance/detail?id=${perIdx}`);
+      }
+    };
+
     onMounted(() => {
       loadPerfoList();
     });
@@ -91,6 +97,7 @@ export default defineComponent({
       getCategoryLabel,
       resetFilters,
       handleImageError,
+      goToDetail,
       TYPE_PERFO_CATEGORY,
     };
   },
@@ -153,18 +160,14 @@ export default defineComponent({
 
       <div class="notice-row" v-for="(perfo, index) in perfos" :key="perfo.perIdx">
         <!-- 데스크탑 행 -->
-        <div class="row-content desktop-only">
+        <div class="row-content desktop-only clickable" @click="goToDetail(perfo.perIdx)">
           <div class="col index">{{ index + 1 }}</div>
 
           <div class="col thumbnail">
             <img :src="perfo.imgUrl || '/assets/images/common/default-thumbnail.svg'" :alt="perfo.title" class="thumbnail-img" @error="handleImageError" />
           </div>
 
-          <div class="col title">
-            <router-link :to="`/admin/performance/detail?id=${perfo.perIdx}`" class="notice-card">
-              {{ perfo.title }}
-            </router-link>
-          </div>
+          <div class="col title">{{ perfo.title }}</div>
           <div class="col type">{{ getCategoryLabel(perfo.category) }}</div>
           <div class="col author">{{ perfo.author }}</div>
           <div class="col views">{{ perfo.views }}</div>
@@ -172,7 +175,7 @@ export default defineComponent({
         </div>
 
         <!-- 모바일 카드 -->
-        <div class="mobile-only mobile-card">
+        <div class="mobile-only mobile-card clickable" @click="goToDetail(perfo.perIdx)">
           <div class="title">
             {{ perfo.title }}
           </div>

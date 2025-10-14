@@ -38,6 +38,12 @@ export default defineComponent({
       router.push('/admin/notice/assign')
     }
 
+    const goToDetail = (boardIdx: string | undefined) => {
+      if (boardIdx) {
+        router.push(`/admin/notice/detail?id=${boardIdx}`);
+      }
+    };
+
     onMounted(() => {
         loadBoardLit();
     });
@@ -48,7 +54,8 @@ export default defineComponent({
       STATE_YN,
       searchKeyword,
       handleSearch,
-      assignNotice
+      assignNotice,
+      goToDetail
     };
   },
 });
@@ -85,25 +92,21 @@ export default defineComponent({
 
     >
       <!-- 데스크탑 행 -->
-      <div class="row-content desktop-only" :class="{important:notice.bestYn === STATE_YN.Y}">
+      <div class="row-content desktop-only clickable" :class="{important:notice.bestYn === STATE_YN.Y}" @click="goToDetail(notice.boardIdx)">
         <div class="col important">
           <img v-if="notice.bestYn === STATE_YN.Y" src="/assets/images/board/important.png"/>
           <div v-else></div>
         </div>
         <div class="col index">{{ index + 1 }}</div>
-        
-        <div class="col title">
-          <router-link
-          :to="`/admin/notice/detail?id=${notice.boardIdx}`"
-          class="notice-card"
-        >{{ notice.title }}</router-link></div>
+
+        <div class="col title">{{ notice.title }}</div>
         <div class="col views">{{ notice.views }}</div>
         <div class="col author">{{ notice.author }}</div>
         <div class="col date">{{ moment(notice.regDt).format('YY.MM.DD') }}</div>
       </div>
 
       <!-- 모바일 카드 -->
-      <div class="mobile-only mobile-card" :class="{important:notice.bestYn === STATE_YN.Y}">
+      <div class="mobile-only mobile-card clickable" :class="{important:notice.bestYn === STATE_YN.Y}" @click="goToDetail(notice.boardIdx)">
         <div class="title">
           <img class="impor-icon" v-if="notice.bestYn === STATE_YN.Y" src="/assets/images/board/important.png"/>
           {{ notice.title }}</div>
