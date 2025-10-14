@@ -9,7 +9,7 @@ import moment from 'moment';
 import { TYPE_PERFO, TYPE_PERFO_CATEGORY } from '@/types';
 
 export default defineComponent({
-  name: 'performance',
+  name: 'performanceNext',
   components: { ApocPagination, EmptyState },
   setup() {
     const totalPage = ref<number>(0);
@@ -91,7 +91,7 @@ export default defineComponent({
 
 <template>
   <div class="page-common notice-page performance-page">
-    <h1>자체 프로그램</h1>
+    <h1>대관 프로그램</h1>
 
     <!-- 검색바와 카테고리 필터 -->
     <div class="search-category-container">
