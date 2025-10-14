@@ -142,6 +142,7 @@ export default defineComponent({
           <div v-if="performance.titleThird" class="subtitle-small">{{ performance.titleThird }}</div>
 
           <div class="notice-meta">
+            <span>작성자: {{ performance.author }}</span>
             <span>작성일: {{ moment(performance.regDt).format('YY.MM.DD') }}</span>
             <span>조회수: {{ performance.views }}</span>
           </div>
