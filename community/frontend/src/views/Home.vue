@@ -8,7 +8,7 @@ import { getApiClient } from '@/utils/apiClient';
 import { defineComponent, onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import moment from 'moment';
-import { TYPE_PERFO, TYPE_PERFO_CATEGORY } from '@/types';
+import { TYPE_BOARD, TYPE_PERFO, TYPE_PERFO_CATEGORY } from '@/types';
 
 export default defineComponent({
   name: 'Home',
@@ -48,6 +48,7 @@ export default defineComponent({
 
     const loadBoardLit = async () => {
       const param = new SearchBoardDto();
+      param.boardType = TYPE_BOARD.NORMAL;
 
       await getBoardList(apiClient, param).then(res => {
         if (res.resultCode === 0 && res.data) {
