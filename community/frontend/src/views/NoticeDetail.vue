@@ -41,9 +41,50 @@ export default defineComponent({
       await updateBoard(apiClient, notice.value)
     }
 
+    const setupFileDownloadLinks = () => {
+      // 파일 다운로드 링크에 download 속성 추가 및 클릭 이벤트 처리
+      setTimeout(() => {
+        const fileLinks = document.querySelectorAll<HTMLAnchorElement>(
+          '.notice-content a[href*="amazonaws.com"], .notice-content a[href*="/uploads/"], .notice-content a[href*="/files/"]'
+        );
+
+        fileLinks.forEach(link => {
+          // 파일명 추출
+          const url = link.href;
+          const fileName = url.split('/').pop()?.split('?')[0] || 'download';
+
+          // download 속성 추가
+          link.setAttribute('download', decodeURIComponent(fileName));
+
+          // 클릭 이벤트로 강제 다운로드
+          link.addEventListener('click', async (e) => {
+            e.preventDefault();
+
+            try {
+              const response = await fetch(url);
+              const blob = await response.blob();
+              const downloadUrl = window.URL.createObjectURL(blob);
+              const a = document.createElement('a');
+              a.href = downloadUrl;
+              a.download = decodeURIComponent(fileName);
+              document.body.appendChild(a);
+              a.click();
+              document.body.removeChild(a);
+              window.URL.revokeObjectURL(downloadUrl);
+            } catch (error) {
+              console.error('파일 다운로드 오류:', error);
+              // 다운로드 실패 시 새 탭에서 열기
+              window.open(url, '_blank');
+            }
+          });
+        });
+      }, 300);
+    };
+
     onMounted(async() => {
       await loadBoardDetail();
       await updateViews();
+      setupFileDownloadLinks();
     });
 
     return {
