@@ -63,7 +63,7 @@ export const updatePerfo = (
   sql: postgres.Sql,
   reqParam: PerfoEntity
 ): Promise<any> => {
-  const updateFields: Partial<PerfoEntity> = {};
+  const updateFields: any = {};
 
   if (reqParam.title !== undefined) updateFields.title = reqParam.title;
   if (reqParam.titleSec !== undefined) updateFields.titleSec = reqParam.titleSec;
@@ -73,10 +73,11 @@ export const updatePerfo = (
   if (reqParam.category !== undefined) updateFields.category = reqParam.category;
   if (reqParam.delYn !== undefined) updateFields.delYn = reqParam.delYn;
 
+  updateFields.modDt = sql`CURRENT_TIMESTAMP`;
+
   return sql`
     UPDATE public.performance SET
-      ${sql(updateFields, 'imgUrl', 'title', 'titleSec', 'titleThird', 'body', 'category', 'delYn')},
-      mod_dt = CURRENT_TIMESTAMP
+      ${sql(updateFields, 'imgUrl', 'title', 'titleSec', 'titleThird', 'body', 'category', 'delYn', 'modDt')}
     WHERE per_idx = ${reqParam.perIdx}
     RETURNING *
   `;
