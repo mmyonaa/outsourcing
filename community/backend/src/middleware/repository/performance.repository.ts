@@ -73,8 +73,7 @@ export const updatePerfo = (
         "body",
         "imgUrl",
         "category"
-      )},
-      mod_dt = CURRENT_TIMESTAMP
+      )}
     WHERE per_idx = ${reqParam.perIdx}
     RETURNING *
   `;
