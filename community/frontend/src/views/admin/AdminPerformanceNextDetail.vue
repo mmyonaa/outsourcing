@@ -8,7 +8,7 @@ import { getApiClient } from '@/utils/apiClient';
 import { TYPE_PERFO_CATEGORY } from '@/types';
 import Quill from 'quill';
 import 'quill/dist/quill.snow.css';
-import BlotFormatter from 'quill-blot-formatter';
+import BlotFormatter from 'quill-blot-formatter/dist/BlotFormatter';
 
 export default defineComponent({
   name: 'adminPerformanceNextDetail',
@@ -185,10 +185,8 @@ export default defineComponent({
 
       // BlotFormatter 모듈 등록 (있는 경우에만)
       try {
-        if (BlotFormatter && (BlotFormatter as any).default) {
-          Quill.register('modules/blotFormatter', (BlotFormatter as any).default);
-        } else if (BlotFormatter) {
-          Quill.register('modules/blotFormatter', BlotFormatter as any);
+        if (BlotFormatter) {
+          Quill.register('modules/blotFormatter', BlotFormatter);
         }
       } catch (e) {
         console.warn('BlotFormatter 모듈 등록 실패:', e);
