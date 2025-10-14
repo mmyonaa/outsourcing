@@ -251,14 +251,27 @@ export default defineComponent({
         return;
       }
 
-      performance.value.body = quillInstance.root.innerHTML;
-
-      await updatePerfo(apiClient, performance.value).then(res => {
-        if (res.resultCode === 0 && res.data) {
-          alert('프로그램 수정이 완료되었습니다.');
-          router.push('/admin/performance');
+      try {
+        // 1. 새로운 썸네일 이미지가 있으면 S3에 업로드
+        if (selectedImage.value) {
+          const uploadedUrl = await uploadImageToS3(selectedImage.value);
+          performance.value.imgUrl = uploadedUrl;
         }
-      });
+
+        // 2. Quill 에디터 내용 저장
+        performance.value.body = quillInstance.root.innerHTML;
+
+        // 3. API 호출
+        await updatePerfo(apiClient, performance.value).then(res => {
+          if (res.resultCode === 0 && res.data) {
+            alert('프로그램 수정이 완료되었습니다.');
+            router.push('/admin/performance/next');
+          }
+        });
+      } catch (error) {
+        console.error('Update error:', error);
+        alert('프로그램 수정에 실패했습니다.');
+      }
     };
 
     const delPerformance = async () => {
@@ -302,7 +315,7 @@ export default defineComponent({
     <div class="notice-detail">
       <!-- 제목 입력 섹션 -->
       <div class="form-section">
-        <label class="section-title">제목</label>
+        <label class="section-title">제목 <span class="required">*</span></label>
         <input v-model="performance.title" class="notice-input" placeholder="제목을 입력하세요" />
       </div>
 
@@ -318,7 +331,7 @@ export default defineComponent({
 
       <!-- 카테고리 선택 -->
       <div class="form-section">
-        <label class="section-title">카테고리</label>
+        <label class="section-title">카테고리 <span class="required">*</span></label>
         <select v-model="performance.category" class="notice-input">
           <option value="" disabled>카테고리를 선택하세요</option>
           <option v-for="option in categoryOptions" :key="option.value" :value="option.value">
@@ -346,7 +359,7 @@ export default defineComponent({
 
       <!-- Quill 에디터 -->
       <div class="form-section">
-        <label class="section-title">프로그램 상세 내용</label>
+        <label class="section-title">프로그램 상세 내용 <span class="required">*</span></label>
         <div ref="editorRef" class="quill-editor"></div>
       </div>
 
@@ -377,6 +390,11 @@ export default defineComponent({
   font-size: 14px;
   margin-bottom: 0.5rem;
   color: #333;
+}
+
+.required {
+  color: #e34363;
+  margin-left: 2px;
 }
 
 /* 이미지 업로드 */
