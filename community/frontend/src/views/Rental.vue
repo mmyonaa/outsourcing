@@ -87,10 +87,10 @@ export default defineComponent({
   margin: 0.5rem 0;
 }
 
-/* 1:1 컨텐츠 컨테이너 */
+/* 좌우 비율 조정: 좌측(갤러리) 40%, 우측(정보) 60% */
 .content-container {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 0.8fr 1.2fr;
   gap: 3rem;
   max-width: 1400px;
   margin: 0 auto;
@@ -123,6 +123,7 @@ export default defineComponent({
   overflow: hidden;
   border: 2px solid transparent;
   transition: all 0.3s ease;
+  box-sizing: border-box;
 }
 
 .poster:hover {

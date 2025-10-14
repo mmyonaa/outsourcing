@@ -201,17 +201,20 @@ export default defineComponent({
 }
 
 .subtitle {
-  font-size: 15px;
-  font-weight: 500;
-  color: #555;
-  margin-bottom: 0.3rem;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.8rem;
+  padding-top: 0.5rem;
+  line-height: 1.5;
 }
 
 .subtitle-small {
-  font-size: 14px;
-  font-weight: 400;
-  color: #777;
-  margin-bottom: 0.5rem;
+  font-size: 15px;
+  font-weight: 500;
+  color: #555;
+  margin-bottom: 1rem;
+  line-height: 1.5;
 }
 
 @media (max-width: 900px) {
