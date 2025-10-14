@@ -107,7 +107,7 @@ export default defineComponent({
             {{ notice.title }}
           </div>
           <div class="meta">
-            <span>{{ notice.author }}</span> · <span>{{ notice.regDt }}</span> ·
+            <span>{{ notice.author }}</span> · <span>{{ moment(notice.regDt).format('YY.MM.DD') }}</span> ·
             <span>조회수 {{ notice.views }}</span>
           </div>
         </div>
