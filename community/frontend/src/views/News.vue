@@ -47,7 +47,7 @@ export default defineComponent({
 
     const goToDetail = (boardIdx: string | undefined) => {
       if (boardIdx) {
-        router.push(`/notice/detail?id=${boardIdx}`);
+        router.push(`/news/detail?id=${boardIdx}`);
       }
     };
 
@@ -56,7 +56,7 @@ export default defineComponent({
       () => route.query.pageNo,
       () => {
         loadBoardLit();
-      }
+      },
     );
 
     onMounted(() => {
@@ -81,13 +81,7 @@ export default defineComponent({
 
     <!-- 검색바 -->
     <div class="search-bar-wrapper">
-      <input
-        v-model="searchKeyword"
-        type="text"
-        placeholder="제목으로 검색..."
-        class="search-input"
-        @keyup.enter="handleSearch"
-      />
+      <input v-model="searchKeyword" type="text" placeholder="제목으로 검색..." class="search-input" @keyup.enter="handleSearch" />
       <button class="search-button" @click="handleSearch">검색</button>
     </div>
 

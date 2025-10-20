@@ -19,7 +19,7 @@ export default defineComponent({
     const apiClient = getApiClient();
 
     const goBack = () => {
-      router.push('/notice'); // 공지 목록 페이지 경로
+      router.push('/news'); // 공지 목록 페이지 경로
     };
 
     const loadBoardDetail = async () => {
@@ -43,7 +43,7 @@ export default defineComponent({
       // 파일 다운로드 링크에 download 속성 추가 및 클릭 이벤트 처리
       setTimeout(() => {
         const fileLinks = document.querySelectorAll<HTMLAnchorElement>(
-          '.notice-content a[href*="amazonaws.com"], .notice-content a[href*="/uploads/"], .notice-content a[href*="/files/"]'
+          '.notice-content a[href*="amazonaws.com"], .notice-content a[href*="/uploads/"], .notice-content a[href*="/files/"]',
         );
 
         fileLinks.forEach(link => {
@@ -55,7 +55,7 @@ export default defineComponent({
           link.setAttribute('download', fileName);
 
           // 클릭 이벤트로 강제 다운로드
-          link.addEventListener('click', async (e) => {
+          link.addEventListener('click', async e => {
             e.preventDefault();
 
             try {

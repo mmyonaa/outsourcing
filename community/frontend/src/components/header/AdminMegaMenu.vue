@@ -159,9 +159,7 @@ export default defineComponent({
       <transition name="dropdown">
         <section v-show="isSubMenuVisible" class="sub-menu-section menu-list admin" @mouseleave="handleMouseSubLeave">
           <ul class="sub-menu-list play menu">
-            <!-- <li @click="() => onClickMenu('/banner')">극장 배너</li>
-            <li @click="() => onClickMenu('/banner/org')">단체 배너</li>
-            <li @click="() => onClickMenu('/banner/route')">오시는 길</li> -->
+            <li @click="() => onClickMenu('/banner')">배너 등록</li>
           </ul>
           <ul class="sub-menu-list studio menu">
             <li @click="() => onClickMenu('/performance')">자체 프로그램 등록</li>
