@@ -46,7 +46,7 @@ header {
   z-index: 99; // dim 배경 z-index에 따라 조절
   position: fixed;
   width: 100vw;
-  height: 10rem;
+  height: 11rem;
   display: flex;
   justify-content: center;
   background-color: $colorWhite;
@@ -204,7 +204,7 @@ header {
   background-color: $colorWhite;
   //padding-top: 2rem; // lang dropdown 열린 상태일 때 완전히 가려지게 하기 위해
   left: 0;
-  top: 10rem;
+  top: 9rem;
   gap: 6rem;
   z-index: 51;
   box-shadow: 0px 4px 8px 0px rgba(164, 115, 255, 0.1);
