@@ -1,5 +1,6 @@
 <script lang="ts">
-import { defineComponent, onMounted, ref } from 'vue';
+import { defineComponent, onMounted, ref, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import ApocPagination from '@/components/common/ApocPagination.vue';
 import EmptyState from '@/components/common/EmptyState.vue';
 import { PerfoEntity, SearchPerfoDto } from '@/api/dto/perfo.dto';
@@ -7,35 +8,43 @@ import { getApiClient } from '@/utils/apiClient';
 import { getPerfoList } from '@/api/perfo.api';
 import moment from 'moment';
 import { STATE_YN, TYPE_PERFO, TYPE_PERFO_CATEGORY } from '@/types';
-import { useRouter } from 'vue-router';
 
 export default defineComponent({
   name: 'adminPerformance',
   components: { ApocPagination, EmptyState },
   setup() {
+    const route = useRoute();
+    const router = useRouter();
     const totalPage = ref<number>(0); // 총 페이지
     const apiClient = getApiClient();
     const perfos = ref<PerfoEntity[]>([]);
-    const router = useRouter();
     const searchKeyword = ref<string>('');
     const selectedCategory = ref<string>('');
+    const ROWS_PER_PAGE = 8; // 한 페이지당 8개
 
     const loadPerfoList = async () => {
+      const currentPage = route.query.pageNo ? Number(route.query.pageNo) : 1;
       const param = new SearchPerfoDto();
       param.perType = TYPE_PERFO.NORMAL;
       param.keyword = searchKeyword.value || undefined;
       param.category = selectedCategory.value || undefined;
+      param.page = currentPage;
+      param.rows = ROWS_PER_PAGE;
 
       await getPerfoList(apiClient, param).then(res => {
         if (res.resultCode === 0 && res.data) {
           perfos.value = res.data;
-          totalPage.value = res.totalCount ? Math.ceil(res.totalCount / 10) : 0;
+          // totalCount를 사용하여 totalPage 계산
+          if (res.totalCount) {
+            totalPage.value = Math.ceil(res.totalCount / ROWS_PER_PAGE);
+          }
         }
       });
     };
 
     const handleSearch = () => {
-      loadPerfoList();
+      // 검색 시 1페이지로 이동
+      router.push({ query: { ...route.query, pageNo: 1 } });
     };
 
     const filterByCategory = (category: string) => {
@@ -44,7 +53,8 @@ export default defineComponent({
       } else {
         selectedCategory.value = category;
       }
-      loadPerfoList();
+      // 필터 변경 시 1페이지로 이동
+      router.push({ query: { ...route.query, pageNo: 1 } });
     };
 
     const assignPerfo = () => {
@@ -67,7 +77,8 @@ export default defineComponent({
     const resetFilters = () => {
       searchKeyword.value = '';
       selectedCategory.value = '';
-      loadPerfoList();
+      // 초기화 시 1페이지로 이동
+      router.push({ query: { ...route.query, pageNo: 1 } });
     };
 
     const handleImageError = (event: Event) => {
@@ -80,6 +91,14 @@ export default defineComponent({
         router.push(`/admin/performance/detail?id=${perIdx}`);
       }
     };
+
+    // 페이지 번호 변경 감지
+    watch(
+      () => route.query.pageNo,
+      () => {
+        loadPerfoList();
+      }
+    );
 
     onMounted(() => {
       loadPerfoList();

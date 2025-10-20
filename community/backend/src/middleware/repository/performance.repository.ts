@@ -2,11 +2,15 @@ import postgres from "postgres";
 import { PerfoEntity, SearchPerfoDto } from "./dto/perfo.dto";
 
 export const getPerfoList = (sql: postgres.Sql, reqParam: SearchPerfoDto) => {
+  const page = reqParam.page || 1;
+  const rows = reqParam.rows || 10;
+  const offset = (page - 1) * rows;
+
   return sql<PerfoEntity[]>`
       SELECT *
       FROM public.performance
       WHERE 1 = 1
-        AND del_yn = 'N' 
+        AND del_yn = 'N'
           ${reqParam.perIdx ? sql` AND per_idx =${reqParam.perIdx}` : sql``}
     ${reqParam.perType ? sql` AND per_type =${reqParam.perType}` : sql``}
     ${reqParam.category ? sql` AND category =${reqParam.category}` : sql``}
@@ -16,6 +20,7 @@ export const getPerfoList = (sql: postgres.Sql, reqParam: SearchPerfoDto) => {
                   : sql``
               }
     ORDER BY reg_dt DESC
+    LIMIT ${rows} OFFSET ${offset}
   `;
 };
 

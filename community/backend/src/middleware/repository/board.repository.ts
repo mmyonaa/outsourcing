@@ -2,6 +2,10 @@ import postgres from "postgres";
 import { BoardEntity, SearchBoardDto } from "./dto/board.dto";
 
 export const getBoardList = (sql: postgres.Sql, reqParam: SearchBoardDto) => {
+  const page = reqParam.page || 1;
+  const rows = reqParam.rows || 10;
+  const offset = (page - 1) * rows;
+
   return sql<BoardEntity[]>`
       SELECT *
       FROM public.board
@@ -23,6 +27,7 @@ export const getBoardList = (sql: postgres.Sql, reqParam: SearchBoardDto) => {
               : sql``
           }
     ORDER BY best_yn DESC, reg_dt DESC
+    LIMIT ${rows} OFFSET ${offset}
   `;
 };
 

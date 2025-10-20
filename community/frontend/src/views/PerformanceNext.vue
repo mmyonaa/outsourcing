@@ -1,5 +1,6 @@
 <script lang="ts">
-import { defineComponent, onMounted, ref } from 'vue';
+import { defineComponent, onMounted, ref, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import ApocPagination from '@/components/common/ApocPagination.vue';
 import EmptyState from '@/components/common/EmptyState.vue';
 import { PerfoEntity, SearchPerfoDto } from '@/api/dto/perfo.dto';
@@ -12,27 +13,38 @@ export default defineComponent({
   name: 'performanceNext',
   components: { ApocPagination, EmptyState },
   setup() {
+    const route = useRoute();
+    const router = useRouter();
     const totalPage = ref<number>(0);
     const apiClient = getApiClient();
     const performances = ref<PerfoEntity[]>([]);
     const searchKeyword = ref<string>('');
     const selectedCategory = ref<string>('');
+    const ROWS_PER_PAGE = 8; // 한 페이지당 8개
 
     const loadPerfoList = async () => {
+      const currentPage = route.query.pageNo ? Number(route.query.pageNo) : 1;
       const param = new SearchPerfoDto();
       param.perType = TYPE_PERFO.NEXT;
       param.keyword = searchKeyword.value || undefined;
       param.category = selectedCategory.value || undefined;
+      param.page = currentPage;
+      param.rows = ROWS_PER_PAGE;
 
       await getPerfoList(apiClient, param).then(res => {
         if (res.resultCode === 0 && res.data) {
           performances.value = res.data;
+          // totalCount를 사용하여 totalPage 계산
+          if (res.totalCount) {
+            totalPage.value = Math.ceil(res.totalCount / ROWS_PER_PAGE);
+          }
         }
       });
     };
 
     const handleSearch = () => {
-      loadPerfoList();
+      // 검색 시 1페이지로 이동
+      router.push({ query: { ...route.query, pageNo: 1 } });
     };
 
     const filterByCategory = (category: string) => {
@@ -41,7 +53,8 @@ export default defineComponent({
       } else {
         selectedCategory.value = category;
       }
-      loadPerfoList();
+      // 필터 변경 시 1페이지로 이동
+      router.push({ query: { ...route.query, pageNo: 1 } });
     };
 
     const getCategoryLabel = (category: string | undefined) => {
@@ -60,13 +73,22 @@ export default defineComponent({
     const resetFilters = () => {
       searchKeyword.value = '';
       selectedCategory.value = '';
-      loadPerfoList();
+      // 초기화 시 1페이지로 이동
+      router.push({ query: { ...route.query, pageNo: 1 } });
     };
 
     const handleImageError = (event: Event) => {
       const target = event.target as HTMLImageElement;
       target.src = '/assets/images/common/default-thumbnail.svg';
     };
+
+    // 페이지 번호 변경 감지
+    watch(
+      () => route.query.pageNo,
+      () => {
+        loadPerfoList();
+      }
+    );
 
     onMounted(() => {
       loadPerfoList();

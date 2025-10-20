@@ -1,5 +1,6 @@
 <script lang="ts">
-import { defineComponent, onMounted, ref } from 'vue';
+import { defineComponent, onMounted, ref, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import ApocPagination from '@/components/common/ApocPagination.vue';
 import EmptyState from '@/components/common/EmptyState.vue';
 import { BoardEntity, SearchBoardDto } from '@/api/dto/board.dto';
@@ -7,32 +8,41 @@ import { getApiClient } from '@/utils/apiClient';
 import { getBoardList, updateBoard } from '@/api/board.api';
 import moment from 'moment';
 import { STATE_YN, TYPE_BOARD } from '@/types';
-import { useRouter } from 'vue-router';
 
 export default defineComponent({
   name: 'notice',
   components: { ApocPagination, EmptyState },
   setup() {
+    const route = useRoute();
     const router = useRouter();
     const totalPage = ref<number>(0); // 총 페이지
     const apiClient = getApiClient();
     const notices = ref<BoardEntity[]>([]);
     const searchKeyword = ref<string>('');
+    const ROWS_PER_PAGE = 10; // 한 페이지당 10개
 
     const loadBoardLit = async () => {
+      const currentPage = route.query.pageNo ? Number(route.query.pageNo) : 1;
       const param = new SearchBoardDto();
       param.boardType = TYPE_BOARD.NORMAL;
       param.keyword = searchKeyword.value || undefined;
+      param.page = currentPage;
+      param.rows = ROWS_PER_PAGE;
 
       await getBoardList(apiClient, param).then(res => {
         if (res.resultCode === 0 && res.data) {
           notices.value = res.data;
+          // totalCount를 사용하여 totalPage 계산
+          if (res.totalCount) {
+            totalPage.value = Math.ceil(res.totalCount / ROWS_PER_PAGE);
+          }
         }
       });
     };
 
     const handleSearch = () => {
-      loadBoardLit();
+      // 검색 시 1페이지로 이동
+      router.push({ query: { ...route.query, pageNo: 1 } });
     };
 
     const goToDetail = (boardIdx: string | undefined) => {
@@ -40,6 +50,14 @@ export default defineComponent({
         router.push(`/notice/detail?id=${boardIdx}`);
       }
     };
+
+    // 페이지 번호 변경 감지
+    watch(
+      () => route.query.pageNo,
+      () => {
+        loadBoardLit();
+      }
+    );
 
     onMounted(() => {
       loadBoardLit();
