@@ -4,7 +4,6 @@ import EmptyState from '@/components/common/EmptyState.vue';
 import { BannerEntity, SearchBannerDto } from '@/api/dto/banner.dto';
 import { getApiClient } from '@/utils/apiClient';
 import { getBannerList, insertBanner, updateBanner, deleteBanner } from '@/api/banner.api';
-import AppConfig from '@/constants';
 
 export default defineComponent({
   name: 'adminBanner',
@@ -67,20 +66,31 @@ export default defineComponent({
     const uploadImage = async (): Promise<string | null> => {
       if (!imageFile.value) return null;
 
+      // 이미지 파일 유효성 검사
+      if (!imageFile.value.type.startsWith('image/')) {
+        alert('이미지 파일만 업로드 가능합니다.');
+        return null;
+      }
+
+      if (imageFile.value.size > 5 * 1024 * 1024) {
+        alert('파일 크기는 5MB 이하여야 합니다.');
+        return null;
+      }
+
       const formData = new FormData();
       formData.append('image', imageFile.value);
 
       try {
-        const response = await fetch(`${AppConfig.API_SERVER}/api/banner/upload-image`, {
-          method: 'POST',
-          body: formData,
+        const response = await apiClient.post('/banner/upload-image', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
         });
 
-        const data = await response.json();
-        if (data.resultCode === 0 && data.data) {
-          return data.data.imageUrl;
+        if (response.data.resultCode === 0 && response.data.data?.imageUrl) {
+          return response.data.data.imageUrl;
         }
-        return null;
+        throw new Error('이미지 업로드 실패');
       } catch (error) {
         console.error('Image upload failed:', error);
         alert('이미지 업로드에 실패했습니다.');
@@ -411,7 +421,8 @@ export default defineComponent({
 
 .modal-header h2 {
   margin: 0;
-  font-size: 20px;
+  font-size: 24px;
+  font-weight: 700;
 }
 
 .close-btn {
@@ -439,6 +450,7 @@ export default defineComponent({
   display: block;
   margin-bottom: 0.5rem;
   font-weight: 600;
+  font-size: 16px;
   color: #333;
 }
 
@@ -449,13 +461,14 @@ export default defineComponent({
   padding: 0.75rem;
   border: 1px solid #ddd;
   border-radius: 6px;
-  font-size: 14px;
+  font-size: 16px;
   box-sizing: border-box;
 }
 
 .form-group input[type='file'] {
   width: 100%;
   padding: 0.5rem;
+  font-size: 16px;
 }
 
 .form-row {
@@ -490,7 +503,7 @@ export default defineComponent({
   padding: 0.75rem 1.5rem;
   border: none;
   border-radius: 6px;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
