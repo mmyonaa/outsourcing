@@ -118,7 +118,7 @@ export default defineComponent({
           <div class="col title">{{ notice.title }}</div>
           <div class="col views">{{ notice.views }}</div>
           <div class="col author">{{ notice.author }}</div>
-          <div class="col date">{{ moment(notice.regDt).format('YY.MM.DD') }}</div>
+          <div class="col date">{{ moment(notice.modDt).format('YY.MM.DD') }}</div>
         </div>
 
         <!-- 모바일 카드 -->
@@ -128,7 +128,7 @@ export default defineComponent({
             {{ notice.title }}
           </div>
           <div class="meta">
-            <span>{{ notice.author }}</span> · <span>{{ notice.regDt }}</span> ·
+            <span>{{ notice.author }}</span> · <span>{{ moment(notice.modDt).format('YY.MM.DD') }}</span> ·
             <span>조회수 {{ notice.views }}</span>
           </div>
         </div>

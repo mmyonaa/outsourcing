@@ -195,7 +195,7 @@ export default defineComponent({
           <div class="col type">{{ getCategoryLabel(perfo.category) }}</div>
           <div class="col author">{{ perfo.author }}</div>
           <div class="col views">{{ perfo.views }}</div>
-          <div class="col date">{{ moment(perfo.regDt).format('YY.MM.DD') }}</div>
+          <div class="col date">{{ moment(perfo.modDt).format('YY.MM.DD') }}</div>
         </div>
 
         <!-- 모바일 카드 -->
@@ -204,7 +204,7 @@ export default defineComponent({
             {{ perfo.title }}
           </div>
           <div class="meta">
-            <span>{{ getCategoryLabel(perfo.category) }}</span> · <span>{{ moment(perfo.regDt).format('YY.MM.DD') }}</span> ·
+            <span>{{ getCategoryLabel(perfo.category) }}</span> · <span>{{ moment(perfo.modDt).format('YY.MM.DD') }}</span> ·
             <span>조회수 {{ perfo.views }}</span>
           </div>
         </div>

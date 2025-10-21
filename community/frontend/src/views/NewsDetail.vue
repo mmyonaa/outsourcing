@@ -103,7 +103,7 @@ export default defineComponent({
 
       <div class="notice-meta">
         <span>작성자: {{ notice.author }}</span>
-        <span>작성일: {{ moment(notice.regDt).format('YY.MM.DD') }}</span>
+        <span>작성일: {{ moment(notice.modDt).format('YY.MM.DD') }}</span>
         <span>조회수: {{ notice.views }}</span>
       </div>
       <div class="notice-content" v-html="notice.body"></div>
