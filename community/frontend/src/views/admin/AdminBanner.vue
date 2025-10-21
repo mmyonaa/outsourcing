@@ -221,6 +221,7 @@ export default defineComponent({
         <div class="modal-body">
           <div class="form-group">
             <label>이미지 *</label>
+            <p class="image-guide">권장 이미지 사이즈: 1920 x 600px (가로로 긴 형태)</p>
             <input type="file" accept="image/*" @change="handleImageSelect" />
             <div v-if="imagePreview" class="image-preview">
               <img :src="imagePreview" alt="Preview" />
@@ -469,6 +470,17 @@ export default defineComponent({
   width: 100%;
   padding: 0.5rem;
   font-size: 16px;
+}
+
+.image-guide {
+  margin: 0 0 0.75rem 0;
+  padding: 0.75rem;
+  background: #f5f5f5;
+  border-left: 3px solid #736e92;
+  border-radius: 4px;
+  font-size: 14px;
+  color: #555;
+  font-weight: 500;
 }
 
 .form-row {
