@@ -41,8 +41,16 @@ export default defineComponent({
     };
 
     const handleSearch = () => {
-      // 검색 시 1페이지로 이동
+      // 검색 시 1페이지로 이동하고 데이터 로드
       router.push({ query: { ...route.query, pageNo: 1 } });
+      loadBoardLit();
+    };
+
+    const resetSearch = () => {
+      searchKeyword.value = '';
+      // 초기화 시 1페이지로 이동하고 데이터 로드
+      router.push({ query: { ...route.query, pageNo: 1 } });
+      loadBoardLit();
     };
 
     const goToDetail = (boardIdx: string | undefined) => {
@@ -69,6 +77,7 @@ export default defineComponent({
       STATE_YN,
       searchKeyword,
       handleSearch,
+      resetSearch,
       goToDetail,
     };
   },
@@ -83,6 +92,10 @@ export default defineComponent({
     <div class="search-bar-wrapper">
       <input v-model="searchKeyword" type="text" placeholder="제목으로 검색..." class="search-input" @keyup.enter="handleSearch" />
       <button class="search-button" @click="handleSearch">검색</button>
+      <button class="reset-button" @click="resetSearch">
+        <span class="reset-icon">↻</span>
+        초기화
+      </button>
     </div>
 
     <!-- 결과가 있을 때 -->

@@ -41,8 +41,9 @@ export default defineComponent({
     };
 
     const handleSearch = () => {
-      // 검색 시 1페이지로 이동
+      // 검색 시 1페이지로 이동하고 데이터 로드
       router.push({ query: { ...route.query, pageNo: 1 } });
+      loadBoardLit();
     };
 
     const assignNotice = () => {

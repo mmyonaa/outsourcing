@@ -43,8 +43,9 @@ export default defineComponent({
     };
 
     const handleSearch = () => {
-      // 검색 시 1페이지로 이동
+      // 검색 시 1페이지로 이동하고 데이터 로드
       router.push({ query: { ...route.query, pageNo: 1 } });
+      loadPerfoList();
     };
 
     const filterByCategory = (category: string) => {
@@ -53,8 +54,9 @@ export default defineComponent({
       } else {
         selectedCategory.value = category;
       }
-      // 필터 변경 시 1페이지로 이동
+      // 필터 변경 시 1페이지로 이동하고 데이터 로드
       router.push({ query: { ...route.query, pageNo: 1 } });
+      loadPerfoList();
     };
 
     const assignPerfo = () => {
@@ -77,8 +79,9 @@ export default defineComponent({
     const resetFilters = () => {
       searchKeyword.value = '';
       selectedCategory.value = '';
-      // 초기화 시 1페이지로 이동
+      // 초기화 시 1페이지로 이동하고 데이터 로드
       router.push({ query: { ...route.query, pageNo: 1 } });
+      loadPerfoList();
     };
 
     const handleImageError = (event: Event) => {
