@@ -26,7 +26,7 @@ export const getBoardList = (sql: postgres.Sql, reqParam: SearchBoardDto) => {
               ? sql` AND title ILIKE ${'%' + reqParam.keyword + '%'}`
               : sql``
           }
-    ORDER BY best_yn DESC, reg_dt DESC
+    ORDER BY best_yn DESC, mod_dt DESC
     LIMIT ${rows} OFFSET ${offset}
   `;
 };

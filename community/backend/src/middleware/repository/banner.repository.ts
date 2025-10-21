@@ -13,7 +13,7 @@ export const getBannerList = (sql: postgres.Sql, reqParam: SearchBannerDto) => {
               ? sql` AND banner_idx =${reqParam.bannerIdx}`
               : sql``
           }
-    ORDER BY display_order ASC, reg_dt DESC
+    ORDER BY display_order ASC, mod_dt DESC
   `;
 };
 
