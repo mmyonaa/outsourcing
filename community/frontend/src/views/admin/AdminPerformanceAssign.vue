@@ -45,9 +45,9 @@ export default defineComponent({
           return;
         }
 
-        // 파일 크기 제한 (5MB)
-        if (file.size > 5 * 1024 * 1024) {
-          alert('파일 크기는 5MB 이하여야 합니다.');
+        // 파일 크기 제한 (10MB)
+        if (file.size > 10 * 1024 * 1024) {
+          alert('파일 크기는 10MB 이하여야 합니다.');
           return;
         }
 
@@ -132,8 +132,8 @@ export default defineComponent({
           return;
         }
 
-        if (file.size > 5 * 1024 * 1024) {
-          alert('파일 크기는 5MB 이하여야 합니다.');
+        if (file.size > 10 * 1024 * 1024) {
+          alert('파일 크기는 10MB 이하여야 합니다.');
           return;
         }
 
