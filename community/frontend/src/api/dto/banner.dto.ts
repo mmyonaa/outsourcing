@@ -1,6 +1,6 @@
 export class SearchBannerDto {
   bannerIdx: string | undefined = undefined;
-  activeYn: string = 'Y';
+  activeYn: string | undefined = undefined;
 }
 
 export class BannerEntity {

@@ -187,7 +187,7 @@ export default defineComponent({
     </div>
 
     <div v-if="banners.length > 0" class="banner-list">
-      <div v-for="banner in banners" :key="banner.bannerIdx" class="banner-card">
+      <div v-for="banner in banners" :key="banner.bannerIdx" :class="['banner-card', { inactive: banner.activeYn === 'N' }]">
         <div class="banner-image">
           <img :src="banner.imgUrl" alt="Banner" />
           <span :class="['status-badge', banner.activeYn === 'Y' ? 'active' : 'inactive']">
@@ -292,6 +292,22 @@ export default defineComponent({
 
 .banner-card:hover {
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.banner-card.inactive {
+  opacity: 0.5;
+  background: #f5f5f5;
+}
+
+.banner-card.inactive .banner-image::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.3);
+  pointer-events: none;
 }
 
 .banner-image {
