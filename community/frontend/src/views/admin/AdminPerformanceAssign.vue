@@ -199,11 +199,14 @@ export default defineComponent({
         console.warn('BlotFormatter 모듈 등록 실패:', e);
       }
 
+      const icons = Quill.import('ui/icons') as Record<string, string>;
+      icons['file'] = '<svg viewBox="0 0 18 18"><path class="ql-stroke" d="M9,3V15M3,9H15"></path></svg>';
+
       const toolbarOptions = [
         [{ header: [1, 2, 3, false] }],
         ['bold', 'italic', 'underline', 'strike'],
         [{ list: 'ordered' }, { list: 'bullet' }],
-        ['link', 'image'],
+        ['link', 'image', 'file'],
         ['clean'],
       ];
 
@@ -212,6 +215,7 @@ export default defineComponent({
           container: toolbarOptions,
           handlers: {
             image: imageHandler,
+            file: fileHandler,
           },
         },
       };
@@ -234,6 +238,19 @@ export default defineComponent({
       quillInstance.on('text-change', () => {
         performance.value.body = quillInstance?.root.innerHTML || '';
       });
+
+      // 파일 버튼에 클릭 이벤트 직접 바인딩
+      setTimeout(() => {
+        const fileButton = document.querySelector('.ql-file');
+        if (fileButton) {
+          fileButton.addEventListener('click', () => {
+            console.log('파일 버튼 클릭됨 (직접 바인딩)');
+            fileHandler();
+          });
+        } else {
+          console.warn('파일 버튼을 찾을 수 없습니다.');
+        }
+      }, 100);
     };
 
     const submitNotice = async () => {
