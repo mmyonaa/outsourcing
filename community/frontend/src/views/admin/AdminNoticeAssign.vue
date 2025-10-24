@@ -142,17 +142,11 @@ export default defineComponent({
     const initQuillEditor = () => {
       if (!editorRef.value) return;
 
-      // 커스텀 파일 첨부 버튼 추가
-      const icons = Quill.import('ui/icons') as Record<string, string>;
-      icons['file'] = '<svg viewBox="0 0 18 18"><path class="ql-stroke" d="M9,3V15M3,9H15"></path></svg>';
-
       const toolbarOptions = [
         [{ header: [1, 2, 3, false] }],
         ['bold', 'italic', 'underline', 'strike'],
-        [{ color: [] }, { background: [] }],
         [{ list: 'ordered' }, { list: 'bullet' }],
-        [{ align: [] }],
-        ['link', 'image', 'file'],
+        ['link', 'image'],
         ['clean'],
       ];
 
@@ -163,7 +157,6 @@ export default defineComponent({
             container: toolbarOptions,
             handlers: {
               image: imageHandler,
-              file: fileHandler,
             },
           },
         },

@@ -193,16 +193,11 @@ export default defineComponent({
         console.warn('BlotFormatter 모듈 등록 실패:', e);
       }
 
-      const icons = Quill.import('ui/icons') as Record<string, string>;
-      icons['file'] = '<svg viewBox="0 0 18 18"><path class="ql-stroke" d="M9,3V15M3,9H15"></path></svg>';
-
       const toolbarOptions = [
         [{ header: [1, 2, 3, false] }],
         ['bold', 'italic', 'underline', 'strike'],
-        [{ color: [] }, { background: [] }],
         [{ list: 'ordered' }, { list: 'bullet' }],
-        [{ align: [] }],
-        ['link', 'image', 'file'],
+        ['link', 'image'],
         ['clean'],
       ];
 
@@ -211,7 +206,6 @@ export default defineComponent({
           container: toolbarOptions,
           handlers: {
             image: imageHandler,
-            file: fileHandler,
           },
         },
       };
