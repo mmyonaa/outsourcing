@@ -40,17 +40,23 @@
   }
 }
 
-.footer {
+#app .footer {
   background-color: $colorTertiary !important;
+  padding: 5rem 3rem !important;
+
   .footer-wrapper {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
     width: 100%;
+    max-width: 140rem;
+
     .footer-logo-img {
+      flex-shrink: 0;
       img {
         width: 120px;
+        display: block;
       }
     }
     .footer-info-wrapper {
@@ -59,6 +65,9 @@
       align-items: end;
       justify-content: space-between;
       gap: 3rem;
+      flex: 1;
+      min-width: 0;
+
       div {
         font-size: 16px;
         font-weight: 600;
@@ -72,27 +81,58 @@
       flex-direction: row;
       align-items: center;
       gap: 2rem;
+      flex-shrink: 0;
+
       img {
         width: 6rem;
+        display: block;
       }
       .insta {
         width: 6.5rem;
       }
     }
   }
+
   @include range-tablet-header {
+    padding: 4rem 2rem !important;
+
     .footer-wrapper {
       flex-direction: column;
       align-items: start;
       gap: 3rem;
     }
   }
+
   @include mobile-header {
+    padding: 3rem 1.5rem !important;
+
     .footer-wrapper {
+      .footer-logo-img {
+        img {
+          width: 100px;
+        }
+      }
+
       .footer-info-wrapper {
         flex-direction: column;
         align-items: start;
-        gap: 1rem;
+        gap: 2rem;
+        width: 100%;
+
+        div {
+          font-size: 14px;
+          gap: 1rem;
+          width: 100%;
+        }
+      }
+
+      .footer-sns-wrapper {
+        img {
+          width: 5rem;
+        }
+        .insta {
+          width: 5.5rem;
+        }
       }
     }
   }

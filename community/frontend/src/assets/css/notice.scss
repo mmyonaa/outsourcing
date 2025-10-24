@@ -63,6 +63,7 @@
     .reset-button {
       display: flex;
       align-items: center;
+      justify-content: center;
       gap: 0.5rem;
       padding: 1.2rem 1.5rem;
       font-size: 16px;
@@ -78,6 +79,8 @@
       .reset-icon {
         font-size: 20px;
         transition: transform 0.3s ease;
+        display: inline-block;
+        line-height: 1;
       }
 
       &:hover {
@@ -95,26 +98,44 @@
     }
 
     @media (max-width: 768px) {
-      gap: 0.5rem;
+      flex-wrap: wrap;
+      gap: 0.75rem;
       margin: 2rem auto 2rem;
+      padding: 0 1rem;
 
       .search-input {
+        flex: 1;
+        min-width: 0; // flex 아이템이 너무 커지지 않도록 제한
         padding: 1rem 1.2rem;
         font-size: 14px;
       }
 
       .search-button {
+        flex-shrink: 0; // 버튼이 줄어들지 않도록
         padding: 1rem 1.5rem;
         font-size: 14px;
       }
 
       .reset-button {
-        padding: 1rem 1.2rem;
-        font-size: 14px;
+        flex-shrink: 0; // 버튼이 줄어들지 않도록
+        padding: 0.8rem;
+        font-size: 0; // 텍스트 숨기기
+        min-width: 40px; // 터치 영역 확보
+        width: 40px; // 고정 너비로 여백 제거
+        gap: 0;
 
         .reset-icon {
-          font-size: 18px;
+          font-size: 20px; // 아이콘 크기는 유지
+          margin: 0;
+          padding: 0;
         }
+      }
+    }
+
+    // 작은 모바일 화면 (375px 이하)
+    @media (max-width: 480px) {
+      .search-button {
+        padding: 1rem 1.2rem;
       }
     }
   }
