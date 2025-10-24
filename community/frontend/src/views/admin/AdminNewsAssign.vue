@@ -125,12 +125,12 @@ export default defineComponent({
         }
 
         try {
-          const { fileUrl, fileName } = await uploadFileToS3(file);
+          const { fileUrl } = await uploadFileToS3(file);
           const range = quillInstance?.getSelection();
           if (range) {
-            // 원본 파일명으로 링크를 삽입
-            quillInstance?.insertText(range.index, fileName, 'link', fileUrl);
-            quillInstance?.setSelection(range.index + fileName.length, 0);
+            // 원본 파일명(file.name)을 사용하여 한글 파일명 보존
+            quillInstance?.insertText(range.index, file.name, 'link', fileUrl);
+            quillInstance?.setSelection(range.index + file.name.length, 0);
           }
         } catch (error) {
           console.error('Error uploading file:', error);
