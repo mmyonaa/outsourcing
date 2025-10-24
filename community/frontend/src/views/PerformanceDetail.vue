@@ -281,33 +281,7 @@ export default defineComponent({
   }
 }
 
-/* Quill 에디터 리스트 스타일 */
-:deep(.notice-content ul) {
-  list-style-type: disc;
-  padding-left: 1.5em;
-  margin: 1em 0;
-}
-
-:deep(.notice-content ol) {
-  list-style-type: decimal;
-  padding-left: 1.5em;
-  margin: 1em 0;
-}
-
-:deep(.notice-content li) {
-  margin: 0.5em 0;
-  line-height: 1.6;
-}
-
-:deep(.notice-content ul ul) {
-  list-style-type: circle;
-  margin: 0.5em 0;
-}
-
-:deep(.notice-content ol ol) {
-  list-style-type: lower-alpha;
-  margin: 0.5em 0;
-}
+/* Quill 에디터 콘텐츠 링크 스타일은 notice.scss에서 상속됨 */
 
 :deep(.notice-content a) {
   color: #0066cc;

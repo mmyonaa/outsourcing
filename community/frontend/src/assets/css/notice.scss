@@ -341,8 +341,9 @@
     overflow-wrap: break-word;
   }
 
-  // ul 안의 li는 점(bullet) 표시
-  ul > li::before {
+  // Quill의 data-list 속성에 따라 리스트 스타일 적용
+  // bullet 리스트는 점(•) 표시
+  li[data-list='bullet']::before {
     content: '\2022';
     display: inline-block;
     white-space: nowrap;
@@ -352,18 +353,41 @@
     text-align: right;
   }
 
-  // ol은 counter 초기화
+  // ordered 리스트는 숫자 표시
   ol {
     counter-reset: list-0 list-1 list-2 list-3 list-4 list-5 list-6 list-7 list-8 list-9;
   }
 
-  // ol 안의 li는 숫자 증가
-  ol > li {
+  li[data-list='ordered'] {
     counter-increment: list-0;
   }
 
-  // ol 안의 li는 숫자 표시
-  ol > li::before {
+  li[data-list='ordered']::before {
+    content: counter(list-0, decimal) '. ';
+    display: inline-block;
+    white-space: nowrap;
+    width: 1.2em;
+    margin-left: -1.5em;
+    margin-right: 0.3em;
+    text-align: right;
+  }
+
+  // data-list 속성이 없는 일반 리스트 (하위 호환성)
+  ul > li:not([data-list])::before {
+    content: '\2022';
+    display: inline-block;
+    white-space: nowrap;
+    width: 1.2em;
+    margin-left: -1.5em;
+    margin-right: 0.3em;
+    text-align: right;
+  }
+
+  ol > li:not([data-list]) {
+    counter-increment: list-0;
+  }
+
+  ol > li:not([data-list])::before {
     content: counter(list-0, decimal) '. ';
     display: inline-block;
     white-space: nowrap;
