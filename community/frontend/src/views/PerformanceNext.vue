@@ -475,7 +475,15 @@ export default defineComponent({
   }
 
   .card-title {
-    font-size: 1.1rem;
+    font-size: 1.3rem;
+  }
+
+  .card-subtitle {
+    font-size: 1rem;
+  }
+
+  .card-subtitle-small {
+    font-size: 0.9rem;
   }
 }
 
