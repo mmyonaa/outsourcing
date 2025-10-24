@@ -7,7 +7,6 @@ export const getBannerList = (sql: postgres.Sql, reqParam: SearchBannerDto) => {
       FROM public.banner
       WHERE 1 = 1
         AND del_yn = 'N'
-        AND active_yn = 'Y'
           ${
             reqParam.bannerIdx
               ? sql` AND banner_idx =${reqParam.bannerIdx}`
@@ -26,7 +25,6 @@ export const getBannerListCount = (
       FROM public.banner
       WHERE 1 = 1
         AND del_yn = 'N'
-        AND active_yn = 'Y'
           ${
             reqParam.bannerIdx
               ? sql` AND banner_idx =${reqParam.bannerIdx}`
