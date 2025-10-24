@@ -56,24 +56,24 @@ export default defineComponent({
           </thead>
           <tbody>
             <tr>
-              <td>공연일로부터 14일 미만</td>
-              <td>0%</td>
-              <td>전액 위약금 처리</td>
+              <td data-label="취소 시점">공연일로부터 14일 미만</td>
+              <td data-label="환불 비율">0%</td>
+              <td data-label="비고">전액 위약금 처리</td>
             </tr>
             <tr>
-              <td>공연일로부터 14일 이상 30일 미만</td>
-              <td>50%</td>
-              <td>계약금 포함</td>
+              <td data-label="취소 시점">공연일로부터 14일 이상 30일 미만</td>
+              <td data-label="환불 비율">50%</td>
+              <td data-label="비고">계약금 포함</td>
             </tr>
             <tr>
-              <td>공연일로부터 30일 이상 60일 미만</td>
-              <td>70%</td>
-              <td>계약금 포함</td>
+              <td data-label="취소 시점">공연일로부터 30일 이상 60일 미만</td>
+              <td data-label="환불 비율">70%</td>
+              <td data-label="비고">계약금 포함</td>
             </tr>
             <tr>
-              <td>공연일로부터 60일 이상</td>
-              <td>100%</td>
-              <td>행정·심의비 등 실비 공제 가능</td>
+              <td data-label="취소 시점">공연일로부터 60일 이상</td>
+              <td data-label="환불 비율">100%</td>
+              <td data-label="비고">행정·심의비 등 실비 공제 가능</td>
             </tr>
           </tbody>
         </table>
@@ -341,7 +341,6 @@ export default defineComponent({
 
   .refund-content {
     padding: 0 1rem;
-    overflow-x: auto;
   }
 
   .refund-content p {
@@ -350,17 +349,53 @@ export default defineComponent({
 
   .refund-table {
     width: 100%;
-    min-width: 500px;
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
-  .refund-table th {
-    padding: 1rem 0.5rem;
-    font-size: 14px;
+  .refund-table thead,
+  .refund-table tbody,
+  .refund-table tr {
+    display: block;
+  }
+
+  .refund-table thead {
+    display: none;
+  }
+
+  .refund-table tbody tr {
+    margin-bottom: 1.5rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
   }
 
   .refund-table td {
-    padding: 1rem 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
     font-size: 14px;
+    border: none;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+  }
+
+  .refund-table td:last-child {
+    border-bottom: none;
+  }
+
+  .refund-table td::before {
+    content: attr(data-label);
+    font-weight: 700;
+    color: #333;
+    margin-right: 1rem;
+    min-width: 100px;
+  }
+
+  .refund-table tbody tr:nth-child(even) {
+    background: #fff;
   }
 }
 </style>

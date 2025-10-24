@@ -454,6 +454,7 @@ export default defineComponent({
   .search-category-container {
     flex-direction: column;
     gap: 1.5rem;
+    padding: 0;
   }
 
   .search-category-container .search-bar-wrapper {
