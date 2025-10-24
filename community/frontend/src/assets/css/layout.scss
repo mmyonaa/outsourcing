@@ -1,9 +1,15 @@
-html,
-body {
+html {
   /* 루트 요소 폰트 사이즈 */
   /* 1rem = 8px */
   font-size: 8px;
   height: 100%;
+  font-family: "Famppy", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  font-size: 8px;
+  min-height: 100%;
   font-family: "Famppy", sans-serif;
   -webkit-font-smoothing: antialiased;
 }
