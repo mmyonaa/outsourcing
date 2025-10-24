@@ -291,6 +291,17 @@ export default defineComponent({
   border: 1px solid #ddd;
   border-radius: 4px 4px 0 0;
   padding: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  align-items: center;
+}
+
+:deep(.ql-toolbar .ql-formats) {
+  margin-right: 0 !important;
+  display: flex;
+  gap: 4px;
+  align-items: center;
 }
 
 /* 툴바 버튼 크기 증가 */
@@ -298,16 +309,23 @@ export default defineComponent({
   width: 32px !important;
   height: 32px !important;
   padding: 4px !important;
+  margin: 0 !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 :deep(.ql-toolbar .ql-picker) {
   height: 32px !important;
+  margin: 0 !important;
 }
 
 :deep(.ql-toolbar .ql-picker-label) {
   height: 32px !important;
   line-height: 32px !important;
   padding: 0 8px !important;
+  display: inline-flex;
+  align-items: center;
 }
 
 /* 아이콘 크기 증가 */
