@@ -14,7 +14,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="footer new-footer">
+  <div class="footer">
     <div class="footer-wrapper">
       <div class="footer-logo-img">
 				<img src="/assets/images/logo/theater.png" />
