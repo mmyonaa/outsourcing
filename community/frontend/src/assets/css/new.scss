@@ -44,6 +44,23 @@
   background-color: $colorTertiary !important;
   padding: 5rem 3rem !important;
 
+  // footer.scss 스타일 완전 무효화
+  .footer-top-area,
+  .footer-bottom-area,
+  .footer-info,
+  .footer-link-section {
+    display: none !important;
+  }
+
+  // 모든 요소의 border 제거
+  * {
+    border: none !important;
+    border-top: none !important;
+    border-bottom: none !important;
+    border-left: none !important;
+    border-right: none !important;
+  }
+
   .footer-wrapper {
     display: flex !important;
     flex-direction: row !important;
@@ -51,6 +68,8 @@
     justify-content: space-between !important;
     width: 100% !important;
     max-width: 140rem !important;
+    border: none !important;
+    border-top: none !important;
 
     .footer-logo-img {
       flex-shrink: 0 !important;
@@ -80,7 +99,18 @@
         gap: 1rem !important;
         white-space: nowrap !important;
         border: none !important;
+        border-top: none !important;
         border-bottom: none !important;
+        border-left: none !important;
+        border-right: none !important;
+
+        div {
+          border: none !important;
+          border-top: none !important;
+          border-bottom: none !important;
+          border-left: none !important;
+          border-right: none !important;
+        }
       }
     }
     .footer-sns-wrapper {
@@ -145,6 +175,19 @@
           gap: 1rem !important;
           width: 100% !important;
           white-space: normal !important;
+          border: none !important;
+          border-top: none !important;
+          border-bottom: none !important;
+          border-left: none !important;
+          border-right: none !important;
+
+          div {
+            border: none !important;
+            border-top: none !important;
+            border-bottom: none !important;
+            border-left: none !important;
+            border-right: none !important;
+          }
         }
       }
 
