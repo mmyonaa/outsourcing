@@ -172,7 +172,7 @@ export default defineComponent({
             <li @click="() => onClickMenu('/rental/info')">대관 신청 링크</li>
           </ul>
           <ul class="sub-menu-list community menu">
-            <li @click="() => onClickMenu('/notice')">공지 상세사항</li>
+            <li @click="() => onClickMenu('/notice')">공지사항</li>
             <li @click="() => onClickMenu('/news')">보도자료</li>
           </ul>
         </section>
@@ -258,7 +258,7 @@ export default defineComponent({
           <transition name="dropdown">
             <section v-show="isTabletMenuVisibleType === 'notice'" class="sub-menu-tablet" :class="{ opened: isTabletMenuVisibleType === 'notice' }">
               <ul>
-                <li @click="() => onClickMenu('/notice')">공지 상세사항</li>
+                <li @click="() => onClickMenu('/notice')">공지사항</li>
                 <li @click="() => onClickMenu('/news')">보도자료</li>
               </ul>
             </section>
