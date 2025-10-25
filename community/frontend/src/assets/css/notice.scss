@@ -418,6 +418,15 @@
     text-align: right;
   }
 
+  // Quill 콘텐츠 스타일: 이미지
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 1rem 0;
+    border-radius: 8px;
+  }
+
   // Quill 콘텐츠 스타일: 링크
   a {
     color: #2563eb;
@@ -484,19 +493,19 @@
   // 모바일에서 들여쓰기 축소
   @media (max-width: 768px) {
     .ql-indent-1 {
-      padding-left: 2em;
+      padding-left: 1.5em;
     }
     .ql-indent-2 {
-      padding-left: 4em;
+      padding-left: 3em;
     }
     .ql-indent-3 {
-      padding-left: 6em;
+      padding-left: 4.5em;
     }
     .ql-indent-4 {
-      padding-left: 8em;
+      padding-left: 6em;
     }
     .ql-indent-5 {
-      padding-left: 10em;
+      padding-left: 7.5em;
     }
   }
 }
@@ -546,11 +555,24 @@
     // 모바일에서 리스트 패딩 축소
     ol,
     ul {
-      padding-left: 1em;
+      padding-left: 0.8em;
+      margin: 0.3em 0;
     }
 
     li {
-      padding-left: 1em;
+      padding-left: 0.8em;
+      font-size: 14px !important;
+      line-height: 1.6;
+    }
+
+    li[data-list='bullet']::before,
+    li[data-list='ordered']::before,
+    ul > li:not([data-list])::before,
+    ol > li:not([data-list])::before {
+      width: 0.8em;
+      margin-left: -0.8em;
+      margin-right: 0.2em;
+      font-size: 14px;
     }
 
     // 파일 다운로드 링크 모바일 최적화
