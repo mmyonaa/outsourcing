@@ -8,7 +8,7 @@ const router = new Router({ prefix: "/api" });
 const imageUpload = multer({
   storage: multer.memoryStorage(),
   limits: {
-    fileSize: 5 * 1024 * 1024, // 5MB 제한
+    fileSize: 20 * 1024 * 1024, // 20MB 제한
   },
   fileFilter: (_req: any, file: any, cb: any) => {
     if (file.mimetype.startsWith('image/')) {
@@ -23,7 +23,7 @@ const imageUpload = multer({
 const fileUpload = multer({
   storage: multer.memoryStorage(),
   limits: {
-    fileSize: 10 * 1024 * 1024, // 10MB 제한
+    fileSize: 20 * 1024 * 1024, // 20MB 제한
   },
 });
 

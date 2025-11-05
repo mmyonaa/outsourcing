@@ -25,7 +25,11 @@ export const getServer = async () => {
     })
   );
 
-  app.use(bodyParser());
+  app.use(bodyParser({
+    jsonLimit: '20mb',
+    formLimit: '20mb',
+    textLimit: '20mb'
+  }));
 
   // === API 라우터 등록 ===
   const router = new Router();

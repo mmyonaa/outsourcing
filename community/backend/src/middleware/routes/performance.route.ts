@@ -8,7 +8,7 @@ const router = new Router({ prefix: "/api" });
 const upload = multer({
   storage: multer.memoryStorage(),
   limits: {
-    fileSize: 5 * 1024 * 1024, // 5MB 제한
+    fileSize: 20 * 1024 * 1024, // 20MB 제한
   },
   fileFilter: (_req: any, file: any, cb: any) => {
     // 이미지 파일만 허용
