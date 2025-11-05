@@ -16,7 +16,7 @@ export default defineComponent({
         kakao.maps.load(() => {
           const container = document.getElementById('map');
           const options = {
-            center: new kakao.maps.LatLng(37.5665, 126.978),
+            center: new kakao.maps.LatLng(37.5343, 126.9895),
             level: 3
           };
           const map = new kakao.maps.Map(container, options);
@@ -27,7 +27,7 @@ export default defineComponent({
           marker.setMap(map);
 
           kakao.maps.event.addListener(marker, 'click', () => {
-            window.open('https://map.kakao.com/link/map/서울시청,37.5665,126.978', '_blank');
+            window.open('https://map.kakao.com/link/map/서울특별시 용산구 장문로 19길 4,37.5343,126.9895', '_blank');
           });
         });
     }
