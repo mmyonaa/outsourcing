@@ -56,6 +56,14 @@
       <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32x32.png">
       <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon/favicon-16x16.png">
 
+      <!-- Domain Redirect: www to non-www -->
+      <script>
+        // www.bktheater.com을 bktheater.com으로 리디렉션
+        if (window.location.hostname === 'www.bktheater.com') {
+          window.location.replace('https://bktheater.com' + window.location.pathname + window.location.search + window.location.hash);
+        }
+      </script>
+
       <!-- Kakao Map -->
       <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=f7a1f502dacbc4678f9f3d9e6588dd04&autoload=false"></script>
 
