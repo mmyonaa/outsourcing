@@ -89,13 +89,13 @@
   "@type": "PostalAddress",
   "addressCountry": "KR",
   "addressRegion": "서울특별시",
-  "addressLocality": "종로구",
-  "streetAddress": "실제 도로명 주소"
+  "addressLocality": "용산구",
+  "streetAddress": "장문로19길 4 지하"
 },
 "geo": {
   "@type": "GeoCoordinates",
-  "latitude": "실제 위도",
-  "longitude": "실제 경도"
+  "latitude": "37.5343",
+  "longitude": "126.9895"
 }
 ```
 

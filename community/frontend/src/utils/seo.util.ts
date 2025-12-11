@@ -20,8 +20,8 @@ export const setMetaTags = (config: MetaTagsConfig) => {
   if (typeof window === 'undefined') return;
 
   const {
-    title = '보광극장 | 서울 종로구 공연장 대관 및 공연 안내',
-    description = '보광극장은 서울 종로구에 위치한 공연장입니다. 연극, 뮤지컬, 콘서트 등 다양한 공연과 대관 서비스를 제공합니다.',
+    title = '보광극장 | 서울 용산구 공연장 대관 및 공연 안내',
+    description = '보광극장은 서울 용산구에 위치한 공연장입니다. 연극, 뮤지컬, 콘서트 등 다양한 공연과 대관 서비스를 제공합니다.',
     keywords = '보광, 보광극장, 보광 극장, 보광극장 대관, 보광 극장 대관, 보광 극장 공연',
     ogTitle = title,
     ogDescription = description,
@@ -77,14 +77,14 @@ export const setMetaTags = (config: MetaTagsConfig) => {
  */
 export const pageSeoConfig: Record<string, MetaTagsConfig> = {
   home: {
-    title: '보광극장 | 서울 종로구 공연장 대관 및 공연 안내',
-    description: '보광극장은 서울 종로구에 위치한 공연장입니다. 연극, 뮤지컬, 콘서트 등 다양한 공연과 대관 서비스를 제공합니다.',
-    keywords: '보광, 보광극장, 보광 극장, 보광극장 대관, 보광 극장 대관, 보광 극장 공연, 종로 공연장, 서울 공연장',
+    title: '보광극장 | 서울 용산구 공연장 대관 및 공연 안내',
+    description: '보광극장은 서울 용산구에 위치한 공연장입니다. 연극, 뮤지컬, 콘서트 등 다양한 공연과 대관 서비스를 제공합니다.',
+    keywords: '보광, 보광극장, 보광 극장, 보광극장 대관, 보광 극장 대관, 보광 극장 공연, 용산 공연장, 서울 공연장',
   },
   introduce: {
     title: '극장 소개 | 보광극장',
-    description: '보광극장의 역사와 시설을 소개합니다. 서울 종로구에 위치한 문화 공간으로 다양한 공연을 선보입니다.',
-    keywords: '보광극장 소개, 보광 극장 소개, 보광극장 시설, 종로 극장',
+    description: '보광극장의 역사와 시설을 소개합니다. 서울 용산구에 위치한 문화 공간으로 다양한 공연을 선보입니다.',
+    keywords: '보광극장 소개, 보광 극장 소개, 보광극장 시설, 용산 극장',
   },
   introduceOrg: {
     title: '단체 소개 | 보광극장',
@@ -93,13 +93,13 @@ export const pageSeoConfig: Record<string, MetaTagsConfig> = {
   },
   introduceRoute: {
     title: '오시는 길 | 보광극장',
-    description: '보광극장 찾아오시는 길 안내. 서울 종로구에 위치한 보광극장 주소, 교통편, 주차 정보를 확인하세요.',
-    keywords: '보광극장 오시는길, 보광 극장 위치, 보광극장 주소, 보광극장 주차, 종로 극장',
+    description: '보광극장 찾아오시는 길 안내. 서울 용산구에 위치한 보광극장 주소, 교통편, 주차 정보를 확인하세요.',
+    keywords: '보광극장 오시는길, 보광 극장 위치, 보광극장 주소, 보광극장 주차, 용산 극장',
   },
   performance: {
     title: '역대 공연 | 보광극장',
     description: '보광극장에서 진행된 역대 공연 목록을 확인하세요. 연극, 뮤지컬, 콘서트 등 다양한 공연 정보를 제공합니다.',
-    keywords: '보광극장 공연, 보광 극장 공연, 보광극장 역대 공연, 종로 공연, 연극, 뮤지컬',
+    keywords: '보광극장 공연, 보광 극장 공연, 보광극장 역대 공연, 용산 공연, 연극, 뮤지컬',
   },
   performanceNext: {
     title: '예정 공연 | 보광극장',
@@ -109,7 +109,7 @@ export const pageSeoConfig: Record<string, MetaTagsConfig> = {
   rental: {
     title: '극장 대관 | 보광극장',
     description: '보광극장 대관 안내. 공연장 대관을 원하시는 분들을 위한 상세 정보와 시설 안내를 제공합니다.',
-    keywords: '보광극장 대관, 보광 극장 대관, 공연장 대관, 극장 대관, 종로 극장 대관, 대관 안내',
+    keywords: '보광극장 대관, 보광 극장 대관, 공연장 대관, 극장 대관, 용산 극장 대관, 대관 안내',
   },
   rentalInfo: {
     title: '대관 안내 | 보광극장',
