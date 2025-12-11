@@ -86,7 +86,7 @@ export default defineComponent({
 
 <template>
   <div class="page-common notice-page">
-    <h1>공지사항</h1>
+    <h1>알림</h1>
 
     <!-- 검색바 -->
     <div class="search-bar-wrapper">

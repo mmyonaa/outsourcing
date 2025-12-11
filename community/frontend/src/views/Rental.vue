@@ -110,6 +110,7 @@ export default defineComponent({
     font-size: 16px;
     line-height: 1.8;
     color: #333;
+    font-weight: 600;
   }
 
 /* 갤러리 섹션 */

@@ -1,0 +1,31 @@
+# SSL certificates and keys
+*.pem
+*.key
+*.crt
+
+# Configuration files with sensitive data
+*.conf
+myapp.conf
+
+# Node modules
+node_modules/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Build outputs
+dist/
+build/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
