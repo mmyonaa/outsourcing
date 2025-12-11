@@ -3,7 +3,7 @@ import { BasicListDto } from "./basic.dto";
 
 export class SearchBannerDto extends BasicListDto {
   bannerIdx: string | undefined = undefined;
-  activeYn: STATE_YN = STATE_YN.Y;
+  activeYn: STATE_YN | undefined = undefined;
 }
 
 export class BannerEntity {
