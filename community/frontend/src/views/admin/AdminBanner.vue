@@ -19,23 +19,10 @@ export default defineComponent({
 
     const loadBanners = async () => {
       const param = new SearchBannerDto();
+      // activeYn 필터 없이 모든 배너 가져오기 (백엔드에서 기본 배너 포함)
       await getBannerList(apiClient, param).then(res => {
         if (res.resultCode === 0 && res.data) {
-          const allBanners = res.data;
-
-          // 기본 배너가 없으면 추가
-          const hasDefaultBanner = allBanners.some(b => b.isDefault);
-          if (!hasDefaultBanner) {
-            const defaultBanner = new BannerEntity();
-            defaultBanner.bannerIdx = 'default';
-            defaultBanner.isDefault = true;
-            defaultBanner.displayOrder = -1;
-            defaultBanner.swipeDuration = 5;
-            defaultBanner.activeYn = 'Y';
-            allBanners.unshift(defaultBanner);
-          }
-
-          banners.value = allBanners.sort((a, b) => a.displayOrder - b.displayOrder);
+          banners.value = res.data.sort((a, b) => a.displayOrder - b.displayOrder);
         }
       });
     };

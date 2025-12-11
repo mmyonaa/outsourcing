@@ -1,7 +1,7 @@
 import * as bannerRepo from '../repository/banner.repository'
 import { BannerEntity, SearchBannerDto } from '../repository/dto/banner.dto';
 import {sql} from '../provider/database.provider'
-import { RESULT_CODE } from '../../types';
+import { RESULT_CODE, STATE_YN } from '../../types';
 import { CustomError } from '../utils/custom.error';
 
 /**
@@ -10,7 +10,7 @@ import { CustomError } from '../utils/custom.error';
  * @return {Promise<BannerEntity[]>}
  */
 // 기본 배너 활성 상태 (메모리에 저장)
-let defaultBannerActive = 'Y';
+let defaultBannerActive: STATE_YN = STATE_YN.Y;
 
 export const getBannerList = async (
   reqParam: SearchBannerDto,
