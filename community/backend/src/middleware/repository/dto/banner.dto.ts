@@ -17,6 +17,8 @@ export class BannerEntity {
   displayOrder: number = 0;
   // 활성화 여부
   activeYn: STATE_YN = STATE_YN.Y;
+  // 기본 배너 여부
+  isDefault: boolean = false;
   // 등록일시
   regDt: Date | undefined = undefined;
   // 수정일시

@@ -9,11 +9,32 @@ import { CustomError } from '../utils/custom.error';
  * @param {SearchBannerDto} reqParam
  * @return {Promise<BannerEntity[]>}
  */
+// 기본 배너 활성 상태 (메모리에 저장)
+let defaultBannerActive = 'Y';
+
 export const getBannerList = async (
   reqParam: SearchBannerDto,
 ): Promise<BannerEntity[]> => {
  try{
   const data = await bannerRepo.getBannerList(sql, reqParam);
+
+  // 기본 배너를 배너 목록에 추가
+  const defaultBanner = new BannerEntity();
+  defaultBanner.bannerIdx = 'default';
+  defaultBanner.isDefault = true;
+  defaultBanner.displayOrder = -1;
+  defaultBanner.swipeDuration = 5;
+  defaultBanner.activeYn = defaultBannerActive;
+
+  // 기본 배너 추가 (activeYn 필터링 고려)
+  if (!reqParam.activeYn) {
+    // 필터 없으면 항상 추가
+    data.unshift(defaultBanner);
+  } else if (reqParam.activeYn === defaultBannerActive) {
+    // 필터가 있고 상태가 일치하면 추가
+    data.unshift(defaultBanner);
+  }
+
   return data
  } catch (e: any) {
   console.log(e)
@@ -71,6 +92,12 @@ export const updateBanner = async (
   reqParam: BannerEntity,
 ): Promise<BannerEntity> => {
  try{
+  // 기본 배너인 경우 메모리 상태만 업데이트
+  if (reqParam.bannerIdx === 'default' && reqParam.isDefault) {
+    defaultBannerActive = reqParam.activeYn;
+    return reqParam;
+  }
+
   const data = await bannerRepo.updateBanner(sql, reqParam);
   return data
  } catch (e: any) {

@@ -27,14 +27,11 @@ export default defineComponent({
     const currentBannerIndex = ref<number>(0);
     let bannerIntervalId: ReturnType<typeof setInterval> | null = null;
 
-    // 전체 배너 개수 (기본 텍스트 배너 1개 + 이미지 배너들)
-    const totalBannerCount = computed(() => 1 + banners.value.length);
+    // 전체 배너 개수
+    const totalBannerCount = computed(() => banners.value.length);
 
-    // 현재 배너가 기본 텍스트 배너인지 확인 (인덱스 0)
-    const isDefaultBanner = computed(() => currentBannerIndex.value === 0);
-
-    // 현재 이미지 배너의 인덱스 (전체 인덱스 - 1)
-    const currentImageBannerIndex = computed(() => currentBannerIndex.value - 1);
+    // 현재 배너
+    const currentBanner = computed(() => banners.value[currentBannerIndex.value]);
 
     const loadBanners = async () => {
       const param = new SearchBannerDto();
@@ -43,7 +40,8 @@ export default defineComponent({
       await getBannerList(apiClient, param)
         .then(res => {
           if (res.resultCode === 0 && res.data) {
-            banners.value = res.data;
+            // 활성화된 배너만 가져오기 (기본 배너 포함)
+            banners.value = res.data.sort((a, b) => a.displayOrder - b.displayOrder);
             // 항상 자동 슬라이드 시작
             startBannerAutoSlide();
           }
@@ -59,8 +57,8 @@ export default defineComponent({
       }
 
       if (totalBannerCount.value > 1) {
-        // 기본 배너는 5초, 이미지 배너는 설정된 시간
-        const duration = isDefaultBanner.value ? 5 : banners.value[currentImageBannerIndex.value]?.swipeDuration || 5;
+        // 현재 배너의 전환 시간 사용
+        const duration = currentBanner.value?.swipeDuration || 5;
 
         bannerIntervalId = setInterval(() => {
           nextBanner();
@@ -158,8 +156,7 @@ export default defineComponent({
       banners,
       currentBannerIndex,
       totalBannerCount,
-      isDefaultBanner,
-      currentImageBannerIndex,
+      currentBanner,
       activeReserveIndex,
       activeRentalIndex,
       moment,
@@ -180,16 +177,14 @@ export default defineComponent({
     <section class="home-banner-section">
       <div class="banner-slider">
         <transition name="fade" mode="out-in">
-          <!-- 기본 텍스트 배너 (인덱스 0) -->
-          <div v-if="isDefaultBanner" :key="'default'" class="banner-slide default-banner">
-            <div class="banner-text">
-              <h2>보광 극장에 오신 것을 환영합니다!</h2>
-              <p>다양한 공연과 대관 서비스를 만나보세요.</p>
+          <div v-if="currentBanner" :key="currentBannerIndex" class="banner-slide" :class="{ 'default-banner': currentBanner.isDefault }">
+            <!-- 기본 텍스트 배너 -->
+            <div v-if="currentBanner.isDefault" class="banner-text">
+              <h2>보광극장에 오신 것을<br />환영합니다</h2>
+              <p>창작과 실험을 응원하는 극장입니다</p>
             </div>
-          </div>
-          <!-- 이미지 배너들 (인덱스 1 이상) -->
-          <div v-else :key="currentImageBannerIndex" class="banner-slide">
-            <img :src="banners[currentImageBannerIndex].imgUrl" alt="Banner" class="banner-image" @error="handleImageError" />
+            <!-- 이미지 배너 -->
+            <img v-else :src="currentBanner.imgUrl" alt="Banner" class="banner-image" @error="handleImageError" />
           </div>
         </transition>
 

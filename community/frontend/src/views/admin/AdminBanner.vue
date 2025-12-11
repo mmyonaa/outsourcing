@@ -21,7 +21,21 @@ export default defineComponent({
       const param = new SearchBannerDto();
       await getBannerList(apiClient, param).then(res => {
         if (res.resultCode === 0 && res.data) {
-          banners.value = res.data.sort((a, b) => a.displayOrder - b.displayOrder);
+          const allBanners = res.data;
+
+          // 기본 배너가 없으면 추가
+          const hasDefaultBanner = allBanners.some(b => b.isDefault);
+          if (!hasDefaultBanner) {
+            const defaultBanner = new BannerEntity();
+            defaultBanner.bannerIdx = 'default';
+            defaultBanner.isDefault = true;
+            defaultBanner.displayOrder = -1;
+            defaultBanner.swipeDuration = 5;
+            defaultBanner.activeYn = 'Y';
+            allBanners.unshift(defaultBanner);
+          }
+
+          banners.value = allBanners.sort((a, b) => a.displayOrder - b.displayOrder);
         }
       });
     };
@@ -187,16 +201,24 @@ export default defineComponent({
     </div>
 
     <div v-if="banners.length > 0" class="banner-list">
-      <div v-for="banner in banners" :key="banner.bannerIdx" :class="['banner-card', { inactive: banner.activeYn === 'N' }]">
+      <div v-for="banner in banners" :key="banner.bannerIdx" :class="['banner-card', { inactive: banner.activeYn === 'N', 'default-banner-card': banner.isDefault }]">
         <div class="banner-image">
-          <img :src="banner.imgUrl" alt="Banner" />
+          <div v-if="banner.isDefault" class="default-banner-preview">
+            <div class="default-banner-content">
+              <h2>보광극장에 오신 것을<br />환영합니다</h2>
+              <p>창작과 실험을 응원하는 극장입니다</p>
+            </div>
+          </div>
+          <img v-else :src="banner.imgUrl" alt="Banner" />
           <span :class="['status-badge', banner.activeYn === 'Y' ? 'active' : 'inactive']">
             {{ banner.activeYn === 'Y' ? '활성' : '비활성' }}
           </span>
+          <span v-if="banner.isDefault" class="default-badge">기본 배너</span>
         </div>
         <div class="banner-info">
           <div class="banner-meta">
-            <span>순서: {{ banner.displayOrder }}</span>
+            <span v-if="!banner.isDefault">순서: {{ banner.displayOrder }}</span>
+            <span v-else>기본 핑크색 배너</span>
             <span>전환 시간: {{ banner.swipeDuration }}초</span>
           </div>
         </div>
@@ -204,8 +226,8 @@ export default defineComponent({
           <button class="btn-toggle" @click="toggleActive(banner)">
             {{ banner.activeYn === 'Y' ? '비활성화' : '활성화' }}
           </button>
-          <button class="btn-edit" @click="openEditModal(banner)">수정</button>
-          <button class="btn-delete" @click="handleDelete(banner)">삭제</button>
+          <button v-if="!banner.isDefault" class="btn-edit" @click="openEditModal(banner)">수정</button>
+          <button v-if="!banner.isDefault" class="btn-delete" @click="handleDelete(banner)">삭제</button>
         </div>
       </div>
     </div>
@@ -343,6 +365,49 @@ export default defineComponent({
 .status-badge.inactive {
   background: #f44336;
   color: white;
+}
+
+.default-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  background: #736e92;
+  color: white;
+}
+
+.default-banner-preview {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.default-banner-content {
+  text-align: center;
+  color: white;
+  padding: 1rem;
+}
+
+.default-banner-content h2 {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  line-height: 1.4;
+}
+
+.default-banner-content p {
+  font-size: 12px;
+  opacity: 0.9;
+}
+
+.default-banner-card {
+  border: 2px solid #736e92;
 }
 
 .banner-info {
