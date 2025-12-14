@@ -139,7 +139,7 @@ export default defineComponent({
             <li class="menu play" :class="{ active: activeMenu === 'introduce' }" @click="() => onClickMenu('/introduce')">소개</li>
             <li class="menu studio" :class="{ active: activeMenu === 'performance' }" @click="() => onClickMenu('/performance')">활동</li>
             <li class="menu asset" :class="{ active: activeMenu === 'rental' }" @click="() => onClickMenu('/rental')">대관</li>
-            <li class="menu community" :class="{ active: activeMenu === 'notice' }" @click="() => onClickMenu('/notice')">공지사항</li>
+            <li class="menu community" :class="{ active: activeMenu === 'notice' }" @click="() => onClickMenu('/notice')">알림</li>
           </ul>
         </section>
 
@@ -172,7 +172,7 @@ export default defineComponent({
             <li @click="() => onClickMenu('/rental/info')">대관 신청 링크</li>
           </ul>
           <ul class="sub-menu-list community menu">
-            <li @click="() => onClickMenu('/notice')">공지사항</li>
+            <li @click="() => onClickMenu('/notice')">알림</li>
             <li @click="() => onClickMenu('/news')">보도자료</li>
           </ul>
         </section>
@@ -252,13 +252,13 @@ export default defineComponent({
             class="menu community"
             :class="{ opened: isTabletMenuVisibleType === 'notice', active: activeMenu === 'notice' }"
             @click="() => onClickOpenSubMenu('notice')">
-            공지사항
+            알림
             <ArrowDown />
           </li>
           <transition name="dropdown">
             <section v-show="isTabletMenuVisibleType === 'notice'" class="sub-menu-tablet" :class="{ opened: isTabletMenuVisibleType === 'notice' }">
               <ul>
-                <li @click="() => onClickMenu('/notice')">공지사항</li>
+                <li @click="() => onClickMenu('/notice')">알림</li>
                 <li @click="() => onClickMenu('/news')">보도자료</li>
               </ul>
             </section>

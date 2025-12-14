@@ -279,7 +279,7 @@ export default defineComponent({
         <div class="title-wrapper">
           <div class="title">
             <img src="/assets/images/home/notice.png" />
-            공지사항
+            알림
           </div>
           <router-link to="/notice">+ more</router-link>
         </div>

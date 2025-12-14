@@ -140,7 +140,7 @@ export default defineComponent({
             <li class="menu play" :class="{ active: activeMenu === 'banner' }" @click="() => onClickMenu('/banner')">배너</li>
             <li class="menu studio" :class="{ active: activeMenu === 'performance' }" @click="() => onClickMenu('/performance')">활동</li>
             <li class="menu asset" :class="{ active: activeMenu === 'rental' }" @click="() => onClickMenu('/rental')">대관</li>
-            <li class="menu community" :class="{ active: activeMenu === 'notice' }" @click="() => onClickMenu('/notice')">공지사항</li>
+            <li class="menu community" :class="{ active: activeMenu === 'notice' }" @click="() => onClickMenu('/notice')">알림</li>
           </ul>
         </section>
 
