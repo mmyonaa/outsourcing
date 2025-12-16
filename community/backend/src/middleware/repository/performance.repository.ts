@@ -19,7 +19,7 @@ export const getPerfoList = (sql: postgres.Sql, reqParam: SearchPerfoDto) => {
                   ? sql` AND title ILIKE ${"%" + reqParam.keyword + "%"}`
                   : sql``
               }
-    ORDER BY mod_dt DESC
+    ORDER BY reg_dt DESC
     LIMIT ${rows} OFFSET ${offset}
   `;
 };
