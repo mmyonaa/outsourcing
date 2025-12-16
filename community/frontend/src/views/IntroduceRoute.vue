@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, onMounted } from 'vue';
+import { defineComponent, onMounted, ref } from 'vue';
 
 declare global {
   interface Window {
@@ -7,32 +7,54 @@ declare global {
   }
 }
 
-declare const kakao: any;
 export default defineComponent({
-  name: 'Home',
+  name: 'IntroduceRoute',
   setup() {
+    const mapContainer = ref<HTMLElement | null>(null);
+
     onMounted(() => {
-      if (window.kakao) {
-        kakao.maps.load(() => {
-          const container = document.getElementById('map');
-          const options = {
-            center: new kakao.maps.LatLng(37.5343, 126.9895),
-            level: 3
-          };
-          const map = new kakao.maps.Map(container, options);
-
-          const marker = new kakao.maps.Marker({
-            position: options.center
-          });
-          marker.setMap(map);
-
-          kakao.maps.event.addListener(marker, 'click', () => {
-            window.open('https://map.kakao.com/link/map/서울특별시 용산구 장문로 19길 4,37.5343,126.9895', '_blank');
-          });
+      // 카카오맵 SDK가 로드된 후 지도 생성
+      if (window.kakao && window.kakao.maps) {
+        window.kakao.maps.load(() => {
+          initMap();
         });
-    }
-});
-    return {};
+      }
+    });
+
+    const initMap = () => {
+      const container = document.getElementById('kakaoMap');
+      if (!container) return;
+
+      // 보광극장 좌표 (서울 용산구 장문로19길 4)
+      const coords = new window.kakao.maps.LatLng(37.528895, 126.995618);
+
+      const options = {
+        center: coords,
+        level: 3, // 확대 레벨
+      };
+
+      const map = new window.kakao.maps.Map(container, options);
+
+      // 마커 생성
+      const marker = new window.kakao.maps.Marker({
+        position: coords,
+        map: map,
+      });
+
+      // 인포윈도우 생성
+      const infowindow = new window.kakao.maps.InfoWindow({
+        content: '<div style="padding:5px;font-size:12px;white-space:nowrap;">보광극장</div>',
+      });
+      infowindow.open(map, marker);
+
+      // 지도 컨트롤 추가
+      const zoomControl = new window.kakao.maps.ZoomControl();
+      map.addControl(zoomControl, window.kakao.maps.ControlPosition.RIGHT);
+    };
+
+    return {
+      mapContainer,
+    };
   },
 });
 </script>
@@ -43,7 +65,7 @@ export default defineComponent({
     <div class="wrapper">
       <div class="wrapper-item">
         <div class="theater-img">
-          <div id="map" style="width: 100%; height: 400px;"></div>
+          <div id="kakaoMap" style="width: 100%; height: 400px;"></div>
         </div>
         <div class="text">
           <h2>대중교통</h2>
