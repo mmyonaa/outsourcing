@@ -4,7 +4,7 @@ import ApocPagination from '@/components/common/ApocPagination.vue';
 import { useRoute, useRouter } from 'vue-router';
 import { BoardEntity, SearchBoardDto } from '@/api/dto/board.dto';
 import { getBoardList, updateBoard } from '@/api/board.api';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { getApiClient } from '@/utils/apiClient';
 import { setMetaTags, setJsonLd, removeJsonLd, toPlainText } from '@/utils/seo.util';
 
@@ -123,7 +123,7 @@ export default defineComponent({
     return {
       notice,
       totalPage,
-      moment,
+      dayjs,
       goBack
     };
   },
@@ -138,7 +138,7 @@ export default defineComponent({
 
     <div class="notice-meta">
       <span>작성자: {{ notice.author }}</span>
-      <span>작성일: {{ moment(notice.modDt).format('YY.MM.DD') }}</span>
+      <span>작성일: {{ dayjs(notice.modDt).format('YY.MM.DD') }}</span>
       <span>조회수: {{ notice.views }}</span>
     </div>
     <div class="notice-content" v-html="notice.body"></div>

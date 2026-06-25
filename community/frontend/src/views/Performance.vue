@@ -6,7 +6,7 @@ import EmptyState from '@/components/common/EmptyState.vue';
 import { PerfoEntity, SearchPerfoDto } from '@/api/dto/perfo.dto';
 import { getApiClient } from '@/utils/apiClient';
 import { getPerfoList } from '@/api/perfo.api';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { TYPE_PERFO, TYPE_PERFO_CATEGORY } from '@/types';
 
 export default defineComponent({
@@ -100,7 +100,7 @@ export default defineComponent({
     return {
       performances,
       totalPage,
-      moment,
+      dayjs,
       searchKeyword,
       selectedCategory,
       handleSearch,
@@ -304,15 +304,15 @@ export default defineComponent({
 /* 카드 스타일 */
 .performance-card {
   background: white;
-  border-radius: 12px;
+  border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
   transition: all 0.3s;
 }
 
 .performance-card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.12);
 }
 
 .card-link {
@@ -358,7 +358,7 @@ export default defineComponent({
 .category-tag {
   display: inline-block;
   padding: 0.5rem 1.2rem;
-  border-radius: 18px;
+  border-radius: 999px;
   font-size: 14px;
   font-weight: 700;
   letter-spacing: 0.5px;

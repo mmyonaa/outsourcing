@@ -4,7 +4,7 @@ import ApocPagination from '@/components/common/ApocPagination.vue';
 import { useRoute, useRouter } from 'vue-router';
 import { PerfoEntity, SearchPerfoDto } from '@/api/dto/perfo.dto';
 import { getPerfoList, updatePerfo } from '@/api/perfo.api';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { getApiClient } from '@/utils/apiClient';
 import { TYPE_PERFO_CATEGORY } from '@/types';
 import { setMetaTags, setJsonLd, removeJsonLd, toPlainText } from '@/utils/seo.util';
@@ -146,7 +146,7 @@ export default defineComponent({
     return {
       performance,
       totalPage,
-      moment,
+      dayjs,
       goBack,
       getCategoryLabel,
       handleImageError,
@@ -187,7 +187,7 @@ export default defineComponent({
           <div class="notice-meta">
             <span>작성자: {{ performance.author }}</span>
             <span class="meta-divider">·</span>
-            <span>작성일: {{ moment(performance.modDt).format('YY.MM.DD') }}</span>
+            <span>작성일: {{ dayjs(performance.modDt).format('YY.MM.DD') }}</span>
             <span class="meta-divider">·</span>
             <span>조회수: {{ performance.views }}</span>
           </div>

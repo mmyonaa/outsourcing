@@ -9,7 +9,7 @@ import ApocImageSet from '@/components/common/ApocImageSet.vue';
 import { getApiClient } from '@/utils/apiClient';
 import { defineComponent, onMounted, onUnmounted, ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { TYPE_BOARD, TYPE_PERFO, TYPE_PERFO_CATEGORY } from '@/types';
 
 export default defineComponent({
@@ -159,7 +159,7 @@ export default defineComponent({
       currentBanner,
       activeReserveIndex,
       activeRentalIndex,
-      moment,
+      dayjs,
       onClickRental,
       handleImageError,
       getCategoryLabel,
@@ -286,7 +286,7 @@ export default defineComponent({
         <div class="card-grid">
           <router-link v-for="notice in notices.slice(0, 3)" :key="notice.boardIdx" :to="`/notice/${notice.boardIdx}`" class="notice-card">
             <div class="title">{{ notice.title }}</div>
-            <div class="date">{{ moment(notice.regDt).format('YY.MM.DD') }}</div>
+            <div class="date">{{ dayjs(notice.regDt).format('YY.MM.DD') }}</div>
           </router-link>
         </div>
       </section>

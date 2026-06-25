@@ -6,7 +6,7 @@ import EmptyState from '@/components/common/EmptyState.vue';
 import { PerfoEntity, SearchPerfoDto } from '@/api/dto/perfo.dto';
 import { getApiClient } from '@/utils/apiClient';
 import { getPerfoList } from '@/api/perfo.api';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { STATE_YN, TYPE_PERFO, TYPE_PERFO_CATEGORY } from '@/types';
 import { useAsyncData } from '@/composables/useAsyncData';
 
@@ -109,7 +109,7 @@ export default defineComponent({
     return {
       perfos,
       totalPage,
-      moment,
+      dayjs,
       STATE_YN,
       searchKeyword,
       selectedCategory,
@@ -204,7 +204,7 @@ export default defineComponent({
           <div class="col type">{{ getCategoryLabel(perfo.category) }}</div>
           <div class="col author">{{ perfo.author }}</div>
           <div class="col views">{{ perfo.views }}</div>
-          <div class="col date">{{ moment(perfo.modDt).format('YY.MM.DD') }}</div>
+          <div class="col date">{{ dayjs(perfo.modDt).format('YY.MM.DD') }}</div>
         </div>
 
         <!-- 모바일 카드 -->
@@ -213,7 +213,7 @@ export default defineComponent({
             {{ perfo.title }}
           </div>
           <div class="meta">
-            <span>{{ getCategoryLabel(perfo.category) }}</span> · <span>{{ moment(perfo.modDt).format('YY.MM.DD') }}</span> ·
+            <span>{{ getCategoryLabel(perfo.category) }}</span> · <span>{{ dayjs(perfo.modDt).format('YY.MM.DD') }}</span> ·
             <span>조회수 {{ perfo.views }}</span>
           </div>
         </div>

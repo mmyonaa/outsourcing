@@ -6,7 +6,7 @@ import EmptyState from '@/components/common/EmptyState.vue';
 import { BoardEntity, SearchBoardDto } from '@/api/dto/board.dto';
 import { getApiClient } from '@/utils/apiClient';
 import { getBoardList, updateBoard } from '@/api/board.api';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { STATE_YN, TYPE_BOARD } from '@/types';
 
 export default defineComponent({
@@ -73,7 +73,7 @@ export default defineComponent({
     return {
       notices,
       totalPage,
-      moment,
+      dayjs,
       STATE_YN,
       searchKeyword,
       handleSearch,
@@ -128,7 +128,7 @@ export default defineComponent({
           <div class="col title">{{ notice.title }}</div>
           <div class="col views">{{ notice.views }}</div>
           <div class="col author">{{ notice.author }}</div>
-          <div class="col date">{{ moment(notice.regDt).format('YY.MM.DD') }}</div>
+          <div class="col date">{{ dayjs(notice.regDt).format('YY.MM.DD') }}</div>
         </div>
 
         <!-- 모바일 카드 -->
@@ -138,7 +138,7 @@ export default defineComponent({
             {{ notice.title }}
           </div>
           <div class="meta">
-            <span>{{ notice.author }}</span> · <span>{{ moment(notice.regDt).format('YY.MM.DD') }}</span> ·
+            <span>{{ notice.author }}</span> · <span>{{ dayjs(notice.regDt).format('YY.MM.DD') }}</span> ·
             <span>조회수 {{ notice.views }}</span>
           </div>
         </div>
