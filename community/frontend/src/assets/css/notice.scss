@@ -331,12 +331,18 @@
 .notice-meta {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 1rem;
   font-size: 14px;
   color: #666;
   margin-bottom: 1.5rem;
   border-bottom: 1px solid $colorGray200;
   padding-bottom: 0.8rem;
+
+  // 공유 버튼은 메타 우측 끝으로
+  .apoc-share-button {
+    margin-left: auto;
+  }
 }
 
 .notice-content {

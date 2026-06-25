@@ -1,6 +1,7 @@
 <script lang="ts">
 import { defineComponent, onMounted, onUnmounted, ref } from 'vue';
 import ApocPagination from '@/components/common/ApocPagination.vue';
+import ApocShareButton from '@/components/common/ApocShareButton.vue';
 import { useRoute, useRouter } from 'vue-router';
 import { BoardEntity, SearchBoardDto } from '@/api/dto/board.dto';
 import { getBoardList, updateBoard } from '@/api/board.api';
@@ -10,7 +11,7 @@ import { setMetaTags, setJsonLd, removeJsonLd, toPlainText } from '@/utils/seo.u
 
 export default defineComponent({
   name: 'newsDetail',
-  components: { ApocPagination },
+  components: { ApocPagination, ApocShareButton },
   setup() {
     const totalPage = ref<number>(0); // 총 페이지
     const route = useRoute();
@@ -138,6 +139,7 @@ export default defineComponent({
         <span>작성자: {{ notice.author }}</span>
         <span>작성일: {{ dayjs(notice.modDt).format('YY.MM.DD') }}</span>
         <span>조회수: {{ notice.views }}</span>
+        <apoc-share-button :title="notice.title" />
       </div>
       <div class="notice-content" v-html="notice.body"></div>
 

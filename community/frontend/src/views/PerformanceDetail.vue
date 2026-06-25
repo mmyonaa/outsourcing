@@ -1,6 +1,7 @@
 <script lang="ts">
 import { defineComponent, onMounted, onUnmounted, ref } from 'vue';
 import ApocPagination from '@/components/common/ApocPagination.vue';
+import ApocShareButton from '@/components/common/ApocShareButton.vue';
 import { useRoute, useRouter } from 'vue-router';
 import { PerfoEntity, SearchPerfoDto } from '@/api/dto/perfo.dto';
 import { getPerfoList, updatePerfo } from '@/api/perfo.api';
@@ -11,7 +12,7 @@ import { setMetaTags, setJsonLd, removeJsonLd, toPlainText } from '@/utils/seo.u
 
 export default defineComponent({
   name: 'performanceDetail',
-  components: { ApocPagination },
+  components: { ApocPagination, ApocShareButton },
   setup() {
     const totalPage = ref<number>(0);
     const route = useRoute();
@@ -185,6 +186,7 @@ export default defineComponent({
             <span>작성일: {{ dayjs(performance.modDt).format('YY.MM.DD') }}</span>
             <span class="meta-divider">·</span>
             <span>조회수: {{ performance.views }}</span>
+            <apoc-share-button :title="performance.title" :text="performance.titleSec" />
           </div>
 
           <div class="notice-content" v-html="performance.body"></div>
