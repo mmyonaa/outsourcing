@@ -310,6 +310,13 @@ export default defineComponent({
       position: relative;
       width: 100%;
       height: 100%;
+
+      &.default-banner {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
     }
 
     .banner-image {
