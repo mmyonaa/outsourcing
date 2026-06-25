@@ -1,6 +1,6 @@
 <script lang="ts">
-import { defineComponent, onMounted, ref, watch } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { defineComponent } from 'vue';
+import { useRouter } from 'vue-router';
 import ApocPagination from '@/components/common/ApocPagination.vue';
 import EmptyState from '@/components/common/EmptyState.vue';
 import { BoardEntity, SearchBoardDto } from '@/api/dto/board.dto';
@@ -8,43 +8,35 @@ import { getApiClient } from '@/utils/apiClient';
 import { getBoardList } from '@/api/board.api';
 import dayjs from 'dayjs';
 import { STATE_YN, TYPE_BOARD } from '@/types';
-import { useAsyncData } from '@/composables/useAsyncData';
+import { useAdminList } from '@/composables/useAdminList';
 
 export default defineComponent({
   name: 'adminNotice',
   components: { ApocPagination, EmptyState },
   setup() {
-    const route = useRoute();
     const router = useRouter();
-    const totalPage = ref<number>(0); // 총 페이지
     const apiClient = getApiClient();
-    const notices = ref<BoardEntity[]>([]);
-    const searchKeyword = ref<string>('');
-    const ROWS_PER_PAGE = 10; // 한 페이지당 10개
-    const { isLoading, error, run } = useAsyncData();
 
-    const loadBoardLit = () =>
-      run(async () => {
-        const currentPage = route.query.pageNo ? Number(route.query.pageNo) : 1;
+    const {
+      items: notices,
+      totalPage,
+      searchKeyword,
+      isLoading,
+      error,
+      load: loadBoardLit,
+      goFirstPageAndLoad: handleSearch,
+    } = useAdminList<BoardEntity, SearchBoardDto>({
+      rows: 10,
+      buildParam: ({ page, rows, keyword }) => {
         const param = new SearchBoardDto();
         param.boardType = TYPE_BOARD.NORMAL;
-        param.keyword = searchKeyword.value || undefined;
-        param.page = currentPage;
-        param.rows = ROWS_PER_PAGE;
-
-        const res = await getBoardList(apiClient, param);
-        if (res.resultCode === 0 && res.data) {
-          notices.value = res.data;
-          // totalCount를 사용하여 totalPage 계산
-          totalPage.value = res.totalCount ? Math.ceil(res.totalCount / ROWS_PER_PAGE) : 0;
-        }
-      });
-
-    const handleSearch = () => {
-      // 검색 시 1페이지로 이동하고 데이터 로드
-      router.push({ query: { ...route.query, pageNo: 1 } });
-      loadBoardLit();
-    };
+        param.keyword = keyword;
+        param.page = page;
+        param.rows = rows;
+        return param;
+      },
+      fetch: param => getBoardList(apiClient, param),
+    });
 
     const assignNotice = () => {
       router.push('/admin/notice/assign');
@@ -56,17 +48,6 @@ export default defineComponent({
       }
     };
 
-    // 페이지 번호 변경 감지
-    watch(
-      () => route.query.pageNo,
-      () => {
-        loadBoardLit();
-      }
-    );
-
-    onMounted(() => {
-      loadBoardLit();
-    });
     return {
       notices,
       totalPage,
