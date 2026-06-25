@@ -215,11 +215,11 @@
   // 모바일
   .mobile-card {
     border: 1px solid #e1e1e1;
-    border-radius: 8px;
+    border-radius: 16px;
     padding: 2rem;
     margin-bottom: 1rem;
     background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
 
     &.important {
       background-color: $colorEditorHover;
@@ -314,10 +314,10 @@
   margin: 2rem auto;
   padding: 2rem;
   border: 1px solid #e0e0e0;
-  border-radius: 12px;
+  border-radius: 16px;
   background-color: #fff;
   font-family: 'Pretendard', sans-serif;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
 }
 
 .notice-title {
