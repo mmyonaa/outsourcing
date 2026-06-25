@@ -73,6 +73,51 @@ export const setMetaTags = (config: MetaTagsConfig) => {
 };
 
 /**
+ * HTML 문자열에서 태그를 제거하고 메타 description 용으로 길이를 제한한다.
+ */
+export const toPlainText = (html: string | undefined, maxLength = 160): string => {
+  if (!html) return '';
+  const text = html
+    .replace(/<[^>]*>/g, ' ')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/\s+/g, ' ')
+    .trim();
+  return text.length > maxLength ? `${text.slice(0, maxLength - 1).trim()}…` : text;
+};
+
+/**
+ * JSON-LD 구조화 데이터를 head에 삽입하거나 교체한다.
+ * data-seo 속성으로 식별하여 페이지 이동 시 갱신/제거할 수 있다.
+ */
+export const setJsonLd = (id: string, data: Record<string, unknown>) => {
+  if (typeof document === 'undefined') return;
+  const selector = `script[type="application/ld+json"][data-seo="${id}"]`;
+  let script = document.querySelector(selector) as HTMLScriptElement | null;
+  if (!script) {
+    script = document.createElement('script');
+    script.type = 'application/ld+json';
+    script.setAttribute('data-seo', id);
+    document.head.appendChild(script);
+  }
+  script.textContent = JSON.stringify(data);
+};
+
+/**
+ * setJsonLd로 삽입한 구조화 데이터를 제거한다. (상세페이지 이탈 시 stale 방지)
+ */
+export const removeJsonLd = (id: string) => {
+  if (typeof document === 'undefined') return;
+  const script = document.querySelector(
+    `script[type="application/ld+json"][data-seo="${id}"]`,
+  );
+  if (script) script.remove();
+};
+
+/**
  * 페이지별 SEO 설정
  */
 export const pageSeoConfig: Record<string, MetaTagsConfig> = {
@@ -125,5 +170,10 @@ export const pageSeoConfig: Record<string, MetaTagsConfig> = {
     title: '공지사항 | 보광극장',
     description: '보광극장의 최신 소식과 공지사항을 확인하세요.',
     keywords: '보광극장 공지사항, 보광 극장 소식, 공연장 공지',
+  },
+  news: {
+    title: '보도자료 | 보광극장',
+    description: '보광극장 관련 보도자료와 언론 보도 소식을 확인하세요.',
+    keywords: '보광극장 보도자료, 보광 극장 언론, 공연장 뉴스',
   },
 };

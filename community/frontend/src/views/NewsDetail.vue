@@ -1,11 +1,12 @@
 <script lang="ts">
-import { defineComponent, onMounted, ref } from 'vue';
+import { defineComponent, onMounted, onUnmounted, ref } from 'vue';
 import ApocPagination from '@/components/common/ApocPagination.vue';
 import { useRoute, useRouter } from 'vue-router';
 import { BoardEntity, SearchBoardDto } from '@/api/dto/board.dto';
 import { getBoardList, updateBoard } from '@/api/board.api';
 import moment from 'moment';
 import { getApiClient } from '@/utils/apiClient';
+import { setMetaTags, setJsonLd, removeJsonLd, toPlainText } from '@/utils/seo.util';
 
 export default defineComponent({
   name: 'newsDetail',
@@ -37,6 +38,33 @@ export default defineComponent({
       notice.value.boardIdx = String(noticeIdx);
       notice.value.views++;
       await updateBoard(apiClient, notice.value);
+    };
+
+    // 로드된 글 내용으로 메타/OG/JSON-LD 갱신
+    const applySeo = () => {
+      if (!notice.value.title) return;
+      const description = toPlainText(notice.value.body);
+      setMetaTags({
+        title: `${notice.value.title} | 보광극장`,
+        description,
+        ogTitle: `${notice.value.title} | 보광극장`,
+        ogDescription: description,
+      });
+      setJsonLd('article', {
+        '@context': 'https://schema.org',
+        '@type': 'NewsArticle',
+        headline: notice.value.title,
+        description,
+        datePublished: notice.value.regDt,
+        dateModified: notice.value.modDt,
+        author: { '@type': 'Organization', name: notice.value.author || '보광극장' },
+        publisher: {
+          '@type': 'Organization',
+          name: '보광극장',
+          logo: { '@type': 'ImageObject', url: 'https://www.bktheater.com/assets/og-image.jpg' },
+        },
+        mainEntityOfPage: window.location.href,
+      });
     };
 
     const setupFileDownloadLinks = () => {
@@ -81,8 +109,13 @@ export default defineComponent({
 
     onMounted(async () => {
       await loadBoardDetail();
+      applySeo();
       await updateViews();
       setupFileDownloadLinks();
+    });
+
+    onUnmounted(() => {
+      removeJsonLd('article');
     });
 
     return {

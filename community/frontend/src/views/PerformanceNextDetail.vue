@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, onMounted, ref } from 'vue';
+import { defineComponent, onMounted, onUnmounted, ref } from 'vue';
 import ApocPagination from '@/components/common/ApocPagination.vue';
 import { useRoute, useRouter } from 'vue-router';
 import { PerfoEntity, SearchPerfoDto } from '@/api/dto/perfo.dto';
@@ -7,6 +7,7 @@ import { getPerfoList, updatePerfo } from '@/api/perfo.api';
 import moment from 'moment';
 import { getApiClient } from '@/utils/apiClient';
 import { TYPE_PERFO_CATEGORY } from '@/types';
+import { setMetaTags, setJsonLd, removeJsonLd, toPlainText } from '@/utils/seo.util';
 
 export default defineComponent({
   name: 'performanceNextDetail',
@@ -51,6 +52,39 @@ export default defineComponent({
       performance.value.perIdx = String(perfoIdx);
       performance.value.views++;
       await updatePerfo(apiClient, performance.value);
+    };
+
+    // 로드된 공연 내용으로 메타/OG/JSON-LD 갱신
+    const applySeo = () => {
+      if (!performance.value.title) return;
+      const description = toPlainText(performance.value.body);
+      const ogImage = performance.value.imgUrl || undefined;
+      setMetaTags({
+        title: `${performance.value.title} | 보광극장`,
+        description,
+        ogTitle: `${performance.value.title} | 보광극장`,
+        ogDescription: description,
+        ...(ogImage ? { ogImage } : {}),
+      });
+      setJsonLd('article', {
+        '@context': 'https://schema.org',
+        '@type': 'TheaterEvent',
+        name: performance.value.title,
+        description,
+        ...(ogImage ? { image: ogImage } : {}),
+        eventStatus: 'https://schema.org/EventScheduled',
+        location: {
+          '@type': 'PerformingArtsTheater',
+          name: '보광극장',
+          address: {
+            '@type': 'PostalAddress',
+            addressLocality: '서울 용산구',
+            addressCountry: 'KR',
+          },
+        },
+        organizer: { '@type': 'Organization', name: '보광극장' },
+        url: window.location.href,
+      });
     };
 
     const handleImageError = (event: Event) => {
@@ -100,8 +134,13 @@ export default defineComponent({
 
     onMounted(async () => {
       await loadPerfoDetail();
+      applySeo();
       await updateViews();
       setupFileDownloadLinks();
+    });
+
+    onUnmounted(() => {
+      removeJsonLd('article');
     });
 
     return {
