@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host --port 4000",
-    "build": "run-p type-check build-ssg",
+    "generate-sitemap": "node scripts/generate-sitemap.mjs",
+    "build": "npm run generate-sitemap && run-p type-check build-ssg",
     "preview": "vite preview",
     "start": "vite preview --host 0.0.0.0",
     "test:unit": "vitest",
