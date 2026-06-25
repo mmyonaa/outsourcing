@@ -136,7 +136,7 @@ export default defineComponent({
     <h1>공지사항 상세</h1>
     <div class="notice-detail">
     <div class="notice-title-row">
-      <div class="notice-title"># {{ notice.title}}</div>
+      <div class="notice-title">{{ notice.title }}</div>
       <apoc-share-button :title="notice.title" />
     </div>
 

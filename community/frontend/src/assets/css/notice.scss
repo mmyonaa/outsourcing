@@ -322,9 +322,9 @@
 }
 
 .notice-title {
-  font-size: 18px;
-  font-weight: 500;
-  margin-bottom: 2rem;
+  font-size: 19px;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
   color: $colorGray900;
 }
 
@@ -534,19 +534,20 @@
 }
 
 .back-button {
-  background-color: $colorPrimaryMute;
-  color: white;
-  border: none;
-  padding: 1rem 1.5rem;
+  background-color: #fff;
+  color: $colorPrimary;
+  border: 1px solid $colorPrimary;
+  padding: 0.85rem 1.5rem;
   font-size: 14px;
-  font-weight: bold;
+  font-weight: 600;
   border-radius: 8px;
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 .back-button:hover {
   background-color: $colorPrimary;
+  color: #fff;
 }
 
 /* ✅ 모바일 대응 */
