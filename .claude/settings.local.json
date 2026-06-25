@@ -14,7 +14,10 @@
       "Bash(ls -1 *.md)",
       "Bash(ls -d docs)",
       "Bash(git mv *)",
-      "Bash(git -C /Users/hyonah/my/outsourcing status --short)"
+      "Bash(git -C /Users/hyonah/my/outsourcing status --short)",
+      "Bash(git rm *)",
+      "Bash(git check-ignore *)",
+      "Bash(grep -E \"backend/\\\\.env$\")"
     ],
     "deny": [],
     "ask": []
