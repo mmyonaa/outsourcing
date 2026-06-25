@@ -175,7 +175,10 @@ export default defineComponent({
             </span>
           </div>
 
-          <h2 class="perfo-title">{{ performance.title }}</h2>
+          <div class="title-row">
+            <h2 class="perfo-title">{{ performance.title }}</h2>
+            <apoc-share-button :title="performance.title" :text="performance.titleSec" />
+          </div>
 
           <p v-if="performance.titleSec" class="subtitle">{{ performance.titleSec }}</p>
           <p v-if="performance.titleThird" class="subtitle-small">{{ performance.titleThird }}</p>
@@ -186,7 +189,6 @@ export default defineComponent({
             <span>작성일: {{ dayjs(performance.modDt).format('YY.MM.DD') }}</span>
             <span class="meta-divider">·</span>
             <span>조회수: {{ performance.views }}</span>
-            <apoc-share-button :title="performance.title" :text="performance.titleSec" />
           </div>
 
           <div class="notice-content" v-html="performance.body"></div>
@@ -275,12 +277,26 @@ export default defineComponent({
   border: 1px solid rgba(88, 84, 64, 0.28);
 }
 
+.title-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.title-row :deep(.apoc-share-button) {
+  flex-shrink: 0;
+}
+
 .perfo-title {
   font-size: 24px;
   font-weight: 700;
   color: #1a1a1a;
   line-height: 1.4;
-  margin: 0 0 0.75rem;
+  margin: 0;
+  flex: 1;
+  min-width: 0;
   word-break: keep-all;
 }
 

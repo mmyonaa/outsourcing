@@ -135,13 +135,15 @@ export default defineComponent({
   <div class="page-common notice-page">
     <h1>공지사항 상세</h1>
     <div class="notice-detail">
-    <div class="notice-title"># {{ notice.title}}</div>
+    <div class="notice-title-row">
+      <div class="notice-title"># {{ notice.title}}</div>
+      <apoc-share-button :title="notice.title" />
+    </div>
 
     <div class="notice-meta">
       <span>작성자: {{ notice.author }}</span>
       <span>작성일: {{ dayjs(notice.modDt).format('YY.MM.DD') }}</span>
       <span>조회수: {{ notice.views }}</span>
-      <apoc-share-button :title="notice.title" />
     </div>
     <div class="notice-content" v-html="notice.body"></div>
 

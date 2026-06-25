@@ -54,8 +54,8 @@ export default defineComponent({
   <button type="button" class="apoc-share-button" :class="{ copied }" @click="onShare" aria-label="공유하기">
     <svg
       v-if="!copied"
-      width="15"
-      height="15"
+      width="18"
+      height="18"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -70,8 +70,8 @@ export default defineComponent({
     </svg>
     <svg
       v-else
-      width="15"
-      height="15"
+      width="18"
+      height="18"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -88,13 +88,13 @@ export default defineComponent({
 .apoc-share-button {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
-  padding: 0.45rem 0.9rem;
+  gap: 0.5rem;
+  padding: 0.65rem 1.25rem;
   border: 1px solid #e0e0e0;
   border-radius: 999px;
   background: #fff;
   color: #555;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 600;
   line-height: 1;
   cursor: pointer;

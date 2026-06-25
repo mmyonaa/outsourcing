@@ -328,21 +328,32 @@
   color: $colorGray900;
 }
 
+// 제목 + 공유 버튼 한 줄 (공유 버튼은 우측)
+.notice-title-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+
+  .notice-title {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .apoc-share-button {
+    flex-shrink: 0;
+  }
+}
+
 .notice-meta {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
   gap: 1rem;
   font-size: 14px;
   color: #666;
   margin-bottom: 1.5rem;
   border-bottom: 1px solid $colorGray200;
   padding-bottom: 0.8rem;
-
-  // 공유 버튼은 메타 우측 끝으로
-  .apoc-share-button {
-    margin-left: auto;
-  }
 }
 
 .notice-content {
