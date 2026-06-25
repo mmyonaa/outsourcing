@@ -12,6 +12,11 @@ export const getBannerList = (sql: postgres.Sql, reqParam: SearchBannerDto) => {
               ? sql` AND banner_idx =${reqParam.bannerIdx}`
               : sql``
           }
+          ${
+            reqParam.activeYn
+              ? sql` AND active_yn =${reqParam.activeYn}`
+              : sql``
+          }
     ORDER BY display_order ASC, mod_dt DESC
   `;
 };
@@ -28,6 +33,11 @@ export const getBannerListCount = (
           ${
             reqParam.bannerIdx
               ? sql` AND banner_idx =${reqParam.bannerIdx}`
+              : sql``
+          }
+          ${
+            reqParam.activeYn
+              ? sql` AND active_yn =${reqParam.activeYn}`
               : sql``
           }
   `;
