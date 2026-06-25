@@ -14,7 +14,7 @@ export default defineComponent({
     const totalPage = ref<number>(0); // 총 페이지
     const route = useRoute();
     const router = useRouter();
-    const noticeIdx = route.query.id;
+    const noticeIdx = route.params.id;
     const notice = ref<BoardEntity>(new BoardEntity());
     const apiClient = getApiClient();
 

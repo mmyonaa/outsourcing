@@ -15,7 +15,7 @@ export default defineComponent({
     const totalPage = ref<number>(0);
     const route = useRoute();
     const router = useRouter();
-    const perfoIdx = route.query.id;
+    const perfoIdx = route.params.id;
     const performance = ref<PerfoEntity>(new PerfoEntity());
     const apiClient = getApiClient();
 

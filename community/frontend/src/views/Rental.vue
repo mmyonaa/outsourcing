@@ -65,7 +65,7 @@ export default defineComponent({
 
       <!-- 우측: 추가 이미지 -->
       <div class="info-section">
-        <router-link to="/notice/detail?id=57275967-0e45-4878-b639-7a78c60bebe5" class="down-link">
+        <router-link to="/notice/57275967-0e45-4878-b639-7a78c60bebe5" class="down-link">
           대관 관련 자료 다운받기
         </router-link>
         <img src="/assets/images/theater/pyo.png" alt="극장 정보" class="info-image" />

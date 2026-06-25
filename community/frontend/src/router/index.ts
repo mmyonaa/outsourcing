@@ -31,7 +31,7 @@ export const routesList = [
     component: () => import('../views/Performance.vue'),
   },
   {
-    path: '/performance/detail',
+    path: '/performance/:id',
     name: 'performanceDetail',
     component: () => import('../views/PerformanceDetail.vue'),
   },
@@ -42,7 +42,7 @@ export const routesList = [
     component: () => import('../views/PerformanceNext.vue'),
   },
   {
-    path: '/performance/next/detail',
+    path: '/performance/next/:id',
     name: 'performanceNextDetail',
     component: () => import('../views/PerformanceNextDetail.vue'),
   },
@@ -73,7 +73,7 @@ export const routesList = [
     component: () => import('../views/Notice.vue'),
   },
   {
-    path: '/notice/detail',
+    path: '/notice/:id',
     name: 'noticeDetail',
     component: () => import('../views/NoticeDetail.vue'),
   },
@@ -84,7 +84,7 @@ export const routesList = [
     component: () => import('../views/News.vue'),
   },
   {
-    path: '/news/detail',
+    path: '/news/:id',
     name: 'newsDetail',
     component: () => import('../views/NewsDetail.vue'),
   },

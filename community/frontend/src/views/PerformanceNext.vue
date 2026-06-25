@@ -156,7 +156,7 @@ export default defineComponent({
     <!-- 결과가 있을 때 -->
     <div v-if="performances.length > 0" class="performance-grid">
       <div class="performance-card" v-for="(performance, index) in performances" :key="performance.perIdx">
-        <router-link :to="`/performance/next/detail?id=${performance.perIdx}`" class="card-link">
+        <router-link :to="`/performance/next/${performance.perIdx}`" class="card-link">
           <div class="card-image">
             <img :src="performance.imgUrl || '/assets/images/common/default-thumbnail.svg'" :alt="performance.title" @error="handleImageError" />
           </div>

@@ -221,7 +221,7 @@ export default defineComponent({
           <router-link
             v-for="(performance, index) in normalPerformances"
             :key="performance.perIdx"
-            :to="`/performance/detail?id=${performance.perIdx}`"
+            :to="`/performance/${performance.perIdx}`"
             class="poster"
             :class="{ active: activeRentalIndex === index }"
             @mouseenter="activeRentalIndex = index">
@@ -254,7 +254,7 @@ export default defineComponent({
           <router-link
             v-for="(performance, index) in nextPerformances"
             :key="performance.perIdx"
-            :to="`/performance/detail?id=${performance.perIdx}`"
+            :to="`/performance/${performance.perIdx}`"
             class="poster"
             :class="{ active: activeReserveIndex === index }"
             @mouseenter="activeReserveIndex = index">
@@ -284,7 +284,7 @@ export default defineComponent({
           <router-link to="/notice">+ more</router-link>
         </div>
         <div class="card-grid">
-          <router-link v-for="notice in notices.slice(0, 3)" :key="notice.boardIdx" :to="`/notice/detail?id=${notice.boardIdx}`" class="notice-card">
+          <router-link v-for="notice in notices.slice(0, 3)" :key="notice.boardIdx" :to="`/notice/${notice.boardIdx}`" class="notice-card">
             <div class="title">{{ notice.title }}</div>
             <div class="date">{{ moment(notice.regDt).format('YY.MM.DD') }}</div>
           </router-link>
