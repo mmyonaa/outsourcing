@@ -98,9 +98,9 @@
 
     .poster {
       background: white;
-      border-radius: 16px;
+      border-radius: $radiusLg;
       overflow: hidden;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+      box-shadow: $shadowMd;
       text-decoration: none;
       color: inherit;
       display: block;
@@ -109,7 +109,7 @@
         width: 100%;
         aspect-ratio: 3 / 4;
         overflow: hidden;
-        background: #f5f5f5;
+        background: $colorGray50;
 
         img {
           width: 100%;
@@ -164,7 +164,7 @@
         .poster-title {
           font-size: 16px;
           font-weight: 700;
-          color: #333;
+          color: $colorGray800;
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
@@ -177,7 +177,7 @@
         .poster-subtitle {
           font-size: 15px;
           font-weight: 500;
-          color: #555;
+          color: $colorGray700;
           overflow: hidden;
           text-overflow: ellipsis;
           display: -webkit-box;
@@ -255,7 +255,7 @@
     justify-content: space-between;
     min-height: 160px;
     text-decoration: none;
-    color: #222;
+    color: $colorGray900;
 
     &:hover {
       transform: translateY(-4px);
@@ -272,14 +272,14 @@
     .date {
       margin-top: auto;
       font-size: 14px;
-      color: #888;
+      color: $colorGray600;
     }
   }
 
   .empty-message {
     text-align: center;
     padding: 3rem 1rem;
-    color: #999;
+    color: $colorGray500;
     font-size: 16px;
     font-weight: 500;
   }

@@ -15,7 +15,7 @@
         display: none;
       }
       .header-external-wrapper {
-        background-color: #f5f5f5;
+        background-color: $colorGray50;
         padding: 0 3rem;
         height: 4rem;
         .external-list {
@@ -232,7 +232,7 @@
   }
   .write-editor-section {
     min-height: 100%;
-    background-color: #f5f5f5;
+    background-color: $colorGray50;
     display: flex;
     flex-direction: column;
     @include tablet {

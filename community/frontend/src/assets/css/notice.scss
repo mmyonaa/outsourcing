@@ -28,7 +28,7 @@
       font-family: 'Pretendard', sans-serif;
 
       &::placeholder {
-        color: #999;
+        color: $colorGray500;
       }
 
       &:focus {
@@ -68,7 +68,7 @@
       padding: 1.2rem 1.5rem;
       font-size: 16px;
       font-weight: 600;
-      color: #888;
+      color: $colorGray600;
       background: transparent;
       border: none;
       border-radius: 8px;
@@ -84,7 +84,7 @@
       }
 
       &:hover {
-        color: #555;
+        color: $colorGray700;
         background: rgba(0, 0, 0, 0.05);
 
         .reset-icon {
@@ -146,7 +146,7 @@
       padding: 10px;
       // margin-top: 2rem;
       // margin-bottom: 2rem;
-      border: 1px solid #ccc;
+      border: 1px solid $colorGray300;
       border-radius: 4px;
     }
 
@@ -154,7 +154,7 @@
       width: 100%;
       height: 200px;
       padding: 10px;
-      border: 1px solid #ccc;
+      border: 1px solid $colorGray300;
       border-radius: 4px;
       resize: vertical;
       font-size: 14px;
@@ -176,7 +176,7 @@
     grid-template-columns: 30px 50px 1fr 80px 100px 120px;
     padding: 1.5rem 2.5rem;
     font-weight: 600;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid $colorGray200;
     &.important {
       background-color: $colorEditorHover;
     }
@@ -215,11 +215,11 @@
   // 모바일
   .mobile-card {
     border: 1px solid #e1e1e1;
-    border-radius: 16px;
+    border-radius: $radiusLg;
     padding: 2rem;
     margin-bottom: 1rem;
     background-color: #fff;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    box-shadow: $shadowMd;
 
     &.important {
       background-color: $colorEditorHover;
@@ -242,7 +242,7 @@
     }
 
     .meta {
-      color: #555;
+      color: $colorGray700;
       font-size: 14px;
       word-break: keep-all;
       line-height: 1.6;
@@ -314,7 +314,7 @@
   margin: 2rem auto;
   padding: 2rem;
   border: 1px solid #e0e0e0;
-  border-radius: 16px;
+  border-radius: $radiusLg;
   background-color: #fff;
   font-family: 'Pretendard', sans-serif;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
@@ -324,7 +324,7 @@
   font-size: 18px;
   font-weight: 500;
   margin-bottom: 2rem;
-  color: #222;
+  color: $colorGray900;
 }
 
 .notice-meta {
@@ -334,7 +334,7 @@
   font-size: 14px;
   color: #666;
   margin-bottom: 1.5rem;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid $colorGray200;
   padding-bottom: 0.8rem;
 }
 
@@ -342,7 +342,7 @@
   white-space: pre-wrap;
   line-height: 1.6;
   font-size: 14px;
-  color: #333;
+  color: $colorGray800;
   word-break: break-word;
   overflow-wrap: break-word;
 
@@ -429,7 +429,7 @@
 
   // Quill 콘텐츠 스타일: 링크
   a {
-    color: #2563eb;
+    color: $colorLink;
     text-decoration: underline;
     cursor: pointer;
 

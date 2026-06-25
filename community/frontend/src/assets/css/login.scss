@@ -23,13 +23,13 @@
     .id {
       margin-bottom: 10px;
       height: 5rem;
-      border-bottom: 1px solid #999;
+      border-bottom: 1px solid $colorGray500;
     }
     .pwd {
       margin-bottom: 10px;
       display: flex;
       height: 5rem;
-      border-bottom: 1px solid #999;
+      border-bottom: 1px solid $colorGray500;
     }
     .login-btn {
       width: 100%;

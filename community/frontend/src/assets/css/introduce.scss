@@ -41,7 +41,7 @@
   
       .text-divider {
         height: 2px;
-        background-color: #ccc;
+        background-color: $colorGray300;
         margin: 24px 0;
       }
     }
@@ -60,7 +60,7 @@
     gap: 16px;
     font-size: 16px;
     line-height: 1.6;
-    color: #333;
+    color: $colorGray800;
 
     .year {
       font-weight: bold;
@@ -75,7 +75,7 @@
 
   .divider {
     height: 1px;
-    background-color: #ddd;
+    background-color: $colorGray200;
     margin: 8px 0;
   }
 
@@ -152,7 +152,7 @@
   max-width: 960px;
   margin: 0 auto;
   padding: 20px;
-  color: #333;
+  color: $colorGray800;
 
 .content-wrapper {
   display: flex;
@@ -204,7 +204,7 @@
 
 .date {
   margin-bottom: 16px;
-  color: #555;
+  color: $colorGray700;
 }
 
 .quote {
