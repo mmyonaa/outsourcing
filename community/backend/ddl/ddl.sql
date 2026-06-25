@@ -38,3 +38,17 @@ CREATE TABLE banner (
     mod_dt TIMESTAMPTZ DEFAULT NOW(),
     del_yn CHAR(1) DEFAULT 'N'
 );
+
+-- 애플리케이션 설정 (key-value)
+-- 기본 배너 활성 여부 등 서버 재시작/다중 인스턴스에서도 유지되어야 하는 상태 저장
+CREATE TABLE app_setting (
+    setting_key VARCHAR(100) PRIMARY KEY,
+    setting_value VARCHAR(500),
+    reg_dt TIMESTAMPTZ DEFAULT NOW(),
+    mod_dt TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- 기본 배너 활성 상태 초기값
+INSERT INTO app_setting (setting_key, setting_value)
+VALUES ('default_banner_active', 'Y')
+ON CONFLICT (setting_key) DO NOTHING;
