@@ -548,12 +548,20 @@
     font-size: 16px;
     word-break: break-word;
     overflow-wrap: break-word;
+    margin-bottom: 1rem;
   }
 
   .notice-meta {
-    font-size: 14px;
+    font-size: 13px;
     flex-direction: column;
-    gap: 0.5rem;
+    align-items: flex-start; // 세로 정렬 시 제목과 같이 왼쪽 정렬
+    gap: 0.35rem;
+
+    // 모바일에서는 공유 버튼을 아래 줄에 왼쪽 정렬로
+    .apoc-share-button {
+      margin-left: 0;
+      margin-top: 0.25rem;
+    }
   }
 
   .notice-content {
@@ -602,5 +610,16 @@
     .mobile-card {
       padding: 1.5rem;
     }
+  }
+
+  // 모바일 돌아가기 버튼: 폭 전체로 채워 시각적으로 안정감 있게
+  .back-button-wrapper {
+    margin-top: 1.5rem;
+    text-align: center;
+  }
+
+  .back-button {
+    width: 100%;
+    padding: 0.9rem 1rem;
   }
 }
