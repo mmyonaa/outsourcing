@@ -64,8 +64,8 @@
         }
       </script>
 
-      <!-- Kakao Map -->
-      <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=f7a1f502dacbc4678f9f3d9e6588dd04&autoload=false"></script>
+      <!-- Kakao Map (appkey는 .env의 VITE_KAKAO_MAP_KEY로 주입) -->
+      <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=%VITE_KAKAO_MAP_KEY%&autoload=false"></script>
 
       <!-- Structured Data (JSON-LD) -->
       <script type="application/ld+json">
