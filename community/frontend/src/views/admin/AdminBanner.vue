@@ -259,73 +259,86 @@ export default defineComponent({
 </template>
 
 <style scoped>
+/* 관리자 액센트 컬러 (다른 admin 페이지와 통일) */
+.banner-admin-page {
+  --accent: #736e92;
+  --accent-dark: #5f5a7a;
+  --accent-soft: #f3f2f8;
+  --line: #ececf1;
+}
+
 .action-wrapper {
   display: flex;
-  justify-content: center;
-  margin: 2rem 0;
+  justify-content: flex-end;
+  margin: 1.5rem 0 2rem;
 }
 
 .register-button {
-  padding: 1rem 2rem;
-  background: #736e92;
+  padding: 0.85rem 1.75rem;
+  background: var(--accent);
   color: white;
   border: none;
-  border-radius: 8px;
-  font-size: 16px;
+  border-radius: 10px;
+  font-size: 15px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .register-button:hover {
-  background: #5f5a7a;
+  background: var(--accent-dark);
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(115, 110, 146, 0.3);
+  box-shadow: 0 6px 16px rgba(115, 110, 146, 0.3);
+}
+
+.register-button:active {
+  transform: translateY(0);
 }
 
 .banner-list {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1rem;
 }
 
 .banner-card {
   display: flex;
+  align-items: center;
   gap: 1.5rem;
-  padding: 1.5rem;
+  padding: 1.25rem;
   background: white;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
 }
 
 .banner-card:hover {
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
 }
 
 .banner-card.inactive {
-  opacity: 0.5;
-  background: #f5f5f5;
+  opacity: 0.65;
+  background: #fafafa;
 }
 
 .banner-card.inactive .banner-image::after {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.3);
+  inset: 0;
+  background: rgba(0, 0, 0, 0.25);
   pointer-events: none;
 }
 
 .banner-image {
   position: relative;
-  width: 200px;
-  height: 120px;
+  width: 220px;
+  height: 124px;
   flex-shrink: 0;
-  border-radius: 8px;
+  border-radius: 10px;
   overflow: hidden;
+  background: #f1f1f4;
 }
 
 .banner-image img {
@@ -338,19 +351,21 @@ export default defineComponent({
   position: absolute;
   top: 8px;
   right: 8px;
-  padding: 4px 12px;
-  border-radius: 12px;
-  font-size: 12px;
-  font-weight: 600;
+  padding: 3px 11px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  backdrop-filter: blur(2px);
 }
 
 .status-badge.active {
-  background: #4caf50;
+  background: rgba(34, 197, 94, 0.92);
   color: white;
 }
 
 .status-badge.inactive {
-  background: #f44336;
+  background: rgba(120, 120, 130, 0.9);
   color: white;
 }
 
@@ -358,11 +373,11 @@ export default defineComponent({
   position: absolute;
   top: 8px;
   left: 8px;
-  padding: 4px 12px;
-  border-radius: 12px;
-  font-size: 12px;
-  font-weight: 600;
-  background: #736e92;
+  padding: 3px 11px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  background: var(--accent);
   color: white;
 }
 
@@ -382,19 +397,20 @@ export default defineComponent({
 }
 
 .default-banner-content h2 {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.4rem;
   line-height: 1.4;
 }
 
 .default-banner-content p {
-  font-size: 12px;
+  font-size: 11px;
   opacity: 0.9;
 }
 
 .default-banner-card {
-  border: 2px solid #736e92;
+  border: 1.5px solid var(--accent);
+  background: var(--accent-soft);
 }
 
 .banner-info {
@@ -403,14 +419,21 @@ export default defineComponent({
   flex-direction: column;
   justify-content: center;
   gap: 0.5rem;
+  min-width: 0;
 }
 
 .banner-meta {
   display: flex;
-  gap: 1rem;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
   font-size: 14px;
-  color: #666;
+  color: #555;
   font-weight: 500;
+}
+
+.banner-meta span {
+  display: inline-flex;
+  align-items: center;
 }
 
 .banner-actions {
@@ -422,89 +445,119 @@ export default defineComponent({
 
 .banner-actions button {
   padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 6px;
-  font-size: 14px;
-  font-weight: 500;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.18s ease;
   white-space: nowrap;
+  background: #fff;
 }
 
+/* 액션 버튼: 평소엔 연한 톤 + 컬러 글자, 호버 시 채움 */
 .btn-toggle {
-  background: #2196f3;
-  color: white;
+  border-color: #cdd9ee;
+  background: #eef3fc;
+  color: #2563eb;
 }
 
 .btn-toggle:hover {
-  background: #1976d2;
+  background: #2563eb;
+  color: white;
+  border-color: #2563eb;
 }
 
 .btn-edit {
-  background: #ff9800;
-  color: white;
+  border-color: #f0dcc2;
+  background: #fbf3e8;
+  color: #c77700;
 }
 
 .btn-edit:hover {
-  background: #f57c00;
+  background: #e08a00;
+  color: white;
+  border-color: #e08a00;
 }
 
 .btn-delete {
-  background: #f44336;
-  color: white;
+  border-color: #f3cfcf;
+  background: #fdeeee;
+  color: #d12f2f;
 }
 
 .btn-delete:hover {
-  background: #d32f2f;
+  background: #d12f2f;
+  color: white;
+  border-color: #d12f2f;
 }
 
+/* ── 모달 ── */
 .modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  inset: 0;
+  background: rgba(20, 18, 30, 0.55);
+  backdrop-filter: blur(3px);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
+  padding: 1rem;
+  animation: overlay-in 0.18s ease;
 }
 
 .modal-content {
   background: white;
-  border-radius: 12px;
-  width: 90%;
-  max-width: 600px;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 560px;
   max-height: 90vh;
   overflow-y: auto;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+  animation: modal-in 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes overlay-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes modal-in {
+  from { opacity: 0; transform: translateY(12px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 .modal-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.5rem;
-  border-bottom: 1px solid #eee;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--line);
 }
 
 .modal-header h2 {
   margin: 0;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 700;
+  color: #2a2733;
 }
 
 .close-btn {
   background: none;
   border: none;
-  font-size: 32px;
+  font-size: 26px;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
   cursor: pointer;
   color: #999;
   line-height: 1;
+  transition: all 0.15s ease;
 }
 
 .close-btn:hover {
   color: #333;
+  background: #f1f1f4;
 }
 
 .modal-body {
@@ -515,39 +568,67 @@ export default defineComponent({
   margin-bottom: 1.5rem;
 }
 
+.form-group:last-child {
+  margin-bottom: 0;
+}
+
 .form-group label {
   display: block;
   margin-bottom: 0.5rem;
   font-weight: 600;
-  font-size: 16px;
+  font-size: 14px;
   color: #333;
 }
 
 .form-group input[type='text'],
-.form-group input[type='number'],
-.form-group textarea {
+.form-group input[type='number'] {
   width: 100%;
-  padding: 0.75rem;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  font-size: 16px;
+  padding: 0.7rem 0.85rem;
+  border: 1px solid #dcdce2;
+  border-radius: 8px;
+  font-size: 15px;
   box-sizing: border-box;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(115, 110, 146, 0.15);
 }
 
 .form-group input[type='file'] {
   width: 100%;
-  padding: 0.5rem;
-  font-size: 16px;
+  font-size: 14px;
+  color: #666;
+}
+
+.form-group input[type='file']::file-selector-button {
+  margin-right: 0.75rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.form-group input[type='file']::file-selector-button:hover {
+  background: var(--accent);
+  color: white;
 }
 
 .image-guide {
   margin: 0 0 0.75rem 0;
-  padding: 0.75rem;
-  background: #f5f5f5;
-  border-left: 3px solid #736e92;
-  border-radius: 4px;
-  font-size: 14px;
-  color: #555;
+  padding: 0.7rem 0.85rem;
+  background: var(--accent-soft);
+  border-left: 3px solid var(--accent);
+  border-radius: 6px;
+  font-size: 13px;
+  color: #5a5570;
   font-weight: 500;
 }
 
@@ -560,9 +641,11 @@ export default defineComponent({
 .image-preview {
   margin-top: 1rem;
   width: 100%;
-  max-height: 200px;
-  border-radius: 8px;
+  aspect-ratio: 16 / 6;
+  border: 1px solid var(--line);
+  border-radius: 10px;
   overflow: hidden;
+  background: #f1f1f4;
 }
 
 .image-preview img {
@@ -574,51 +657,57 @@ export default defineComponent({
 .modal-footer {
   display: flex;
   justify-content: flex-end;
-  gap: 1rem;
-  padding: 1.5rem;
-  border-top: 1px solid #eee;
+  gap: 0.75rem;
+  padding: 1.25rem 1.5rem;
+  border-top: 1px solid var(--line);
 }
 
 .modal-footer button {
-  padding: 0.75rem 1.5rem;
+  padding: 0.7rem 1.5rem;
   border: none;
-  border-radius: 6px;
-  font-size: 16px;
+  border-radius: 9px;
+  font-size: 15px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.18s ease;
 }
 
 .btn-cancel {
-  background: #e0e0e0;
-  color: #333;
+  background: #eeeef1;
+  color: #444;
 }
 
 .btn-cancel:hover {
-  background: #d0d0d0;
+  background: #e2e2e7;
 }
 
 .btn-save {
-  background: #736e92;
+  background: var(--accent);
   color: white;
 }
 
 .btn-save:hover {
-  background: #5f5a7a;
+  background: var(--accent-dark);
+  box-shadow: 0 4px 12px rgba(115, 110, 146, 0.3);
 }
 
 @media (max-width: 768px) {
   .banner-card {
     flex-direction: column;
+    align-items: stretch;
   }
 
   .banner-image {
     width: 100%;
-    height: 200px;
+    height: 180px;
   }
 
   .banner-actions {
     flex-direction: row;
+  }
+
+  .banner-actions button {
+    flex: 1;
   }
 
   .form-row {
