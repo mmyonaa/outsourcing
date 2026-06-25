@@ -3,9 +3,11 @@ import express from 'express';
 import { DataSource } from 'typeorm';
 import { User } from './entities/User';
 import dotenv from 'dotenv';
-import { getServer } from './server'; 
+import path from 'path';
+import { getServer } from './server';
 
-dotenv.config();
+// 실행 위치(cwd)와 무관하게 backend/.env 를 로드
+dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
 const app = express();
 app.use(express.json());
