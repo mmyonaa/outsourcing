@@ -8,6 +8,7 @@ import { getApiClient } from '@/utils/apiClient';
 import { getBoardList } from '@/api/board.api';
 import moment from 'moment';
 import { STATE_YN, TYPE_BOARD } from '@/types';
+import { useAsyncData } from '@/composables/useAsyncData';
 
 export default defineComponent({
   name: 'adminNotice',
@@ -20,25 +21,24 @@ export default defineComponent({
     const notices = ref<BoardEntity[]>([]);
     const searchKeyword = ref<string>('');
     const ROWS_PER_PAGE = 10; // 한 페이지당 10개
+    const { isLoading, error, run } = useAsyncData();
 
-    const loadBoardLit = async () => {
-      const currentPage = route.query.pageNo ? Number(route.query.pageNo) : 1;
-      const param = new SearchBoardDto();
-      param.boardType = TYPE_BOARD.NORMAL;
-      param.keyword = searchKeyword.value || undefined;
-      param.page = currentPage;
-      param.rows = ROWS_PER_PAGE;
+    const loadBoardLit = () =>
+      run(async () => {
+        const currentPage = route.query.pageNo ? Number(route.query.pageNo) : 1;
+        const param = new SearchBoardDto();
+        param.boardType = TYPE_BOARD.NORMAL;
+        param.keyword = searchKeyword.value || undefined;
+        param.page = currentPage;
+        param.rows = ROWS_PER_PAGE;
 
-      await getBoardList(apiClient, param).then(res => {
+        const res = await getBoardList(apiClient, param);
         if (res.resultCode === 0 && res.data) {
           notices.value = res.data;
           // totalCount를 사용하여 totalPage 계산
-          if (res.totalCount) {
-            totalPage.value = Math.ceil(res.totalCount / ROWS_PER_PAGE);
-          }
+          totalPage.value = res.totalCount ? Math.ceil(res.totalCount / ROWS_PER_PAGE) : 0;
         }
       });
-    };
 
     const handleSearch = () => {
       // 검색 시 1페이지로 이동하고 데이터 로드
@@ -73,6 +73,9 @@ export default defineComponent({
       moment,
       STATE_YN,
       searchKeyword,
+      isLoading,
+      error,
+      loadBoardLit,
       handleSearch,
       assignNotice,
       goToDetail,
@@ -94,8 +97,15 @@ export default defineComponent({
       <button class="register-button" @click="assignNotice">공지사항 등록</button>
     </div>
 
+    <!-- 로딩 / 에러 상태 -->
+    <div v-if="isLoading" class="list-status">불러오는 중…</div>
+    <div v-else-if="error" class="list-status list-status--error">
+      {{ error }}
+      <button class="retry-button" @click="loadBoardLit">다시 시도</button>
+    </div>
+
     <!-- 결과가 있을 때 -->
-    <div v-if="notices.length > 0" class="notice-list">
+    <div v-else-if="notices.length > 0" class="notice-list">
       <!-- 데스크탑용 테이블 -->
       <div class="notice-header desktop-only">
         <div class="col important"></div>
@@ -144,6 +154,35 @@ export default defineComponent({
 </template>
 
 <style scoped>
+/* 로딩/에러 상태 표시 */
+.list-status {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #666;
+  font-size: 15px;
+}
+
+.list-status--error {
+  color: #c0392b;
+}
+
+.retry-button {
+  display: inline-block;
+  margin-left: 0.75rem;
+  padding: 0.4rem 1rem;
+  border: 1px solid #c0392b;
+  border-radius: 6px;
+  background: #fff;
+  color: #c0392b;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.retry-button:hover {
+  background: #c0392b;
+  color: #fff;
+}
+
 /* 검색바와 등록 버튼을 감싸는 래퍼 */
 .search-action-wrapper {
   display: flex;
