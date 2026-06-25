@@ -510,7 +510,7 @@ export default defineComponent({
   background: white;
   border-radius: 16px;
   width: 100%;
-  max-width: 560px;
+  max-width: 600px;
   max-height: 90vh;
   overflow-y: auto;
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
@@ -531,7 +531,7 @@ export default defineComponent({
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.25rem 1.5rem;
+  padding: 1.5rem 2rem;
   border-bottom: 1px solid var(--line);
 }
 
@@ -561,11 +561,11 @@ export default defineComponent({
 }
 
 .modal-body {
-  padding: 1.5rem;
+  padding: 2rem;
 }
 
 .form-group {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.75rem;
 }
 
 .form-group:last-child {
@@ -574,7 +574,7 @@ export default defineComponent({
 
 .form-group label {
   display: block;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.65rem;
   font-weight: 600;
   font-size: 14px;
   color: #333;
@@ -622,20 +622,21 @@ export default defineComponent({
 }
 
 .image-guide {
-  margin: 0 0 0.75rem 0;
-  padding: 0.7rem 0.85rem;
+  margin: 0 0 1rem 0;
+  padding: 0.75rem 0.95rem;
   background: var(--accent-soft);
   border-left: 3px solid var(--accent);
   border-radius: 6px;
   font-size: 13px;
   color: #5a5570;
   font-weight: 500;
+  line-height: 1.5;
 }
 
 .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1rem;
+  gap: 1.25rem;
 }
 
 .image-preview {
@@ -657,8 +658,8 @@ export default defineComponent({
 .modal-footer {
   display: flex;
   justify-content: flex-end;
-  gap: 0.75rem;
-  padding: 1.25rem 1.5rem;
+  gap: 1rem;
+  padding: 1.5rem 2rem;
   border-top: 1px solid var(--line);
 }
 
