@@ -228,6 +228,11 @@
             grid-template-columns: repeat(2, 1fr);
             grid-template-areas: 'a b';
           }
+          @include mobile {
+            grid-template-columns: 1fr;
+            grid-template-areas: none;
+            padding: 0 1.5rem;
+          }
 
           .card-item-component {
             display: flex;

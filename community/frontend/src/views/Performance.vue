@@ -459,7 +459,7 @@ export default defineComponent({
   .category-filter-wrapper {
     justify-content: flex-start;
     width: 100%;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
   }
 
   .category-filter-btn {
