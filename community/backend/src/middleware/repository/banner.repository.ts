@@ -1,5 +1,6 @@
 import postgres from "postgres";
 import { BannerEntity, SearchBannerDto } from "./dto/banner.dto";
+import { MAX_ROWS } from "./dto/basic.dto";
 
 export const getBannerList = (sql: postgres.Sql, reqParam: SearchBannerDto) => {
   return sql<BannerEntity[]>`
@@ -18,6 +19,7 @@ export const getBannerList = (sql: postgres.Sql, reqParam: SearchBannerDto) => {
               : sql``
           }
     ORDER BY display_order ASC, mod_dt DESC
+    LIMIT ${MAX_ROWS}
   `;
 };
 

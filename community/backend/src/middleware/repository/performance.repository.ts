@@ -1,10 +1,9 @@
 import postgres from "postgres";
 import { PerfoEntity, SearchPerfoDto } from "./dto/perfo.dto";
+import { getSafePagination } from "./dto/basic.dto";
 
 export const getPerfoList = (sql: postgres.Sql, reqParam: SearchPerfoDto) => {
-  const page = reqParam.page || 1;
-  const rows = reqParam.rows || 10;
-  const offset = (page - 1) * rows;
+  const { rows, offset } = getSafePagination(reqParam);
 
   return sql<PerfoEntity[]>`
       SELECT *
