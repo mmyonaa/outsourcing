@@ -2,121 +2,43 @@ import type { AxiosInstance } from 'axios';
 import { ResponseDto } from '@/api/dto/response.dto';
 import { PerfoEntity, SearchPerfoDto } from '@/api/dto/perfo.dto';
 import { getApiHeader } from '@/utils/apiClient';
+import { apiRequest } from '@/api/request.util';
 
 /**
  * 공연 목록 조회
- * @param apiClient
- * @param params
  */
 export function getPerfoList(apiClient: AxiosInstance, params: SearchPerfoDto): Promise<ResponseDto<PerfoEntity[]>> {
-  const promiseFn = (fnResolve: (value: ResponseDto<PerfoEntity[]>) => void, fnReject: (reason?: any) => void) => {
-    apiClient
-      .get('/perfo/getperfoList', { headers: getApiHeader().headers, params: params })
-      .then(res => {
-        if (res.data.resultCode !== 0) {
-          console.error(res);
-          fnReject('msg.' + res.data.resultMsg);
-        } else {
-          fnResolve(new ResponseDto<PerfoEntity[]>(res.data));
-        }
-      })
-      .catch(err => {
-        console.error(err);
-        fnReject('msg.RESULT_FAILED');
-      });
-  };
-
-  return new Promise(promiseFn);
+  return apiRequest<PerfoEntity[]>(() =>
+    apiClient.get('/perfo/getperfoList', { headers: getApiHeader().headers, params }),
+  );
 }
 
 /**
  * 공연 상세 조회
- * @param apiClient
- * @param params
  */
 export function getPerfoDetail(apiClient: AxiosInstance, params: PerfoEntity): Promise<ResponseDto<PerfoEntity>> {
-  const promiseFn = (fnResolve: (value: ResponseDto<PerfoEntity>) => void, fnReject: (reason?: any) => void) => {
-    apiClient
-      .get('/perfo/getperfoDetail', { headers: getApiHeader().headers, params: params })
-      .then(res => {
-        if (res.data.resultCode !== 0) {
-          console.error(res);
-          fnReject('msg.' + res.data.resultMsg);
-        } else {
-          fnResolve(new ResponseDto<PerfoEntity>(res.data));
-        }
-      })
-      .catch(err => {
-        console.error(err);
-        fnReject('msg.RESULT_FAILED');
-      });
-  };
-
-  return new Promise(promiseFn);
+  return apiRequest<PerfoEntity>(() =>
+    apiClient.get('/perfo/getperfoDetail', { headers: getApiHeader().headers, params }),
+  );
 }
 
 /**
  * 공연 등록
- * @param apiClient
- * @param params
  */
 export function insertPerfo(apiClient: AxiosInstance, params: PerfoEntity): Promise<ResponseDto<PerfoEntity>> {
-  const promiseFn = (fnResolve: (value: ResponseDto<PerfoEntity>) => void, fnReject: (reason?: any) => void) => {
-    apiClient
-      .post('/perfo/insertperfo', params, getApiHeader())
-      .then(res => {
-        if (res.data.resultCode !== 0) {
-          console.error(res);
-          fnReject('msg.' + res.data.resultMsg);
-        } else {
-          fnResolve(new ResponseDto<PerfoEntity>(res.data));
-        }
-      })
-      .catch(err => {
-        console.error(err);
-        fnReject('msg.RESULT_FAILED');
-      });
-  };
-
-  return new Promise(promiseFn);
+  return apiRequest<PerfoEntity>(() => apiClient.post('/perfo/insertperfo', params, getApiHeader()));
 }
 
 /**
- * 공연 수정
- * @param apiClient
- * @param params
+ * 공연 수정 (resultCode 무관하게 응답 반환 - 기존 동작 유지)
  */
 export function updatePerfo(apiClient: AxiosInstance, params: PerfoEntity): Promise<ResponseDto<PerfoEntity>> {
-  const promiseFn = (fnResolve: (value: ResponseDto<PerfoEntity>) => void, fnReject: (reason?: any) => void) => {
-    apiClient
-      .post('/perfo/updateperfo', params, getApiHeader())
-      .then(res => {
-        fnResolve(new ResponseDto<PerfoEntity>(res.data));
-      })
-      .catch(err => {
-        console.error(err);
-        fnReject('msg.RESULT_FAILED');
-      });
-  };
-  return new Promise(promiseFn);
+  return apiRequest<PerfoEntity>(() => apiClient.post('/perfo/updateperfo', params, getApiHeader()), { strict: false });
 }
 
 /**
- * 공연 삭제
- * @param apiClient
- * @param params
+ * 공연 삭제 (resultCode 무관하게 응답 반환 - 기존 동작 유지)
  */
 export function deletePerfo(apiClient: AxiosInstance, params: any): Promise<ResponseDto<PerfoEntity>> {
-  const promiseFn = (fnResolve: (value: ResponseDto<PerfoEntity>) => void, fnReject: (reason?: any) => void) => {
-    apiClient
-      .post('/perfo/deleteperfo', params, getApiHeader())
-      .then(res => {
-        fnResolve(new ResponseDto<PerfoEntity>(res.data));
-      })
-      .catch(err => {
-        console.error(err);
-        fnReject('msg.RESULT_FAILED');
-      });
-  };
-  return new Promise(promiseFn);
+  return apiRequest<PerfoEntity>(() => apiClient.post('/perfo/deleteperfo', params, getApiHeader()), { strict: false });
 }

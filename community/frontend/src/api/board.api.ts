@@ -1,162 +1,70 @@
 import type { AxiosInstance } from 'axios';
 import { ResponseDto } from '@/api/dto/response.dto';
-import { BoardEntity, BoardStatisticsEntity, InsertBoardDto, SearchBoardDto, updateBoardStaticsDto } from '@/api/dto/board.dto';
+import { BoardEntity, BoardStatisticsEntity, SearchBoardDto, updateBoardStaticsDto } from '@/api/dto/board.dto';
 import { getApiHeader } from '@/utils/apiClient';
+import { apiRequest } from '@/api/request.util';
 
 /**
- * 상품 수정
- * @param apiFileClient
- * @param params
+ * 게시글 목록 조회
  */
-export function getBoardList(apiFileClient: AxiosInstance, params: SearchBoardDto): Promise<ResponseDto<BoardEntity[]>> {
-  const promiseFn = (fnResolve: (value: ResponseDto<BoardEntity[]>) => void, fnReject: (reason?: any) => void) => {
-    apiFileClient
-      .get('/board/getBoardList', { headers: getApiHeader().headers, params: params })
-      .then(res => {
-        if (res.data.resultCode !== 0) {
-          console.error(res);
-          fnReject('msg.' + res.data.resultMsg);
-        } else {
-          fnResolve(new ResponseDto<BoardEntity[]>(res.data));
-        }
-      })
-      .catch(err => {
-        console.error(err);
-        fnReject('msg.RESULT_FAILED');
-      });
-  };
-
-  return new Promise(promiseFn);
+export function getBoardList(client: AxiosInstance, params: SearchBoardDto): Promise<ResponseDto<BoardEntity[]>> {
+  return apiRequest<BoardEntity[]>(() => client.get('/board/getBoardList', { headers: getApiHeader().headers, params }));
 }
 
 /**
- * 상품 수정
- * @param apiFileClient
- * @param params
+ * 게시글 목록 조회 V2
  */
-export function getBoardListV2(apiFileClient: AxiosInstance, params: SearchBoardDto): Promise<ResponseDto<BoardEntity[]>> {
-  const promiseFn = (fnResolve: (value: ResponseDto<BoardEntity[]>) => void, fnReject: (reason?: any) => void) => {
-    apiFileClient
-      .get('/board/getBoardListV2', { headers: getApiHeader().headers, params: params })
-      .then(res => {
-        if (res.data.resultCode !== 0) {
-          console.error(res);
-          fnReject('msg.' + res.data.resultMsg);
-        } else {
-          fnResolve(new ResponseDto<BoardEntity[]>(res.data));
-        }
-      })
-      .catch(err => {
-        console.error(err);
-        fnReject('msg.RESULT_FAILED');
-      });
-  };
-
-  return new Promise(promiseFn);
-}
-export function getBoardDetail(apiFileClient: AxiosInstance, params: BoardEntity): Promise<ResponseDto<BoardEntity>> {
-  const promiseFn = (fnResolve: (value: ResponseDto<BoardEntity>) => void, fnReject: (reason?: any) => void) => {
-    apiFileClient
-      .get('/board/getBoardDetail', { headers: getApiHeader().headers, params: params })
-      .then(res => {
-        if (res.data.resultCode !== 0) {
-          console.error(res);
-          fnReject('msg.' + res.data.resultMsg);
-        } else {
-          fnResolve(new ResponseDto<BoardEntity>(res.data));
-        }
-      })
-      .catch(err => {
-        console.error(err);
-        fnReject('msg.RESULT_FAILED');
-      });
-  };
-
-  return new Promise(promiseFn);
-}
-export function insertBoard(apiClient: AxiosInstance, params: BoardEntity): Promise<ResponseDto<BoardEntity>> {
-  const promiseFn = (fnResolve: (value: ResponseDto<BoardEntity>) => void, fnReject: (reason?: any) => void) => {
-    apiClient
-      .post('/board/insertBoard', params, getApiHeader())
-      .then(res => {
-        if (res.data.resultCode !== 0) {
-          console.error(res);
-          fnReject('msg.' + res.data.resultMsg);
-        } else {
-          fnResolve(new ResponseDto<BoardEntity>(res.data));
-        }
-      })
-      .catch(err => {
-        console.error(err);
-        fnReject('msg.RESULT_FAILED');
-      });
-  };
-
-  return new Promise(promiseFn);
+export function getBoardListV2(client: AxiosInstance, params: SearchBoardDto): Promise<ResponseDto<BoardEntity[]>> {
+  return apiRequest<BoardEntity[]>(() =>
+    client.get('/board/getBoardListV2', { headers: getApiHeader().headers, params }),
+  );
 }
 
-export function getBoardPrevNextIdx(apiFileClient: AxiosInstance, params: SearchBoardDto): Promise<ResponseDto<BoardEntity>> {
-  const promiseFn = (fnResolve: (value: ResponseDto<BoardEntity>) => void, fnReject: (reason?: any) => void) => {
-    apiFileClient
-      .get('/board/getBoardPrevNextIdx', { headers: getApiHeader().headers, params: params })
-      .then(res => {
-        if (res.data.resultCode !== 0) {
-          console.error(res);
-          fnReject('msg.' + res.data.resultMsg);
-        } else {
-          fnResolve(new ResponseDto<BoardEntity>(res.data));
-        }
-      })
-      .catch(err => {
-        console.error(err);
-        fnReject('msg.RESULT_FAILED');
-      });
-  };
-
-  return new Promise(promiseFn);
+/**
+ * 게시글 상세 조회
+ */
+export function getBoardDetail(client: AxiosInstance, params: BoardEntity): Promise<ResponseDto<BoardEntity>> {
+  return apiRequest<BoardEntity>(() => client.get('/board/getBoardDetail', { headers: getApiHeader().headers, params }));
 }
-// 게시글 수정
+
+/**
+ * 게시글 등록
+ */
+export function insertBoard(client: AxiosInstance, params: BoardEntity): Promise<ResponseDto<BoardEntity>> {
+  return apiRequest<BoardEntity>(() => client.post('/board/insertBoard', params, getApiHeader()));
+}
+
+/**
+ * 이전/다음 게시글 인덱스 조회
+ */
+export function getBoardPrevNextIdx(client: AxiosInstance, params: SearchBoardDto): Promise<ResponseDto<BoardEntity>> {
+  return apiRequest<BoardEntity>(() =>
+    client.get('/board/getBoardPrevNextIdx', { headers: getApiHeader().headers, params }),
+  );
+}
+
+/**
+ * 게시글 수정 (resultCode 무관하게 응답 반환 - 기존 동작 유지)
+ */
 export function updateBoard(client: AxiosInstance, params: BoardEntity): Promise<ResponseDto<BoardEntity>> {
-  const promiseFn = (fnResolve: (value: ResponseDto<BoardEntity>) => void, fnReject: (reason?: any) => void) => {
-    client
-      .post('/board/updateBoard', params, getApiHeader())
-      .then(res => {
-        fnResolve(new ResponseDto<BoardEntity>(res.data));
-      })
-      .catch(err => {
-        console.error(err);
-        fnReject('msg.RESULT_FAILED');
-      });
-  };
-  return new Promise(promiseFn);
-}
-// 게시글 삭제
-export function deleteBoard(client: AxiosInstance, params: any): Promise<ResponseDto<BoardEntity>> {
-  const promiseFn = (fnResolve: (value: ResponseDto<BoardEntity>) => void, fnReject: (reason?: any) => void) => {
-    client
-      .post('/board/deleteBoard', params, getApiHeader())
-      .then(res => {
-        fnResolve(new ResponseDto<BoardEntity>(res.data));
-      })
-      .catch(err => {
-        console.error(err);
-        fnReject('msg.RESULT_FAILED');
-      });
-  };
-  return new Promise(promiseFn);
+  return apiRequest<BoardEntity>(() => client.post('/board/updateBoard', params, getApiHeader()), { strict: false });
 }
 
-export function updateBoardShareCount(client: AxiosInstance, params: updateBoardStaticsDto): Promise<ResponseDto<BoardStatisticsEntity>> {
-  const promiseFn = (fnResolve: (value: ResponseDto<BoardStatisticsEntity>) => void, fnReject: (reason?: any) => void) => {
-    client
-      .post('/board/updateBoardShareCount', params, getApiHeader())
-      .then(res => {
-        fnResolve(new ResponseDto<BoardStatisticsEntity>(res.data));
-      })
-      .catch(err => {
-        console.error(err);
-        fnReject('msg.RESULT_FAILED');
-      });
-  };
-  return new Promise(promiseFn);
+/**
+ * 게시글 삭제 (resultCode 무관하게 응답 반환 - 기존 동작 유지)
+ */
+export function deleteBoard(client: AxiosInstance, params: any): Promise<ResponseDto<BoardEntity>> {
+  return apiRequest<BoardEntity>(() => client.post('/board/deleteBoard', params, getApiHeader()), { strict: false });
+}
+
+/**
+ * 게시글 공유 카운트 갱신 (resultCode 무관하게 응답 반환 - 기존 동작 유지)
+ */
+export function updateBoardShareCount(
+  client: AxiosInstance,
+  params: updateBoardStaticsDto,
+): Promise<ResponseDto<BoardStatisticsEntity>> {
+  return apiRequest<BoardStatisticsEntity>(() => client.post('/board/updateBoardShareCount', params, getApiHeader()), {
+    strict: false,
+  });
 }
