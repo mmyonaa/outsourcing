@@ -31,6 +31,25 @@ export const getServer = async () => {
     textLimit: '20mb'
   }));
 
+  // 에러 처리 + 요청 로그 (라우터보다 먼저 등록해 모든 라우터를 감싼다)
+  app.use(async (ctx, next) => {
+    try {
+      await next();
+    } catch (err: any) {
+      // 서버 로그에는 전체 에러를 남기되,
+      console.error('Error 발생:', err);
+      const status = Number(err.status || err.statusCode) || 500;
+      ctx.status = status;
+      // 클라이언트에는 내부 정보(SQL 에러 등)를 노출하지 않는다.
+      // 명시적으로 노출 허용된 4xx 클라이언트 오류만 메시지를 전달하고,
+      // 그 외(5xx 포함)는 일반 메시지로 응답한다.
+      ctx.body = {
+        message: status < 500 && err.expose ? err.message : '서버에서 오류가 발생했습니다.',
+      };
+    }
+    console.log(`${ctx.method} ${ctx.path} -> ${ctx.status}`);
+  });
+
   // === API 라우터 등록 ===
   const router = new Router();
 
@@ -40,18 +59,6 @@ export const getServer = async () => {
 
   app.use(router.routes());
   app.use(router.allowedMethods());
-
-  // 404 및 요청 로그 미들웨어 (라우터 뒤)
-  app.use(async (ctx, next) => {
-    try {
-      await next();
-    } catch (err: any) {
-      console.error('Error 발생:', err);
-      ctx.status = err.status || 500;
-      ctx.body = { message: err.message };
-    }
-    console.log(`${ctx.method} ${ctx.path} -> ${ctx.status}`);
-  });
 
   app.listen(3000, '0.0.0.0', () => {
     console.log('Server running on http://0.0.0.0:3000');
