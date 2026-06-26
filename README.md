@@ -239,10 +239,14 @@ pm2 restart backend
 
 ---
 
-## 📚 문서
+## 📋 변경 이력
 
-- [사이트 개선 점검 보고서](community/docs/SITE_IMPROVEMENT_REPORT.md)
-- [네이버 SEO 설정](community/docs/NAVER_SEO_SETUP.md) · [서치어드바이저 등록 가이드](community/docs/NAVER_SEARCHADVISOR_GUIDE.md) · [SEO 타임라인](community/docs/SEO_TIMELINE_GUIDE.md)
+| 버전 | 날짜 | 주요 내용 |
+|------|------|-----------|
+| **v1.1.0** | 2026-06-26 | 유지보수 스프린트 — 상세 페이지 UX·디자인 통일, 공유 버튼 추가, 반응형 안정화, 보안·구조 개선 |
+| **v1.0.0** | 2025-12-16 | 초기 오픈 — 공연/공지/대관 게시, 관리자, SEO(네이버 서치어드바이저) 적용 |
+
+> 버전별 상세 변경 사항은 [CHANGELOG.md](CHANGELOG.md)를 참고하세요.
 
 ---
 
