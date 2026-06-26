@@ -41,7 +41,7 @@
 
 ### 기타
 - 미사용·중복 의존성 제거
-- 사이트 CSS 전체 점검 리포트 작성 ([CSS_AUDIT.md](community/docs/CSS_AUDIT.md))
+- 사이트 CSS 전체 점검 및 개선 (P0~P3)
 - README 보강 (스택·구조·아키텍처·배포·SEO)
 
 ---

@@ -30,7 +30,6 @@ outsourcing/
 └── community/
     ├── ecosystem.config.example.js  # PM2 배포 설정 예시 (실제 파일은 gitignore)
     ├── docs/                        # 운영/SEO 문서
-    │   ├── SITE_IMPROVEMENT_REPORT.md  # 사이트 개선 점검 보고서
     │   ├── NAVER_SEO_SETUP.md
     │   ├── NAVER_SEARCHADVISOR_GUIDE.md
     │   └── SEO_TIMELINE_GUIDE.md
@@ -247,14 +246,6 @@ pm2 restart backend
 | **v1.0.0** | 2025-12-16 | 초기 오픈 — 공연/공지/대관 게시, 관리자, SEO(네이버 서치어드바이저) 적용 |
 
 > 버전별 상세 변경 사항은 [CHANGELOG.md](CHANGELOG.md)를 참고하세요.
-
----
-
-## 🔐 보안 참고
-
-- 자격증명(DB/AWS)은 `ecosystem.config.js`가 아닌 `backend/.env`에서 관리합니다.
-- 카카오 키는 도메인 제한으로 보호합니다.
-- 관리자 API 인증, 업로드 검증 강화 등 후속 보안 개선 항목은 [개선 보고서](community/docs/SITE_IMPROVEMENT_REPORT.md) 참고.
 
 ---
 
