@@ -1,9 +1,7 @@
-// import { createApp } from 'vue'
 import { loadLocalData, removeLocalData, saveLocalData } from '@/utils/common-util';
 import { createPinia } from 'pinia';
 import { ViteSSG } from 'vite-ssg';
 import VueClickAway from 'vue3-click-away';
-import { useCounterStore } from '@/stores/counter';
 import App from './App.vue';
 import { routesList } from './router';
 import { setMetaTags, pageSeoConfig } from '@/utils/seo.util';
@@ -51,7 +49,6 @@ export const createApp = ViteSSG(
     else pinia.state.value = initialState.pinia || {};
 
     router.beforeEach((to, from, next) => {
-      const store = useCounterStore(pinia);
       if (typeof Window === 'undefined') return;
       if (from.name === 'Board') saveLocalData(from.path, (window.document.querySelector('html') as HTMLElement).scrollTop.toString());
 
