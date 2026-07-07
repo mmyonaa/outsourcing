@@ -82,23 +82,3 @@ export const updatePerfo = async (
       );
     }
 };
-
-/**
- * 글 삭제
- * @param {PerfoEntity} reqParam
- * @return {Promise<PerfoEntity>}
- */
-export const deletePerfo = async (
-  reqParam: PerfoEntity,
-): Promise<PerfoEntity> => {
- try{
-  const data = await perfoRepo.updatePerfo(sql, reqParam);
-  return data
- } catch (e: any) {
-      throw new CustomError(
-        RESULT_CODE.DB_ERROR.code,
-        RESULT_CODE.DB_ERROR.msg,
-        e,
-      );
-    }
-};

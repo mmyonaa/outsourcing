@@ -82,23 +82,3 @@ export const updateBoard = async (
       );
     }
 };
-
-/**
- * 글 삭제
- * @param {BoardEntity} reqParam
- * @return {Promise<BoardEntity>}
- */
-export const deleteBoard = async (
-  reqParam: BoardEntity,
-): Promise<BoardEntity> => {
- try{
-  const data = await boardRepo.updateBoard(sql, reqParam);
-  return data
- } catch (e: any) {
-      throw new CustomError(
-        RESULT_CODE.DB_ERROR.code,
-        RESULT_CODE.DB_ERROR.msg,
-        e,
-      );
-    }
-};

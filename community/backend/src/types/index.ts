@@ -33,11 +33,3 @@ export enum STATE_YN {
   Y = 'Y',
   N = 'N',
 }
-
-/**
- * 정렬 조건
- */
-export enum ORDER_TYPE {
-  DEFAULT = 'DEFAULT', // 아무것도 선택하지 않은 경우 기본 정렬 조건
-  NORMAL = 'NORMAL', // 기본 노출가 높은 것들이 제일 우선적으로 보이게 정렬
-}

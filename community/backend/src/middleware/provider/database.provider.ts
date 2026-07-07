@@ -14,15 +14,3 @@ export const sql = postgres({
     undefined: null,     // undefined 값을 자동으로 NULL로 변환
   },
 });
-
-// 기존 getTransaction 그대로 사용 가능
-export const getTransaction = async (
-  cb: (sql: postgres.TransactionSql) => Promise<any>,
-) => {
-  return await sql.begin(async (sql) => {
-    const result = await cb(sql);
-    if (process.env.JEST_WORKER_ID && process.env.JEST_TRANSACTION !== 'commit')
-      await sql`ROLLBACK`;
-    return result;
-  });
-};
