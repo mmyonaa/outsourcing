@@ -14,15 +14,6 @@ export function getPerfoList(apiClient: AxiosInstance, params: SearchPerfoDto): 
 }
 
 /**
- * 공연 상세 조회
- */
-export function getPerfoDetail(apiClient: AxiosInstance, params: PerfoEntity): Promise<ResponseDto<PerfoEntity>> {
-  return apiRequest<PerfoEntity>(() =>
-    apiClient.get('/perfo/getperfoDetail', { headers: getApiHeader().headers, params }),
-  );
-}
-
-/**
  * 공연 등록
  */
 export function insertPerfo(apiClient: AxiosInstance, params: PerfoEntity): Promise<ResponseDto<PerfoEntity>> {

@@ -34,22 +34,3 @@ export class SearchBoardDto extends BasicListDto {
   boardType: string | undefined = undefined;
   keyword: string | undefined = undefined;
 }
-
-export class InsertBoardDto extends BoardEntity {
-  // 카테고리 고유번호 리스트
-  categoryList: string[] = [];
-  imgList: string[] = [];
-}
-
-export class BoardStatisticsEntity {
-  // 보드고유번호
-  boardIdx: string | undefined = undefined;
-  // 조회수
-  read_count = 0;
-  // 공유횟수
-  share_count = 0;
-}
-
-export class updateBoardStaticsDto extends BasicListDto {
-  boardIdx: string | undefined = undefined;
-}
