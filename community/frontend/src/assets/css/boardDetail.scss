@@ -22,9 +22,6 @@
       gap: 0.5rem;
 
       &.like {
-        .base-button {
-          height: 2.25rem;
-        }
       }
     }
   }
@@ -148,18 +145,6 @@
         justify-content: space-between;
         margin: 3rem auto 10rem;
 
-        .base-button {
-          background-color: $colorTag;
-          @include font14Bold5();
-          padding: 6.5px 2rem;
-          border-radius: 0.5rem;
-          color: $colorPrimary;
-          line-height: 2.5rem;
-
-          button {
-            background-color: unset !important;
-          }
-        }
       }
 
       .board-detail-info-area {
@@ -174,19 +159,6 @@
         }
 
         .right-area {
-          .base-button {
-            display: inline-block;
-            padding: 0.75rem;
-            margin: 0 0.5rem;
-
-            &.report-btn {
-              color: #ff3737;
-            }
-            &.delete-btn {
-              color: #ff3737;
-            }
-          }
-
           .dot {
             display: inline-block;
           }

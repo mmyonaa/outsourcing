@@ -162,14 +162,6 @@
       .login-area {
         cursor: pointer;
         z-index: 2;
-        .base-button {
-          @include font14Bold5();
-          line-height: 2.5rem;
-          color: $colorWhite;
-          padding: 1.25rem 2.25rem;
-          border-radius: 0.5rem;
-          background-color: $colorPrimary;
-        }
       }
       .my-list-area {
         position: absolute;
@@ -267,13 +259,6 @@
         padding-bottom: 3rem;
         .menu-item {
           .drop-down-list {
-            .base-drop-down {
-              border-bottom: 1px solid $colorTag;
-
-              &.none-border-bottom {
-                border-bottom: none;
-              }
-            }
           }
         }
       }
