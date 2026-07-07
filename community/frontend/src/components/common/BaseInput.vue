@@ -3,7 +3,7 @@ import { computed, defineComponent, ref } from 'vue';
 import type { PropType } from 'vue';
 
 export default defineComponent({
-  name: 'ApocInput',
+  name: 'BaseInput',
   props: {
     placeholder: {
       type: String as PropType<string>,

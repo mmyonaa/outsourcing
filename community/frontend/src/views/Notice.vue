@@ -1,7 +1,7 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import ApocPagination from '@/components/common/ApocPagination.vue';
+import BasePagination from '@/components/common/BasePagination.vue';
 import EmptyState from '@/components/common/EmptyState.vue';
 import { BoardEntity, SearchBoardDto } from '@/api/dto/board.dto';
 import { getApiClient } from '@/utils/apiClient';
@@ -11,7 +11,7 @@ import { STATE_YN, TYPE_BOARD } from '@/types';
 
 export default defineComponent({
   name: 'notice',
-  components: { ApocPagination, EmptyState },
+  components: { BasePagination, EmptyState },
   setup() {
     const route = useRoute();
     const router = useRouter();
@@ -148,7 +148,7 @@ export default defineComponent({
     <!-- 결과가 없을 때 -->
     <empty-state v-else message="등록된 공지사항이 없습니다" />
     <section class="pagination-section">
-      <apoc-pagination :total-page-num="totalPage" />
+      <base-pagination :total-page-num="totalPage" />
     </section>
   </div>
 </template>

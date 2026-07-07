@@ -1,11 +1,11 @@
 <script lang="ts">
-import ApocImageSet from '@/components/common/ApocImageSet.vue';
+import BaseImageSet from '@/components/common/BaseImageSet.vue';
 import { defineComponent, onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 export default defineComponent({
   name: 'admin',
-  components: { ApocImageSet, },
+  components: { BaseImageSet, },
   setup() {
     const router=useRouter();
 

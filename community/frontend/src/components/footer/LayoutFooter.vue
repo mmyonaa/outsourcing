@@ -1,11 +1,11 @@
 <script lang="ts">
-import ApocImageSet from '@/components/common/ApocImageSet.vue';
-import ApocLink from '@/components/common/ApocLink.vue';
+import BaseImageSet from '@/components/common/BaseImageSet.vue';
+import BaseLink from '@/components/common/BaseLink.vue';
 import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'LayoutFooter',
-  components: { ApocImageSet, ApocLink },
+  components: { BaseImageSet, BaseLink },
   setup() {
     return {
     };

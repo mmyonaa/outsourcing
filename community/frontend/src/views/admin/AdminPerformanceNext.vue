@@ -1,7 +1,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import ApocPagination from '@/components/common/ApocPagination.vue';
+import BasePagination from '@/components/common/BasePagination.vue';
 import EmptyState from '@/components/common/EmptyState.vue';
 import { PerfoEntity, SearchPerfoDto } from '@/api/dto/perfo.dto';
 import { getApiClient } from '@/utils/apiClient';
@@ -12,7 +12,7 @@ import { useAdminList } from '@/composables/useAdminList';
 
 export default defineComponent({
   name: 'adminPerformanceNext',
-  components: { ApocPagination, EmptyState },
+  components: { BasePagination, EmptyState },
   setup() {
     const router = useRouter();
     const apiClient = getApiClient();
@@ -202,7 +202,7 @@ export default defineComponent({
     <!-- 결과가 없을 때 -->
     <empty-state v-else message="등록된 프로그램이 없습니다" />
     <section class="pagination-section">
-      <apoc-pagination :total-page-num="totalPage" />
+      <base-pagination :total-page-num="totalPage" />
     </section>
   </div>
 </template>

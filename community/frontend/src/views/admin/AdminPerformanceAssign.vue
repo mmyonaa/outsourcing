@@ -1,6 +1,6 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue';
-import ApocPagination from '@/components/common/ApocPagination.vue';
+import BasePagination from '@/components/common/BasePagination.vue';
 import { useRoute, useRouter } from 'vue-router';
 import { PerfoEntity } from '@/api/dto/perfo.dto';
 import { getApiClient } from '@/utils/apiClient';
@@ -11,7 +11,7 @@ import BlotFormatter from 'quill-blot-formatter/dist/BlotFormatter';
 
 export default defineComponent({
   name: 'adminPerformanceAssign',
-  components: { ApocPagination },
+  components: { BasePagination },
   setup() {
     const totalPage = ref<number>(0); // 총 페이지
     const route = useRoute();

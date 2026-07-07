@@ -1,7 +1,7 @@
 <script lang="ts">
 import { defineComponent, onMounted, onUnmounted, ref } from 'vue';
-import ApocPagination from '@/components/common/ApocPagination.vue';
-import ApocShareButton from '@/components/common/ApocShareButton.vue';
+import BasePagination from '@/components/common/BasePagination.vue';
+import BaseShareButton from '@/components/common/BaseShareButton.vue';
 import { useRoute, useRouter } from 'vue-router';
 import { BoardEntity, SearchBoardDto } from '@/api/dto/board.dto';
 import { getBoardList, updateBoard } from '@/api/board.api';
@@ -11,7 +11,7 @@ import { setMetaTags, setJsonLd, removeJsonLd, toPlainText } from '@/utils/seo.u
 
 export default defineComponent({
   name: 'noticeDetail',
-  components: { ApocPagination, ApocShareButton },
+  components: { BasePagination, BaseShareButton },
   setup() {
     const totalPage = ref<number>(0); // 총 페이지
     const route = useRoute();
@@ -137,7 +137,7 @@ export default defineComponent({
     <div class="notice-detail">
     <div class="notice-title-row">
       <div class="notice-title">{{ notice.title }}</div>
-      <apoc-share-button :title="notice.title" />
+      <base-share-button :title="notice.title" />
     </div>
 
     <div class="notice-meta">

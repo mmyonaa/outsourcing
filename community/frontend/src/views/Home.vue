@@ -5,7 +5,7 @@ import { getPerfoList } from '@/api/perfo.api';
 import { PerfoEntity, SearchPerfoDto } from '@/api/dto/perfo.dto';
 import { getBannerList } from '@/api/banner.api';
 import { BannerEntity, SearchBannerDto } from '@/api/dto/banner.dto';
-import ApocImageSet from '@/components/common/ApocImageSet.vue';
+import BaseImageSet from '@/components/common/BaseImageSet.vue';
 import { getApiClient } from '@/utils/apiClient';
 import { defineComponent, onMounted, onUnmounted, ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
@@ -14,7 +14,7 @@ import { TYPE_BOARD, TYPE_PERFO, TYPE_PERFO_CATEGORY } from '@/types';
 
 export default defineComponent({
   name: 'Home',
-  components: { ApocImageSet },
+  components: { BaseImageSet },
   setup() {
     const router = useRouter();
     const activeReserveIndex = ref<number>(0);

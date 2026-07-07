@@ -1,10 +1,10 @@
 <script lang="ts">
 import { defineComponent, onMounted } from 'vue';
-import ApocImageSet from '@/components/common/ApocImageSet.vue';
+import BaseImageSet from '@/components/common/BaseImageSet.vue';
 
 export default defineComponent({
   name: 'introduce',
-  components: { ApocImageSet },
+  components: { BaseImageSet },
   setup() {
     onMounted(() => {});
     return {};
@@ -18,7 +18,7 @@ export default defineComponent({
     <div class="wrapper">
       <div class="wrapper-item">
         <div class="theater-img">
-          <apoc-image-set src="/assets/images/theater/theater_new.jpg" />
+          <base-image-set src="/assets/images/theater/theater_new.jpg" />
         </div>
         <div class="text">
           <strong>
@@ -34,7 +34,7 @@ export default defineComponent({
       </div>
       <div class="wrapper-item">
         <div class="theater-img">
-          <apoc-image-set src="/assets/images/theater/intro_new.jpg" />
+          <base-image-set src="/assets/images/theater/intro_new.jpg" />
         </div>
         <div class="text history-timeline">
           <div class="history-item">

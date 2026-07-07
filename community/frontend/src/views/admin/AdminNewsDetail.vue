@@ -1,7 +1,7 @@
 <script lang="ts">
 import { deleteBoard, getBoardList, updateBoard } from '@/api/board.api';
 import { BoardEntity, SearchBoardDto } from '@/api/dto/board.dto';
-import ApocPagination from '@/components/common/ApocPagination.vue';
+import BasePagination from '@/components/common/BasePagination.vue';
 import { STATE_YN, TYPE_BOARD } from '@/types';
 import { getApiClient } from '@/utils/apiClient';
 import { defineComponent, onMounted, ref } from 'vue';
@@ -11,7 +11,7 @@ import 'quill/dist/quill.snow.css';
 
 export default defineComponent({
   name: 'adminNewsDetail',
-  components: { ApocPagination },
+  components: { BasePagination },
   setup() {
     const totalPage = ref<number>(0); // 총 페이지
     const route = useRoute();

@@ -4,7 +4,7 @@ import type { PropType } from 'vue';
 import { useRouter } from 'vue-router';
 
 export default defineComponent({
-  name: 'ApocLink',
+  name: 'BaseLink',
   props: {
     href: {
       type: String as PropType<string>,

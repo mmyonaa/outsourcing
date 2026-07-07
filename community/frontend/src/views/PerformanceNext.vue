@@ -1,7 +1,7 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import ApocPagination from '@/components/common/ApocPagination.vue';
+import BasePagination from '@/components/common/BasePagination.vue';
 import EmptyState from '@/components/common/EmptyState.vue';
 import { PerfoEntity, SearchPerfoDto } from '@/api/dto/perfo.dto';
 import { getApiClient } from '@/utils/apiClient';
@@ -11,7 +11,7 @@ import { TYPE_PERFO, TYPE_PERFO_CATEGORY } from '@/types';
 
 export default defineComponent({
   name: 'performanceNext',
-  components: { ApocPagination, EmptyState },
+  components: { BasePagination, EmptyState },
   setup() {
     const route = useRoute();
     const router = useRouter();
@@ -181,7 +181,7 @@ export default defineComponent({
     <empty-state v-else message="등록된 프로그램이 없습니다" />
 
     <section class="pagination-section">
-      <apoc-pagination :total-page-num="totalPage" />
+      <base-pagination :total-page-num="totalPage" />
     </section>
   </div>
 </template>

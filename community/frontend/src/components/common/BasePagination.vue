@@ -2,12 +2,12 @@
 import { computed, defineComponent } from 'vue';
 import type { PropType } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import ApocImageSet from '@/components/common/ApocImageSet.vue';
+import BaseImageSet from '@/components/common/BaseImageSet.vue';
 import AppConfig from '@/constants';
 
 export default defineComponent({
-  name: 'ApocPagination',
-  components: { ApocImageSet },
+  name: 'BasePagination',
+  components: { BaseImageSet },
   props: {
     totalPageNum: {
       type: Number as PropType<number>,
@@ -95,7 +95,7 @@ export default defineComponent({
 
 <template>
   <div class="pagination">
-    <apoc-image-set
+    <base-image-set
       src="/assets/images/common/icons/left-black-arrow.webp"
       :img-sets="3"
       class="page-number"
@@ -106,7 +106,7 @@ export default defineComponent({
         {{ page }}
       </span>
     </section>
-    <apoc-image-set
+    <base-image-set
       src="/assets/images/common/icons/right-black-arrow.webp"
       :img-sets="3"
       class="page-number"

@@ -1,7 +1,7 @@
 <script lang="ts">
 import { defineComponent, onMounted, onUnmounted, ref } from 'vue';
-import ApocPagination from '@/components/common/ApocPagination.vue';
-import ApocShareButton from '@/components/common/ApocShareButton.vue';
+import BasePagination from '@/components/common/BasePagination.vue';
+import BaseShareButton from '@/components/common/BaseShareButton.vue';
 import { useRoute, useRouter } from 'vue-router';
 import { PerfoEntity, SearchPerfoDto } from '@/api/dto/perfo.dto';
 import { getPerfoList, updatePerfo } from '@/api/perfo.api';
@@ -12,7 +12,7 @@ import { setMetaTags, setJsonLd, removeJsonLd, toPlainText } from '@/utils/seo.u
 
 export default defineComponent({
   name: 'performanceNextDetail',
-  components: { ApocPagination, ApocShareButton },
+  components: { BasePagination, BaseShareButton },
   setup() {
     const totalPage = ref<number>(0);
     const route = useRoute();
@@ -182,7 +182,7 @@ export default defineComponent({
 
           <div class="title-row">
             <h2 class="perfo-title">{{ performance.title }}</h2>
-            <apoc-share-button :title="performance.title" :text="performance.titleSec" />
+            <base-share-button :title="performance.title" :text="performance.titleSec" />
           </div>
 
           <p v-if="performance.titleSec" class="subtitle">{{ performance.titleSec }}</p>

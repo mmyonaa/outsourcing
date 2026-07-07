@@ -1,7 +1,7 @@
 <script lang="ts">
-import ApocImageSet from '@/components/common/ApocImageSet.vue';
-import ApocInput from '@/components/common/ApocInput.vue';
-import ApocLink from '@/components/common/ApocLink.vue';
+import BaseImageSet from '@/components/common/BaseImageSet.vue';
+import BaseInput from '@/components/common/BaseInput.vue';
+import BaseLink from '@/components/common/BaseLink.vue';
 import ArrowDown from '@/components/header/ArrowDown.vue';
 import { initStore } from '@/stores/store-manager';
 import { POPUP_TYPE } from '@/types';
@@ -10,7 +10,7 @@ import { useRoute, useRouter } from 'vue-router';
 
 export default defineComponent({
   name: 'MegaMenu',
-  components: { ApocInput, ApocLink, ApocImageSet, ArrowDown },
+  components: { BaseInput, BaseLink, BaseImageSet, ArrowDown },
   setup() {
     const storeManager = initStore();
     const router = useRouter();
@@ -129,9 +129,9 @@ export default defineComponent({
   <div class="mega-menu">
     <header :class="[{ 'active-border': isActive && headerType === 'opacity' }, { 'white-background': isSubMenuVisible }, headerType]">
       <div class="main-header-wrapper">
-        <apoc-link class="main-header-logo" href="/">
+        <base-link class="main-header-logo" href="/">
           <img src="/assets/images/logo/theater.png" @click="onClickLogo" />
-        </apoc-link>
+        </base-link>
 
         <!-- PC main menu -->
         <section class="main-menu-section" @mouseenter="handleMouseEnter" @mouseleave="handleMouseLeave">
@@ -185,7 +185,7 @@ export default defineComponent({
         <ul>
           <li class="close-wrapper">
             <img class="logo-img" src="/assets/images/logo/theater.png" />
-            <apoc-image-set
+            <base-image-set
               class="close-btn"
               :img-sets="3"
               src="/assets/images/common/icons/black-close-icon.webp"

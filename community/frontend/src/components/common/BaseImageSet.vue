@@ -3,7 +3,7 @@ import { computed, defineComponent } from 'vue';
 import type { PropType } from 'vue';
 
 export default defineComponent({
-  name: 'ApocImageSet',
+  name: 'BaseImageSet',
   props: {
     src: {
       type: String as PropType<string>,

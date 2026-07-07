@@ -1,6 +1,6 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue';
-import ApocPagination from '@/components/common/ApocPagination.vue';
+import BasePagination from '@/components/common/BasePagination.vue';
 import { useRoute, useRouter } from 'vue-router';
 import { PerfoEntity, SearchPerfoDto } from '@/api/dto/perfo.dto';
 import { deletePerfo, getPerfoList, updatePerfo } from '@/api/perfo.api';
@@ -12,7 +12,7 @@ import BlotFormatter from 'quill-blot-formatter/dist/BlotFormatter';
 
 export default defineComponent({
   name: 'adminPerformanceNextDetail',
-  components: { ApocPagination },
+  components: { BasePagination },
   setup() {
     const totalPage = ref<number>(0);
     const route = useRoute();

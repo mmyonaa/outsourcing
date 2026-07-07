@@ -4,7 +4,7 @@ import type { PropType } from 'vue';
 import copy from 'copy-to-clipboard';
 
 export default defineComponent({
-  name: 'ApocShareButton',
+  name: 'BaseShareButton',
   props: {
     // 공유 제목 (Web Share 시트에 표시)
     title: {
