@@ -41,7 +41,7 @@ outsourcing/
     │   ├── public/                  # robots.txt, sitemap.xml, 정적 자산
     │   └── src/
     │       ├── api/                 # axios 래퍼 (apiRequest 공통 헬퍼)
-    │       ├── components/          # 공통 컴포넌트(Apoc*), 헤더/푸터
+    │       ├── components/          # 공통 컴포넌트(Base*), 헤더/푸터
     │       ├── composables/         # useAsyncData, useAdminList
     │       ├── router/              # 라우트 정의
     │       ├── stores/              # Pinia 스토어

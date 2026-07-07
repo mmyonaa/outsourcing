@@ -320,7 +320,7 @@ flowchart TB
     end
 
     subgraph Shared["공통 컴포넌트 · 상태"]
-        COMP["components/common<br/>ApocPagination · EmptyState ·<br/>ApocImageSet · ApocShareButton"]
+        COMP["components/common<br/>BasePagination · EmptyState ·<br/>BaseImageSet · BaseShareButton"]
         STORE["stores/ (Pinia)<br/>data-store · state-store"]
         MAIN["main.ts (ViteSSG)<br/>라우터 가드에서 pageSeoConfig 적용"]
     end
