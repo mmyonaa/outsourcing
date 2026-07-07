@@ -3,6 +3,7 @@ import { defineComponent, onMounted, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import BasePagination from '@/components/common/BasePagination.vue';
 import EmptyState from '@/components/common/EmptyState.vue';
+import ListRowSkeleton from '@/components/common/ListRowSkeleton.vue';
 import { BoardEntity, SearchBoardDto } from '@/api/dto/board.dto';
 import { getApiClient } from '@/utils/apiClient';
 import { getBoardList, updateBoard } from '@/api/board.api';
@@ -11,13 +12,14 @@ import { STATE_YN, TYPE_BOARD } from '@/types';
 
 export default defineComponent({
   name: 'news',
-  components: { BasePagination, EmptyState },
+  components: { BasePagination, EmptyState, ListRowSkeleton },
   setup() {
     const route = useRoute();
     const router = useRouter();
     const totalPage = ref<number>(0); // 총 페이지
     const apiClient = getApiClient();
     const notices = ref<BoardEntity[]>([]);
+    const loading = ref<boolean>(true);
     const searchKeyword = ref<string>('');
     const ROWS_PER_PAGE = 10; // 한 페이지당 10개
 
@@ -29,15 +31,20 @@ export default defineComponent({
       param.page = currentPage;
       param.rows = ROWS_PER_PAGE;
 
-      await getBoardList(apiClient, param).then(res => {
-        if (res.resultCode === 0 && res.data) {
-          notices.value = res.data;
-          // totalCount를 사용하여 totalPage 계산
-          if (res.totalCount) {
-            totalPage.value = Math.ceil(res.totalCount / ROWS_PER_PAGE);
+      loading.value = true;
+      await getBoardList(apiClient, param)
+        .then(res => {
+          if (res.resultCode === 0 && res.data) {
+            notices.value = res.data;
+            // totalCount를 사용하여 totalPage 계산
+            if (res.totalCount) {
+              totalPage.value = Math.ceil(res.totalCount / ROWS_PER_PAGE);
+            }
           }
-        }
-      });
+        })
+        .finally(() => {
+          loading.value = false;
+        });
     };
 
     const handleSearch = () => {
@@ -72,6 +79,7 @@ export default defineComponent({
     });
     return {
       notices,
+      loading,
       totalPage,
       dayjs,
       STATE_YN,
@@ -98,8 +106,13 @@ export default defineComponent({
       </button>
     </div>
 
+    <!-- 로딩 중 -->
+    <div v-if="loading" class="notice-list">
+      <list-row-skeleton v-for="n in 8" :key="`sk-${n}`" />
+    </div>
+
     <!-- 결과가 있을 때 -->
-    <div v-if="notices.length > 0" class="notice-list">
+    <div v-else-if="notices.length > 0" class="notice-list">
       <!-- 데스크탑용 테이블 -->
       <div class="notice-header desktop-only">
         <div class="col important"></div>

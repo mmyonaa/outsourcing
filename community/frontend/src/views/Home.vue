@@ -6,6 +6,7 @@ import { PerfoEntity, SearchPerfoDto } from '@/api/dto/perfo.dto';
 import { getBannerList } from '@/api/banner.api';
 import { BannerEntity, SearchBannerDto } from '@/api/dto/banner.dto';
 import BaseImageSet from '@/components/common/BaseImageSet.vue';
+import PosterCardSkeleton from '@/components/common/PosterCardSkeleton.vue';
 import { getApiClient } from '@/utils/apiClient';
 import { defineComponent, onMounted, onUnmounted, ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
@@ -14,7 +15,7 @@ import { TYPE_BOARD, TYPE_PERFO, TYPE_PERFO_CATEGORY } from '@/types';
 
 export default defineComponent({
   name: 'Home',
-  components: { BaseImageSet },
+  components: { BaseImageSet, PosterCardSkeleton },
   setup() {
     const router = useRouter();
     const activeReserveIndex = ref<number>(0);
@@ -23,6 +24,8 @@ export default defineComponent({
     const notices = ref<BoardEntity[]>([]);
     const normalPerformances = ref<PerfoEntity[]>([]);
     const nextPerformances = ref<PerfoEntity[]>([]);
+    const normalLoading = ref<boolean>(true);
+    const nextLoading = ref<boolean>(true);
     const banners = ref<BannerEntity[]>([]);
     const currentBannerIndex = ref<number>(0);
     let bannerIntervalId: ReturnType<typeof setInterval> | null = null;
@@ -85,22 +88,32 @@ export default defineComponent({
       const param = new SearchPerfoDto();
       param.perType = TYPE_PERFO.NORMAL;
 
-      await getPerfoList(apiClient, param).then(res => {
-        if (res.resultCode === 0 && res.data) {
-          normalPerformances.value = res.data.slice(0, 6);
-        }
-      });
+      normalLoading.value = true;
+      await getPerfoList(apiClient, param)
+        .then(res => {
+          if (res.resultCode === 0 && res.data) {
+            normalPerformances.value = res.data.slice(0, 6);
+          }
+        })
+        .finally(() => {
+          normalLoading.value = false;
+        });
     };
 
     const loadNextPerformances = async () => {
       const param = new SearchPerfoDto();
       param.perType = TYPE_PERFO.NEXT;
 
-      await getPerfoList(apiClient, param).then(res => {
-        if (res.resultCode === 0 && res.data) {
-          nextPerformances.value = res.data.slice(0, 4);
-        }
-      });
+      nextLoading.value = true;
+      await getPerfoList(apiClient, param)
+        .then(res => {
+          if (res.resultCode === 0 && res.data) {
+            nextPerformances.value = res.data.slice(0, 4);
+          }
+        })
+        .finally(() => {
+          nextLoading.value = false;
+        });
     };
 
     const loadBoardLit = async () => {
@@ -153,6 +166,8 @@ export default defineComponent({
       notices,
       normalPerformances,
       nextPerformances,
+      normalLoading,
+      nextLoading,
       banners,
       currentBannerIndex,
       totalBannerCount,
@@ -217,7 +232,10 @@ export default defineComponent({
           </div>
           <router-link to="/performance">+ more</router-link>
         </div>
-        <div v-if="normalPerformances.length > 0" class="poster-gallery rental">
+        <div v-if="normalLoading" class="poster-gallery rental">
+          <poster-card-skeleton v-for="n in 4" :key="`sk-n-${n}`" />
+        </div>
+        <div v-else-if="normalPerformances.length > 0" class="poster-gallery rental">
           <router-link
             v-for="(performance, index) in normalPerformances"
             :key="performance.perIdx"
@@ -250,7 +268,10 @@ export default defineComponent({
           </div>
           <router-link to="/performance/next">+ more</router-link>
         </div>
-        <div v-if="nextPerformances.length > 0" class="poster-gallery text">
+        <div v-if="nextLoading" class="poster-gallery text">
+          <poster-card-skeleton v-for="n in 4" :key="`sk-x-${n}`" />
+        </div>
+        <div v-else-if="nextPerformances.length > 0" class="poster-gallery text">
           <router-link
             v-for="(performance, index) in nextPerformances"
             :key="performance.perIdx"

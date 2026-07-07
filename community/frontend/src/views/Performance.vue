@@ -3,6 +3,7 @@ import { defineComponent, onMounted, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import BasePagination from '@/components/common/BasePagination.vue';
 import EmptyState from '@/components/common/EmptyState.vue';
+import PosterCardSkeleton from '@/components/common/PosterCardSkeleton.vue';
 import { PerfoEntity, SearchPerfoDto } from '@/api/dto/perfo.dto';
 import { getApiClient } from '@/utils/apiClient';
 import { getPerfoList } from '@/api/perfo.api';
@@ -11,13 +12,14 @@ import { TYPE_PERFO, TYPE_PERFO_CATEGORY } from '@/types';
 
 export default defineComponent({
   name: 'performance',
-  components: { BasePagination, EmptyState },
+  components: { BasePagination, EmptyState, PosterCardSkeleton },
   setup() {
     const route = useRoute();
     const router = useRouter();
     const totalPage = ref<number>(0);
     const apiClient = getApiClient();
     const performances = ref<PerfoEntity[]>([]);
+    const loading = ref<boolean>(true);
     const searchKeyword = ref<string>('');
     const selectedCategory = ref<string>('');
     const ROWS_PER_PAGE = 8; // 한 페이지당 8개
@@ -31,15 +33,20 @@ export default defineComponent({
       param.page = currentPage;
       param.rows = ROWS_PER_PAGE;
 
-      await getPerfoList(apiClient, param).then(res => {
-        if (res.resultCode === 0 && res.data) {
-          performances.value = res.data;
-          // totalCount를 사용하여 totalPage 계산
-          if (res.totalCount) {
-            totalPage.value = Math.ceil(res.totalCount / ROWS_PER_PAGE);
+      loading.value = true;
+      await getPerfoList(apiClient, param)
+        .then(res => {
+          if (res.resultCode === 0 && res.data) {
+            performances.value = res.data;
+            // totalCount를 사용하여 totalPage 계산
+            if (res.totalCount) {
+              totalPage.value = Math.ceil(res.totalCount / ROWS_PER_PAGE);
+            }
           }
-        }
-      });
+        })
+        .finally(() => {
+          loading.value = false;
+        });
     };
 
     const handleSearch = () => {
@@ -99,6 +106,7 @@ export default defineComponent({
 
     return {
       performances,
+      loading,
       totalPage,
       dayjs,
       searchKeyword,
@@ -153,8 +161,13 @@ export default defineComponent({
       </div>
     </div>
 
+    <!-- 로딩 중 -->
+    <div v-if="loading" class="performance-grid">
+      <poster-card-skeleton v-for="n in 8" :key="`sk-${n}`" />
+    </div>
+
     <!-- 결과가 있을 때 -->
-    <div v-if="performances.length > 0" class="performance-grid">
+    <div v-else-if="performances.length > 0" class="performance-grid">
       <div class="performance-card" v-for="(performance, index) in performances" :key="performance.perIdx">
         <router-link :to="`/performance/${performance.perIdx}`" class="card-link">
           <div class="card-image">
