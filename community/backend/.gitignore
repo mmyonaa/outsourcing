@@ -7,10 +7,10 @@
 
 node_modules
 dist
-package.lock
+# npm lockfile (이 프로젝트는 pnpm 사용)
+package-lock.json
 .DS_Store
 .vscode/*
-pnpm-lock.yaml
 **/.env
 
 # 인증서 관련

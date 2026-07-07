@@ -17,7 +17,7 @@
 | **Storage** | AWS S3 (이미지/파일 업로드) |
 | **Infra/DevOps** | AWS EC2, PM2, Nginx(리버스 프록시) |
 | **외부 API** | Kakao Maps API |
-| **패키지 매니저** | pnpm (로컬), npm (서버 배포 시 사용 중) |
+| **패키지 매니저** | pnpm |
 
 ---
 
@@ -103,7 +103,7 @@ outsourcing/
 
 - Node.js 18+ (권장)
 - PostgreSQL
-- pnpm 또는 npm
+- pnpm
 - AWS S3 버킷 및 자격증명 (이미지/파일 업로드용)
 - Kakao Developers JavaScript 키 (지도)
 
@@ -119,7 +119,7 @@ outsourcing/
 |------|------|
 | `VITE_KAKAO_MAP_KEY` | 카카오맵 JavaScript 키 (빌드 시 `index.html`에 주입) |
 
-> ⚠️ 이 값은 `npm run build` 때 읽혀 `dist`에 박힙니다. 빌드 전에 `.env`가 있어야 합니다.
+> ⚠️ 이 값은 `pnpm build` 때 읽혀 `dist`에 박힙니다. 빌드 전에 `.env`가 있어야 합니다.
 > 카카오 JS 키는 브라우저에 노출되는 공개 키이므로, 실제 보호는 **Kakao 콘솔의 도메인 제한**으로 설정하세요.
 
 ### backend (`community/backend/.env`) — **런타임**에 사용
@@ -159,7 +159,7 @@ psql -U <user> -d <db> -h <host> -p <port> -f community/backend/ddl/ddl.sql
 ### Frontend
 ```bash
 cd community/frontend
-pnpm install          # 또는 npm install
+pnpm install
 pnpm dev              # http://localhost:4000
 ```
 
@@ -195,18 +195,19 @@ git pull
 
 # 프론트: 빌드 후 정적 서빙 재시작
 cd community/frontend
-npm install
-npm run build         # type-check + sitemap 생성 + vite-ssg 빌드 (dist 생성)
+pnpm install
+pnpm build            # type-check + sitemap 생성 + vite-ssg 빌드 (dist 생성)
 pm2 restart frontend
 
 # 백엔드: tsc 빌드 후 재시작
 cd ../backend
-npm install
-npm run build         # tsc → dist
+pnpm install
+pnpm build            # tsc → dist
 pm2 restart backend
 ```
 
-> **중요:** `pm2 restart frontend`는 빌드를 하지 않고 기존 `dist`만 서빙합니다. 변경을 반영하려면 반드시 `npm run build`를 먼저 수행해야 합니다.
+> **중요:** `pm2 restart frontend`는 빌드를 하지 않고 기존 `dist`만 서빙합니다. 변경을 반영하려면 반드시 `pnpm build`를 먼저 수행해야 합니다.
+> 패키지 매니저는 **pnpm**으로 통일되어 있습니다(각 디렉토리에 `pnpm-lock.yaml` 커밋). 서버에도 pnpm이 설치돼 있어야 합니다.
 
 ---
 
@@ -234,7 +235,7 @@ pm2 restart backend
 ## 🔎 SEO
 
 - **동적 메타/OG/JSON-LD**: 상세 페이지는 데이터 로드 후 글별 메타태그와 구조화 데이터(NewsArticle/TheaterEvent)를 주입합니다. ([`src/utils/seo.util.ts`](community/frontend/src/utils/seo.util.ts))
-- **sitemap**: `npm run build` 시 [`scripts/generate-sitemap.mjs`](community/frontend/scripts/generate-sitemap.mjs)가 API에서 전체 글/공연을 수집해 개별 URL까지 포함한 `public/sitemap.xml`을 생성합니다. (API 미도달 시 정적 페이지로 폴백)
+- **sitemap**: `pnpm build` 시 [`scripts/generate-sitemap.mjs`](community/frontend/scripts/generate-sitemap.mjs)가 API에서 전체 글/공연을 수집해 개별 URL까지 포함한 `public/sitemap.xml`을 생성합니다. (API 미도달 시 정적 페이지로 폴백)
   - 도메인/API base는 `SITE_URL`, `SITEMAP_API_BASE` 환경변수로 조정 가능.
 - 네이버/구글 검색 등록 가이드는 [`community/docs/`](community/docs/) 참고.
 

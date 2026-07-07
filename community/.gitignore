@@ -10,9 +10,8 @@ node_modules
 # Build output
 dist
 
-# Lock files
-package.lock
-pnpm-lock.yaml
+# npm lockfile (이 프로젝트는 pnpm 사용 — pnpm-lock.yaml은 커밋함)
+package-lock.json
 
 # OS files
 .DS_Store
