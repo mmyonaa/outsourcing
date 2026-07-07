@@ -28,11 +28,9 @@ package-lock.json
 # 로컬 참고용 문서 (커밋 금지)
 docs/*_LOCAL.md
 
-# TypeORM XML metadata
+# XML (sitemap.xml은 빌드 시 generate-sitemap.mjs가 자동 생성하는 산출물이라 추적하지 않음)
 *.xml
-# 단, sitemap.xml과 robots.txt는 예외
-!frontend/public/sitemap.xml
-!frontend/public/robots.txt
+# robots.txt는 정적 파일이므로 유지 (xml 아님 — 규칙 정리용 주석)
 
 # Logs
 logs
