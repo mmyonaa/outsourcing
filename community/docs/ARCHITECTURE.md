@@ -34,7 +34,7 @@ flowchart TB
         S3[("AWS S3<br/>bktheater-media<br/>이미지 · 파일")]
     end
 
-    Browser -->|"http://bktheater.com"| Nginx
+    Browser -->|"https://bktheater.com<br/>(http→https 리다이렉트, Let's Encrypt)"| Nginx
     Browser -.->|"지도 스크립트 직접 로드"| Kakao
     Browser -.->|"업로드된 이미지 직접 조회"| S3
 

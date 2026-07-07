@@ -4,8 +4,8 @@
 // API가 빌드 시점에 닿지 않아도(네트워크 실패) 정적 페이지만으로 sitemap을 쓰고 정상 종료한다.
 //
 // 환경변수:
-//   SITE_URL          기본 'http://bktheater.com'        (사이트 공개 도메인)
-//   SITEMAP_API_BASE  기본 'http://bktheater.com/api'    (백엔드 API base)
+//   SITE_URL          기본 'https://bktheater.com'        (사이트 공개 도메인)
+//   SITEMAP_API_BASE  기본 'https://bktheater.com/api'    (백엔드 API base)
 //
 // 실행: node scripts/generate-sitemap.mjs   (build 스크립트에서 build-ssg 전에 호출)
 
@@ -16,8 +16,8 @@ import { fileURLToPath } from 'node:url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const OUTPUT_PATH = resolve(__dirname, '../public/sitemap.xml');
 
-const SITE_URL = (process.env.SITE_URL || 'http://bktheater.com').replace(/\/$/, '');
-const API_BASE = (process.env.SITEMAP_API_BASE || 'http://bktheater.com/api').replace(/\/$/, '');
+const SITE_URL = (process.env.SITE_URL || 'https://bktheater.com').replace(/\/$/, '');
+const API_BASE = (process.env.SITEMAP_API_BASE || 'https://bktheater.com/api').replace(/\/$/, '');
 
 const MAX_ROWS = 100; // 백엔드 페이지네이션 상한과 동일
 const MAX_PAGES = 50; // 안전 상한 (최대 5000건)

@@ -9,7 +9,13 @@ import Router from '@koa/router';
 export const getServer = async () => {
   const app = new Koa();
 
-  const allowedOrigins = ["http://localhost:4000", "http://bktheater.com"];
+  const allowedOrigins = [
+    "http://localhost:4000",
+    "https://bktheater.com",
+    "https://www.bktheater.com",
+    // http는 https 전환 완료 후 제거 예정 (80→443 리다이렉트가 있어 실사용은 없음)
+    "http://bktheater.com",
+  ];
 
   app.use(
     cors({
@@ -18,7 +24,7 @@ export const getServer = async () => {
         if (requestOrigin && allowedOrigins.includes(requestOrigin)) {
           return requestOrigin;
         }
-        return "http://bktheater.com"; // fallback
+        return "https://bktheater.com"; // fallback
       },
       credentials: true,
     })
