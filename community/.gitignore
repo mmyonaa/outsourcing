@@ -25,6 +25,9 @@ package-lock.json
 .env.local
 .env.*.local
 
+# 로컬 참고용 문서 (커밋 금지)
+docs/*_LOCAL.md
+
 # TypeORM XML metadata
 *.xml
 # 단, sitemap.xml과 robots.txt는 예외
