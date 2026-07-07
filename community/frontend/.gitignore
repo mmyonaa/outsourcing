@@ -31,3 +31,6 @@ test-results/
 playwright-report/
 
 .vite-ssg-temp
+# 빌드 산출물 (scss에서 컴파일)
+src/assets/css/app.css
+src/assets/css/app.css.map

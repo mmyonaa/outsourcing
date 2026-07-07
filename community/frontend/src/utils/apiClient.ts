@@ -11,7 +11,7 @@ let apiToken: string | undefined;
 export function setApiToken(token: string): void {
   if (!token || token === '') return;
   apiToken = token;
-  if (apiClient) apiClient.defaults.headers.common['Authorization'] = `APOC_COMMUNITY ` + token;
+  if (apiClient) apiClient.defaults.headers.common['Authorization'] = `BK_THEATER ` + token;
 }
 
 export function setApiBaseUrl(url: string): void {
@@ -22,7 +22,7 @@ export const getApiHeader = () => {
   const header = {
     'Content-type': 'application/json',
   };
-  if (apiToken) Object.assign(header, { Authorization: `APOC_COMMUNITY ${apiToken}` });
+  if (apiToken) Object.assign(header, { Authorization: `BK_THEATER ${apiToken}` });
 
   return {
     headers: header,
@@ -32,17 +32,6 @@ export const getApiHeader = () => {
 export const removeApiToken = () => {
   apiToken = undefined;
   if (apiClient) apiClient.defaults.headers.common['Authorization'] = '';
-};
-
-export const getApocApiHeader = () => {
-  const header = {
-    'Content-type': 'application/json',
-  };
-  if (apiToken) Object.assign(header, { Authorization: `APOC ${apiToken}` });
-
-  return {
-    headers: header,
-  };
 };
 
 export const getApiFileHeader = () => {
