@@ -9,7 +9,6 @@ import Router from '@koa/router';
 export const getServer = async () => {
   const app = new Koa();
 
-  // app.use(cors({ origin: 'http://bktheater.com', credentials: true }));
   const allowedOrigins = ["http://localhost:4000", "http://bktheater.com"];
 
   app.use(

@@ -41,15 +41,6 @@ export default defineComponent({
           <img src="/assets/images/home/insta.png" class="insta"/>
         </a>
         </div>
-        <!-- <div>
-          <a href="https://pf.kakao.com/_ZtDLxb"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="social-link"
-          >
-          <img src="/assets/images/home/kakao.png" />
-          </a>
-        </div> -->
       </div>
     </div>
   </div>

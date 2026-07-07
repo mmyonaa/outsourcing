@@ -94,7 +94,6 @@ export default defineComponent({
 </script>
 
 <template>
-  <!--  <div v-if="totalPages > 1" class="pagination">-->
   <div class="pagination">
     <apoc-image-set
       src="/assets/images/common/icons/left-black-arrow.webp"

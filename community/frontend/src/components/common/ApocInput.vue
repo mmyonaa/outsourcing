@@ -43,7 +43,6 @@ export default defineComponent({
   },
   emits: ['update', 'enter', 'blur'],
   setup(props, ctx) {
-    // const inputValue = ref<string>((props.modelValue as string) || '');
     const inputValue = computed(() => props.modelValue as string);
     const inputElement = ref<HTMLInputElement | undefined>();
     const handleKeyup = (e: KeyboardEvent) => {

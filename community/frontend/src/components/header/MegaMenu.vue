@@ -243,7 +243,6 @@ export default defineComponent({
                 <li @click="() => onClickMenu('/rental')">공간 안내</li>
                 <li @click="() => onClickMenu('/rental/schedule')">대관 일정</li>
                 <li @click="() => onClickMenu('/rental/info')">대관 신청 링크</li>
-                <!-- <li @click="() => onClickMenu('/rental/schedule')">대관 스케줄</li> -->
               </ul>
             </section>
           </transition>

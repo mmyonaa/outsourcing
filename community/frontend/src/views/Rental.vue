@@ -55,7 +55,6 @@ export default defineComponent({
       <!-- 좌측: 갤러리 -->
       <div class="gallery-section">
         <img :src="posters[activeIndex].image" class="big-image" />
-        <!-- <div class="big-image-text">{{ posters[activeIndex].description }}</div> -->
         <div class="poster-gallery">
           <div class="poster" v-for="(poster, index) in posters" :key="index" :class="{ active: activeIndex === index }" @click="activeIndex = index">
             <img :src="poster.image" :alt="'Poster ' + (index + 1)" />
