@@ -51,7 +51,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <button type="button" class="apoc-share-button" :class="{ copied }" @click="onShare" aria-label="공유하기">
+  <button type="button" class="base-share-button" :class="{ copied }" @click="onShare" aria-label="공유하기">
     <svg
       v-if="!copied"
       width="18"
@@ -85,7 +85,7 @@ export default defineComponent({
 </template>
 
 <style scoped>
-.apoc-share-button {
+.base-share-button {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -102,18 +102,18 @@ export default defineComponent({
   white-space: nowrap;
 }
 
-.apoc-share-button:hover {
+.base-share-button:hover {
   border-color: #e34363;
   color: #e34363;
 }
 
-.apoc-share-button.copied {
+.base-share-button.copied {
   border-color: #2e9e5b;
   color: #2e9e5b;
   background: rgba(46, 158, 91, 0.08);
 }
 
-.apoc-share-button svg {
+.base-share-button svg {
   flex-shrink: 0;
 }
 </style>

@@ -340,7 +340,7 @@
     min-width: 0;
   }
 
-  .apoc-share-button {
+  .base-share-button {
     flex-shrink: 0;
   }
 }
@@ -570,7 +570,7 @@
     gap: 0.35rem;
 
     // 모바일에서는 공유 버튼을 아래 줄에 왼쪽 정렬로
-    .apoc-share-button {
+    .base-share-button {
       margin-left: 0;
       margin-top: 0.25rem;
     }

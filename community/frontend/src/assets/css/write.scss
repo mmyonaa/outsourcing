@@ -116,7 +116,7 @@
               line-height: 20px;
             }
           }
-          .apoc-select {
+          .base-select {
             &.board-select-area {
               color: $colorPrimary;
               border-color: $colorPrimary;
@@ -335,7 +335,7 @@
       padding: 3rem;
 
       @include font14Bold4();
-      .apoc-select {
+      .base-select {
         &.board-select-area {
           color: $colorPrimary;
           border-color: $colorPrimary;

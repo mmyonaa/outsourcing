@@ -74,7 +74,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="apoc-input">
+  <div class="base-input">
     <input
       ref="inputElement"
       v-model="inputValue"

@@ -44,7 +44,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <a class="apoc-link" :href="href" v-on:click.prevent.stop="handleClick" :title="title"><slot></slot></a>
+  <a class="base-link" :href="href" v-on:click.prevent.stop="handleClick" :title="title"><slot></slot></a>
 </template>
 
 <style scoped></style>

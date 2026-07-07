@@ -163,7 +163,7 @@
       .login-area {
         cursor: pointer;
         z-index: 2;
-        .apoc-button {
+        .base-button {
           @include font14Bold5();
           line-height: 2.5rem;
           color: $colorWhite;
@@ -268,7 +268,7 @@
         padding-bottom: 3rem;
         .menu-item {
           .drop-down-list {
-            .apoc-drop-down {
+            .base-drop-down {
               border-bottom: 1px solid $colorTag;
 
               &.none-border-bottom {

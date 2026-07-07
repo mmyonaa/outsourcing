@@ -290,7 +290,7 @@ export default defineComponent({
   margin-bottom: 0.75rem;
 }
 
-.title-row :deep(.apoc-share-button) {
+.title-row :deep(.base-share-button) {
   flex-shrink: 0;
 }
 

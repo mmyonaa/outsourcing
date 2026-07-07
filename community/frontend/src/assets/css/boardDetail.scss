@@ -22,7 +22,7 @@
       gap: 0.5rem;
 
       &.like {
-        .apoc-button {
+        .base-button {
           height: 2.25rem;
         }
       }
@@ -148,7 +148,7 @@
         justify-content: space-between;
         margin: 3rem auto 10rem;
 
-        .apoc-button {
+        .base-button {
           background-color: $colorTag;
           @include font14Bold5();
           padding: 6.5px 2rem;
@@ -174,7 +174,7 @@
         }
 
         .right-area {
-          .apoc-button {
+          .base-button {
             display: inline-block;
             padding: 0.75rem;
             margin: 0 0.5rem;

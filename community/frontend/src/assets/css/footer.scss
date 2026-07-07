@@ -70,7 +70,7 @@
             align-items: center;
             justify-content: center;
 
-            .apoc-link {
+            .base-link {
               display: flex;
             }
           }
@@ -99,7 +99,7 @@
             line-height: 3.6rem;
           }
         }
-        &.apoc-news {
+        &.base-news {
           grid-area: b;
         }
         &.tutorial {
