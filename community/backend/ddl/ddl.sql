@@ -1,26 +1,31 @@
 -- 확장 설치 (최초 1회만 실행)
 -- CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
--- 공지사항
+-- 게시판 (공지사항 / 보도자료 — board_type으로 구분)
 CREATE TABLE board (
     board_idx UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    board_type VARCHAR(50),          -- 게시판 종류 (공지사항/보도자료 구분)
     title VARCHAR(500),
     body TEXT,
     author VARCHAR(500),
     views INTEGER DEFAULT 0,
-    best_yn CHAR(1) DEFAULT 'N',
+    best_yn CHAR(1) DEFAULT 'N',     -- 상단 고정 여부 (정렬 우선)
     reg_dt TIMESTAMPTZ DEFAULT NOW(),
     mod_dt TIMESTAMPTZ DEFAULT NOW(),
     del_yn CHAR(1) DEFAULT 'N'
 );
 
--- 공연
+-- 공연 (자체/대관 — per_type으로 구분)
 CREATE TABLE performance (
     per_idx UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    per_type VARCHAR(50),
+    per_type VARCHAR(50),            -- 공연 종류 (자체/대관 구분)
+    category VARCHAR(50),            -- 카테고리 (공연/교육/행사)
     title VARCHAR(500),
+    title_sec VARCHAR(500),          -- 부제목
+    title_third VARCHAR(500),        -- 부제목(보조)
     body TEXT,
-    img_url VARCHAR(100),
+    author VARCHAR(500),
+    img_url VARCHAR(500),            -- 포스터 이미지 URL (S3)
     views INTEGER DEFAULT 0,
     reg_dt TIMESTAMPTZ DEFAULT NOW(),
     mod_dt TIMESTAMPTZ DEFAULT NOW(),
