@@ -35,9 +35,6 @@ importers:
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
-      multer:
-        specifier: ^2.0.2
-        version: 2.0.2
       postgres:
         specifier: ^3.4.7
         version: 3.4.7
@@ -45,9 +42,6 @@ importers:
         specifier: ^9.0.1
         version: 9.0.1
     devDependencies:
-      '@types/dotenv':
-        specifier: ^8.2.3
-        version: 8.2.3
       '@types/koa':
         specifier: ^3.0.0
         version: 3.0.0
@@ -68,7 +62,7 @@ importers:
         version: 4.17.20
       '@types/multer':
         specifier: ^2.0.0
-        version: 2.0.0
+        version: 2.2.0
       '@types/node':
         specifier: ^24.0.3
         version: 24.0.3
@@ -514,10 +508,6 @@ packages:
   '@types/cookies@0.9.1':
     resolution: {integrity: sha512-E/DPgzifH4sM1UMadJMWd6mO2jOd4g1Ejwzx8/uRCDpJis1IrlyQEcGAYEomtAqRYmD5ORbNXMeI9U0RiVGZbg==}
 
-  '@types/dotenv@8.2.3':
-    resolution: {integrity: sha512-g2FXjlDX/cYuc5CiQvyU/6kkbP1JtmGzh0obW50zD7OKeILVL0NSpPWLXVfqoAGQjom2/SLLx9zHq0KXvD6mbw==}
-    deprecated: This is a stub types definition. dotenv provides its own type definitions, so you do not need this installed.
-
   '@types/express-serve-static-core@5.0.6':
     resolution: {integrity: sha512-3xhRnjJPkULekpSzgtoNYYcTWgEZkp4myc+Saevii5JPnHNvHMRlBSHDbs7Bh1iPPoVTERHEZXyhyLbMEsExsA==}
 
@@ -557,8 +547,8 @@ packages:
   '@types/mime@1.3.5':
     resolution: {integrity: sha512-/pyBZWSLD2n0dcHE3hq8s8ZvcETHtEuF+3E7XVt0Ig2nvsVQXdghHVcEkIWjy9A0wKfTn97a/PSDYohKIlnP/w==}
 
-  '@types/multer@2.0.0':
-    resolution: {integrity: sha512-C3Z9v9Evij2yST3RSBktxP9STm6OdMc5uR1xF1SGr98uv8dUlAL2hqwrZ3GVB3uyMyiegnscEK6PGtYvNrjTjw==}
+  '@types/multer@2.2.0':
+    resolution: {integrity: sha512-3U1troeqGV8Ntp7Q3klwf4zr23VEoqYVocYXaswm9+8z3O9UHDYAqLxjJ/h550iRADTjKdOdhhasXw6gD6kYtg==}
 
   '@types/node@24.0.3':
     resolution: {integrity: sha512-R4I/kzCYAdRLzfiCabn9hxWfbuHS573x+r0dJMkkzThEa7pbrcDWK+9zu3e7aBOouf+rQAciqPFMnxwr0aWgKg==}
@@ -2014,10 +2004,6 @@ snapshots:
       '@types/keygrip': 1.0.6
       '@types/node': 24.0.3
 
-  '@types/dotenv@8.2.3':
-    dependencies:
-      dotenv: 17.2.1
-
   '@types/express-serve-static-core@5.0.6':
     dependencies:
       '@types/node': 24.0.3
@@ -2072,7 +2058,7 @@ snapshots:
 
   '@types/mime@1.3.5': {}
 
-  '@types/multer@2.0.0':
+  '@types/multer@2.2.0':
     dependencies:
       '@types/express': 5.0.3
 
