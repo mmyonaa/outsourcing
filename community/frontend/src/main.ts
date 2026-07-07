@@ -1,7 +1,6 @@
 import { loadLocalData, removeLocalData, saveLocalData } from '@/utils/common-util';
 import { createPinia } from 'pinia';
 import { ViteSSG } from 'vite-ssg';
-import VueClickAway from 'vue3-click-away';
 import App from './App.vue';
 import { routesList } from './router';
 import { setMetaTags, pageSeoConfig } from '@/utils/seo.util';
@@ -43,6 +42,10 @@ export const createApp = ViteSSG(
   },
   ({ app, router, routes, isClient, initialState }) => {
     const pinia = createPinia();
+    // pinia를 앱에 설치해야 컴포넌트의 useXxxStore() 호출이 동작한다.
+    // (과거에는 beforeEach의 useCounterStore(pinia) 호출이 우연히 active pinia를
+    //  설정해줘서 동작했으나, counter 스토어 제거 후 명시적 설치가 필수가 됨)
+    app.use(pinia);
 
     // @ts-ignore
     if (import.meta.env.SSR) initialState.pinia = pinia.state.value;
