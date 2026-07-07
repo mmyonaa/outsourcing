@@ -15,7 +15,7 @@
 | **Backend** | Koa, TypeScript, [postgres.js](https://github.com/porsager/postgres)(쿼리), @koa/router · @koa/multer · @koa/cors |
 | **Database** | PostgreSQL |
 | **Storage** | AWS S3 (이미지/파일 업로드) |
-| **Infra/DevOps** | AWS EC2, PM2, Nginx(리버스 프록시 추정) |
+| **Infra/DevOps** | AWS EC2, PM2, Nginx(리버스 프록시) |
 | **외부 API** | Kakao Maps API |
 | **패키지 매니저** | pnpm (로컬), npm (서버 배포 시 사용 중) |
 
