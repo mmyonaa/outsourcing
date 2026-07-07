@@ -29,11 +29,10 @@ outsourcing/
 ├── docs/                          # 일반 문서 (구글 캘린더 연동 등)
 └── community/
     ├── ecosystem.config.example.js  # PM2 배포 설정 예시 (실제 파일은 gitignore)
-    ├── docs/                        # 운영/SEO 문서
+    ├── docs/                        # 운영/기술 문서
+    │   ├── ARCHITECTURE.md          # 아키텍처 다이어그램 (Mermaid)
     │   ├── ERD.md                   # DB 스키마 다이어그램
-    │   ├── NAVER_SEO_SETUP.md
-    │   ├── NAVER_SEARCHADVISOR_GUIDE.md
-    │   └── SEO_TIMELINE_GUIDE.md
+    │   └── SEO_GUIDE.md             # SEO 종합 가이드 (등록·타임라인·전략)
     ├── frontend/                    # Vue 3 + vite-ssg
     │   ├── index.html
     │   ├── .env.example             # VITE_KAKAO_MAP_KEY 등
@@ -237,7 +236,7 @@ pm2 restart backend
 - **동적 메타/OG/JSON-LD**: 상세 페이지는 데이터 로드 후 글별 메타태그와 구조화 데이터(NewsArticle/TheaterEvent)를 주입합니다. ([`src/utils/seo.util.ts`](community/frontend/src/utils/seo.util.ts))
 - **sitemap**: `pnpm build` 시 [`scripts/generate-sitemap.mjs`](community/frontend/scripts/generate-sitemap.mjs)가 API에서 전체 글/공연을 수집해 개별 URL까지 포함한 `public/sitemap.xml`을 생성합니다. (API 미도달 시 정적 페이지로 폴백)
   - 도메인/API base는 `SITE_URL`, `SITEMAP_API_BASE` 환경변수로 조정 가능.
-- 네이버/구글 검색 등록 가이드는 [`community/docs/`](community/docs/) 참고.
+- 검색엔진 등록·노출 타임라인·상위 노출 전략은 [`community/docs/SEO_GUIDE.md`](community/docs/SEO_GUIDE.md) 참고.
 
 ---
 
