@@ -30,6 +30,7 @@ outsourcing/
 └── community/
     ├── ecosystem.config.example.js  # PM2 배포 설정 예시 (실제 파일은 gitignore)
     ├── docs/                        # 운영/SEO 문서
+    │   ├── ERD.md                   # DB 스키마 다이어그램
     │   ├── NAVER_SEO_SETUP.md
     │   ├── NAVER_SEARCHADVISOR_GUIDE.md
     │   └── SEO_TIMELINE_GUIDE.md
@@ -134,6 +135,7 @@ outsourcing/
 ## 🗄️ 데이터베이스
 
 스키마는 [`community/backend/ddl/ddl.sql`](community/backend/ddl/ddl.sql)에 정의되어 있습니다.
+ERD(다이어그램·관계 설명)는 [`community/docs/ERD.md`](community/docs/ERD.md)를 참고하세요.
 
 | 테이블 | 용도 |
 |--------|------|
