@@ -1,9 +1,6 @@
 import axios, { type AxiosInstance } from 'axios';
 import AppConfig from '../constants';
 import { StoreManager } from '@/stores/store-manager';
-interface IStatusCode {
-  [code: string]: number;
-}
 
 let apiClient: AxiosInstance | undefined;
 let apiToken: string | undefined;
@@ -29,22 +26,6 @@ export const getApiHeader = () => {
   };
 };
 
-export const removeApiToken = () => {
-  apiToken = undefined;
-  if (apiClient) apiClient.defaults.headers.common['Authorization'] = '';
-};
-
-export const getApiFileHeader = () => {
-  const header = {
-    'Content-type': 'multipart/form-data',
-  };
-  if (apiToken) Object.assign(header, { Authorization: `BK_THEATER ${apiToken}` });
-
-  return {
-    headers: header,
-  };
-};
-
 export function getApiClient(baseUrl = AppConfig.API_SERVER, storeManager?: StoreManager): AxiosInstance {
   if (!apiClient) {
     apiClient = axios.create({
@@ -61,8 +42,3 @@ export function getApiClient(baseUrl = AppConfig.API_SERVER, storeManager?: Stor
 
   return apiClient;
 }
-
-export const statusCode: IStatusCode = {
-  OK: 200,
-  ERROR: 500,
-};
