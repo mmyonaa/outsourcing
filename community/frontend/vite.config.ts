@@ -16,6 +16,9 @@ export default defineConfig({
         globPatterns: ['**/*{js,html,wasm,css}'],
         maximumFileSizeToCacheInBytes: 5000000,
         cleanupOutdatedCaches: false,
+        // /api/* (Swagger 문서 포함)는 SPA가 아니므로 서비스워커의
+        // index.html 네비게이션 폴백에서 제외한다
+        navigateFallbackDenylist: [/^\/api\//],
       },
     }),
   ],
