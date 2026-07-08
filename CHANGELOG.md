@@ -41,6 +41,7 @@ UI/UX 개선 및 인프라 정리 — 로딩/에러 상태, 스크롤 리빌·�
 - 이미지 `alt` 텍스트 보완, 클릭 가능한 목록 행 **키보드 접근**(tabindex/role/Enter)
 
 ### 기타
+- **백엔드 API 문서(Swagger)** 추가 — `openapi.yaml`(OpenAPI 3.0, 엔드포인트 15종) + `/api/docs` 열람 전용 UI(쓰기 API 무인증이라 "Try it out" 비활성), `koa2-swagger-ui` 도입
 - SEO 문서 5종을 `SEO_GUIDE.md`로 통합, 미참조 에셋·apoc 흔적·고아 CSS 정리, `sitemap.xml` 추적 제거
 
 ---
