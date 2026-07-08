@@ -21,7 +21,6 @@ UI/UX 개선 및 네이밍·인프라 정리 — 로딩/에러 상태, 접근성
 - 콘텐츠 포스터 **이미지 lazy loading** (배너·상세 대표 이미지는 LCP라 eager 유지)
 - **관리자 목록 로딩을 공개 페이지와 스켈레톤 통일** (텍스트 → `ListRowSkeleton`/`ErrorState`)
 - 포스터 **세로 비율 확대** (3/4 → 5/8, 목록·상세·홈 공통)
-- 공용 컴포넌트·CSS 클래스 **Apoc → Base 리네이밍**, 패키지명 `bktheater-community`
 - **HTTPS 전환** (http→https 도메인 일괄), Nginx 리버스 프록시 확정
 - 백엔드 패키지 매니저 **pnpm 통일**
 
