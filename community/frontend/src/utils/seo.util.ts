@@ -90,6 +90,59 @@ export const toPlainText = (html: string | undefined, maxLength = 160): string =
 };
 
 /**
+ * 텍스트에서 공연 기간(시작일/종료일)을 추출한다.
+ * 공연 데이터에 구조화된 날짜 필드가 없어 제목/본문 텍스트에서 파싱한다.
+ * 지원 형식: "2025년 10월 19일", "2025.10.19", "2025-10-19",
+ * "2025년 10월 21 - 31일", "2025.10.21 ~ 11.2", 연도가 바뀌는 범위 등
+ */
+export const extractEventDates = (
+  sources: Array<string | undefined>,
+): { startDate: string; endDate: string } | null => {
+  const text = sources
+    .filter((s): s is string => !!s)
+    .map(s => toPlainText(s, 4000))
+    .join(' ');
+  if (!text) return null;
+
+  const toIso = (y: number, m: number, d: number): string | null => {
+    if (m < 1 || m > 12 || d < 1 || d > 31) return null;
+    return `${y}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+  };
+
+  const YEAR = '((?:19|20)\\d{2})';
+  const SEP_Y = '\\s*[년.\\-/]\\s*';
+  const SEP_M = '\\s*[월.\\-/]\\s*';
+  // "7월 11일(토)"처럼 날짜 뒤에 붙는 요일 표기는 건너뛴다
+  const WEEKDAY = '(?:\\s*\\([^)]{1,3}\\))?';
+  const FULL_DATE = `${YEAR}${SEP_Y}(\\d{1,2})${SEP_M}(\\d{1,2})\\s*일?${WEEKDAY}`;
+
+  // 기간 형식 우선: 종료일의 연/월은 생략되면 시작일 값을 따른다
+  const rangeRe = new RegExp(
+    `${FULL_DATE}\\s*[~\\-–—]\\s*(?:${YEAR}${SEP_Y})?(?:(\\d{1,2})${SEP_M})?(\\d{1,2})\\s*일?`,
+    'g',
+  );
+  let m: RegExpExecArray | null;
+  while ((m = rangeRe.exec(text))) {
+    const sy = Number(m[1]);
+    const sm = Number(m[2]);
+    const sd = Number(m[3]);
+    const ey = m[4] ? Number(m[4]) : sy;
+    const em = m[5] ? Number(m[5]) : sm;
+    const ed = Number(m[6]);
+    const startDate = toIso(sy, sm, sd);
+    const endDate = toIso(ey, em, ed);
+    if (startDate && endDate && endDate >= startDate) return { startDate, endDate };
+  }
+
+  const singleRe = new RegExp(FULL_DATE, 'g');
+  while ((m = singleRe.exec(text))) {
+    const iso = toIso(Number(m[1]), Number(m[2]), Number(m[3]));
+    if (iso) return { startDate: iso, endDate: iso };
+  }
+  return null;
+};
+
+/**
  * JSON-LD 구조화 데이터를 head에 삽입하거나 교체한다.
  * data-seo 속성으로 식별하여 페이지 이동 시 갱신/제거할 수 있다.
  */

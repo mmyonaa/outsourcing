@@ -8,7 +8,7 @@ import { getPerfoList, updatePerfo } from '@/api/perfo.api';
 import dayjs from 'dayjs';
 import { getApiClient } from '@/utils/apiClient';
 import { TYPE_PERFO, TYPE_PERFO_CATEGORY } from '@/types';
-import { setMetaTags, setJsonLd, removeJsonLd, toPlainText } from '@/utils/seo.util';
+import { setMetaTags, setJsonLd, removeJsonLd, toPlainText, extractEventDates } from '@/utils/seo.util';
 
 export default defineComponent({
   name: 'performanceDetail',
@@ -85,24 +85,47 @@ export default defineComponent({
         ogDescription: description,
         ...(ogImage ? { ogImage } : {}),
       });
-      setJsonLd('article', {
-        '@context': 'https://schema.org',
-        '@type': 'TheaterEvent',
-        name: performance.value.title,
-        description,
-        ...(ogImage ? { image: ogImage } : {}),
-        location: {
-          '@type': 'PerformingArtsTheater',
-          name: '보광극장',
-          address: {
-            '@type': 'PostalAddress',
-            addressLocality: '서울 용산구',
-            addressCountry: 'KR',
+      // startDate 없는 Event 마크업은 Search Console 심각 오류가 되므로,
+      // 텍스트에서 공연 기간을 찾은 경우에만 Event 스키마를 출력한다
+      const dates = extractEventDates([
+        performance.value.titleSec,
+        performance.value.titleThird,
+        performance.value.body,
+      ]);
+      if (dates) {
+        setJsonLd('article', {
+          '@context': 'https://schema.org',
+          '@type': 'TheaterEvent',
+          name: performance.value.title,
+          description,
+          ...(ogImage ? { image: ogImage } : {}),
+          startDate: dates.startDate,
+          endDate: dates.endDate,
+          eventStatus: 'https://schema.org/EventScheduled',
+          eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+          location: {
+            '@type': 'PerformingArtsTheater',
+            name: '보광극장',
+            address: {
+              '@type': 'PostalAddress',
+              addressLocality: '서울 용산구',
+              addressCountry: 'KR',
+            },
           },
-        },
-        organizer: { '@type': 'Organization', name: '보광극장' },
-        url: window.location.href,
-      });
+          organizer: {
+            '@type': 'Organization',
+            name: '보광극장',
+            url: 'https://bktheater.com',
+          },
+          performer: {
+            '@type': 'PerformingGroup',
+            name: performance.value.title,
+          },
+          url: window.location.href,
+        });
+      } else {
+        removeJsonLd('article');
+      }
     };
 
     const handleImageError = (event: Event) => {
