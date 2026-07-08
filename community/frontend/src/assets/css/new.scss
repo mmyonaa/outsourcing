@@ -40,7 +40,7 @@
   }
 }
 
-// 푸터 스타일 - footer.scss 대체
+// 푸터 스타일 - footer.scss 대체 (슬림 밴드형)
 .footer {
   background-color: $colorTertiary;
   color: $colorFont;
@@ -50,112 +50,146 @@
   }
 }
 
-.footer-wrapper {
-  display: grid;
-  grid-template-columns: 1.4fr 0.8fr 1.3fr 1fr;
-  gap: 3rem 4rem;
-  align-items: start;
+.footer-inner {
   width: 100%;
   max-width: 120rem;
   margin: 0 auto;
-  padding: 5rem 3rem 4rem;
+  padding: 3.6rem 3rem 2.4rem;
 }
 
-// ── 브랜드 (로고 + 슬로건 + SNS)
+// ── 상단: 로고+슬로건 | 바로가기 | SNS
+.footer-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 3rem;
+}
+
 .footer-brand {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 1.4rem;
+  align-items: center;
+  gap: 2rem;
+  min-width: 0;
 
   .footer-logo {
-    width: 120px;
+    width: 104px;
     display: block;
+    flex-shrink: 0;
   }
 
   .footer-slogan {
     margin: 0;
-    font-size: 14px;
+    font-size: 13px;
     line-height: 1.6;
     color: $colorGray700;
     word-break: keep-all;
-  }
-
-  .footer-sns {
-    display: inline-flex;
-    border-radius: 12px;
-    transition: transform 0.2s ease, opacity 0.2s ease;
-
-    img {
-      width: 4.4rem;
-      display: block;
-    }
-
-    &:hover {
-      transform: translateY(-2px);
-      opacity: 0.85;
-    }
+    max-width: 24rem;
   }
 }
 
-// ── 컬럼 공통
-.footer-col {
-  min-width: 0;
-
-  .footer-col-title {
-    margin: 0 0 1.4rem;
-    font-size: 14px;
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    color: $colorGray600;
-  }
-
-  ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-}
-
-// 바로가기 링크
-.footer-link-list a {
-  font-size: 15px;
-  font-weight: 600;
-  color: $colorFont;
-  text-decoration: none;
-  transition: color 0.15s ease;
-
-  &:hover {
-    color: $colorPrimary;
-  }
-}
-
-// 라벨-값 정보
-.footer-info-list li {
+.footer-top-right {
   display: flex;
-  align-items: baseline;
-  gap: 1rem;
-  font-size: 15px;
-  line-height: 1.5;
+  align-items: center;
+  gap: 2.4rem;
+  flex-shrink: 0;
+}
 
-  .label {
-    flex-shrink: 0;
-    min-width: 6.4rem;
-    font-size: 13px;
-    font-weight: 600;
-    color: $colorGray600;
+.footer-links ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+
+  li {
+    display: flex;
+    align-items: center;
   }
 
-  .value {
+  li + li::before {
+    content: '';
+    width: 1px;
+    height: 1.1em;
+    margin: 0 1.6rem;
+    background: rgba(0, 0, 0, 0.18);
+  }
+
+  a {
+    font-size: 15px;
     font-weight: 600;
     color: $colorFont;
+    text-decoration: none;
+    transition: color 0.15s ease;
+    white-space: nowrap;
+
+    &:hover {
+      color: $colorPrimary;
+    }
+  }
+}
+
+.footer-sns {
+  display: inline-flex;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+
+  img {
+    width: 3.8rem;
+    display: block;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    opacity: 0.85;
+  }
+}
+
+.footer-divider {
+  height: 1px;
+  background: rgba(0, 0, 0, 0.1);
+  margin: 2.2rem 0 1.8rem;
+}
+
+// ── 하단: 연락처·사업자 정보 + 카피라이트
+.footer-bottom {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.footer-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  min-width: 0;
+}
+
+.footer-info-line {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 2.4rem;
+  font-size: 13px;
+  line-height: 1.6;
+
+  .item {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.7rem;
+    color: $colorGray800;
+    font-weight: 500;
     word-break: keep-all;
   }
 
-  a.value {
+  .label {
+    color: $colorGray600;
+    font-size: 12px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  a {
+    color: $colorGray800;
     text-decoration: none;
     transition: color 0.15s ease;
 
@@ -166,130 +200,119 @@
   }
 }
 
-// ── 카피라이트 바
-.footer-bottom {
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
+.footer-copy {
+  flex-shrink: 0;
+  font-size: 12px;
+  line-height: 1.6;
+  color: $colorGray600;
+  text-align: right;
 
-  .footer-bottom-inner {
-    max-width: 120rem;
-    margin: 0 auto;
-    padding: 1.6rem 3rem;
-    font-size: 13px;
-    color: $colorGray600;
+  br {
+    display: none; // 데스크탑은 한 줄
   }
 }
 
-// 태블릿: 2열 그리드 (브랜드가 첫 행 전체 차지)
+// 태블릿: 상단을 두 줄로 (브랜드 / 링크+SNS)
 @include range-tablet-header {
-  .footer-wrapper {
-    grid-template-columns: 1fr 1fr;
-    gap: 3rem 2.5rem;
-    padding: 4rem 2rem 3rem;
+  .footer-inner {
+    padding: 3rem 2rem 2rem;
   }
 
-  .footer-brand {
-    grid-column: 1 / -1;
+  .footer-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.8rem;
   }
 
-  .footer-bottom .footer-bottom-inner {
-    padding: 1.4rem 2rem;
+  .footer-top-right {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  // 카피라이트가 우측 플로팅 버튼(맨 위로)과 겹치지 않게 아래 줄 좌측으로
+  .footer-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .footer-copy {
+    text-align: left;
   }
 }
 
-// 모바일: 압축 레이아웃 (푸터가 세로로 길어지지 않게)
+// 모바일: 압축 스택
 @include mobile-header {
-  .footer-wrapper {
-    grid-template-columns: 1fr;
-    gap: 1.6rem;
-    padding: 2.4rem 1.5rem 2rem;
+  .footer-inner {
+    padding: 2.4rem 1.5rem 1.8rem;
   }
 
-  // 로고와 SNS를 한 줄에, 슬로건은 그 아래 한 줄
+  .footer-top {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1.4rem;
+  }
+
+  // 로고(좌) + SNS는 아래 링크줄 우측으로
   .footer-brand {
-    grid-column: auto;
-    display: grid;
-    grid-template-columns: 1fr auto;
-    align-items: center;
-    gap: 0.8rem;
+    gap: 1.4rem;
 
     .footer-logo {
-      width: 92px;
-      grid-column: 1;
-      grid-row: 1;
-    }
-
-    .footer-sns {
-      grid-column: 2;
-      grid-row: 1;
-
-      img {
-        width: 3.6rem;
-      }
+      width: 88px;
     }
 
     .footer-slogan {
-      grid-column: 1 / -1;
-      grid-row: 2;
-      margin: 0;
-
-      br {
-        display: none; // 모바일에선 한 줄로
-      }
+      font-size: 12px;
+      max-width: none;
     }
   }
 
-  // 컬럼 제목 숨김 (라벨이 이미 있어 중복)
-  .footer-col .footer-col-title {
-    display: none;
+  .footer-top-right {
+    width: 100%;
+    justify-content: space-between;
+    gap: 1.2rem;
   }
 
-  // 바로가기: 세로 리스트 → 가로 나열 (항목 사이 구분점)
-  .footer-link-list {
-    flex-direction: row !important;
+  .footer-links ul {
     flex-wrap: wrap;
-    gap: 0.4rem 0 !important;
-
-    li {
-      display: flex;
-      align-items: center;
-    }
 
     li + li::before {
-      content: '·';
       margin: 0 1.1rem;
-      color: $colorGray500;
-      font-weight: 700;
     }
 
     a {
-      font-size: 14px;
+      font-size: 13.5px;
     }
   }
 
-  .footer-info-list {
-    gap: 0.6rem !important;
+  .footer-sns img {
+    width: 3.2rem;
   }
 
-  .footer-info-list li {
-    font-size: 13px;
-
-    .label {
-      min-width: 5.2rem;
-    }
+  .footer-divider {
+    margin: 1.6rem 0 1.4rem;
   }
 
-  // 사업자 정보(대표/사업자번호)는 한 줄로
-  .footer-col:last-child .footer-info-list {
-    flex-direction: row !important;
-    flex-wrap: wrap;
-    gap: 0.4rem 2rem !important;
+  .footer-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.2rem;
   }
 
-  .footer-bottom .footer-bottom-inner {
-    padding: 1.2rem 1.5rem;
-    text-align: center;
+  .footer-info-line {
+    gap: 0.3rem 1.6rem;
     font-size: 12px;
-    word-break: keep-all;
+  }
+
+  .footer-copy {
+    width: 100%;
+    text-align: center;
+    padding-top: 0.4rem;
+    border-top: 1px dashed rgba(0, 0, 0, 0.08);
+
+    br {
+      display: none;
+    }
   }
 }
 
