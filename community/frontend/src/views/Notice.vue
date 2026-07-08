@@ -142,7 +142,7 @@ export default defineComponent({
 
       <div class="notice-row" v-for="(notice, index) in notices" :key="notice.boardIdx">
         <!-- 데스크탑 행 -->
-        <div class="row-content desktop-only clickable" :class="{ important: notice.bestYn === STATE_YN.Y }" @click="goToDetail(notice.boardIdx)">
+        <div class="row-content desktop-only clickable" :class="{ important: notice.bestYn === STATE_YN.Y }" tabindex="0" role="link" @click="goToDetail(notice.boardIdx)" @keydown.enter="goToDetail(notice.boardIdx)">
           <div class="col important">
             <img v-if="notice.bestYn === STATE_YN.Y" src="/assets/images/board/important.png" />
             <div v-else></div>
@@ -156,7 +156,7 @@ export default defineComponent({
         </div>
 
         <!-- 모바일 카드 -->
-        <div class="mobile-only mobile-card clickable" :class="{ important: notice.bestYn === STATE_YN.Y }" @click="goToDetail(notice.boardIdx)">
+        <div class="mobile-only mobile-card clickable" :class="{ important: notice.bestYn === STATE_YN.Y }" tabindex="0" role="link" @click="goToDetail(notice.boardIdx)" @keydown.enter="goToDetail(notice.boardIdx)">
           <div class="title">
             <img class="impor-icon" v-if="notice.bestYn === STATE_YN.Y" src="/assets/images/board/important.png" />
             {{ notice.title }}

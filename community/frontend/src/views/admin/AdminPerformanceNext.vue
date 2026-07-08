@@ -169,7 +169,7 @@ export default defineComponent({
 
       <div class="notice-row" v-for="(perfo, index) in perfos" :key="perfo.perIdx">
         <!-- 데스크탑 행 -->
-        <div class="row-content desktop-only clickable" @click="goToDetail(perfo.perIdx)">
+        <div class="row-content desktop-only clickable" tabindex="0" role="link" @click="goToDetail(perfo.perIdx)" @keydown.enter="goToDetail(perfo.perIdx)">
           <div class="col index">{{ index + 1 }}</div>
 
           <div class="col thumbnail">
@@ -188,7 +188,7 @@ export default defineComponent({
         </div>
 
         <!-- 모바일 카드 -->
-        <div class="mobile-only mobile-card clickable" @click="goToDetail(perfo.perIdx)">
+        <div class="mobile-only mobile-card clickable" tabindex="0" role="link" @click="goToDetail(perfo.perIdx)" @keydown.enter="goToDetail(perfo.perIdx)">
           <div class="title">
             {{ perfo.title }}
           </div>
