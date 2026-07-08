@@ -3,6 +3,8 @@ import { defineComponent, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import BasePagination from '@/components/common/BasePagination.vue';
 import EmptyState from '@/components/common/EmptyState.vue';
+import ErrorState from '@/components/common/ErrorState.vue';
+import ListRowSkeleton from '@/components/common/ListRowSkeleton.vue';
 import { PerfoEntity, SearchPerfoDto } from '@/api/dto/perfo.dto';
 import { getApiClient } from '@/utils/apiClient';
 import { getPerfoList } from '@/api/perfo.api';
@@ -12,7 +14,7 @@ import { useAdminList } from '@/composables/useAdminList';
 
 export default defineComponent({
   name: 'adminPerformanceNext',
-  components: { BasePagination, EmptyState },
+  components: { BasePagination, EmptyState, ErrorState, ListRowSkeleton },
   setup() {
     const router = useRouter();
     const apiClient = getApiClient();
@@ -147,11 +149,10 @@ export default defineComponent({
     </div>
 
     <!-- 로딩 / 에러 상태 -->
-    <div v-if="isLoading" class="list-status">불러오는 중…</div>
-    <div v-else-if="error" class="list-status list-status--error">
-      {{ error }}
-      <button class="retry-button" @click="loadPerfoList">다시 시도</button>
+    <div v-if="isLoading" class="notice-list">
+      <list-row-skeleton v-for="n in 8" :key="n" />
     </div>
+    <error-state v-else-if="error" @retry="loadPerfoList" />
 
     <!-- 결과가 있을 때 -->
     <div v-else-if="perfos.length > 0" class="notice-list">
