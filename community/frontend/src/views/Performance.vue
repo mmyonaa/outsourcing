@@ -3,6 +3,7 @@ import { defineComponent, onMounted, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import BasePagination from '@/components/common/BasePagination.vue';
 import EmptyState from '@/components/common/EmptyState.vue';
+import ErrorState from '@/components/common/ErrorState.vue';
 import { PerfoEntity, SearchPerfoDto } from '@/api/dto/perfo.dto';
 import { getApiClient } from '@/utils/apiClient';
 import { getPerfoList } from '@/api/perfo.api';
@@ -11,7 +12,7 @@ import { TYPE_PERFO, TYPE_PERFO_CATEGORY } from '@/types';
 
 export default defineComponent({
   name: 'performance',
-  components: { BasePagination, EmptyState },
+  components: { BasePagination, EmptyState, ErrorState },
   setup() {
     const route = useRoute();
     const router = useRouter();
@@ -19,6 +20,7 @@ export default defineComponent({
     const apiClient = getApiClient();
     const performances = ref<PerfoEntity[]>([]);
     const loading = ref<boolean>(true);
+    const error = ref<boolean>(false);
     const searchKeyword = ref<string>('');
     const selectedCategory = ref<string>('');
     const ROWS_PER_PAGE = 8; // 한 페이지당 8개
@@ -33,6 +35,7 @@ export default defineComponent({
       param.rows = ROWS_PER_PAGE;
 
       loading.value = true;
+      error.value = false;
       await getPerfoList(apiClient, param)
         .then(res => {
           if (res.resultCode === 0 && res.data) {
@@ -42,6 +45,10 @@ export default defineComponent({
               totalPage.value = Math.ceil(res.totalCount / ROWS_PER_PAGE);
             }
           }
+        })
+        .catch(e => {
+          console.error(e);
+          error.value = true;
         })
         .finally(() => {
           loading.value = false;
@@ -106,6 +113,8 @@ export default defineComponent({
     return {
       performances,
       loading,
+      error,
+      loadPerfoList,
       totalPage,
       dayjs,
       searchKeyword,
@@ -173,6 +182,9 @@ export default defineComponent({
         </div>
       </div>
     </div>
+
+    <!-- 불러오기 실패 -->
+    <error-state v-else-if="error" @retry="loadPerfoList" />
 
     <!-- 결과가 있을 때 -->
     <div v-else-if="performances.length > 0" class="performance-grid">

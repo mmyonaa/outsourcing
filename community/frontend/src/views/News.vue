@@ -3,6 +3,7 @@ import { defineComponent, onMounted, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import BasePagination from '@/components/common/BasePagination.vue';
 import EmptyState from '@/components/common/EmptyState.vue';
+import ErrorState from '@/components/common/ErrorState.vue';
 import ListRowSkeleton from '@/components/common/ListRowSkeleton.vue';
 import { BoardEntity, SearchBoardDto } from '@/api/dto/board.dto';
 import { getApiClient } from '@/utils/apiClient';
@@ -12,7 +13,7 @@ import { STATE_YN, TYPE_BOARD } from '@/types';
 
 export default defineComponent({
   name: 'news',
-  components: { BasePagination, EmptyState, ListRowSkeleton },
+  components: { BasePagination, EmptyState, ErrorState, ListRowSkeleton },
   setup() {
     const route = useRoute();
     const router = useRouter();
@@ -20,6 +21,7 @@ export default defineComponent({
     const apiClient = getApiClient();
     const notices = ref<BoardEntity[]>([]);
     const loading = ref<boolean>(true);
+    const error = ref<boolean>(false);
     const searchKeyword = ref<string>('');
     const ROWS_PER_PAGE = 10; // 한 페이지당 10개
 
@@ -41,6 +43,10 @@ export default defineComponent({
               totalPage.value = Math.ceil(res.totalCount / ROWS_PER_PAGE);
             }
           }
+        })
+        .catch(e => {
+          console.error(e);
+          error.value = true;
         })
         .finally(() => {
           loading.value = false;
@@ -80,6 +86,8 @@ export default defineComponent({
     return {
       notices,
       loading,
+      error,
+      loadBoardLit,
       totalPage,
       dayjs,
       STATE_YN,
@@ -110,6 +118,9 @@ export default defineComponent({
     <div v-if="loading" class="notice-list">
       <list-row-skeleton v-for="n in 8" :key="`sk-${n}`" />
     </div>
+
+    <!-- 불러오기 실패 -->
+    <error-state v-else-if="error" @retry="loadBoardLit" />
 
     <!-- 결과가 있을 때 -->
     <div v-else-if="notices.length > 0" class="notice-list">
