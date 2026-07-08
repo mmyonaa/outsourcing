@@ -17,7 +17,7 @@ export default defineComponent({
   <div class="footer">
     <div class="footer-wrapper">
       <div class="footer-logo-img">
-				<img src="/assets/images/logo/theater.png" />
+				<img src="/assets/images/logo/theater.png" alt="보광극장 로고" />
       </div>
       <div class="footer-info-wrapper">
         <div>
@@ -38,7 +38,7 @@ export default defineComponent({
             rel="noopener noreferrer"
             class="social-link"
           >
-          <img src="/assets/images/home/insta.png" class="insta"/>
+          <img src="/assets/images/home/insta.png" class="insta" alt="인스타그램" />
         </a>
         </div>
       </div>

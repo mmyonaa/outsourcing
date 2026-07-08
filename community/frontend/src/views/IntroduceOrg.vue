@@ -21,7 +21,7 @@ export default defineComponent({
     <div class="wrapper">
       <div class="wrapper-item">
       <div class="theater-img">
-          <img loading="lazy" src="/assets/images/theater/main.jpeg" />
+          <img loading="lazy" src="/assets/images/theater/main.jpeg" alt="보광극장 소개 이미지" />
       </div>
       <div class="text">
         <strong>

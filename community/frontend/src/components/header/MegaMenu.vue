@@ -130,7 +130,7 @@ export default defineComponent({
     <header :class="[{ 'active-border': isActive && headerType === 'opacity' }, { 'white-background': isSubMenuVisible }, headerType]">
       <div class="main-header-wrapper">
         <base-link class="main-header-logo" href="/">
-          <img src="/assets/images/logo/theater.png" @click="onClickLogo" />
+          <img src="/assets/images/logo/theater.png" alt="보광극장 로고" @click="onClickLogo" />
         </base-link>
 
         <!-- PC main menu -->
@@ -184,7 +184,7 @@ export default defineComponent({
       <section v-show="storeManager.stateStore.popupMode?.type === POPUP_TYPE.TABLET_SIDE_MENU" class="main-menu-section-tablet">
         <ul>
           <li class="close-wrapper">
-            <img class="logo-img" src="/assets/images/logo/theater.png" />
+            <img class="logo-img" src="/assets/images/logo/theater.png" alt="보광극장 로고" />
             <base-image-set
               class="close-btn"
               :img-sets="3"
