@@ -147,6 +147,16 @@ a {
   -moz-user-drag: none;
   -o-user-drag: none;
 }
+
+/* 키보드 포커스 표시 (마우스 클릭 시엔 안 뜸) */
+:focus-visible {
+  outline: 2px solid #e34363;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+:focus:not(:focus-visible) {
+  outline: none;
+}
 div,
 span,
 h1,
