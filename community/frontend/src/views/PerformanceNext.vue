@@ -3,7 +3,6 @@ import { defineComponent, onMounted, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import BasePagination from '@/components/common/BasePagination.vue';
 import EmptyState from '@/components/common/EmptyState.vue';
-import PosterCardSkeleton from '@/components/common/PosterCardSkeleton.vue';
 import { PerfoEntity, SearchPerfoDto } from '@/api/dto/perfo.dto';
 import { getApiClient } from '@/utils/apiClient';
 import { getPerfoList } from '@/api/perfo.api';
@@ -12,7 +11,7 @@ import { TYPE_PERFO, TYPE_PERFO_CATEGORY } from '@/types';
 
 export default defineComponent({
   name: 'performanceNext',
-  components: { BasePagination, EmptyState, PosterCardSkeleton },
+  components: { BasePagination, EmptyState },
   setup() {
     const route = useRoute();
     const router = useRouter();
@@ -161,10 +160,18 @@ export default defineComponent({
       </div>
     </div>
 
-    <!-- 결과가 있을 때 -->
     <!-- 로딩 중 -->
     <div v-if="loading" class="performance-grid">
-      <poster-card-skeleton v-for="n in 8" :key="`sk-${n}`" />
+      <div v-for="n in 8" :key="`sk-${n}`" class="performance-card">
+        <div class="card-image"><span class="skeleton" style="display:block;width:100%;height:100%"></span></div>
+        <div class="card-content">
+          <div class="category-title-wrapper">
+            <span class="skeleton" style="width: 44px; height: 24px; border-radius: 999px; flex-shrink: 0"></span>
+            <span class="skeleton" style="flex: 1; height: 16px; border-radius: 5px"></span>
+          </div>
+          <span class="skeleton" style="display: block; width: 70%; height: 14px; border-radius: 5px; margin-top: 0.4rem"></span>
+        </div>
+      </div>
     </div>
 
     <!-- 결과가 있을 때 -->

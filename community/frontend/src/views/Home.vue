@@ -6,7 +6,6 @@ import { PerfoEntity, SearchPerfoDto } from '@/api/dto/perfo.dto';
 import { getBannerList } from '@/api/banner.api';
 import { BannerEntity, SearchBannerDto } from '@/api/dto/banner.dto';
 import BaseImageSet from '@/components/common/BaseImageSet.vue';
-import PosterCardSkeleton from '@/components/common/PosterCardSkeleton.vue';
 import { getApiClient } from '@/utils/apiClient';
 import { defineComponent, onMounted, onUnmounted, ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
@@ -15,7 +14,7 @@ import { TYPE_BOARD, TYPE_PERFO, TYPE_PERFO_CATEGORY } from '@/types';
 
 export default defineComponent({
   name: 'Home',
-  components: { BaseImageSet, PosterCardSkeleton },
+  components: { BaseImageSet },
   setup() {
     const router = useRouter();
     const activeReserveIndex = ref<number>(0);
@@ -233,7 +232,16 @@ export default defineComponent({
           <router-link to="/performance">+ more</router-link>
         </div>
         <div v-if="normalLoading" class="poster-gallery rental">
-          <poster-card-skeleton v-for="n in 4" :key="`sk-n-${n}`" />
+          <div v-for="n in 4" :key="`sk-n-${n}`" class="poster">
+            <div class="poster-image"><span class="skeleton" style="display:block;width:100%;height:100%"></span></div>
+            <div class="poster-content">
+              <div class="category-tag-wrapper">
+                <span class="skeleton" style="width: 44px; height: 24px; border-radius: 999px; flex-shrink: 0"></span>
+                <span class="skeleton" style="flex: 1; height: 16px; border-radius: 5px"></span>
+              </div>
+              <span class="skeleton" style="width: 65%; height: 14px; border-radius: 5px"></span>
+            </div>
+          </div>
         </div>
         <div v-else-if="normalPerformances.length > 0" class="poster-gallery rental">
           <router-link
@@ -269,7 +277,16 @@ export default defineComponent({
           <router-link to="/performance/next">+ more</router-link>
         </div>
         <div v-if="nextLoading" class="poster-gallery text">
-          <poster-card-skeleton v-for="n in 4" :key="`sk-x-${n}`" />
+          <div v-for="n in 4" :key="`sk-x-${n}`" class="poster">
+            <div class="poster-image"><span class="skeleton" style="display:block;width:100%;height:100%"></span></div>
+            <div class="poster-content">
+              <div class="category-tag-wrapper">
+                <span class="skeleton" style="width: 44px; height: 24px; border-radius: 999px; flex-shrink: 0"></span>
+                <span class="skeleton" style="flex: 1; height: 16px; border-radius: 5px"></span>
+              </div>
+              <span class="skeleton" style="width: 65%; height: 14px; border-radius: 5px"></span>
+            </div>
+          </div>
         </div>
         <div v-else-if="nextPerformances.length > 0" class="poster-gallery text">
           <router-link
