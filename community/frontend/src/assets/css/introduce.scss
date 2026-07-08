@@ -71,6 +71,15 @@
     .desc {
       flex: 1;
     }
+
+    @include mobile {
+      flex-direction: column;
+      gap: 4px;
+
+      .year {
+        min-width: 0;
+      }
+    }
   }
 
   .divider {

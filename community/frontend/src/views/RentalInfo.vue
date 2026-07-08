@@ -270,6 +270,7 @@ export default defineComponent({
 }
 
 .refund-table th {
+  word-break: keep-all;
   padding: 1.5rem 1rem;
   font-size: 16px;
   font-weight: 700;
@@ -282,6 +283,7 @@ export default defineComponent({
 }
 
 .refund-table td {
+  word-break: keep-all;
   padding: 1.5rem 1rem;
   font-size: 16px;
   text-align: center;
