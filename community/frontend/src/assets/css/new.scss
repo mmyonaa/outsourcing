@@ -43,7 +43,7 @@
 // 푸터 스타일 - footer.scss 대체
 .footer {
   background-color: $colorTertiary;
-  padding: 5rem 3rem;
+  color: $colorFont;
 
   &.is-hidden {
     display: none;
@@ -51,136 +51,245 @@
 }
 
 .footer-wrapper {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1.4fr 0.8fr 1.3fr 1fr;
+  gap: 3rem 4rem;
+  align-items: start;
   width: 100%;
-  max-width: 140rem;
+  max-width: 120rem;
   margin: 0 auto;
+  padding: 5rem 3rem 4rem;
 }
 
-.footer-logo-img {
-  flex-shrink: 0;
-  margin-right: 4rem;
+// ── 브랜드 (로고 + 슬로건 + SNS)
+.footer-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.4rem;
 
-  img {
+  .footer-logo {
     width: 120px;
     display: block;
   }
+
+  .footer-slogan {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.6;
+    color: $colorGray700;
+    word-break: keep-all;
+  }
+
+  .footer-sns {
+    display: inline-flex;
+    border-radius: 12px;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+
+    img {
+      width: 4.4rem;
+      display: block;
+    }
+
+    &:hover {
+      transform: translateY(-2px);
+      opacity: 0.85;
+    }
+  }
 }
 
-.footer-info-wrapper {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 2rem;
-  flex: 1;
+// ── 컬럼 공통
+.footer-col {
   min-width: 0;
-  margin-right: 4rem;
 
-  > div {
-    font-size: 16px;
-    font-weight: 600;
+  .footer-col-title {
+    margin: 0 0 1.4rem;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: $colorGray600;
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    white-space: nowrap;
-
-    div {
-      font-size: inherit;
-      font-weight: inherit;
-    }
   }
 }
 
-.footer-sns-wrapper {
+// 바로가기 링크
+.footer-link-list a {
+  font-size: 15px;
+  font-weight: 600;
+  color: $colorFont;
+  text-decoration: none;
+  transition: color 0.15s ease;
+
+  &:hover {
+    color: $colorPrimary;
+  }
+}
+
+// 라벨-값 정보
+.footer-info-list li {
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 2rem;
-  flex-shrink: 0;
+  align-items: baseline;
+  gap: 1rem;
+  font-size: 15px;
+  line-height: 1.5;
 
-  img {
-    width: 6rem;
-    display: block;
+  .label {
+    flex-shrink: 0;
+    min-width: 6.4rem;
+    font-size: 13px;
+    font-weight: 600;
+    color: $colorGray600;
   }
 
-  .insta {
-    width: 6.5rem;
+  .value {
+    font-weight: 600;
+    color: $colorFont;
+    word-break: keep-all;
+  }
+
+  a.value {
+    text-decoration: none;
+    transition: color 0.15s ease;
+
+    &:hover {
+      color: $colorPrimary;
+      text-decoration: underline;
+    }
   }
 }
 
-// 태블릿
+// ── 카피라이트 바
+.footer-bottom {
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+
+  .footer-bottom-inner {
+    max-width: 120rem;
+    margin: 0 auto;
+    padding: 1.6rem 3rem;
+    font-size: 13px;
+    color: $colorGray600;
+  }
+}
+
+// 태블릿: 2열 그리드 (브랜드가 첫 행 전체 차지)
 @include range-tablet-header {
-  .footer {
-    padding: 4rem 2rem;
-  }
-
   .footer-wrapper {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 3rem;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem 2.5rem;
+    padding: 4rem 2rem 3rem;
   }
 
-  .footer-logo-img {
-    margin-right: 0;
+  .footer-brand {
+    grid-column: 1 / -1;
   }
 
-  .footer-info-wrapper {
-    margin-right: 0;
-    flex-wrap: wrap;
-    gap: 1.5rem 2.5rem;
-
-    > div {
-      white-space: normal;
-    }
+  .footer-bottom .footer-bottom-inner {
+    padding: 1.4rem 2rem;
   }
 }
 
-// 모바일
+// 모바일: 압축 레이아웃 (푸터가 세로로 길어지지 않게)
 @include mobile-header {
-  .footer {
-    padding: 3rem 1.5rem;
-  }
-
   .footer-wrapper {
-    flex-direction: column;
-    align-items: flex-start;
+    grid-template-columns: 1fr;
+    gap: 1.6rem;
+    padding: 2.4rem 1.5rem 2rem;
   }
 
-  .footer-logo-img {
-    margin-right: 0;
+  // 로고와 SNS를 한 줄에, 슬로건은 그 아래 한 줄
+  .footer-brand {
+    grid-column: auto;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 0.8rem;
 
-    img {
-      width: 100px;
+    .footer-logo {
+      width: 92px;
+      grid-column: 1;
+      grid-row: 1;
+    }
+
+    .footer-sns {
+      grid-column: 2;
+      grid-row: 1;
+
+      img {
+        width: 3.6rem;
+      }
+    }
+
+    .footer-slogan {
+      grid-column: 1 / -1;
+      grid-row: 2;
+      margin: 0;
+
+      br {
+        display: none; // 모바일에선 한 줄로
+      }
     }
   }
 
-  .footer-info-wrapper {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 2rem;
-    width: 100%;
-    margin-right: 0;
+  // 컬럼 제목 숨김 (라벨이 이미 있어 중복)
+  .footer-col .footer-col-title {
+    display: none;
+  }
 
-    > div {
+  // 바로가기: 세로 리스트 → 가로 나열 (항목 사이 구분점)
+  .footer-link-list {
+    flex-direction: row !important;
+    flex-wrap: wrap;
+    gap: 0.4rem 0 !important;
+
+    li {
+      display: flex;
+      align-items: center;
+    }
+
+    li + li::before {
+      content: '·';
+      margin: 0 1.1rem;
+      color: $colorGray500;
+      font-weight: 700;
+    }
+
+    a {
       font-size: 14px;
-      gap: 1rem;
-      width: 100%;
-      white-space: normal;
     }
   }
 
-  .footer-sns-wrapper {
-    img {
-      width: 5rem;
-    }
+  .footer-info-list {
+    gap: 0.6rem !important;
+  }
 
-    .insta {
-      width: 5.5rem;
+  .footer-info-list li {
+    font-size: 13px;
+
+    .label {
+      min-width: 5.2rem;
     }
+  }
+
+  // 사업자 정보(대표/사업자번호)는 한 줄로
+  .footer-col:last-child .footer-info-list {
+    flex-direction: row !important;
+    flex-wrap: wrap;
+    gap: 0.4rem 2rem !important;
+  }
+
+  .footer-bottom .footer-bottom-inner {
+    padding: 1.2rem 1.5rem;
+    text-align: center;
+    font-size: 12px;
+    word-break: keep-all;
   }
 }
 

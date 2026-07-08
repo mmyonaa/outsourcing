@@ -1,49 +1,83 @@
 <script lang="ts">
-import BaseImageSet from '@/components/common/BaseImageSet.vue';
-import BaseLink from '@/components/common/BaseLink.vue';
 import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'LayoutFooter',
-  components: { BaseImageSet, BaseLink },
   setup() {
-    return {
-    };
+    const year = new Date().getFullYear();
+    return { year };
   },
 });
 </script>
 
 <template>
-  <div class="footer">
+  <footer class="footer">
     <div class="footer-wrapper">
-      <div class="footer-logo-img">
-				<img src="/assets/images/logo/theater.png" alt="보광극장 로고" />
-      </div>
-      <div class="footer-info-wrapper">
-        <div>
-          <div>사업자 대표 | 강민수</div>
-          <div>사업자 번호 | 213-90-10920</div>
-        </div>
-        <div>
-          <div>주소 | 서울특별시 용산구 장문로 19길 4, 지하</div>
-          <div>전화번호 | 02-794-5803</div>
-        </div>
-        <div> 이메일 | bokwang_theater@naver.com</div>
-      </div>
-      <div class="footer-sns-wrapper">
-        <div>
-          <!-- 인스타 -->
-          <a href="https://www.instagram.com/bokwang_theater"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="social-link"
-          >
-          <img src="/assets/images/home/insta.png" class="insta" alt="인스타그램" />
+      <!-- 브랜드: 로고 + 슬로건 + SNS -->
+      <div class="footer-brand">
+        <img class="footer-logo" src="/assets/images/logo/theater.png" alt="보광극장 로고" />
+        <p class="footer-slogan">창작과 실험을 응원하는 <br />용산의 지역극장</p>
+        <a
+          class="footer-sns"
+          href="https://www.instagram.com/bokwang_theater"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="보광극장 인스타그램 (새 창)">
+          <img src="/assets/images/home/insta.png" alt="" />
         </a>
-        </div>
+      </div>
+
+      <!-- 바로가기 -->
+      <nav class="footer-col" aria-label="푸터 바로가기">
+        <h3 class="footer-col-title">바로가기</h3>
+        <ul class="footer-link-list">
+          <li><router-link to="/performance">공연</router-link></li>
+          <li><router-link to="/rental/info">대관 안내</router-link></li>
+          <li><router-link to="/notice">공지사항</router-link></li>
+          <li><router-link to="/introduce/route">오시는 길</router-link></li>
+        </ul>
+      </nav>
+
+      <!-- 연락처 -->
+      <div class="footer-col">
+        <h3 class="footer-col-title">연락처</h3>
+        <ul class="footer-info-list">
+          <li>
+            <span class="label">주소</span>
+            <span class="value">서울특별시 용산구 장문로19길 4, 지하</span>
+          </li>
+          <li>
+            <span class="label">전화</span>
+            <a class="value" href="tel:02-794-5803">02-794-5803</a>
+          </li>
+          <li>
+            <span class="label">이메일</span>
+            <a class="value" href="mailto:bokwang_theater@naver.com">bokwang_theater@naver.com</a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- 사업자 정보 -->
+      <div class="footer-col">
+        <h3 class="footer-col-title">사업자 정보</h3>
+        <ul class="footer-info-list">
+          <li>
+            <span class="label">대표</span>
+            <span class="value">강민수</span>
+          </li>
+          <li>
+            <span class="label">사업자번호</span>
+            <span class="value">213-90-10920</span>
+          </li>
+        </ul>
       </div>
     </div>
-  </div>
+
+    <!-- 카피라이트 -->
+    <div class="footer-bottom">
+      <div class="footer-bottom-inner">© {{ year }} 보광극장 BOKWANG THEATER. All rights reserved.</div>
+    </div>
+  </footer>
 </template>
 
 <style scoped></style>
