@@ -193,11 +193,11 @@ export default defineComponent({
 
           <div class="notice-content" v-html="performance.body"></div>
         </div>
-      </div>
-    </div>
 
-    <div class="back-button-wrapper">
-      <button class="back-button" @click="goBack">← 목록으로 돌아가기</button>
+        <div class="back-button-wrapper">
+          <button class="back-button" @click="goBack">← 목록으로 돌아가기</button>
+        </div>
+      </div>
     </div>
   </div>
 </template>

@@ -93,7 +93,7 @@ export default defineComponent({
 }
 
 .procedure-title {
-  font-size: 1.5rem;
+  font-size: 22px;
   font-weight: 700;
   text-align: center;
   color: #333;
@@ -124,7 +124,7 @@ export default defineComponent({
   }
 
   .procedure-title {
-    font-size: 1.35rem;
+    font-size: 20px;
     margin-bottom: 2rem;
   }
 
@@ -140,7 +140,7 @@ export default defineComponent({
   }
 
   .procedure-title {
-    font-size: 1.25rem;
+    font-size: 18px;
     margin-bottom: 1.5rem;
   }
 
@@ -159,7 +159,7 @@ export default defineComponent({
 }
 
 .documents-title {
-  font-size: 1.5rem;
+  font-size: 22px;
   font-weight: 700;
   text-align: center;
   color: #333;
@@ -190,7 +190,7 @@ export default defineComponent({
   }
 
   .documents-title {
-    font-size: 1.35rem;
+    font-size: 20px;
     margin-bottom: 2rem;
   }
 
@@ -210,7 +210,7 @@ export default defineComponent({
   }
 
   .documents-title {
-    font-size: 1.25rem;
+    font-size: 18px;
     margin-bottom: 1.5rem;
   }
 
@@ -233,7 +233,7 @@ export default defineComponent({
 }
 
 .refund-title {
-  font-size: 1.5rem;
+  font-size: 22px;
   font-weight: 700;
   text-align: center;
   color: #333;
@@ -303,7 +303,7 @@ export default defineComponent({
   }
 
   .refund-title {
-    font-size: 1.35rem;
+    font-size: 20px;
     margin-bottom: 2rem;
   }
 
@@ -337,7 +337,7 @@ export default defineComponent({
   }
 
   .refund-title {
-    font-size: 1.25rem;
+    font-size: 18px;
     margin-bottom: 1.5rem;
   }
 

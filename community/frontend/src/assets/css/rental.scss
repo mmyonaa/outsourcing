@@ -124,7 +124,7 @@
 }
   .rental-link {
   display: inline-block;
-  background-color: $colorPrimaryMute;
+  background-color: $colorPrimary;
   color: white;
   font-size: 20px;
   font-weight: 600;
@@ -134,6 +134,6 @@
   transition: background-color 0.3s;
 
   &:hover {
-  background-color: $colorPrimary;
+  background-color: $colorPrimaryStrong;
 }
 }

@@ -252,8 +252,7 @@
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    min-height: 160px;
+    gap: 0.75rem;
     text-decoration: none;
     color: $colorGray900;
 
@@ -265,12 +264,10 @@
     .title {
       font-size: 16px;
       font-weight: 500;
-      margin-bottom: 0.75rem;
       line-height: 1.4;
     }
 
     .date {
-      margin-top: auto;
       font-size: 14px;
       color: $colorGray600;
     }

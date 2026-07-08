@@ -10,13 +10,20 @@
       gap: 32px;
       @media (min-width: 768px) {
         flex-direction: row;
+        align-items: flex-start;
         gap: 40px;
       }
     }
-  
+
     .theater-img {
       flex: 1;
-      
+
+      // 데스크톱에서 긴 연혁을 스크롤하는 동안 사진이 따라오게(좌측 공백 방지)
+      @media (min-width: 768px) {
+        position: sticky;
+        top: 2rem;
+      }
+
       #kakaoMap {
         border: 2px solid $colorTertiary;
       }
