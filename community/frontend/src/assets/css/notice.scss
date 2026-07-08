@@ -167,6 +167,32 @@
   }
 }
 
+// 목록 결과 카운트 + 적용된 필터 표시 (공지/보도자료/공연 목록 공통)
+.results-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 0 0 0.75rem;
+  padding: 0 1rem;
+  font-size: 15px;
+  color: #666;
+
+  strong {
+    color: #333;
+    font-weight: 700;
+  }
+
+  .meta-chip {
+    padding: 0.25rem 0.8rem;
+    border-radius: 999px;
+    background: #f1f1f4;
+    color: #555;
+    font-size: 13px;
+    font-weight: 600;
+  }
+}
+
 .notice-list {
   width: 100%;
   padding: 1rem;

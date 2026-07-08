@@ -18,6 +18,8 @@ export default defineComponent({
     const route = useRoute();
     const router = useRouter();
     const totalPage = ref<number>(0); // 총 페이지
+    const totalCount = ref<number>(0); // 전체 결과 수 (결과 카운트 표시용)
+    const appliedKeyword = ref<string>(''); // 실제 조회에 사용된 검색어
     const apiClient = getApiClient();
     const notices = ref<BoardEntity[]>([]);
     const loading = ref<boolean>(true);
@@ -32,6 +34,7 @@ export default defineComponent({
       param.keyword = searchKeyword.value || undefined;
       param.page = currentPage;
       param.rows = ROWS_PER_PAGE;
+      appliedKeyword.value = searchKeyword.value;
 
       loading.value = true;
       await getBoardList(apiClient, param)
@@ -39,9 +42,8 @@ export default defineComponent({
           if (res.resultCode === 0 && res.data) {
             notices.value = res.data;
             // totalCount를 사용하여 totalPage 계산
-            if (res.totalCount) {
-              totalPage.value = Math.ceil(res.totalCount / ROWS_PER_PAGE);
-            }
+            totalCount.value = res.totalCount || 0;
+            totalPage.value = Math.ceil(totalCount.value / ROWS_PER_PAGE);
           }
         })
         .catch(e => {
@@ -89,6 +91,8 @@ export default defineComponent({
       error,
       loadBoardLit,
       totalPage,
+      totalCount,
+      appliedKeyword,
       dayjs,
       STATE_YN,
       searchKeyword,
@@ -114,6 +118,12 @@ export default defineComponent({
       </button>
     </div>
 
+    <!-- 결과 카운트 -->
+    <div v-if="!loading && !error" class="results-meta">
+      총 <strong>{{ totalCount }}</strong>개
+      <span v-if="appliedKeyword" class="meta-chip">‘{{ appliedKeyword }}’ 검색</span>
+    </div>
+
     <!-- 로딩 중 -->
     <div v-if="loading" class="notice-list">
       <list-row-skeleton v-for="n in 8" :key="`sk-${n}`" />
@@ -123,7 +133,7 @@ export default defineComponent({
     <error-state v-else-if="error" @retry="loadBoardLit" />
 
     <!-- 결과가 있을 때 -->
-    <div v-else-if="notices.length > 0" class="notice-list">
+    <div v-reveal v-else-if="notices.length > 0" class="notice-list">
       <!-- 데스크탑용 테이블 -->
       <div class="notice-header desktop-only">
         <div class="col important"></div>

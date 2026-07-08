@@ -17,6 +17,8 @@ export default defineComponent({
     const route = useRoute();
     const router = useRouter();
     const totalPage = ref<number>(0);
+    const totalCount = ref<number>(0); // 전체 결과 수 (결과 카운트 표시용)
+    const appliedKeyword = ref<string>(''); // 실제 조회에 사용된 검색어
     const apiClient = getApiClient();
     const performances = ref<PerfoEntity[]>([]);
     const loading = ref<boolean>(true);
@@ -33,6 +35,7 @@ export default defineComponent({
       param.category = selectedCategory.value || undefined;
       param.page = currentPage;
       param.rows = ROWS_PER_PAGE;
+      appliedKeyword.value = searchKeyword.value;
 
       loading.value = true;
       error.value = false;
@@ -41,9 +44,8 @@ export default defineComponent({
           if (res.resultCode === 0 && res.data) {
             performances.value = res.data;
             // totalCount를 사용하여 totalPage 계산
-            if (res.totalCount) {
-              totalPage.value = Math.ceil(res.totalCount / ROWS_PER_PAGE);
-            }
+            totalCount.value = res.totalCount || 0;
+            totalPage.value = Math.ceil(totalCount.value / ROWS_PER_PAGE);
           }
         })
         .catch(e => {
@@ -116,6 +118,8 @@ export default defineComponent({
       error,
       loadPerfoList,
       totalPage,
+      totalCount,
+      appliedKeyword,
       dayjs,
       searchKeyword,
       selectedCategory,
@@ -169,6 +173,13 @@ export default defineComponent({
       </div>
     </div>
 
+    <!-- 결과 카운트 -->
+    <div v-if="!loading && !error" class="results-meta">
+      총 <strong>{{ totalCount }}</strong>개
+      <span v-if="selectedCategory" class="meta-chip">{{ getCategoryLabel(selectedCategory) }}</span>
+      <span v-if="appliedKeyword" class="meta-chip">‘{{ appliedKeyword }}’ 검색</span>
+    </div>
+
     <!-- 로딩 중 -->
     <div v-if="loading" class="performance-grid">
       <div v-for="n in 8" :key="`sk-${n}`" class="performance-card">
@@ -188,7 +199,7 @@ export default defineComponent({
 
     <!-- 결과가 있을 때 -->
     <div v-else-if="performances.length > 0" class="performance-grid">
-      <div class="performance-card" v-for="(performance, index) in performances" :key="performance.perIdx">
+      <div v-reveal="Math.min(index * 60, 360)" class="performance-card" v-for="(performance, index) in performances" :key="performance.perIdx">
         <router-link :to="`/performance/${performance.perIdx}`" class="card-link">
           <div class="card-image">
             <img loading="lazy" :src="performance.imgUrl || '/assets/images/common/default-thumbnail.svg'" :alt="performance.title" @error="handleImageError" />
@@ -286,9 +297,34 @@ export default defineComponent({
   transform: translateY(0);
 }
 
+/* 활성 필터: 해당 카테고리 색으로 채워서 선택 상태를 분명하게 */
 .category-filter-btn.active {
-  /* box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.3); */
   transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+}
+
+.category-filter-btn.active.category-perfo {
+  background: #736e92;
+  color: #fff;
+  border-color: #736e92;
+}
+
+.category-filter-btn.active.category-edu {
+  background: #a72f47;
+  color: #fff;
+  border-color: #a72f47;
+}
+
+.category-filter-btn.active.category-event {
+  background: #585440;
+  color: #fff;
+  border-color: #585440;
+}
+
+/* 결과 카운트 위치 조정 (기본 스타일은 notice.scss 전역 정의) */
+.results-meta {
+  margin: -1rem 0 1.5rem;
+  padding: 0;
 }
 
 /* 초기화 버튼 */

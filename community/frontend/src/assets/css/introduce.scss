@@ -54,25 +54,62 @@
     }
   }
   
+// 연혁 타임라인 — 좌측 세로선 + 연도 닷(dot)
 .history-timeline {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+  position: relative;
   max-width: 800px;
   margin: 0 auto;
+  padding-left: 28px; // 세로선·닷 영역
+
+  // 세로선 (첫 닷 ~ 마지막 닷 사이)
+  &::before {
+    content: '';
+    position: absolute;
+    left: 7px;
+    top: 10px;
+    bottom: 14px;
+    width: 2px;
+    background: linear-gradient(to bottom, $colorPrimary 0%, $colorGray300 14rem);
+  }
 
   .history-item {
+    position: relative;
     display: flex;
     align-items: flex-start;
     gap: 16px;
+    padding-bottom: 1.4rem;
     font-size: 16px;
     line-height: 1.6;
     color: $colorGray800;
 
+    &:last-child {
+      padding-bottom: 0;
+    }
+
+    // 연도 닷
+    &::before {
+      content: '';
+      position: absolute;
+      left: -28px;
+      top: 7px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #fff;
+      border: 3px solid $colorGray400;
+      box-sizing: border-box;
+    }
+
+    // 첫 항목(창단)은 포인트 컬러로 강조
+    &:first-child::before {
+      border-color: $colorPrimary;
+    }
+
     .year {
-      font-weight: bold;
+      font-weight: 700;
       min-width: 100px;
       color: #444;
+      font-variant-numeric: tabular-nums; // 연도 자릿수 정렬
     }
 
     .desc {
@@ -81,18 +118,14 @@
 
     @include mobile {
       flex-direction: column;
-      gap: 4px;
+      gap: 2px;
 
       .year {
         min-width: 0;
+        font-size: 14px;
+        color: $colorGray600;
       }
     }
-  }
-
-  .divider {
-    height: 1px;
-    background-color: $colorGray200;
-    margin: 8px 0;
   }
 
   h2 {

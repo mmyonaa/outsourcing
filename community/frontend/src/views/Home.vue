@@ -223,7 +223,7 @@ export default defineComponent({
       </div>
     </section>
     <div class="page-common home-page">
-      <section class="home-section-item">
+      <section v-reveal class="home-section-item">
         <div class="title-wrapper">
           <div class="title">
             <img src="/assets/images/home/ticket.png" />
@@ -268,7 +268,7 @@ export default defineComponent({
         </div>
         <div v-else class="empty-message">등록된 프로그램이 없습니다</div>
       </section>
-      <section class="home-section-item">
+      <section v-reveal class="home-section-item">
         <div class="title-wrapper">
           <div class="title">
             <img src="/assets/images/home/theater.png" />
@@ -313,7 +313,7 @@ export default defineComponent({
         </div>
         <div v-else class="empty-message">등록된 프로그램이 없습니다</div>
       </section>
-      <section class="home-section-item">
+      <section v-reveal class="home-section-item">
         <div class="title-wrapper">
           <div class="title">
             <img src="/assets/images/home/notice.png" />

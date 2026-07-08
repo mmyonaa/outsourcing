@@ -16,7 +16,7 @@ export default defineComponent({
   <div class="page-common introduce-page">
     <h1>극장 소개</h1>
     <div class="wrapper">
-      <div class="wrapper-item">
+      <div v-reveal class="wrapper-item">
         <div class="theater-img">
           <base-image-set src="/assets/images/theater/theater_new.jpg" />
         </div>
@@ -32,7 +32,7 @@ export default defineComponent({
           지인과 연극인들이 주를 이루는 관객 형태에서 벗어나 일반 시민들이 공연문화에 접근하는 발판을 마련하고 있다.
         </div>
       </div>
-      <div class="wrapper-item">
+      <div v-reveal class="wrapper-item">
         <div class="theater-img">
           <base-image-set src="/assets/images/theater/intro_new.jpg" />
         </div>
@@ -41,7 +41,6 @@ export default defineComponent({
             <span class="year">2017.07.07</span>
             <span class="desc">창작예술집단 보광극장 창단</span>
           </div>
-          <div class="divider"></div>
 
           <div class="history-item">
             <span class="year">2017</span>
@@ -51,7 +50,6 @@ export default defineComponent({
             <span class="year">2017</span>
             <span class="desc">첫 번째 창작극 &lt;눈사탕&gt;</span>
           </div>
-          <div class="divider"></div>
 
           <div class="history-item">
             <span class="year">2018</span>
@@ -65,7 +63,6 @@ export default defineComponent({
             <span class="year">2019</span>
             <span class="desc">네 번째 창작극 &lt;오후 두시의 고독&gt;</span>
           </div>
-          <div class="divider"></div>
 
           <div class="history-item">
             <span class="year">2020</span>
@@ -79,7 +76,6 @@ export default defineComponent({
             <span class="year">2020</span>
             <span class="desc">연극 &lt;2018파우스트&gt; 재연 &lt;파우스트의 은밀한 실험실&gt;</span>
           </div>
-          <div class="divider"></div>
 
           <div class="history-item">
             <span class="year">2020</span>
@@ -89,7 +85,6 @@ export default defineComponent({
             <span class="year">2020</span>
             <span class="desc">연극 &lt;눈사탕&gt; 재연 &lt;빈집의 온기&gt;</span>
           </div>
-          <div class="divider"></div>
 
           <div class="history-item">
             <span class="year">2021</span>
@@ -99,7 +94,6 @@ export default defineComponent({
             <span class="year">2022</span>
             <span class="desc">정기공연 &lt;비평가&gt;</span>
           </div>
-          <div class="divider"></div>
 
           <div class="history-item">
             <span class="year">2022</span>
@@ -109,7 +103,6 @@ export default defineComponent({
             <span class="year">2022</span>
             <span class="desc">창작 워크숍 &lt;맛보기&gt;</span>
           </div>
-          <div class="divider"></div>
 
           <div class="history-item">
             <span class="year">2022</span>
@@ -119,7 +112,6 @@ export default defineComponent({
             <span class="year">2023</span>
             <span class="desc">정기공연 &lt;우리읍내&gt;</span>
           </div>
-          <div class="divider"></div>
 
           <div class="history-item">
             <span class="year">2024</span>
@@ -129,7 +121,6 @@ export default defineComponent({
             <span class="year">2024</span>
             <span class="desc">정기공연 &lt;댄스 댄스 에브리데이&gt;</span>
           </div>
-          <div class="divider"></div>
 
           <div class="history-item">
             <span class="year">2025</span>

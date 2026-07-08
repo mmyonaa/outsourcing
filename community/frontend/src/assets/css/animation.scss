@@ -1,3 +1,31 @@
+// ─────────────────────────────────────────────
+// 스크롤 리빌 (v-reveal 디렉티브와 세트)
+// 디렉티브가 붙은 요소는 reveal-init 으로 숨겨두고,
+// 뷰포트 진입 시 reveal-in 이 추가되며 fade-up 된다.
+// ─────────────────────────────────────────────
+.reveal-init {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.55s ease,
+    transform 0.55s ease;
+  will-change: opacity, transform;
+
+  &.reveal-in {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+// 모션 최소화 설정 존중 — 디렉티브에서도 스킵하지만 CSS로도 이중 방어
+@media (prefers-reduced-motion: reduce) {
+  .reveal-init {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
 @mixin dropDown {
   animation-name: dropDown;
   animation-duration: 300ms;
