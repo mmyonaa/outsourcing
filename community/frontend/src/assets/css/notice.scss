@@ -550,6 +550,29 @@
   color: #fff;
 }
 
+/* 관리자: 주요 액션(수정/등록) — 채운 강조 버튼 */
+.back-button.submit {
+  background-color: $colorPrimary;
+  color: #fff;
+  border-color: $colorPrimary;
+}
+.back-button.submit:hover {
+  background-color: $colorPrimaryStrong;
+  border-color: $colorPrimaryStrong;
+}
+
+/* 관리자: 파괴적 액션(삭제) — 붉은색으로 구분 */
+.back-button.delete {
+  background-color: #fdeeee;
+  color: #d12f2f;
+  border-color: #f3cfcf;
+}
+.back-button.delete:hover {
+  background-color: #d12f2f;
+  color: #fff;
+  border-color: #d12f2f;
+}
+
 /* ✅ 모바일 대응 */
 @media (max-width: 768px) {
   .notice-detail {

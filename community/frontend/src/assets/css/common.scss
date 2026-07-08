@@ -138,8 +138,8 @@
 
 .page {
   flex: 1;
-  // 헤더 영역 10rem
-  padding-top: 10rem;
+  // 헤더 영역 11rem (megaMenu header height와 일치)
+  padding-top: 11rem;
   //overflow: hidden;
   display: flex;
   transition: all 0.4s;

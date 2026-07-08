@@ -145,7 +145,7 @@ export default defineComponent({
   }
 
   .procedure-image-wrapper {
-    padding: 0 6rem;
+    padding: 0 1rem;
   }
 }
 
