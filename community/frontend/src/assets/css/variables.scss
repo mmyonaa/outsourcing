@@ -71,6 +71,13 @@ LAYOUT
 $containerMax: 140rem;
 
 /**
+TRANSITION — 인터랙션 전환 일관성용 (신규/리팩터 코드에서 사용)
+ */
+$transitionFast: 0.18s ease;
+$transitionBase: 0.25s ease;
+$transitionSlow: 0.4s ease;
+
+/**
 FONT LIST
  */
 @mixin font12Bold5 {
