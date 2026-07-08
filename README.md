@@ -173,6 +173,18 @@ pnpm dev              # ts-node-dev, http://localhost:3000 (라우트는 /api/*)
 
 ---
 
+## 📖 API 문서 (Swagger)
+
+백엔드 실행 후 Swagger UI로 API 문서를 확인할 수 있습니다. (로컬·운영 공통)
+
+- **URL**: `/api/docs` (로컬: http://localhost:3000/api/docs, 운영: https://bktheater.com/api/docs)
+- **스펙 원본**: [`community/backend/openapi.yaml`](community/backend/openapi.yaml) (OpenAPI 3.0, 수기 관리)
+- **열람 전용**: 쓰기 엔드포인트에 인증이 없어 UI의 직접 호출("Try it out")을 비활성화했습니다. 문서 조회만 가능합니다.
+
+> API를 추가/변경하면 `openapi.yaml`을 함께 갱신하세요.
+
+---
+
 ## 📦 빌드 & 배포 (EC2 + PM2)
 
 배포는 PM2로 관리됩니다. 설정 형식은 [`community/ecosystem.config.example.js`](community/ecosystem.config.example.js) 참고. (실제 `ecosystem.config.js`는 민감정보/환경별 경로를 포함해 gitignore됩니다.)

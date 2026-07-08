@@ -1,0 +1,407 @@
+openapi: 3.0.3
+
+info:
+  title: 보광극장 API
+  version: 1.0.0
+  description: |
+    보광극장(bktheater.com) 백엔드 API 문서입니다.
+
+    - 모든 경로는 `/api` 프리픽스를 가집니다.
+    - 목록 조회는 **GET + 쿼리스트링**, 생성/수정/삭제는 **POST + 본문**입니다.
+    - 응답은 공통 구조 `{ resultCode, resultMsg, data, totalCount }` 를 따릅니다.
+      - `resultCode` 0 = 성공(SUCCESS), 그 외는 실패(코드표는 `ResultCode` 스키마 참고).
+    - 컬럼은 DB `snake_case` ↔ 응답 `camelCase` 로 자동 변환됩니다.
+
+    > ⚠️ 이 문서는 **열람 전용**입니다. 생성/수정/삭제/업로드 엔드포인트에는
+    > 아직 인증이 없어, UI의 직접 호출("Try it out")을 비활성화해 두었습니다.
+
+servers:
+  - url: http://localhost:3000/api
+    description: 로컬 개발
+  - url: https://bktheater.com/api
+    description: 운영
+
+tags:
+  - name: performance
+    description: 공연(자체/예정·대관) 프로그램
+  - name: board
+    description: 게시판 (공지사항 / 보도자료)
+  - name: banner
+    description: 홈 배너
+
+paths:
+  # ─────────────── performance ───────────────
+  /perfo/getperfoList:
+    get:
+      tags: [performance]
+      summary: 공연 목록 조회
+      description: 공연 목록을 조회합니다. `perIdx` 를 주면 단건 상세 조회로 동작합니다.
+      parameters:
+        - { name: perIdx, in: query, schema: { type: string }, description: 공연 고유번호(있으면 단건 조회) }
+        - { name: perType, in: query, schema: { type: string, enum: [NORMAL, NEXT] }, description: "NORMAL=자체, NEXT=예정/대관" }
+        - { name: category, in: query, schema: { type: string, enum: [PERFO, EDU, EVENT] }, description: "PERFO=공연, EDU=교육, EVENT=행사" }
+        - { name: keyword, in: query, schema: { type: string }, description: 제목 검색어(부분 일치) }
+        - { name: page, in: query, schema: { type: integer, default: 1, minimum: 1 } }
+        - { name: rows, in: query, schema: { type: integer, default: 10, maximum: 100 }, description: 페이지당 개수(최대 100) }
+      responses:
+        "200":
+          description: 성공
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/ResultEnvelope"
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items: { $ref: "#/components/schemas/PerfoEntity" }
+
+  /perfo/insertperfo:
+    post:
+      tags: [performance]
+      summary: 공연 등록
+      description: 공연을 등록합니다. 포스터 이미지를 함께 업로드할 수 있어 `multipart/form-data` 를 사용합니다.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                image: { type: string, format: binary, description: 포스터 이미지(선택, 최대 20MB) }
+                perType: { type: string, enum: [NORMAL, NEXT] }
+                category: { type: string, enum: [PERFO, EDU, EVENT] }
+                title: { type: string }
+                titleSec: { type: string }
+                titleThird: { type: string }
+                body: { type: string }
+                author: { type: string }
+      responses:
+        "200": { $ref: "#/components/responses/PerfoSingle" }
+
+  /perfo/updateperfo:
+    post:
+      tags: [performance]
+      summary: 공연 수정
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/PerfoEntity"
+                - required: [perIdx]
+      responses:
+        "200": { $ref: "#/components/responses/PerfoSingle" }
+
+  /perfo/deleteperfo:
+    post:
+      tags: [performance]
+      summary: 공연 삭제
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [perIdx]
+              properties:
+                perIdx: { type: string }
+      responses:
+        "200": { $ref: "#/components/responses/PerfoSingle" }
+
+  # ─────────────── board ───────────────
+  /board/getBoardList:
+    get:
+      tags: [board]
+      summary: 게시글 목록 조회
+      description: 공지사항/보도자료 목록을 조회합니다. `boardIdx` 를 주면 단건 상세 조회로 동작합니다.
+      parameters:
+        - { name: boardIdx, in: query, schema: { type: string }, description: 게시글 고유번호(있으면 단건 조회) }
+        - { name: boardType, in: query, schema: { type: string, enum: [NORMAL, NEWS] }, description: "NORMAL=공지사항, NEWS=보도자료" }
+        - { name: keyword, in: query, schema: { type: string }, description: 제목 검색어(부분 일치) }
+        - { name: page, in: query, schema: { type: integer, default: 1, minimum: 1 } }
+        - { name: rows, in: query, schema: { type: integer, default: 10, maximum: 100 } }
+      responses:
+        "200":
+          description: 성공
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/ResultEnvelope"
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items: { $ref: "#/components/schemas/BoardEntity" }
+
+  /board/insertBoard:
+    post:
+      tags: [board]
+      summary: 게시글 등록
+      description: 본문 내 이미지/파일은 `upload-image` / `upload-file` 로 먼저 업로드한 URL을 본문 HTML에 포함합니다.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/BoardEntity" }
+      responses:
+        "200": { $ref: "#/components/responses/BoardSingle" }
+
+  /board/updateBoard:
+    post:
+      tags: [board]
+      summary: 게시글 수정
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/BoardEntity"
+                - required: [boardIdx]
+      responses:
+        "200": { $ref: "#/components/responses/BoardSingle" }
+
+  /board/deleteBoard:
+    post:
+      tags: [board]
+      summary: 게시글 삭제
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [boardIdx]
+              properties:
+                boardIdx: { type: string }
+      responses:
+        "200": { $ref: "#/components/responses/BoardSingle" }
+
+  /board/upload-image:
+    post:
+      tags: [board]
+      summary: 본문 이미지 업로드 (S3)
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [image]
+              properties:
+                image: { type: string, format: binary, description: 이미지 파일(최대 20MB) }
+      responses:
+        "200": { $ref: "#/components/responses/UploadUrl" }
+
+  /board/upload-file:
+    post:
+      tags: [board]
+      summary: 첨부 파일 업로드 (S3)
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [file]
+              properties:
+                file: { type: string, format: binary, description: 첨부 파일(최대 20MB) }
+      responses:
+        "200": { $ref: "#/components/responses/UploadUrl" }
+
+  # ─────────────── banner ───────────────
+  /banner/getBannerList:
+    get:
+      tags: [banner]
+      summary: 배너 목록 조회
+      parameters:
+        - { name: bannerIdx, in: query, schema: { type: string }, description: 배너 고유번호(있으면 단건 조회) }
+        - { name: activeYn, in: query, schema: { type: string, enum: [Y, N] }, description: 활성 배너만/비활성만 필터 }
+        - { name: page, in: query, schema: { type: integer, default: 1, minimum: 1 } }
+        - { name: rows, in: query, schema: { type: integer, default: 10, maximum: 100 } }
+      responses:
+        "200":
+          description: 성공
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/ResultEnvelope"
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items: { $ref: "#/components/schemas/BannerEntity" }
+
+  /banner/insertBanner:
+    post:
+      tags: [banner]
+      summary: 배너 등록
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/BannerEntity" }
+      responses:
+        "200": { $ref: "#/components/responses/BannerSingle" }
+
+  /banner/updateBanner:
+    post:
+      tags: [banner]
+      summary: 배너 수정
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/BannerEntity"
+                - required: [bannerIdx]
+      responses:
+        "200": { $ref: "#/components/responses/BannerSingle" }
+
+  /banner/deleteBanner:
+    post:
+      tags: [banner]
+      summary: 배너 삭제
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [bannerIdx]
+              properties:
+                bannerIdx: { type: string }
+      responses:
+        "200": { $ref: "#/components/responses/BannerSingle" }
+
+  /banner/upload-image:
+    post:
+      tags: [banner]
+      summary: 배너 이미지 업로드 (S3)
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [image]
+              properties:
+                image: { type: string, format: binary, description: 배너 이미지(최대 20MB) }
+      responses:
+        "200": { $ref: "#/components/responses/UploadUrl" }
+
+components:
+  responses:
+    PerfoSingle:
+      description: 성공
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: "#/components/schemas/ResultEnvelope"
+              - type: object
+                properties:
+                  data: { $ref: "#/components/schemas/PerfoEntity" }
+    BoardSingle:
+      description: 성공
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: "#/components/schemas/ResultEnvelope"
+              - type: object
+                properties:
+                  data: { $ref: "#/components/schemas/BoardEntity" }
+    BannerSingle:
+      description: 성공
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: "#/components/schemas/ResultEnvelope"
+              - type: object
+                properties:
+                  data: { $ref: "#/components/schemas/BannerEntity" }
+    UploadUrl:
+      description: 업로드된 파일의 S3 URL
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: "#/components/schemas/ResultEnvelope"
+              - type: object
+                properties:
+                  data: { type: string, description: 업로드된 파일 URL, example: "https://.../performance/uuid.png" }
+
+  schemas:
+    StateYn:
+      type: string
+      enum: [Y, N]
+      description: 상태 플래그 (Y/N)
+
+    ResultCode:
+      type: integer
+      description: |
+        결과 코드. 0 = 성공, 그 외 실패.
+        99=FAILED, 98=BOARD_NOT_FOUND, 97=PERFO_NOT_FOUND, 96=INVALID_PARAMETER,
+        88=DB_ERROR, 87=AWS_ERROR
+      example: 0
+
+    ResultEnvelope:
+      type: object
+      description: 모든 응답의 공통 봉투(envelope)
+      properties:
+        resultCode: { $ref: "#/components/schemas/ResultCode" }
+        resultMsg: { type: string, example: RESULT_SUCCESS }
+        totalCount: { type: integer, description: 목록 조회 시 전체 건수, example: 12 }
+        data: { description: 엔드포인트별 데이터(목록=배열, 단건=객체, 업로드=URL 문자열) }
+
+    PerfoEntity:
+      type: object
+      properties:
+        perIdx: { type: string, description: 공연 고유번호(UUID) }
+        perType: { type: string, enum: [NORMAL, NEXT], description: "NORMAL=자체, NEXT=예정/대관" }
+        category: { type: string, enum: [PERFO, EDU, EVENT], description: "PERFO=공연, EDU=교육, EVENT=행사" }
+        title: { type: string, description: 제목 }
+        titleSec: { type: string, description: 중제목 }
+        titleThird: { type: string, description: 소제목 }
+        body: { type: string, description: 본문(HTML) }
+        imgUrl: { type: string, description: 포스터 이미지 URL }
+        author: { type: string, description: 작성자 }
+        views: { type: integer, description: 조회수 }
+        regDt: { type: string, format: date-time, description: 등록일시 }
+        modDt: { type: string, format: date-time, description: 수정일시 }
+        delYn: { $ref: "#/components/schemas/StateYn" }
+
+    BoardEntity:
+      type: object
+      properties:
+        boardIdx: { type: string, description: 게시글 고유번호(UUID) }
+        boardType: { type: string, enum: [NORMAL, NEWS], description: "NORMAL=공지사항, NEWS=보도자료" }
+        title: { type: string, description: 제목 }
+        body: { type: string, description: 본문(HTML) }
+        author: { type: string, description: 작성자 }
+        views: { type: integer, description: 조회수 }
+        bestYn: { $ref: "#/components/schemas/StateYn" }
+        regDt: { type: string, format: date-time, description: 등록일시 }
+        modDt: { type: string, format: date-time, description: 수정일시 }
+        delYn: { $ref: "#/components/schemas/StateYn" }
+
+    BannerEntity:
+      type: object
+      properties:
+        bannerIdx: { type: string, description: 배너 고유번호(UUID) }
+        imgUrl: { type: string, description: 배너 이미지 URL }
+        swipeDuration: { type: integer, description: 자동 전환 간격(초), default: 5 }
+        displayOrder: { type: integer, description: 노출 순서 }
+        activeYn: { $ref: "#/components/schemas/StateYn" }
+        isDefault: { type: boolean, description: 기본 배너 여부 }
+        regDt: { type: string, format: date-time, description: 등록일시 }
+        modDt: { type: string, format: date-time, description: 수정일시 }
+        delYn: { $ref: "#/components/schemas/StateYn" }

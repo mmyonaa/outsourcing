@@ -5,6 +5,7 @@ import boardRouter from './middleware/routes/board.route';
 import perfoRouter from './middleware/routes/performance.route';
 import bannerRouter from './middleware/routes/banner.route';
 import Router from '@koa/router';
+import { mountDocs } from './middleware/docs/swagger';
 
 export const getServer = async () => {
   const app = new Koa();
@@ -64,6 +65,9 @@ export const getServer = async () => {
 
   app.use(router.routes());
   app.use(router.allowedMethods());
+
+  // API 문서(Swagger UI) 마운트 — 운영에도 노출하되 열람 전용(Try it out 비활성)
+  mountDocs(app);
 
   app.listen(3000, '0.0.0.0', () => {
     console.log('Server running on http://0.0.0.0:3000');
