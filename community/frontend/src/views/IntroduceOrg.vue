@@ -2,7 +2,7 @@
 import { defineComponent, onMounted } from 'vue';
 
 export default defineComponent({
-  name: 'Home',
+  name: 'introduceOrg',
   components: { },
   setup() {
 

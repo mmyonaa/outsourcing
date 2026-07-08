@@ -2,7 +2,7 @@
 import { defineComponent, onMounted, ref } from 'vue';
 
 export default defineComponent({
-  name: 'Home',
+  name: 'rental',
   components: {},
   setup() {
     const activeIndex = ref<number>(0);
