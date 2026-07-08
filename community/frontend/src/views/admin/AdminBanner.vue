@@ -1,16 +1,19 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue';
 import EmptyState from '@/components/common/EmptyState.vue';
+import ErrorState from '@/components/common/ErrorState.vue';
 import { BannerEntity, SearchBannerDto } from '@/api/dto/banner.dto';
 import { getApiClient } from '@/utils/apiClient';
 import { getBannerList, insertBanner, updateBanner, deleteBanner } from '@/api/banner.api';
 
 export default defineComponent({
   name: 'adminBanner',
-  components: { EmptyState },
+  components: { EmptyState, ErrorState },
   setup() {
     const apiClient = getApiClient();
     const banners = ref<BannerEntity[]>([]);
+    const isLoading = ref(true);
+    const error = ref(false);
     const showModal = ref(false);
     const isEditMode = ref(false);
     const currentBanner = ref<BannerEntity>(new BannerEntity());
@@ -20,11 +23,21 @@ export default defineComponent({
     const loadBanners = async () => {
       const param = new SearchBannerDto();
       // activeYn 필터 없이 모든 배너 가져오기 (백엔드에서 기본 배너 포함)
-      await getBannerList(apiClient, param).then(res => {
-        if (res.resultCode === 0 && res.data) {
-          banners.value = res.data.sort((a, b) => a.displayOrder - b.displayOrder);
-        }
-      });
+      isLoading.value = true;
+      error.value = false;
+      await getBannerList(apiClient, param)
+        .then(res => {
+          if (res.resultCode === 0 && res.data) {
+            banners.value = res.data.sort((a, b) => a.displayOrder - b.displayOrder);
+          }
+        })
+        .catch(e => {
+          console.error(e);
+          error.value = true;
+        })
+        .finally(() => {
+          isLoading.value = false;
+        });
     };
 
     const openCreateModal = () => {
@@ -162,6 +175,8 @@ export default defineComponent({
 
     return {
       banners,
+      isLoading,
+      error,
       showModal,
       isEditMode,
       currentBanner,
@@ -187,7 +202,20 @@ export default defineComponent({
       <button class="register-button" @click="openCreateModal">배너 등록</button>
     </div>
 
-    <div v-if="banners.length > 0" class="banner-list">
+    <!-- 로딩 중 -->
+    <div v-if="isLoading" class="banner-list">
+      <div v-for="n in 2" :key="n" class="banner-card">
+        <div class="banner-image"><span class="skeleton" style="display: block; width: 100%; height: 100%"></span></div>
+        <div class="banner-info">
+          <span class="skeleton" style="display: block; width: 60%; height: 14px; border-radius: 4px"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 불러오기 실패 -->
+    <error-state v-else-if="error" @retry="loadBanners" />
+
+    <div v-else-if="banners.length > 0" class="banner-list">
       <div v-for="banner in banners" :key="banner.bannerIdx" :class="['banner-card', { inactive: banner.activeYn === 'N', 'default-banner-card': banner.isDefault }]">
         <div class="banner-image">
           <div v-if="banner.isDefault" class="default-banner-preview">
