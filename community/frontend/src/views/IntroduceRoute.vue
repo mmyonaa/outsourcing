@@ -13,12 +13,15 @@ export default defineComponent({
     const mapContainer = ref<HTMLElement | null>(null);
 
     onMounted(() => {
-      // 카카오맵 SDK가 로드된 후 지도 생성
-      if (window.kakao && window.kakao.maps) {
-        window.kakao.maps.load(() => {
-          initMap();
-        });
-      }
+      // 카카오맵 SDK 로드를 기다렸다가 지도 생성 (스크립트 로딩이 늦을 수 있음)
+      const tryInit = (attempt = 0) => {
+        if (window.kakao && window.kakao.maps) {
+          window.kakao.maps.load(() => initMap());
+        } else if (attempt < 20) {
+          setTimeout(() => tryInit(attempt + 1), 150);
+        }
+      };
+      tryInit();
     });
 
     const initMap = () => {

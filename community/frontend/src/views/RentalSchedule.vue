@@ -22,7 +22,7 @@ export default defineComponent({
     <div class="google-calendar-container">
       <iframe
         src="https://calendar.google.com/calendar/embed?src=bokwangtheater%40gmail.com&ctz=Asia%2FSeoul"
-        style="border: solid 1px #777"
+
         width="100%"
         height="600"
         frameborder="0"

@@ -105,11 +105,28 @@ export default defineComponent({
 }
 
   .down-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
     margin-bottom: 3rem;
-    font-size: 16px;
-    line-height: 1.8;
-    color: #333;
+    font-size: 15px;
     font-weight: 600;
+    color: #fff;
+    background: #e34363;
+    border-radius: 999px;
+    padding: 0.9rem 1.7rem;
+    text-decoration: none;
+    transition: background 0.18s ease, transform 0.18s ease;
+
+    &::before {
+      content: '\2b07';
+      font-size: 14px;
+    }
+
+    &:hover {
+      background: #c22a4a;
+      transform: translateY(-1px);
+    }
   }
 
 /* 갤러리 섹션 */
