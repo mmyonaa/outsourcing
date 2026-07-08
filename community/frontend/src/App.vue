@@ -2,6 +2,7 @@
 import LayoutFooter from '@/components/footer/LayoutFooter.vue';
 import MegaMenu from '@/components/header/MegaMenu.vue';
 import AdminMegaMenu from '@/components/header/AdminMegaMenu.vue';
+import ScrollToTop from '@/components/common/ScrollToTop.vue';
 import AppConfig from '@/constants';
 import { initStore } from '@/stores/store-manager';
 import { POPUP_TYPE } from '@/types';
@@ -38,6 +39,7 @@ const onClickBg = () => {
     <router-view :key="$route.path" />
   </div>
   <layout-footer :class="{ 'is-hidden': isHiddenFooter }"></layout-footer>
+  <scroll-to-top />
 </template>
 
 <style lang="scss">
