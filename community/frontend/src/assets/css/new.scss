@@ -130,6 +130,12 @@
 
   .footer-info-wrapper {
     margin-right: 0;
+    flex-wrap: wrap;
+    gap: 1.5rem 2.5rem;
+
+    > div {
+      white-space: normal;
+    }
   }
 }
 
