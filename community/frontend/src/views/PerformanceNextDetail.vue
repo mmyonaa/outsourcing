@@ -224,7 +224,7 @@ export default defineComponent({
 
 .thumbnail-wrapper {
   width: 100%;
-  aspect-ratio: 3 / 4;
+  aspect-ratio: 5 / 8;
   overflow: hidden;
   border-radius: 16px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);

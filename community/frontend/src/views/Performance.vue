@@ -344,7 +344,7 @@ export default defineComponent({
 
 .card-image {
   width: 100%;
-  aspect-ratio: 3 / 4;
+  aspect-ratio: 5 / 8;
   overflow: hidden;
   background: #f5f5f5;
 }
