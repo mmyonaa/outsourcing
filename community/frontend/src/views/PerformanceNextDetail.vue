@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, onMounted, onUnmounted, ref } from 'vue';
+import { computed, defineComponent, onMounted, onUnmounted, ref, watch } from 'vue';
 import BasePagination from '@/components/common/BasePagination.vue';
 import BaseShareButton from '@/components/common/BaseShareButton.vue';
 import { useRoute, useRouter } from 'vue-router';
@@ -7,7 +7,7 @@ import { PerfoEntity, SearchPerfoDto } from '@/api/dto/perfo.dto';
 import { getPerfoList, updatePerfo } from '@/api/perfo.api';
 import dayjs from 'dayjs';
 import { getApiClient } from '@/utils/apiClient';
-import { TYPE_PERFO_CATEGORY } from '@/types';
+import { TYPE_PERFO, TYPE_PERFO_CATEGORY } from '@/types';
 import { setMetaTags, setJsonLd, removeJsonLd, toPlainText } from '@/utils/seo.util';
 
 export default defineComponent({
@@ -17,8 +17,9 @@ export default defineComponent({
     const totalPage = ref<number>(0);
     const route = useRoute();
     const router = useRouter();
-    const perfoIdx = route.params.id;
+    const currentId = computed(() => String(route.params.id));
     const performance = ref<PerfoEntity>(new PerfoEntity());
+    const relatedPerformances = ref<PerfoEntity[]>([]);
     const apiClient = getApiClient();
 
     const goBack = () => {
@@ -40,7 +41,7 @@ export default defineComponent({
 
     const loadPerfoDetail = async () => {
       const param = new SearchPerfoDto();
-      param.perIdx = String(perfoIdx);
+      param.perIdx = currentId.value;
 
       await getPerfoList(apiClient, param).then(res => {
         if (res.resultCode === 0 && res.data) {
@@ -49,8 +50,25 @@ export default defineComponent({
       });
     };
 
+    // 현재 글과 같은 프로그램 유형(대관 밑엔 대관) 중 현재 글을 제외하고 최신순 한 줄(최대 6개)
+    // 백엔드가 reg_dt DESC로 정렬하므로 별도 정렬 불필요
+    const loadRelated = async () => {
+      const param = new SearchPerfoDto();
+      param.perType = performance.value.perType || TYPE_PERFO.NEXT;
+      param.page = 1;
+      param.rows = 12;
+
+      await getPerfoList(apiClient, param).then(res => {
+        if (res.resultCode === 0 && res.data) {
+          relatedPerformances.value = res.data
+            .filter(p => String(p.perIdx) !== currentId.value)
+            .slice(0, 6);
+        }
+      });
+    };
+
     const updateViews = async () => {
-      performance.value.perIdx = String(perfoIdx);
+      performance.value.perIdx = currentId.value;
       performance.value.views++;
       await updatePerfo(apiClient, performance.value);
     };
@@ -133,11 +151,23 @@ export default defineComponent({
       }, 300);
     };
 
-    onMounted(async () => {
+    const init = async () => {
+      // 다른 상세로 이동 시 이전 데이터 잔상 제거 + 상단으로
+      performance.value = new PerfoEntity();
+      relatedPerformances.value = [];
+      window.scrollTo({ top: 0 });
       await loadPerfoDetail();
       applySeo();
       await updateViews();
+      await loadRelated();
       setupFileDownloadLinks();
+    };
+
+    onMounted(init);
+
+    // 관련 공연 카드로 이동하면 라우트만 바뀌고 컴포넌트는 재사용되므로 id를 감시해 재로딩
+    watch(currentId, () => {
+      init();
     });
 
     onUnmounted(() => {
@@ -146,6 +176,7 @@ export default defineComponent({
 
     return {
       performance,
+      relatedPerformances,
       totalPage,
       dayjs,
       goBack,
@@ -198,12 +229,37 @@ export default defineComponent({
 
           <div class="notice-content" v-html="performance.body"></div>
         </div>
+
+        <div class="back-button-wrapper">
+          <button class="back-button" @click="goBack">← 목록으로 돌아가기</button>
+        </div>
       </div>
     </div>
 
-    <div class="back-button-wrapper">
-      <button class="back-button" @click="goBack">← 목록으로 돌아가기</button>
-    </div>
+    <!-- 다른 공연 보기 -->
+    <section v-if="relatedPerformances.length" class="related-section">
+      <div class="related-header">
+        <h2 class="related-heading">다른 공연 보기</h2>
+        <router-link to="/performance/next" class="related-more">더보기 +</router-link>
+      </div>
+      <div class="related-grid">
+        <router-link
+          v-for="p in relatedPerformances"
+          :key="p.perIdx"
+          :to="`/performance/next/${p.perIdx}`"
+          class="related-card">
+          <div class="related-image">
+            <img loading="lazy" :src="p.imgUrl || '/assets/images/common/default-thumbnail.svg'" :alt="p.title" @error="handleImageError" />
+          </div>
+          <div class="related-body">
+            <span v-if="p.category" class="related-tag" :class="`category-${p.category.toLowerCase()}`">
+              {{ getCategoryLabel(p.category) }}
+            </span>
+            <h3 class="related-title">{{ p.title }}</h3>
+          </div>
+        </router-link>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -381,6 +437,152 @@ export default defineComponent({
   .right-section .notice-meta {
     flex-direction: row;
     flex-wrap: wrap;
+  }
+}
+
+/* 다른 공연 보기 */
+.related-section {
+  margin-top: 3.5rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid #ececec;
+}
+
+.related-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.related-heading {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.related-more {
+  flex-shrink: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #a72f47;
+  text-decoration: none;
+}
+
+.related-more:hover {
+  text-decoration: underline;
+}
+
+/* 한 줄 고정: 화면 폭에 맞는 개수만 노출(스크롤/줄바꿈 없음) */
+.related-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 1.25rem;
+}
+
+.related-card:nth-child(n + 7) {
+  display: none;
+}
+
+.related-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.25s ease;
+}
+
+.related-card:hover {
+  transform: translateY(-4px);
+}
+
+.related-image {
+  width: 100%;
+  aspect-ratio: 5 / 8;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #f5f5f5;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
+.related-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.related-card:hover .related-image img {
+  transform: scale(1.04);
+}
+
+.related-body {
+  margin-top: 0.6rem;
+}
+
+.related-tag {
+  display: inline-block;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+}
+
+.related-tag.category-perfo {
+  background: rgba(115, 110, 146, 0.12);
+  color: #736e92;
+}
+
+.related-tag.category-edu {
+  background: rgba(167, 47, 71, 0.12);
+  color: #a72f47;
+}
+
+.related-tag.category-event {
+  background: rgba(88, 84, 64, 0.12);
+  color: #585440;
+}
+
+.related-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a1a1a;
+  line-height: 1.4;
+  margin: 0;
+  word-break: keep-all;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+@media (max-width: 1024px) {
+  .related-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .related-card:nth-child(n + 5) {
+    display: none;
+  }
+}
+
+@media (max-width: 700px) {
+  .related-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+  .related-card:nth-child(n + 4) {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .related-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.9rem;
+  }
+  .related-card:nth-child(n + 3) {
+    display: none;
   }
 }
 </style>

@@ -292,7 +292,7 @@ export default defineComponent({
           <router-link
             v-for="(performance, index) in nextPerformances"
             :key="performance.perIdx"
-            :to="`/performance/${performance.perIdx}`"
+            :to="`/performance/next/${performance.perIdx}`"
             class="poster"
             :class="{ active: activeReserveIndex === index }"
             @mouseenter="activeReserveIndex = index">
