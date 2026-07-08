@@ -88,13 +88,13 @@ export default defineComponent({
 .base-share-button {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.65rem 1.25rem;
+  gap: 0.4rem;
+  padding: 0.55rem 1.05rem;
   border: 1px solid #e0e0e0;
   border-radius: 999px;
   background: #fff;
   color: #555;
-  font-size: 15px;
+  font-size: 13px;
   font-weight: 600;
   line-height: 1;
   cursor: pointer;
@@ -115,5 +115,19 @@ export default defineComponent({
 
 .base-share-button svg {
   flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+}
+
+@media (max-width: 600px) {
+  .base-share-button {
+    padding: 0.5rem 0.9rem;
+    font-size: 12px;
+  }
+
+  .base-share-button svg {
+    width: 15px;
+    height: 15px;
+  }
 }
 </style>
