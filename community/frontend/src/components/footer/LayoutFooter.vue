@@ -16,7 +16,7 @@ export default defineComponent({
       <!-- 브랜드: 로고 + 슬로건 + SNS -->
       <div class="footer-brand">
         <img class="footer-logo" src="/assets/images/logo/theater.png" alt="보광극장 로고" />
-        <p class="footer-slogan">창작과 실험을 응원하는 <br />용산의 지역극장</p>
+        <p class="footer-slogan">우리는 우리의 이야기를 전할 수 있는 <br />모든 예술을 지향합니다.</p>
         <a
           class="footer-sns"
           href="https://www.instagram.com/bokwang_theater"
