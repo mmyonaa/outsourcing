@@ -172,7 +172,7 @@ export default defineComponent({
           <div class="col index">{{ index + 1 }}</div>
 
           <div class="col thumbnail">
-            <img :src="perfo.imgUrl || '/assets/images/common/default-thumbnail.svg'" :alt="perfo.title" class="thumbnail-img" @error="handleImageError" />
+            <img loading="lazy" :src="perfo.imgUrl || '/assets/images/common/default-thumbnail.svg'" :alt="perfo.title" class="thumbnail-img" @error="handleImageError" />
           </div>
 
           <div class="col title">{{ perfo.title }}</div>

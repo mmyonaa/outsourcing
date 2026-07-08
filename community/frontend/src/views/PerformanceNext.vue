@@ -179,7 +179,7 @@ export default defineComponent({
       <div class="performance-card" v-for="(performance, index) in performances" :key="performance.perIdx">
         <router-link :to="`/performance/next/${performance.perIdx}`" class="card-link">
           <div class="card-image">
-            <img :src="performance.imgUrl || '/assets/images/common/default-thumbnail.svg'" :alt="performance.title" @error="handleImageError" />
+            <img loading="lazy" :src="performance.imgUrl || '/assets/images/common/default-thumbnail.svg'" :alt="performance.title" @error="handleImageError" />
           </div>
           <div class="card-content">
             <!-- 카테고리 태그와 제목을 한 줄에 -->

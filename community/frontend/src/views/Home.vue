@@ -252,7 +252,7 @@ export default defineComponent({
             :class="{ active: activeRentalIndex === index }"
             @mouseenter="activeRentalIndex = index">
             <div class="poster-image">
-              <img :src="performance.imgUrl || '/assets/images/common/default-thumbnail.svg'" :alt="performance.title" @error="handleImageError" />
+              <img loading="lazy" :src="performance.imgUrl || '/assets/images/common/default-thumbnail.svg'" :alt="performance.title" @error="handleImageError" />
             </div>
             <div class="poster-content">
               <div class="category-tag-wrapper">
@@ -297,7 +297,7 @@ export default defineComponent({
             :class="{ active: activeReserveIndex === index }"
             @mouseenter="activeReserveIndex = index">
             <div class="poster-image">
-              <img :src="performance.imgUrl || '/assets/images/common/default-thumbnail.svg'" :alt="performance.title" @error="handleImageError" />
+              <img loading="lazy" :src="performance.imgUrl || '/assets/images/common/default-thumbnail.svg'" :alt="performance.title" @error="handleImageError" />
             </div>
             <div class="poster-content">
               <div class="category-tag-wrapper">
