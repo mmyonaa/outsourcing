@@ -29,6 +29,9 @@ build/
 *.swo
 *~
 
+# Claude Code 개인 로컬 설정 (팀 공유용은 .claude/settings.json)
+.claude/settings.local.json
+
 # OS
 .DS_Store
 Thumbs.db
