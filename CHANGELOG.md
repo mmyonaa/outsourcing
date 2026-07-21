@@ -9,6 +9,24 @@
 
 ---
 
+## v1.4.1 — 2026-07-21
+
+검색 색인 수정 — 상세페이지가 색인되지 않던 문제(Search Console "발견됨/크롤링됨 - 현재 색인이 생성되지 않음")를 프리렌더 복구로 해결.
+
+### 수정
+- **상세페이지 색인 불가 문제 해결** — 라우터 가드가 SSR에서 `next()` 없이 return하여 `router.isReady()`가 resolve되지 않아 **vite-ssg 프리렌더가 통째로 스킵**되고 있었음(dist에 `index.html`만 생성 → 모든 URL이 빈 SPA 껍데기 + 홈 기본 메타로 노출). 가드를 `isClient`로 감싸 항상 `next()`를 호출하도록 수정
+
+### 개선
+- 빌드 시 각 URL을 **콘텐츠 + 페이지별 메타가 담긴 정적 HTML로 프리렌더** (정적 라우트 + API에서 수집한 상세 라우트)
+- 프리렌더 HTML `<head>`에 페이지별 **title/description/canonical/OG/JSON-LD 주입** (공연 = `TheaterEvent`, 공지·보도 = `NewsArticle`) — `src/ssg/prerender-seo.ts`
+- `/admin`·동적 `:param` 라우트는 프리렌더 제외 (색인 대상 아님, Quill 에디터 SSR 크래시 회피)
+
+### 기타
+- 원인·해결 정리 문서 추가 및 `SEO_GUIDE.md`에 프리렌더 전제·운영 주의사항 반영
+- `community/docs/` 디렉토리를 로컬 참고용으로 전환(추적 해제)
+
+---
+
 ## v1.4.0 — 2026-07-08
 
 UI/UX 개선 및 인프라 정리 — 로딩/에러 상태, 스크롤 리빌·푸터 개편 등 디테일 다듬기, 접근성, HTTPS 전환.
