@@ -56,14 +56,18 @@ export const createApp = ViteSSG(
     else pinia.state.value = initialState.pinia || {};
 
     router.beforeEach((to, from, next) => {
-      if (typeof Window === 'undefined') return;
-      if (from.name === 'Board') saveLocalData(from.path, (window.document.querySelector('html') as HTMLElement).scrollTop.toString());
+      // SSR(프리렌더) 환경에서는 브라우저 전용 처리를 건너뛰되, 반드시 next()를 호출해
+      // 네비게이션이 완료되도록 한다. (next() 없이 return하면 router.isReady()가 영영
+      // resolve되지 않아 vite-ssg 프리렌더가 멈춘다.)
+      if (isClient) {
+        if (from.name === 'Board') saveLocalData(from.path, (window.document.querySelector('html') as HTMLElement).scrollTop.toString());
 
-      // SEO 메타 태그 설정
-      if (isClient && to.name && typeof to.name === 'string') {
-        const seoConfig = pageSeoConfig[to.name];
-        if (seoConfig) {
-          setMetaTags(seoConfig);
+        // SEO 메타 태그 설정
+        if (to.name && typeof to.name === 'string') {
+          const seoConfig = pageSeoConfig[to.name];
+          if (seoConfig) {
+            setMetaTags(seoConfig);
+          }
         }
       }
 

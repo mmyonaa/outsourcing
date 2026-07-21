@@ -4,6 +4,7 @@ import { defineConfig } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
 import vue from '@vitejs/plugin-vue';
 import * as path from 'path';
+import { includedRoutes, onPageRendered } from './src/ssg/prerender-seo';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -28,6 +29,11 @@ export default defineConfig({
   ssgOptions: {
     script: 'async',
     dirStyle: 'nested',
+    // 프리렌더 대상 라우트 선정 + 페이지별 SEO 주입은 src/ssg/prerender-seo.ts 참고.
+    //  - /admin/* 은 색인 대상이 아니고 Quill 에디터가 SSR 중 document 접근으로 크래시하므로 제외
+    //  - 정적 공개 라우트 + API에서 수집한 상세(:id) 라우트를 프리렌더
+    includedRoutes,
+    onPageRendered,
   },
   resolve: {
     alias: {
