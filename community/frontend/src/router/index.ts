@@ -1,3 +1,5 @@
+import type { RouteLocationNormalized } from 'vue-router';
+
 export const routesList = [
   {
     path: '/',
@@ -35,6 +37,11 @@ export const routesList = [
     name: 'performanceDetail',
     component: () => import('../views/PerformanceDetail.vue'),
   },
+  // 옛 URL(쿼리 파라미터 형식) → 새 경로 형식 리디렉션. id가 동일하므로 그대로 매핑.
+  {
+    path: '/performance/detail',
+    redirect: (to: RouteLocationNormalized) => (to.query.id ? `/performance/${to.query.id}` : '/performance'),
+  },
   // 예정 공연
   {
     path: '/performance/next',
@@ -45,6 +52,10 @@ export const routesList = [
     path: '/performance/next/:id',
     name: 'performanceNextDetail',
     component: () => import('../views/PerformanceNextDetail.vue'),
+  },
+  {
+    path: '/performance/next/detail',
+    redirect: (to: RouteLocationNormalized) => (to.query.id ? `/performance/next/${to.query.id}` : '/performance/next'),
   },
   // 3. 대관
   // 공간 안내
@@ -77,6 +88,10 @@ export const routesList = [
     name: 'noticeDetail',
     component: () => import('../views/NoticeDetail.vue'),
   },
+  {
+    path: '/notice/detail',
+    redirect: (to: RouteLocationNormalized) => (to.query.id ? `/notice/${to.query.id}` : '/notice'),
+  },
   // 보도자료
   {
     path: '/news',
@@ -87,6 +102,10 @@ export const routesList = [
     path: '/news/:id',
     name: 'newsDetail',
     component: () => import('../views/NewsDetail.vue'),
+  },
+  {
+    path: '/news/detail',
+    redirect: (to: RouteLocationNormalized) => (to.query.id ? `/news/${to.query.id}` : '/news'),
   },
   //************ ADMIN ************* */
   {

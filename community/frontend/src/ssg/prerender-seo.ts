@@ -176,7 +176,10 @@ const DETAIL_SOURCES: DetailSource[] = [
  * API 수집이 실패하면 정적 라우트만 프리렌더한다(빌드는 중단하지 않음).
  */
 export async function includedRoutes(paths: string[]): Promise<string[]> {
-  const staticRoutes = paths.filter(r => !r.startsWith('/admin') && !r.includes(':'));
+  // /admin·동적(:param)·옛 URL 리디렉션(/detail, 컴포넌트 없음)은 프리렌더에서 제외
+  const staticRoutes = paths.filter(
+    r => !r.startsWith('/admin') && !r.includes(':') && !r.endsWith('/detail'),
+  );
   for (const r of staticRoutes) {
     const key = STATIC_ROUTE_SEO[r];
     const cfg = key ? pageSeoConfig[key] : undefined;
