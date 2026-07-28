@@ -15,6 +15,7 @@
 
 ### 수정
 - **상세페이지 색인 불가 문제 해결** — 라우터 가드가 SSR에서 `next()` 없이 return하여 `router.isReady()`가 resolve되지 않아 **vite-ssg 프리렌더가 통째로 스킵**되고 있었음(dist에 `index.html`만 생성 → 모든 URL이 빈 SPA 껍데기 + 홈 기본 메타로 노출). 가드를 `isClient`로 감싸 항상 `next()`를 호출하도록 수정
+- **옛 URL(`/{섹션}/detail?id=`) → 새 경로 형식(`/{섹션}/{id}`) 리디렉션** — 옛 형식 URL이 라우터에서 잘못 매칭돼 사용자에게 빈/에러 페이지로 보이고 Search Console에는 "중복/대체 페이지"로 남던 문제 해결. 옛·새 URL의 id가 동일하여 그대로 매핑(nginx 301 + Vue Router 폴백). 대상: `performance`·`performance/next`·`notice`·`news`
 
 ### 개선
 - 빌드 시 각 URL을 **콘텐츠 + 페이지별 메타가 담긴 정적 HTML로 프리렌더** (정적 라우트 + API에서 수집한 상세 라우트)
