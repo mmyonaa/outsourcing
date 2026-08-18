@@ -239,7 +239,7 @@ export default defineComponent({
             <img src="/assets/images/home/ticket.png" />
             자체 프로그램
           </div>
-          <router-link to="/performance">+ more</router-link>
+          <router-link to="/performance">더보기 +</router-link>
         </div>
         <div v-if="normalLoading" class="poster-gallery rental">
           <div v-for="n in 4" :key="`sk-n-${n}`" class="poster">
@@ -282,7 +282,7 @@ export default defineComponent({
             <img src="/assets/images/home/theater.png" />
             대관 프로그램
           </div>
-          <router-link to="/performance/next">+ more</router-link>
+          <router-link to="/performance/next">더보기 +</router-link>
         </div>
         <div v-if="nextLoading" class="poster-gallery text">
           <div v-for="n in 4" :key="`sk-x-${n}`" class="poster">
@@ -325,7 +325,7 @@ export default defineComponent({
             <img src="/assets/images/home/notice.png" />
             알림
           </div>
-          <router-link to="/notice">+ more</router-link>
+          <router-link to="/notice">더보기 +</router-link>
         </div>
         <div class="card-grid">
           <router-link v-for="notice in notices.slice(0, 3)" :key="notice.boardIdx" :to="`/notice/${notice.boardIdx}`" class="notice-card">

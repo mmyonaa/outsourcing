@@ -29,6 +29,12 @@
       font-weight: 700;
       color: $colorPrimary;
       cursor: pointer;
+      // 모바일 터치 타겟 확보 (44px 권장 기준)
+      display: inline-flex;
+      align-items: center;
+      min-height: 4.4rem;
+      padding: 0 1rem;
+      margin-right: -1rem;
     }
   }
 
