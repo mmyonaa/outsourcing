@@ -1,14 +1,10 @@
 <script lang="ts">
-import { defineComponent, onMounted } from 'vue';
+import { defineComponent } from 'vue';
 import SectionTabs from '@/components/common/SectionTabs.vue';
 
 export default defineComponent({
   name: 'RentalInfo',
   components: { SectionTabs },
-  setup() {
-    onMounted(() => {});
-    return {};
-  },
 });
 </script>
 

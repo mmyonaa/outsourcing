@@ -1,15 +1,11 @@
 <script lang="ts">
-import { defineComponent, onMounted } from 'vue';
+import { defineComponent } from 'vue';
 import BaseImageSet from '@/components/common/BaseImageSet.vue';
 import SectionTabs from '@/components/common/SectionTabs.vue';
 
 export default defineComponent({
   name: 'introduce',
   components: { BaseImageSet, SectionTabs },
-  setup() {
-    onMounted(() => {});
-    return {};
-  },
 });
 </script>
 
