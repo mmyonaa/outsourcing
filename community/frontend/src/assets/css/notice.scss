@@ -334,6 +334,13 @@
     .page-number:nth-last-child(1) {
       @include font14Bold5();
     }
+
+    // 이전/다음 화살표 비활성 상태 (첫/마지막 페이지)
+    > .page-number.noCursor {
+      cursor: default;
+      opacity: 0.3;
+      pointer-events: none;
+    }
   }
 }
 

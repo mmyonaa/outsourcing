@@ -94,12 +94,12 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="pagination">
+  <div v-if="totalPages > 1" class="pagination">
     <base-image-set
       src="/assets/images/common/icons/left-black-arrow.webp"
       :img-sets="3"
       class="page-number"
-      :class="{ noCursor: currentPage === totalPageNum }"
+      :class="{ noCursor: currentPage === 1 }"
       @click="prevNum" />
     <section class="page-number-section">
       <span v-for="page in generatePageNumbers()" :key="page" :class="{ active: currentPage === page }" class="page-number" @click="goToPage(page)">
@@ -110,7 +110,7 @@ export default defineComponent({
       src="/assets/images/common/icons/right-black-arrow.webp"
       :img-sets="3"
       class="page-number"
-      :class="{ noCursor: currentPage === totalPageNum }"
+      :class="{ noCursor: currentPage === totalPages }"
       @click="nextNum" />
   </div>
 </template>
