@@ -8,6 +8,15 @@ export class SearchBoardDto extends BasicListDto {
   keyword: string | undefined = undefined;
 }
 
+// updateBoard 에서 수정을 허용하는 컬럼 — 클라이언트가 실제로 보낸 필드와
+// 교집합을 내어 그 컬럼만 SET 한다.
+export const UPDATABLE_BOARD_COLUMNS: (keyof BoardEntity)[] = [
+  "title",
+  "body",
+  "bestYn",
+  "views",
+];
+
 export class BoardEntity {
   // 보드고유번호
   boardIdx: string = "";

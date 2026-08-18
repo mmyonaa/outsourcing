@@ -1,8 +1,8 @@
 import { Context } from 'koa'
 import { ResponseDto } from '../repository/dto/response.dto';
-import { BannerEntity, SearchBannerDto } from '../repository/dto/banner.dto';
+import { BannerEntity, SearchBannerDto, UPDATABLE_BANNER_COLUMNS } from '../repository/dto/banner.dto';
 import { setEntityParameters } from '../utils/common.util';
-import { RESULT_CODE, STATE_YN } from '../../types';
+import { RESULT_CODE } from '../../types';
 import * as bannerService from '../service/banner.service'
 import { CustomError } from '../utils/custom.error';
 import { uploadToS3 } from '../utils/s3.util';
@@ -56,7 +56,7 @@ export const updateBanner = async (ctx: Context) => {
   const result = new ResponseDto();
   try {
     const reqParam = new BannerEntity();
-    setEntityParameters(reqParam, ctx.request.body);
+    const providedKeys = setEntityParameters(reqParam, ctx.request.body);
 
     if(!reqParam.bannerIdx){
         throw new CustomError(
@@ -65,7 +65,18 @@ export const updateBanner = async (ctx: Context) => {
         )
     }
 
-    const resultData = await bannerService.updateBanner(reqParam);
+    // 클라이언트가 실제로 보낸 필드만 수정 (미전송 필드가 NULL/기본값으로 덮이는 것 방지)
+    const updateColumns = UPDATABLE_BANNER_COLUMNS.filter((c) =>
+      providedKeys.includes(c),
+    );
+    if (updateColumns.length === 0) {
+      throw new CustomError(
+        RESULT_CODE.INVALID_PARAMETER.code,
+        '수정할 필드가 없습니다.',
+      );
+    }
+
+    const resultData = await bannerService.updateBanner(reqParam, updateColumns);
     result.data = resultData;
     result.setResultCode(RESULT_CODE.SUCCESS);
   } catch (e) {
@@ -91,19 +102,24 @@ export const deleteBanner = async (ctx: Context) => {
         )
     }
 
-    const searchParam = new SearchBannerDto();
-    searchParam.bannerIdx = reqParam.bannerIdx
-    const [bannerItem] = await bannerService.getBannerList(searchParam);
+    // 가상의 기본 배너는 DB 행이 아니므로 삭제 불가
+    if (reqParam.bannerIdx === 'default') {
+        throw new CustomError(
+            RESULT_CODE.INVALID_PARAMETER.code,
+            '기본 배너는 삭제할 수 없습니다.'
+        )
+    }
 
-    if(!bannerItem) {
+    // 단일 UPDATE 로 소프트 삭제 — 삭제된 행이 없으면 NOT_FOUND
+    const resultData = await bannerService.deleteBanner(reqParam.bannerIdx);
+
+    if (resultData.length === 0) {
         throw new CustomError(
             RESULT_CODE.INVALID_PARAMETER.code,
             '배너를 찾을 수 없습니다.'
         )
     }
 
-    bannerItem.delYn = STATE_YN.Y
-    const resultData = await bannerService.updateBanner(bannerItem);
     result.data = resultData;
     result.setResultCode(RESULT_CODE.SUCCESS);
   } catch (e) {

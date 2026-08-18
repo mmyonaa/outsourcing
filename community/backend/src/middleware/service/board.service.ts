@@ -69,9 +69,31 @@ export const insertBoard = async (
  */
 export const updateBoard = async (
   reqParam: BoardEntity,
+  columns?: (keyof BoardEntity)[],
 ): Promise<BoardEntity> => {
  try{
-  const data = await boardRepo.updateBoard(sql, reqParam);
+  const data = await boardRepo.updateBoard(sql, reqParam, columns);
+  return data
+ } catch (e: any) {
+  console.log(e)
+      throw new CustomError(
+        RESULT_CODE.DB_ERROR.code,
+        RESULT_CODE.DB_ERROR.msg,
+        e,
+      );
+    }
+};
+
+/**
+ * 글 삭제 (소프트 삭제)
+ * @param {string} boardIdx
+ * @return {Promise<BoardEntity[]>} 삭제된 행 (없으면 빈 배열)
+ */
+export const deleteBoard = async (
+  boardIdx: string,
+): Promise<BoardEntity[]> => {
+ try{
+  const data = await boardRepo.deleteBoard(sql, boardIdx);
   return data
  } catch (e: any) {
   console.log(e)

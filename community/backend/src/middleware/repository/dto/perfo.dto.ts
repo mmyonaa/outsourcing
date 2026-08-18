@@ -8,6 +8,18 @@ export class SearchPerfoDto extends BasicListDto {
   keyword: string | undefined = undefined;
 }
 
+// updatePerfo 에서 수정을 허용하는 컬럼 — 클라이언트가 실제로 보낸 필드와
+// 교집합을 내어 그 컬럼만 SET 한다.
+export const UPDATABLE_PERFO_COLUMNS: (keyof PerfoEntity)[] = [
+  "title",
+  "titleSec",
+  "titleThird",
+  "body",
+  "category",
+  "imgUrl",
+  "views",
+];
+
 export class PerfoEntity {
   // 보드고유번호
   perIdx: string = "";

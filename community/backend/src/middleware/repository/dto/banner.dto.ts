@@ -6,6 +6,15 @@ export class SearchBannerDto extends BasicListDto {
   activeYn: STATE_YN | undefined = undefined;
 }
 
+// updateBanner 에서 수정을 허용하는 컬럼 — 클라이언트가 실제로 보낸 필드와
+// 교집합을 내어 그 컬럼만 SET 한다.
+export const UPDATABLE_BANNER_COLUMNS: (keyof BannerEntity)[] = [
+  "imgUrl",
+  "swipeDuration",
+  "displayOrder",
+  "activeYn",
+];
+
 export class BannerEntity {
   // 배너고유번호
   bannerIdx: string = "";

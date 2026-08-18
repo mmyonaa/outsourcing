@@ -1,8 +1,8 @@
 import { Context } from 'koa'
 import { ResponseDto } from '../repository/dto/response.dto';
-import { BoardEntity, SearchBoardDto } from '../repository/dto/board.dto';
+import { BoardEntity, SearchBoardDto, UPDATABLE_BOARD_COLUMNS } from '../repository/dto/board.dto';
 import { setEntityParameters } from '../utils/common.util';
-import { RESULT_CODE, STATE_YN } from '../../types';
+import { RESULT_CODE } from '../../types';
 import * as boardService from '../service/board.service'
 import { CustomError } from '../utils/custom.error';
 import { uploadToS3 } from '../utils/s3.util';
@@ -56,7 +56,7 @@ export const updateBoard = async (ctx: Context) => {
   const result = new ResponseDto();
   try {
     const reqParam = new BoardEntity();
-    setEntityParameters(reqParam, ctx.request.body);
+    const providedKeys = setEntityParameters(reqParam, ctx.request.body);
 
     if(!reqParam.boardIdx){
         throw new CustomError(
@@ -65,7 +65,18 @@ export const updateBoard = async (ctx: Context) => {
         )
     }
 
-    const resultData = await boardService.updateBoard(reqParam);
+    // 클라이언트가 실제로 보낸 필드만 수정 (미전송 필드가 NULL/기본값으로 덮이는 것 방지)
+    const updateColumns = UPDATABLE_BOARD_COLUMNS.filter((c) =>
+      providedKeys.includes(c),
+    );
+    if (updateColumns.length === 0) {
+      throw new CustomError(
+        RESULT_CODE.INVALID_PARAMETER.code,
+        '수정할 필드가 없습니다.',
+      );
+    }
+
+    const resultData = await boardService.updateBoard(reqParam, updateColumns);
     result.data = resultData;
     result.setResultCode(RESULT_CODE.SUCCESS);
   } catch (e) {
@@ -91,19 +102,16 @@ export const deleteBoard = async (ctx: Context) => {
         )
     }
 
-    const searchParam = new SearchBoardDto();
-    searchParam.boardIdx = reqParam.boardIdx
-    const [boardItem] = await boardService.getBoardList(searchParam);
+    // 단일 UPDATE 로 소프트 삭제 — 삭제된 행이 없으면 NOT_FOUND
+    const resultData = await boardService.deleteBoard(reqParam.boardIdx);
 
-    if(!boardItem) {
+    if (resultData.length === 0) {
         throw new CustomError(
             RESULT_CODE.BOARD_NOT_FOUND.code,
             RESULT_CODE.BOARD_NOT_FOUND.msg
         )
     }
 
-    boardItem.delYn = STATE_YN.Y
-    const resultData = await boardService.updateBoard(boardItem);
     result.data = resultData;
     result.setResultCode(RESULT_CODE.SUCCESS);
   } catch (e) {

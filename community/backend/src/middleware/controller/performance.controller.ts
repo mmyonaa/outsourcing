@@ -1,8 +1,8 @@
 import { Context } from "koa";
 import { ResponseDto } from "../repository/dto/response.dto";
-import { PerfoEntity, SearchPerfoDto } from "../repository/dto/perfo.dto";
+import { PerfoEntity, SearchPerfoDto, UPDATABLE_PERFO_COLUMNS } from "../repository/dto/perfo.dto";
 import { setEntityParameters } from "../utils/common.util";
-import { RESULT_CODE, STATE_YN } from "../../types";
+import { RESULT_CODE } from "../../types";
 import * as perfoService from "../service/performance.service";
 import { CustomError } from "../utils/custom.error";
 import { uploadToS3 } from "../utils/s3.util";
@@ -65,7 +65,7 @@ export const updatePerfo = async (ctx: Context) => {
   const result = new ResponseDto();
   try {
     const reqParam = new PerfoEntity();
-    setEntityParameters(reqParam, ctx.request.body);
+    const providedKeys = setEntityParameters(reqParam, ctx.request.body);
 
     if (!reqParam.perIdx) {
       throw new CustomError(
@@ -74,7 +74,18 @@ export const updatePerfo = async (ctx: Context) => {
       );
     }
 
-    const resultData = await perfoService.updatePerfo(reqParam);
+    // 클라이언트가 실제로 보낸 필드만 수정 (미전송 필드가 NULL/기본값으로 덮이는 것 방지)
+    const updateColumns = UPDATABLE_PERFO_COLUMNS.filter((c) =>
+      providedKeys.includes(c)
+    );
+    if (updateColumns.length === 0) {
+      throw new CustomError(
+        RESULT_CODE.INVALID_PARAMETER.code,
+        "수정할 필드가 없습니다."
+      );
+    }
+
+    const resultData = await perfoService.updatePerfo(reqParam, updateColumns);
     result.data = resultData;
     result.setResultCode(RESULT_CODE.SUCCESS);
   } catch (e) {
@@ -100,19 +111,16 @@ export const deletePerfo = async (ctx: Context) => {
       );
     }
 
-    const searchParam = new SearchPerfoDto();
-    searchParam.perIdx = reqParam.perIdx;
-    const [PerfoItem] = await perfoService.getPerfoList(searchParam);
+    // 단일 UPDATE 로 소프트 삭제 — 삭제된 행이 없으면 NOT_FOUND
+    const resultData = await perfoService.deletePerfo(reqParam.perIdx);
 
-    if (!PerfoItem) {
+    if (resultData.length === 0) {
       throw new CustomError(
         RESULT_CODE.PERFO_NOT_FOUND.code,
         RESULT_CODE.PERFO_NOT_FOUND.msg
       );
     }
 
-    PerfoItem.delYn = STATE_YN.Y;
-    const resultData = await perfoService.updatePerfo(PerfoItem);
     result.data = resultData;
     result.setResultCode(RESULT_CODE.SUCCESS);
   } catch (e) {

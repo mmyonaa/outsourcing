@@ -69,9 +69,31 @@ export const insertPerfo = async (
  */
 export const updatePerfo = async (
   reqParam: PerfoEntity,
+  columns?: (keyof PerfoEntity)[],
 ): Promise<PerfoEntity> => {
  try{
-  const data = await perfoRepo.updatePerfo(sql, reqParam);
+  const data = await perfoRepo.updatePerfo(sql, reqParam, columns);
+  return data
+ } catch (e: any) {
+  console.log(e)
+      throw new CustomError(
+        RESULT_CODE.DB_ERROR.code,
+        RESULT_CODE.DB_ERROR.msg,
+        e,
+      );
+    }
+};
+
+/**
+ * 글 삭제 (소프트 삭제)
+ * @param {string} perIdx
+ * @return {Promise<PerfoEntity[]>} 삭제된 행 (없으면 빈 배열)
+ */
+export const deletePerfo = async (
+  perIdx: string,
+): Promise<PerfoEntity[]> => {
+ try{
+  const data = await perfoRepo.deletePerfo(sql, perIdx);
   return data
  } catch (e: any) {
   console.log(e)

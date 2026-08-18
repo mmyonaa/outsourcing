@@ -1,5 +1,9 @@
 import postgres from "postgres";
-import { BoardEntity, SearchBoardDto } from "./dto/board.dto";
+import {
+  BoardEntity,
+  SearchBoardDto,
+  UPDATABLE_BOARD_COLUMNS,
+} from "./dto/board.dto";
 import { getSafePagination } from "./dto/basic.dto";
 
 export const getBoardList = (sql: postgres.Sql, reqParam: SearchBoardDto) => {
@@ -76,13 +80,36 @@ export const insertBoard = (
 
 export const updateBoard = (
   sql: postgres.Sql,
-  reqParam: BoardEntity
+  reqParam: BoardEntity,
+  columns: (keyof BoardEntity)[] = UPDATABLE_BOARD_COLUMNS
 ): Promise<any> => {
+  // 허용 목록과 교집합만 SET — 미전송 필드가 NULL/기본값으로 덮이는 것 방지
+  const cols = columns.filter((c) => UPDATABLE_BOARD_COLUMNS.includes(c));
+  if (cols.length === 0) {
+    // sql(reqParam) 에 컬럼이 하나도 없으면 전체 키가 SET 되므로 반드시 차단
+    throw new Error("업데이트할 컬럼이 없습니다.");
+  }
   return sql`
     UPDATE public.board SET
-      ${sql(reqParam, "title", "body", "bestYn", "delYn", "views")},
+      ${sql(reqParam, ...cols)},
       mod_dt = CURRENT_TIMESTAMP
     WHERE board_idx = ${reqParam.boardIdx}
+    RETURNING *
+  `;
+};
+
+export const deleteBoard = (
+  sql: postgres.Sql,
+  boardIdx: string
+): Promise<BoardEntity[]> => {
+  // 단일 UPDATE로 소프트 삭제 — SELECT 후 전체 컬럼을 되쓰는 방식의
+  // 동시 수정 유실(read-modify-write) 없이 존재 확인까지 한 번에 처리
+  return sql<BoardEntity[]>`
+    UPDATE public.board SET
+      del_yn = 'Y',
+      mod_dt = CURRENT_TIMESTAMP
+    WHERE board_idx = ${boardIdx}
+      AND del_yn = 'N'
     RETURNING *
   `;
 };
