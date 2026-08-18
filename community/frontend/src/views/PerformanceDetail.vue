@@ -1,10 +1,9 @@
 <script lang="ts">
-import { computed, defineComponent, onMounted, onUnmounted, ref, watch } from 'vue';
-import BasePagination from '@/components/common/BasePagination.vue';
+import { computed, defineComponent, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
 import BaseShareButton from '@/components/common/BaseShareButton.vue';
 import { useRoute, useRouter } from 'vue-router';
 import { PerfoEntity, SearchPerfoDto } from '@/api/dto/perfo.dto';
-import { getPerfoList, updatePerfo } from '@/api/perfo.api';
+import { getPerfoList, increasePerfoViews } from '@/api/perfo.api';
 import dayjs from 'dayjs';
 import { getApiClient } from '@/utils/apiClient';
 import { TYPE_PERFO, TYPE_PERFO_CATEGORY } from '@/types';
@@ -12,14 +11,14 @@ import { setMetaTags, setJsonLd, removeJsonLd, toPlainText, extractEventDates } 
 
 export default defineComponent({
   name: 'performanceDetail',
-  components: { BasePagination, BaseShareButton },
+  components: { BaseShareButton },
   setup() {
-    const totalPage = ref<number>(0);
     const route = useRoute();
     const router = useRouter();
     const currentId = computed(() => String(route.params.id));
     const performance = ref<PerfoEntity>(new PerfoEntity());
     const relatedPerformances = ref<PerfoEntity[]>([]);
+    const notFound = ref(false);
     const apiClient = getApiClient();
 
     const goBack = () => {
@@ -43,11 +42,19 @@ export default defineComponent({
       const param = new SearchPerfoDto();
       param.perIdx = currentId.value;
 
-      await getPerfoList(apiClient, param).then(res => {
-        if (res.resultCode === 0 && res.data) {
-          performance.value = res.data[0];
-        }
-      });
+      // 삭제된 글·잘못된 id 는 빈 배열로 오므로 length 까지 확인해야
+      // undefined 대입 → 이후 접근에서 크래시가 나지 않는다
+      await getPerfoList(apiClient, param)
+        .then(res => {
+          if (res.resultCode === 0 && res.data && res.data.length > 0) {
+            performance.value = res.data[0];
+          } else {
+            notFound.value = true;
+          }
+        })
+        .catch(() => {
+          notFound.value = true;
+        });
     };
 
     // 현재 글과 같은 프로그램 유형(자체 밑엔 자체) 중 현재 글을 제외하고 최신순 한 줄(최대 6개)
@@ -68,9 +75,10 @@ export default defineComponent({
     };
 
     const updateViews = async () => {
-      performance.value.perIdx = currentId.value;
+      // 조회수는 서버가 원자적으로 +1 한다.
+      // (전체 엔티티를 update API로 보내던 방식은 경합·본문 덮어쓰기 위험이 있었음)
+      await increasePerfoViews(apiClient, currentId.value).catch(() => {});
       performance.value.views++;
-      await updatePerfo(apiClient, performance.value);
     };
 
     // 로드된 공연 내용으로 메타/OG/JSON-LD 갱신
@@ -130,12 +138,14 @@ export default defineComponent({
 
     const handleImageError = (event: Event) => {
       const target = event.target as HTMLImageElement;
+      target.onerror = null; // 기본 썸네일마저 깨질 때 에러 루프 방지
       target.src = '/assets/images/common/default-thumbnail.svg';
     };
 
-    const setupFileDownloadLinks = () => {
-      // 파일 다운로드 링크에 download 속성 추가 및 클릭 이벤트 처리
-      setTimeout(() => {
+    const setupFileDownloadLinks = async () => {
+      // 본문(v-html)이 실제 DOM에 반영된 다음 틱에 링크를 찾는다 (setTimeout 타이밍 의존 제거)
+      await nextTick();
+      {
         const fileLinks = document.querySelectorAll<HTMLAnchorElement>(
           '.notice-content a[href*="amazonaws.com"], .notice-content a[href*="/uploads/"], .notice-content a[href*="/files/"]'
         );
@@ -170,15 +180,17 @@ export default defineComponent({
             }
           });
         });
-      }, 300);
+      }
     };
 
     const init = async () => {
       // 다른 상세로 이동 시 이전 데이터 잔상 제거 + 상단으로
       performance.value = new PerfoEntity();
       relatedPerformances.value = [];
+      notFound.value = false;
       window.scrollTo({ top: 0 });
       await loadPerfoDetail();
+      if (notFound.value) return;
       applySeo();
       await updateViews();
       await loadRelated();
@@ -189,6 +201,9 @@ export default defineComponent({
 
     // 관련 공연 카드로 이동하면 라우트만 바뀌고 컴포넌트는 재사용되므로 id를 감시해 재로딩
     watch(currentId, () => {
+      // 목록으로 이탈할 때도 watch가 발동하는데, 그때 params.id 가 사라져
+      // "undefined" id 로 API 를 호출하게 되므로 가드한다
+      if (!route.params.id) return;
       init();
     });
 
@@ -199,7 +214,7 @@ export default defineComponent({
     return {
       performance,
       relatedPerformances,
-      totalPage,
+      notFound,
       dayjs,
       goBack,
       getCategoryLabel,
@@ -212,7 +227,14 @@ export default defineComponent({
 <template>
   <div class="page-common notice-page">
     <h1>자체 프로그램 상세</h1>
-    <div class="performance-detail-container">
+
+    <!-- 삭제되었거나 존재하지 않는 id 로 진입한 경우 -->
+    <div v-if="notFound" class="detail-not-found">
+      <p>요청하신 공연을 찾을 수 없습니다.<br />삭제되었거나 잘못된 주소일 수 있습니다.</p>
+      <button class="back-button" @click="goBack">← 목록으로 돌아가기</button>
+    </div>
+
+    <div v-else class="performance-detail-container">
       <!-- 좌측: 포스터 -->
       <div class="left-section">
         <div class="thumbnail-wrapper">
@@ -240,7 +262,7 @@ export default defineComponent({
           <div class="notice-meta">
             <span>작성자: {{ performance.author }}</span>
             <span class="meta-divider">·</span>
-            <span>작성일: {{ dayjs(performance.modDt).format('YY.MM.DD') }}</span>
+            <span>작성일: {{ dayjs(performance.regDt).format('YY.MM.DD') }}</span>
             <span class="meta-divider">·</span>
             <span>조회수: {{ performance.views }}</span>
           </div>
@@ -282,6 +304,18 @@ export default defineComponent({
 </template>
 
 <style scoped>
+.detail-not-found {
+  text-align: center;
+  padding: 5rem 1rem;
+  color: #666;
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+.detail-not-found .back-button {
+  margin-top: 1.5rem;
+}
+
 .performance-detail-container {
   display: grid;
   grid-template-columns: 360px 1fr;

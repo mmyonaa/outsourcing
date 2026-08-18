@@ -27,6 +27,13 @@ export function updatePerfo(apiClient: AxiosInstance, params: PerfoEntity): Prom
 }
 
 /**
+ * 조회수 증가 — 서버가 원자적으로 +1 (전체 엔티티 update로 조회수를 보내던 방식 대체)
+ */
+export function increasePerfoViews(apiClient: AxiosInstance, perIdx: string): Promise<ResponseDto<PerfoEntity>> {
+  return apiRequest<PerfoEntity>(() => apiClient.post('/perfo/increaseViews', { perIdx }), { strict: false });
+}
+
+/**
  * 공연 삭제 (resultCode 무관하게 응답 반환 - 기존 동작 유지)
  */
 export function deletePerfo(apiClient: AxiosInstance, params: Pick<PerfoEntity, 'perIdx'>): Promise<ResponseDto<PerfoEntity>> {
