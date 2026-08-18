@@ -27,6 +27,16 @@ export function updatePerfo(apiClient: AxiosInstance, params: PerfoEntity): Prom
 }
 
 /**
+ * 공연 등록 (multipart) — 텍스트 필드 + 이미지 파일을 form-data 로 전송하는 admin 등록 화면용
+ */
+export function insertPerfoForm(apiClient: AxiosInstance, formData: FormData): Promise<ResponseDto<PerfoEntity>> {
+  return apiRequest<PerfoEntity>(
+    () => apiClient.post('/perfo/insertperfo', formData, { headers: { 'Content-Type': 'multipart/form-data' } }),
+    { strict: false },
+  );
+}
+
+/**
  * 조회수 증가 — 서버가 원자적으로 +1 (전체 엔티티 update로 조회수를 보내던 방식 대체)
  */
 export function increasePerfoViews(apiClient: AxiosInstance, perIdx: string): Promise<ResponseDto<PerfoEntity>> {

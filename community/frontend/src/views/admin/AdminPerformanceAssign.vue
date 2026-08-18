@@ -1,20 +1,27 @@
 <script lang="ts">
-import { defineComponent, onMounted, ref } from 'vue';
-import BasePagination from '@/components/common/BasePagination.vue';
-import { useRoute, useRouter } from 'vue-router';
+import { defineComponent, onMounted, onUnmounted, ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { PerfoEntity } from '@/api/dto/perfo.dto';
 import { getApiClient } from '@/utils/apiClient';
+import { insertPerfoForm } from '@/api/perfo.api';
 import { TYPE_PERFO, TYPE_PERFO_CATEGORY } from '@/types';
+import { ALLOWED_UPLOAD_FILE_EXTENSIONS } from '@/constants';
 import Quill from 'quill';
 import 'quill/dist/quill.snow.css';
 import BlotFormatter from 'quill-blot-formatter/dist/BlotFormatter';
 
+// BlotFormatter/파일 아이콘 — 모듈 로드 시 1회만 등록 (마운트마다 재등록되어 overwrite 경고가 나던 것 방지)
+try {
+  Quill.register('modules/blotFormatter', BlotFormatter);
+} catch (e) {
+  console.warn('BlotFormatter 모듈 등록 실패:', e);
+}
+const quillIcons = Quill.import('ui/icons') as Record<string, string>;
+quillIcons['file'] = '<svg viewBox="0 0 18 18"><path class="ql-stroke" d="M9,3V15M3,9H15"></path></svg>';
+
 export default defineComponent({
   name: 'adminPerformanceAssign',
-  components: { BasePagination },
   setup() {
-    const totalPage = ref<number>(0); // 총 페이지
-    const route = useRoute();
     const router = useRouter();
     const performance = ref<PerfoEntity>(new PerfoEntity());
     const selectedImage = ref<File | null>(null); // 썸네일 이미지
@@ -152,16 +159,21 @@ export default defineComponent({
 
     // 파일 첨부 핸들러
     const fileHandler = () => {
-      console.log('파일 핸들러 실행됨');
       const input = document.createElement('input');
       input.setAttribute('type', 'file');
+      input.setAttribute('accept', ALLOWED_UPLOAD_FILE_EXTENSIONS.map(e => `.${e}`).join(','));
       input.click();
 
       input.onchange = async () => {
         const file = input.files?.[0];
         if (!file) return;
 
-        console.log('파일 선택됨:', file.name);
+        // 서버 화이트리스트와 동일 검사 — 업로드 후 실패보다 선택 즉시 안내
+        const ext = file.name.includes('.') ? file.name.split('.').pop()!.toLowerCase() : '';
+        if (!ALLOWED_UPLOAD_FILE_EXTENSIONS.includes(ext)) {
+          alert(`허용되지 않는 파일 형식입니다.\n허용: ${ALLOWED_UPLOAD_FILE_EXTENSIONS.join(', ')}`);
+          return;
+        }
 
         if (file.size > 20 * 1024 * 1024) {
           alert('파일 크기는 20MB 이하여야 합니다.');
@@ -169,16 +181,12 @@ export default defineComponent({
         }
 
         try {
-          console.log('파일 업로드 시작:', file.name);
           const { fileUrl } = await uploadFileToS3(file);
-          console.log('파일 업로드 완료:', fileUrl);
-
           const range = quillInstance?.getSelection();
           if (range) {
             // 원본 파일명(file.name)을 사용하여 한글 파일명 보존
             quillInstance?.insertText(range.index, file.name, 'link', fileUrl);
             quillInstance?.setSelection(range.index + file.name.length, 0);
-            console.log('링크 삽입 완료');
           }
         } catch (error) {
           console.error('Error uploading file:', error);
@@ -189,18 +197,6 @@ export default defineComponent({
     // Quill 에디터 초기화
     const initQuillEditor = () => {
       if (!editorRef.value) return;
-
-      // BlotFormatter 모듈 등록 (있는 경우에만)
-      try {
-        if (BlotFormatter) {
-          Quill.register('modules/blotFormatter', BlotFormatter);
-        }
-      } catch (e) {
-        console.warn('BlotFormatter 모듈 등록 실패:', e);
-      }
-
-      const icons = Quill.import('ui/icons') as Record<string, string>;
-      icons['file'] = '<svg viewBox="0 0 18 18"><path class="ql-stroke" d="M9,3V15M3,9H15"></path></svg>';
 
       const toolbarOptions = [
         [{ header: [1, 2, 3, false] }],
@@ -240,19 +236,9 @@ export default defineComponent({
       quillInstance.on('text-change', () => {
         performance.value.body = quillInstance?.root.innerHTML || '';
       });
-
-      // 파일 버튼에 클릭 이벤트 직접 바인딩
-      setTimeout(() => {
-        const fileButton = document.querySelector('.ql-file');
-        if (fileButton) {
-          fileButton.addEventListener('click', () => {
-            console.log('파일 버튼 클릭됨 (직접 바인딩)');
-            fileHandler();
-          });
-        } else {
-          console.warn('파일 버튼을 찾을 수 없습니다.');
-        }
-      }, 100);
+      // 파일 버튼 클릭은 툴바 handlers.file 로만 처리한다
+      // (과거의 직접 addEventListener 중복 바인딩은 핸들러가 2번 실행되어
+      //  파일 다이얼로그가 중복으로 뜨던 디버깅 잔재)
     };
 
     const submitNotice = async () => {
@@ -293,13 +279,9 @@ export default defineComponent({
         formData.append('perType', TYPE_PERFO.NORMAL);
         formData.append('author', '관리자');
 
-        const response = await apiClient.post('/perfo/insertperfo', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        });
+        const res = await insertPerfoForm(apiClient, formData);
 
-        if (response.data.resultCode === 0) {
+        if (res.resultCode === 0) {
           alert('프로그램이 성공적으로 등록되었습니다.');
           router.push('/admin/performance');
         } else {
@@ -316,9 +298,12 @@ export default defineComponent({
       initQuillEditor();
     });
 
+    onUnmounted(() => {
+      quillInstance = null;
+    });
+
     return {
       performance,
-      totalPage,
       submitNotice,
       goBack,
       selectedImage,

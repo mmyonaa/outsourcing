@@ -1,20 +1,27 @@
 <script lang="ts">
-import { defineComponent, onMounted, ref } from 'vue';
-import BasePagination from '@/components/common/BasePagination.vue';
+import { defineComponent, onMounted, onUnmounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { PerfoEntity, SearchPerfoDto } from '@/api/dto/perfo.dto';
 import { deletePerfo, getPerfoList, updatePerfo } from '@/api/perfo.api';
 import { getApiClient } from '@/utils/apiClient';
 import { TYPE_PERFO_CATEGORY } from '@/types';
+import { ALLOWED_UPLOAD_FILE_EXTENSIONS } from '@/constants';
 import Quill from 'quill';
 import 'quill/dist/quill.snow.css';
 import BlotFormatter from 'quill-blot-formatter/dist/BlotFormatter';
 
+// BlotFormatter/파일 아이콘 — 모듈 로드 시 1회만 등록 (마운트마다 재등록되어 overwrite 경고가 나던 것 방지)
+try {
+  Quill.register('modules/blotFormatter', BlotFormatter);
+} catch (e) {
+  console.warn('BlotFormatter 모듈 등록 실패:', e);
+}
+const quillIcons = Quill.import('ui/icons') as Record<string, string>;
+quillIcons['file'] = '<svg viewBox="0 0 18 18"><path class="ql-stroke" d="M9,3V15M3,9H15"></path></svg>';
+
 export default defineComponent({
   name: 'adminPerformanceNextDetail',
-  components: { BasePagination },
   setup() {
-    const totalPage = ref<number>(0);
     const route = useRoute();
     const router = useRouter();
     const performance = ref<PerfoEntity>(new PerfoEntity());
@@ -65,6 +72,9 @@ export default defineComponent({
     const removeImage = () => {
       selectedImage.value = null;
       imagePreview.value = null;
+      // 저장 시 기존 썸네일이 그대로 유지되지 않도록 imgUrl도 비운다
+      // (빈 문자열을 보내면 백엔드가 이미지 제거로 반영)
+      performance.value.imgUrl = '';
     };
 
     // S3에 이미지 업로드
@@ -154,11 +164,19 @@ export default defineComponent({
     const fileHandler = () => {
       const input = document.createElement('input');
       input.setAttribute('type', 'file');
+      input.setAttribute('accept', ALLOWED_UPLOAD_FILE_EXTENSIONS.map(e => `.${e}`).join(','));
       input.click();
 
       input.onchange = async () => {
         const file = input.files?.[0];
         if (!file) return;
+
+        // 서버 화이트리스트와 동일 검사 — 업로드 후 실패보다 선택 즉시 안내
+        const ext = file.name.includes('.') ? file.name.split('.').pop()!.toLowerCase() : '';
+        if (!ALLOWED_UPLOAD_FILE_EXTENSIONS.includes(ext)) {
+          alert(`허용되지 않는 파일 형식입니다.\n허용: ${ALLOWED_UPLOAD_FILE_EXTENSIONS.join(', ')}`);
+          return;
+        }
 
         if (file.size > 20 * 1024 * 1024) {
           alert('파일 크기는 20MB 이하여야 합니다.');
@@ -182,18 +200,6 @@ export default defineComponent({
     // Quill 에디터 초기화
     const initQuillEditor = () => {
       if (!editorRef.value) return;
-
-      // BlotFormatter 모듈 등록 (있는 경우에만)
-      try {
-        if (BlotFormatter) {
-          Quill.register('modules/blotFormatter', BlotFormatter);
-        }
-      } catch (e) {
-        console.warn('BlotFormatter 모듈 등록 실패:', e);
-      }
-
-      const icons = Quill.import('ui/icons') as Record<string, string>;
-      icons['file'] = '<svg viewBox="0 0 18 18"><path class="ql-stroke" d="M9,3V15M3,9H15"></path></svg>';
 
       const toolbarOptions = [
         [{ header: [1, 2, 3, false] }],
@@ -230,44 +236,55 @@ export default defineComponent({
         placeholder: '내용을 입력하세요...',
       });
 
-      // 기존 내용을 Quill에 로드
+      // 기존 내용을 Quill에 로드 — innerHTML 직접 주입 대신 공식 경로(clipboard.convert)로
+      // 델타를 만들어 넣는다 (내부 델타와 DOM 불일치 방지)
       if (performance.value.body) {
-        quillInstance.root.innerHTML = performance.value.body;
+        const delta = quillInstance.clipboard.convert({ html: performance.value.body });
+        quillInstance.setContents(delta, 'silent');
       }
 
       // 콘텐츠 변경 시 performance.body 업데이트
       quillInstance.on('text-change', () => {
         performance.value.body = quillInstance?.root.innerHTML || '';
       });
-
-      // 파일 버튼에 클릭 이벤트 직접 바인딩
-      setTimeout(() => {
-        const fileButton = document.querySelector('.ql-file');
-        if (fileButton) {
-          fileButton.addEventListener('click', () => {
-            fileHandler();
-          });
-        }
-      }, 100);
+      // 파일 버튼 클릭은 툴바 handlers.file 로만 처리한다
+      // (과거의 직접 addEventListener 중복 바인딩은 핸들러가 2번 실행되어
+      //  파일 다이얼로그가 중복으로 뜨던 디버깅 잔재)
     };
 
     const loadPerfoDetail = async () => {
+      // id 누락·잘못된 id·삭제된 글은 편집 화면을 띄우지 않고 목록으로 돌려보낸다
+      if (!perfoIdx) {
+        alert('프로그램을 찾을 수 없습니다.');
+        goBack();
+        return;
+      }
+
       const param = new SearchPerfoDto();
       param.perIdx = String(perfoIdx);
 
-      await getPerfoList(apiClient, param).then(res => {
-        if (res.resultCode === 0 && res.data) {
-          performance.value = res.data[0];
+      await getPerfoList(apiClient, param)
+        .then(res => {
+          if (res.resultCode === 0 && res.data && res.data.length > 0) {
+            performance.value = res.data[0];
 
-          // 기존 썸네일 이미지 로드
-          if (performance.value.imgUrl) {
-            imagePreview.value = performance.value.imgUrl;
+            // 기존 썸네일 이미지 로드
+            if (performance.value.imgUrl) {
+              imagePreview.value = performance.value.imgUrl;
+            }
+
+            // 데이터 로드 후 Quill 에디터 초기화
+            initQuillEditor();
+          } else {
+            alert('프로그램을 찾을 수 없습니다. 삭제되었거나 잘못된 주소일 수 있습니다.');
+            goBack();
           }
-
-          // 데이터 로드 후 Quill 에디터 초기화
-          initQuillEditor();
-        }
-      });
+        })
+        .catch(e => {
+          console.error(e);
+          alert('프로그램을 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.');
+          goBack();
+        });
     };
 
     const submitPerformance = async () => {
@@ -296,11 +313,13 @@ export default defineComponent({
         // 2. Quill 에디터 내용 저장
         performance.value.body = quillInstance.root.innerHTML;
 
-        // 3. API 호출
+        // 3. API 호출 — 실패 시에도 반드시 사용자에게 알린다
         await updatePerfo(apiClient, performance.value).then(res => {
           if (res.resultCode === 0 && res.data) {
             alert('프로그램 수정이 완료되었습니다.');
             router.push('/admin/performance/next');
+          } else {
+            alert('프로그램 수정에 실패했습니다. 잠시 후 다시 시도해 주세요.');
           }
         });
       } catch (error) {
@@ -310,16 +329,20 @@ export default defineComponent({
     };
 
     const delPerformance = async () => {
-      const param = new SearchPerfoDto();
-      param.perIdx = String(perfoIdx);
-
       if (window.confirm('정말 삭제하시겠습니까?')) {
-        await deletePerfo(apiClient, param).then(res => {
-          if (res.resultCode === 0 && res.data) {
-            alert('프로그램 삭제가 완료되었습니다.');
-            router.push('/admin/performance/next');
-          }
-        });
+        await deletePerfo(apiClient, { perIdx: String(perfoIdx) })
+          .then(res => {
+            if (res.resultCode === 0 && res.data) {
+              alert('프로그램 삭제가 완료되었습니다.');
+              router.push('/admin/performance/next');
+            } else {
+              alert('삭제에 실패했습니다. 잠시 후 다시 시도해 주세요.');
+            }
+          })
+          .catch(e => {
+            console.error(e);
+            alert('삭제에 실패했습니다. 잠시 후 다시 시도해 주세요.');
+          });
       }
     };
 
@@ -327,9 +350,12 @@ export default defineComponent({
       loadPerfoDetail();
     });
 
+    onUnmounted(() => {
+      quillInstance = null;
+    });
+
     return {
       performance,
-      totalPage,
       editorRef,
       submitPerformance,
       goBack,
