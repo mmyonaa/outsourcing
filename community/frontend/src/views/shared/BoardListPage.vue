@@ -176,7 +176,7 @@ export default defineComponent({
         <!-- 데스크탑 행 -->
         <div class="row-content desktop-only clickable" :class="{ important: notice.bestYn === STATE_YN.Y }" tabindex="0" role="link" @click="goToDetail(notice.boardIdx)" @keydown.enter="goToDetail(notice.boardIdx)">
           <div class="col important">
-            <span v-if="notice.bestYn === STATE_YN.Y" class="pinned-badge">공지</span>
+            <img v-if="notice.bestYn === STATE_YN.Y" src="/assets/images/board/important.png" />
             <div v-else></div>
           </div>
           <div class="col index">{{ (currentPage - 1) * ROWS_PER_PAGE + index + 1 }}</div>
@@ -190,7 +190,7 @@ export default defineComponent({
         <!-- 모바일 카드 -->
         <div class="mobile-only mobile-card clickable" :class="{ important: notice.bestYn === STATE_YN.Y }" tabindex="0" role="link" @click="goToDetail(notice.boardIdx)" @keydown.enter="goToDetail(notice.boardIdx)">
           <div class="title">
-            <span class="pinned-badge" v-if="notice.bestYn === STATE_YN.Y">공지</span>
+            <img class="impor-icon" v-if="notice.bestYn === STATE_YN.Y" src="/assets/images/board/important.png" />
             {{ notice.title }}
           </div>
           <div class="meta">
