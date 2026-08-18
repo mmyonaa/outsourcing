@@ -303,6 +303,17 @@ export default defineComponent({
   border-radius: 16px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
   background: #f5f5f5;
+  position: relative;
+}
+
+/* 흰 배경 포스터 경계선 오버레이 */
+.thumbnail-wrapper::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.06);
+  pointer-events: none;
 }
 
 .thumbnail-image {

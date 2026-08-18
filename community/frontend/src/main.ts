@@ -62,11 +62,12 @@ export const createApp = ViteSSG(
       if (isClient) {
         if (from.name === 'Board') saveLocalData(from.path, (window.document.querySelector('html') as HTMLElement).scrollTop.toString());
 
-        // SEO 메타 태그 설정
+        // SEO 메타 태그 설정 — canonical/og:url 은 이동 "대상" 경로(to.path)로 만든다
+        // (beforeEach 시점의 window.location.href 는 아직 이전 페이지)
         if (to.name && typeof to.name === 'string') {
           const seoConfig = pageSeoConfig[to.name];
           if (seoConfig) {
-            setMetaTags(seoConfig);
+            setMetaTags(seoConfig, to.path);
           }
         }
       }

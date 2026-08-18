@@ -8,7 +8,13 @@ export default defineComponent({
       type: String,
       default: '결과가 없습니다',
     },
+    // 있으면 메시지 아래 액션 버튼 노출 (예: '검색 초기화')
+    actionLabel: {
+      type: String,
+      default: '',
+    },
   },
+  emits: ['action'],
 });
 </script>
 
@@ -16,6 +22,7 @@ export default defineComponent({
   <div class="empty-state">
     <div class="empty-icon">📭</div>
     <p class="empty-message">{{ message }}</p>
+    <button v-if="actionLabel" type="button" class="empty-action" @click="$emit('action')">{{ actionLabel }}</button>
   </div>
 </template>
 
@@ -41,6 +48,25 @@ export default defineComponent({
   font-family: 'Pretendard', sans-serif;
   font-weight: 500;
   text-align: center;
+}
+
+.empty-action {
+  margin-top: 2rem;
+  padding: 1rem 2.4rem;
+  border: 1.5px solid #e34363;
+  border-radius: 999px;
+  background: #fff;
+  color: #e34363;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.18s ease, color 0.18s ease;
+}
+
+.empty-action:hover {
+  background: #e34363;
+  color: #fff;
 }
 
 @media (max-width: 768px) {

@@ -19,7 +19,7 @@ import { toPlainText, extractEventDates, pageSeoConfig } from '../utils/seo.util
 const SITE_URL = (process.env.SITE_URL || 'https://bktheater.com').replace(/\/+$/, '');
 const API_BASE = (process.env.SITEMAP_API_BASE || 'https://bktheater.com/api').replace(/\/+$/, '');
 const OG_IMAGE_DEFAULT = 'https://bktheater.com/assets/og-image.jpg';
-const PUBLISHER_LOGO = 'https://www.bktheater.com/assets/og-image.jpg';
+const PUBLISHER_LOGO = 'https://bktheater.com/assets/og-image.jpg';
 
 interface PageSeo {
   title: string;
@@ -65,18 +65,29 @@ interface ApiItem {
   author?: string;
 }
 
+const MAX_ROWS = 100; // 백엔드 페이지네이션 상한과 동일 (scripts/generate-sitemap.mjs 와 같은 값)
+const MAX_PAGES = 50; // 안전 상한 (최대 5,000건)
+
 async function fetchList(path: string, query: Record<string, string>): Promise<ApiItem[]> {
-  const qs = new URLSearchParams({ ...query, page: '1', rows: '1000' });
-  const res = await fetch(`${API_BASE}${path}?${qs.toString()}`);
-  if (!res.ok) throw new Error(`HTTP ${res.status} for ${path}`);
-  const json = (await res.json()) as { data?: ApiItem[] };
-  return Array.isArray(json?.data) ? json.data : [];
+  // 백엔드가 rows 를 100으로 잘라 주므로, 한 번에 큰 rows 를 요청하는 대신
+  // 페이지를 돌며 전부 수집한다 (안 그러면 101번째 글부터 프리렌더가 누락된다)
+  const items: ApiItem[] = [];
+  for (let page = 1; page <= MAX_PAGES; page++) {
+    const qs = new URLSearchParams({ ...query, page: String(page), rows: String(MAX_ROWS) });
+    const res = await fetch(`${API_BASE}${path}?${qs.toString()}`);
+    if (!res.ok) throw new Error(`HTTP ${res.status} for ${path}`);
+    const json = (await res.json()) as { data?: ApiItem[] };
+    const rows = Array.isArray(json?.data) ? json.data : [];
+    items.push(...rows);
+    if (rows.length < MAX_ROWS) break;
+  }
+  return items;
 }
 
 // 공연(역대/예정): 기간이 파싱되는 경우에만 TheaterEvent JSON-LD를 넣는다
 // (startDate 없는 Event는 Search Console 심각 오류가 되므로).
 function buildPerfoSeo(it: ApiItem, routePath: string): PageSeo {
-  const title = `${it.title} | 보광극장`;
+  const title = it.title ? `${it.title} | 보광극장` : '보광극장';
   const description = toPlainText(it.body);
   const image = it.imgUrl || undefined;
   const canonical = canonicalFor(routePath);
@@ -111,7 +122,7 @@ function buildPerfoSeo(it: ApiItem, routePath: string): PageSeo {
 
 // 공지/보도: NewsArticle JSON-LD
 function buildBoardSeo(it: ApiItem, routePath: string): PageSeo {
-  const title = `${it.title} | 보광극장`;
+  const title = it.title ? `${it.title} | 보광극장` : '보광극장';
   const description = toPlainText(it.body);
   const canonical = canonicalFor(routePath);
   return {

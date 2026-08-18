@@ -174,7 +174,11 @@ export default defineComponent({
     </div>
 
     <!-- 결과가 없을 때 -->
-    <empty-state v-else message="등록된 보도자료가 없습니다" />
+    <empty-state
+      v-else
+      :message="appliedKeyword ? `'${appliedKeyword}'에 대한 검색 결과가 없습니다` : '등록된 보도자료가 없습니다'"
+      :action-label="appliedKeyword ? '검색 초기화' : ''"
+      @action="resetSearch" />
     <section class="pagination-section">
       <base-pagination :total-page-num="totalPage" />
     </section>

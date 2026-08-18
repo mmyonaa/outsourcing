@@ -64,7 +64,7 @@ export default defineComponent({
         publisher: {
           '@type': 'Organization',
           name: '보광극장',
-          logo: { '@type': 'ImageObject', url: 'https://www.bktheater.com/assets/og-image.jpg' },
+          logo: { '@type': 'ImageObject', url: 'https://bktheater.com/assets/og-image.jpg' },
         },
         mainEntityOfPage: window.location.href,
       });

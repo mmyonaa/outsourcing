@@ -2,6 +2,9 @@
  * SEO 유틸리티 함수
  */
 
+// 캐노니컬/og:url/이미지 URL 은 항상 non-www 로 통일한다 (sitemap·프리렌더와 동일)
+export const SITE_URL = 'https://bktheater.com';
+
 export interface MetaTagsConfig {
   title?: string;
   description?: string;
@@ -15,9 +18,16 @@ export interface MetaTagsConfig {
 
 /**
  * 페이지별 메타 태그를 동적으로 설정
+ * @param path 대상 라우트 경로(to.path). beforeEach 시점에는 window.location이
+ *             아직 이전 페이지를 가리키므로 canonical/og:url 은 이 값으로 만든다.
  */
-export const setMetaTags = (config: MetaTagsConfig) => {
+export const setMetaTags = (config: MetaTagsConfig, path?: string) => {
   if (typeof window === 'undefined') return;
+
+  const pageUrl =
+    path !== undefined
+      ? `${SITE_URL}${path === '/' ? '' : path.replace(/\/$/, '')}`
+      : window.location.href;
 
   const {
     title = '보광극장 | 서울 용산구 공연장 대관 및 공연 안내',
@@ -25,9 +35,9 @@ export const setMetaTags = (config: MetaTagsConfig) => {
     keywords = '보광, 보광극장, 보광 극장, 보광극장 대관, 보광 극장 대관, 보광 극장 공연',
     ogTitle = title,
     ogDescription = description,
-    ogImage = 'https://www.bktheater.com/assets/og-image.jpg',
-    ogUrl = window.location.href,
-    canonical = window.location.href,
+    ogImage = `${SITE_URL}/assets/og-image.jpg`,
+    ogUrl = pageUrl,
+    canonical = pageUrl,
   } = config;
 
   // Title 설정

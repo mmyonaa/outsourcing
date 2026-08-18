@@ -223,7 +223,17 @@ export default defineComponent({
     </div>
 
     <!-- 결과가 없을 때 -->
-    <empty-state v-else message="등록된 프로그램이 없습니다" />
+    <empty-state
+      v-else
+      :message="
+        appliedKeyword
+          ? `'${appliedKeyword}'에 대한 검색 결과가 없습니다`
+          : selectedCategory
+          ? '해당 카테고리의 프로그램이 없습니다'
+          : '등록된 프로그램이 없습니다'
+      "
+      :action-label="appliedKeyword || selectedCategory ? '검색 초기화' : ''"
+      @action="resetFilters" />
 
     <section class="pagination-section">
       <base-pagination :total-page-num="totalPage" />
@@ -424,6 +434,16 @@ export default defineComponent({
   aspect-ratio: 5 / 8;
   overflow: hidden;
   background: #f5f5f5;
+  position: relative;
+}
+
+/* 흰 배경 포스터가 카드에 묻히지 않도록 얇은 경계선 오버레이 */
+.card-image::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.06);
+  pointer-events: none;
 }
 
 .card-image img {

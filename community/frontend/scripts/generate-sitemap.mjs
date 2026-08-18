@@ -22,8 +22,6 @@ const API_BASE = (process.env.SITEMAP_API_BASE || 'https://bktheater.com/api').r
 const MAX_ROWS = 100; // 백엔드 페이지네이션 상한과 동일
 const MAX_PAGES = 50; // 안전 상한 (최대 5000건)
 
-const today = new Date().toISOString().slice(0, 10);
-
 // 정적 페이지 (loc는 경로만, priority/changefreq 지정)
 const STATIC_ROUTES = [
   { path: '/', changefreq: 'daily', priority: '1.0' },
@@ -46,9 +44,9 @@ const escapeXml = (s) =>
 
 const toLastmod = (item) => {
   const raw = item?.modDt || item?.regDt;
-  if (!raw) return today;
+  if (!raw) return undefined;
   const d = new Date(raw);
-  return Number.isNaN(d.getTime()) ? today : d.toISOString().slice(0, 10);
+  return Number.isNaN(d.getTime()) ? undefined : d.toISOString().slice(0, 10);
 };
 
 // 페이지네이션을 돌며 한 종류의 목록 전체를 가져온다.
@@ -103,16 +101,19 @@ const DYNAMIC_SOURCES = [
   },
 ];
 
+// lastmod 는 실제 수정일을 아는 항목(동적 글)에만 넣는다.
+// 정적 페이지에 빌드 시각을 넣으면 콘텐츠 변경과 무관하게 매 빌드 갱신되어
+// 검색엔진이 lastmod 를 신뢰하지 않게 된다.
 const urlEntry = ({ path, lastmod, changefreq, priority }) =>
   `  <url>\n` +
   `    <loc>${escapeXml(SITE_URL + path)}</loc>\n` +
-  `    <lastmod>${lastmod}</lastmod>\n` +
+  (lastmod ? `    <lastmod>${lastmod}</lastmod>\n` : '') +
   `    <changefreq>${changefreq}</changefreq>\n` +
   `    <priority>${priority}</priority>\n` +
   `  </url>`;
 
 async function main() {
-  const entries = STATIC_ROUTES.map((r) => urlEntry({ ...r, lastmod: today }));
+  const entries = STATIC_ROUTES.map((r) => urlEntry(r));
 
   let dynamicCount = 0;
   for (const src of DYNAMIC_SOURCES) {
