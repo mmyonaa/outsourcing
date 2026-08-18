@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, onMounted, onUnmounted, ref } from 'vue';
+import { computed, defineComponent, onMounted, onUnmounted, ref, watch } from 'vue';
 import BasePagination from '@/components/common/BasePagination.vue';
 import BaseShareButton from '@/components/common/BaseShareButton.vue';
 import { useRoute, useRouter } from 'vue-router';
@@ -8,6 +8,7 @@ import { getBoardList, updateBoard } from '@/api/board.api';
 import dayjs from 'dayjs';
 import { getApiClient } from '@/utils/apiClient';
 import { setMetaTags, setJsonLd, removeJsonLd, toPlainText } from '@/utils/seo.util';
+import { TYPE_BOARD } from '@/types';
 
 export default defineComponent({
   name: 'newsDetail',
@@ -16,8 +17,10 @@ export default defineComponent({
     const totalPage = ref<number>(0); // 총 페이지
     const route = useRoute();
     const router = useRouter();
-    const noticeIdx = route.params.id;
+    const noticeIdx = computed(() => String(route.params.id));
     const notice = ref<BoardEntity>(new BoardEntity());
+    const prevPost = ref<BoardEntity | null>(null); // 이전 글 (더 오래된)
+    const nextPost = ref<BoardEntity | null>(null); // 다음 글 (더 최신)
     const apiClient = getApiClient();
 
     const goBack = () => {
@@ -26,7 +29,7 @@ export default defineComponent({
 
     const loadBoardDetail = async () => {
       const param = new SearchBoardDto();
-      param.boardIdx = String(noticeIdx);
+      param.boardIdx = noticeIdx.value;
 
       await getBoardList(apiClient, param).then(res => {
         if (res.resultCode === 0 && res.data) {
@@ -35,8 +38,30 @@ export default defineComponent({
       });
     };
 
+    // 작성일 최신순 기준 이전(더 오래된)/다음(더 최신) 글.
+    // API 목록 순서는 정렬이 보장되지 않아 클라이언트에서 정렬한다.
+    const loadAdjacentPosts = async () => {
+      const param = new SearchBoardDto();
+      param.boardType = TYPE_BOARD.NEWS;
+      param.rows = 1000;
+
+      await getBoardList(apiClient, param)
+        .then(res => {
+          if (res.resultCode === 0 && res.data) {
+            const sorted = [...res.data].sort((a, b) => dayjs(b.regDt).valueOf() - dayjs(a.regDt).valueOf());
+            const idx = sorted.findIndex(b => b.boardIdx === noticeIdx.value);
+            prevPost.value = idx >= 0 ? sorted[idx + 1] || null : null;
+            nextPost.value = idx > 0 ? sorted[idx - 1] : null;
+          }
+        })
+        .catch(() => {
+          prevPost.value = null;
+          nextPost.value = null;
+        });
+    };
+
     const updateViews = async () => {
-      notice.value.boardIdx = String(noticeIdx);
+      notice.value.boardIdx = noticeIdx.value;
       notice.value.views++;
       await updateBoard(apiClient, notice.value);
     };
@@ -113,7 +138,22 @@ export default defineComponent({
       applySeo();
       await updateViews();
       setupFileDownloadLinks();
+      loadAdjacentPosts();
     });
+
+    // 이전/다음 글 이동 시 같은 컴포넌트가 재사용되므로 param 변경을 감지해 다시 로드
+    watch(
+      () => route.params.id,
+      async (id, oldId) => {
+        if (!id || id === oldId || !route.path.startsWith('/news/')) return;
+        await loadBoardDetail();
+        applySeo();
+        await updateViews();
+        setupFileDownloadLinks();
+        loadAdjacentPosts();
+        window.scrollTo({ top: 0 });
+      },
+    );
 
     onUnmounted(() => {
       removeJsonLd('article');
@@ -121,6 +161,8 @@ export default defineComponent({
 
     return {
       notice,
+      prevPost,
+      nextPost,
       totalPage,
       dayjs,
       goBack,
@@ -144,6 +186,18 @@ export default defineComponent({
         <span>조회수: {{ notice.views }}</span>
       </div>
       <div class="notice-content" v-html="notice.body"></div>
+
+      <!-- 이전/다음 글 -->
+      <nav v-if="prevPost || nextPost" class="post-nav" aria-label="이전 다음 글">
+        <router-link v-if="nextPost" :to="`/news/${nextPost.boardIdx}`" class="post-nav-item">
+          <span class="post-nav-label">↑ 다음 글</span>
+          <span class="post-nav-title">{{ nextPost.title }}</span>
+        </router-link>
+        <router-link v-if="prevPost" :to="`/news/${prevPost.boardIdx}`" class="post-nav-item">
+          <span class="post-nav-label">↓ 이전 글</span>
+          <span class="post-nav-title">{{ prevPost.title }}</span>
+        </router-link>
+      </nav>
 
       <!-- 🔽 돌아가기 버튼 -->
       <div class="back-button-wrapper">
@@ -170,5 +224,45 @@ export default defineComponent({
 .notice-content {
   overflow-wrap: break-word;
   word-break: break-word;
+}
+
+/* 이전/다음 글 내비게이션 */
+.post-nav {
+  margin-top: 3rem;
+  border-top: 1px solid #eee;
+  display: flex;
+  flex-direction: column;
+}
+
+.post-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  padding: 1.2rem 0.5rem;
+  border-bottom: 1px solid #eee;
+  text-decoration: none;
+  color: inherit;
+  font-family: 'Pretendard', sans-serif;
+}
+
+.post-nav-item:hover .post-nav-title {
+  color: #e34363;
+}
+
+.post-nav-label {
+  flex-shrink: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #999;
+}
+
+.post-nav-title {
+  font-size: 15px;
+  font-weight: 500;
+  color: #333;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: color 0.18s ease;
 }
 </style>

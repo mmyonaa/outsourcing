@@ -39,7 +39,8 @@ export default defineComponent({
       })
     }
 
-    // 목록 순서 기준 이전/다음 글 (목록은 최신순이므로 다음 인덱스 = 이전 글)
+    // 작성일 최신순 기준 이전(더 오래된)/다음(더 최신) 글.
+    // API 목록 순서는 정렬이 보장되지 않아 클라이언트에서 정렬한다.
     const loadAdjacentPosts = async () => {
       const param = new SearchBoardDto();
       param.boardType = TYPE_BOARD.NORMAL;
@@ -48,9 +49,10 @@ export default defineComponent({
       await getBoardList(apiClient, param)
         .then(res => {
           if (res.resultCode === 0 && res.data) {
-            const idx = res.data.findIndex(b => b.boardIdx === noticeIdx.value);
-            prevPost.value = idx >= 0 ? res.data[idx + 1] || null : null;
-            nextPost.value = idx > 0 ? res.data[idx - 1] : null;
+            const sorted = [...res.data].sort((a, b) => dayjs(b.regDt).valueOf() - dayjs(a.regDt).valueOf());
+            const idx = sorted.findIndex(b => b.boardIdx === noticeIdx.value);
+            prevPost.value = idx >= 0 ? sorted[idx + 1] || null : null;
+            nextPost.value = idx > 0 ? sorted[idx - 1] : null;
           }
         })
         .catch(() => {
@@ -223,5 +225,45 @@ export default defineComponent({
 .notice-content {
   overflow-wrap: break-word;
   word-break: break-word;
+}
+
+/* 이전/다음 글 내비게이션 */
+.post-nav {
+  margin-top: 3rem;
+  border-top: 1px solid #eee;
+  display: flex;
+  flex-direction: column;
+}
+
+.post-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  padding: 1.2rem 0.5rem;
+  border-bottom: 1px solid #eee;
+  text-decoration: none;
+  color: inherit;
+  font-family: 'Pretendard', sans-serif;
+}
+
+.post-nav-item:hover .post-nav-title {
+  color: #e34363;
+}
+
+.post-nav-label {
+  flex-shrink: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #999;
+}
+
+.post-nav-title {
+  font-size: 15px;
+  font-weight: 500;
+  color: #333;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: color 0.18s ease;
 }
 </style>
