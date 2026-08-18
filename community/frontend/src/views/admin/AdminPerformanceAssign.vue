@@ -344,7 +344,7 @@ export default defineComponent({
 
       <div class="form-section">
         <label class="section-title">중제목</label>
-        <input v-model="performance.titleSec" class="notice-input" placeholder="중제목을 입력하세요" />
+        <input v-model="performance.titleSec" class="notice-input" placeholder="중제목 — 공연 기간 권장 (예: 2025.07.19-07.27)" />
       </div>
 
       <div class="form-section">
