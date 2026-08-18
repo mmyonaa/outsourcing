@@ -1,6 +1,5 @@
 <script lang="ts">
 import BaseImageSet from '@/components/common/BaseImageSet.vue';
-import BaseInput from '@/components/common/BaseInput.vue';
 import BaseLink from '@/components/common/BaseLink.vue';
 import ArrowDown from '@/components/header/ArrowDown.vue';
 import { initStore } from '@/stores/store-manager';
@@ -10,7 +9,7 @@ import { useRoute } from 'vue-router';
 
 export default defineComponent({
   name: 'MegaMenu',
-  components: { BaseInput, BaseLink, BaseImageSet, ArrowDown },
+  components: { BaseLink, BaseImageSet, ArrowDown },
   setup() {
     const storeManager = initStore();
     const route = useRoute();

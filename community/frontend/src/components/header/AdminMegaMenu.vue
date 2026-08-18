@@ -1,47 +1,29 @@
 <script lang="ts">
-import BaseImageSet from '@/components/common/BaseImageSet.vue';
-import BaseInput from '@/components/common/BaseInput.vue';
 import BaseLink from '@/components/common/BaseLink.vue';
-import ArrowDown from '@/components/header/ArrowDown.vue';
 import { initStore } from '@/stores/store-manager';
 import { POPUP_TYPE } from '@/types';
-import { computed, defineComponent, onMounted, onUnmounted, ref, watch } from 'vue';
+import { computed, defineComponent, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
 export default defineComponent({
   name: 'AdminMegaMenu',
-  components: { BaseInput, BaseLink, BaseImageSet, ArrowDown },
+  components: { BaseLink },
   setup() {
     const storeManager = initStore();
     const router = useRouter();
     const route = useRoute();
 
-    const isActive = ref<boolean>(false);
     const isSubMenuVisible = ref<boolean>(false);
     const isTabletMenuVisibleType = ref<string | null>(null);
 
-    // 경로 기준으로 active 메뉴 판단용
-    // DEV 환경에서만 url 매핑 (필요하면 env에 따라 확장 가능)
-    const urlMap = {
-      banner: '/banner',
-      performance: '/performance',
-      rental: '/rental',
-      notice: '/notice',
-    };
-
-    // 현재 상위 메뉴를 path 기준으로 판단하는 computed
-    // '/banner', '/banner/org' 등 포함경로 체크 (startsWith)
+    // 현재 상위 메뉴를 path 기준으로 판단 — admin 경로는 전부 /admin 프리픽스를 가진다
     const activeMenu = computed(() => {
       const path = route.path.toLowerCase();
-      if (path.startsWith('/banner')) return 'banner';
-      if (path.startsWith('/performance')) return 'performance';
-      if (path.startsWith('/rental')) return 'rental';
-      if (path.startsWith('/notice')) return 'notice';
+      if (path.startsWith('/admin/banner')) return 'banner';
+      if (path.startsWith('/admin/performance')) return 'performance';
+      if (path.startsWith('/admin/notice') || path.startsWith('/admin/news')) return 'notice';
       return '';
     });
-
-    // 헤더 스타일
-    const headerType = computed(() => (route.path === '/' ? 'opacity' : 'border'));
 
     // 마우스 이벤트 (pc 드롭다운)
     const handleMouseEnter = () => {
@@ -80,14 +62,6 @@ export default defineComponent({
       else storeManager.stateStore.setPopupMode({ type: POPUP_TYPE.NONE });
     };
 
-    const handleScroll = () => {
-      isActive.value = window.scrollY > 0;
-    };
-
-    const onClickLogo = () => {
-      onClickMenu(urlMap.banner);
-    };
-
     watch(
       () => storeManager.stateStore.popupMode,
       () => {
@@ -97,17 +71,7 @@ export default defineComponent({
       },
     );
 
-    onMounted(() => {
-      document.addEventListener('scroll', handleScroll);
-    });
-
-    onUnmounted(() => {
-      document.removeEventListener('scroll', handleScroll);
-    });
-
     return {
-      isActive,
-      headerType,
       isSubMenuVisible,
       isTabletMenuVisibleType,
       activeMenu,
@@ -119,7 +83,6 @@ export default defineComponent({
       handleMouseEnter,
       handleMouseLeave,
       handleMouseSubLeave,
-      onClickLogo,
     };
   },
 });
@@ -127,11 +90,12 @@ export default defineComponent({
 
 <template>
   <div class="mega-menu">
-    <header :class="[{ 'active-border': isActive && headerType === 'opacity' }, { 'white-background': isSubMenuVisible }, headerType]">
+    <!-- admin 경로는 홈('/')이 아니므로 headerType 은 항상 'border' -->
+    <header :class="['border', { 'white-background': isSubMenuVisible }]">
       <div class="main-header-wrapper">
         <base-link class="main-header-logo" href="/admin">
-          <img src="/assets/images/logo/theater.png" @click="onClickLogo" />
-          <img class="admin-icon" src="/assets/images/admin/admin.png" />
+          <img src="/assets/images/logo/theater.png" alt="보광극장 관리자 홈" />
+          <img class="admin-icon" src="/assets/images/admin/admin.png" alt="" />
         </base-link>
 
         <!-- PC main menu -->
@@ -139,7 +103,6 @@ export default defineComponent({
           <ul class="menu-list">
             <li class="menu play" :class="{ active: activeMenu === 'banner' }" @click="() => onClickMenu('/banner')">배너</li>
             <li class="menu studio" :class="{ active: activeMenu === 'performance' }" @click="() => onClickMenu('/performance')">활동</li>
-            <li class="menu asset" :class="{ active: activeMenu === 'rental' }" @click="() => onClickMenu('/rental')">대관</li>
             <li class="menu community" :class="{ active: activeMenu === 'notice' }" @click="() => onClickMenu('/notice')">알림</li>
           </ul>
         </section>
@@ -164,8 +127,6 @@ export default defineComponent({
           <ul class="sub-menu-list studio menu">
             <li @click="() => onClickMenu('/performance')">자체 프로그램 등록</li>
             <li @click="() => onClickMenu('/performance/next')">대관 프로그램 등록</li>
-          </ul>
-          <ul class="sub-menu-list asset menu">
           </ul>
           <ul class="sub-menu-list community menu">
             <li @click="() => onClickMenu('/notice')">공지 작성</li>
