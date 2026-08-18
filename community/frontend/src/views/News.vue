@@ -10,10 +10,11 @@ import { getApiClient } from '@/utils/apiClient';
 import { getBoardList, updateBoard } from '@/api/board.api';
 import dayjs from 'dayjs';
 import { STATE_YN, TYPE_BOARD } from '@/types';
+import SectionTabs from '@/components/common/SectionTabs.vue';
 
 export default defineComponent({
   name: 'news',
-  components: { BasePagination, EmptyState, ErrorState, ListRowSkeleton },
+  components: { BasePagination, EmptyState, ErrorState, ListRowSkeleton, SectionTabs },
   setup() {
     const route = useRoute();
     const router = useRouter();
@@ -107,6 +108,7 @@ export default defineComponent({
 <template>
   <div class="page-common notice-page">
     <h1>보도자료</h1>
+    <section-tabs />
 
     <!-- 검색바 -->
     <div class="search-bar-wrapper">

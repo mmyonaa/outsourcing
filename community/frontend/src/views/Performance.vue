@@ -9,10 +9,11 @@ import { getApiClient } from '@/utils/apiClient';
 import { getPerfoList } from '@/api/perfo.api';
 import dayjs from 'dayjs';
 import { TYPE_PERFO, TYPE_PERFO_CATEGORY } from '@/types';
+import SectionTabs from '@/components/common/SectionTabs.vue';
 
 export default defineComponent({
   name: 'performance',
-  components: { BasePagination, EmptyState, ErrorState },
+  components: { BasePagination, EmptyState, ErrorState, SectionTabs },
   setup() {
     const route = useRoute();
     const router = useRouter();
@@ -137,6 +138,7 @@ export default defineComponent({
 <template>
   <div class="page-common notice-page performance-page">
     <h1>자체 프로그램</h1>
+    <section-tabs />
 
     <!-- 검색바와 카테고리 필터 -->
     <div class="search-category-container">

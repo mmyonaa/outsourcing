@@ -1,6 +1,7 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue';
 import copy from 'copy-to-clipboard';
+import SectionTabs from '@/components/common/SectionTabs.vue';
 
 declare global {
   interface Window {
@@ -15,6 +16,7 @@ const THEATER_ADDRESS = '서울특별시 용산구 장문로19길 4, 지하';
 
 export default defineComponent({
   name: 'IntroduceRoute',
+  components: { SectionTabs },
   setup() {
     const mapContainer = ref<HTMLElement | null>(null);
     const mapFailed = ref<boolean>(false); // SDK 로드 실패 시 폴백 표시
@@ -94,6 +96,7 @@ export default defineComponent({
 <template>
   <div class="page-common introduce-page route-page">
     <h1>오시는 길</h1>
+    <section-tabs />
     <div class="wrapper">
       <div class="wrapper-item">
         <div class="theater-img">

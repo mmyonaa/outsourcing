@@ -1,9 +1,10 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue';
+import SectionTabs from '@/components/common/SectionTabs.vue';
 
 export default defineComponent({
   name: 'rental',
-  components: {},
+  components: { SectionTabs },
   setup() {
     const activeIndex = ref<number>(0);
     const posters = [
@@ -45,6 +46,7 @@ export default defineComponent({
 <template>
   <div class="page-common rental-page">
     <h1>공간 안내</h1>
+    <section-tabs />
     <div class="rental-description">
       <p>보광극장은 창작 중심의 극장으로, 고정 객석을 갖춘 프로시니엄 구조를 기본으로 합니다.</p>
       <p>무대 공간을 활용해 객석을 추가 설치하거나 공연 형태에 맞게 재구성할 수 있어</p>

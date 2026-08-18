@@ -1,8 +1,10 @@
 <script lang="ts">
 import { computed, defineComponent, onMounted, onUnmounted, ref } from 'vue';
+import SectionTabs from '@/components/common/SectionTabs.vue';
 
 export default defineComponent({
   name: 'RentalSchedule',
+  components: { SectionTabs },
   setup() {
     // 구글 캘린더 ID를 여기에 설정합니다
     // 설정 방법은 google-calendar-setup.md 참조
@@ -39,6 +41,7 @@ export default defineComponent({
 <template>
   <div class="page-common rental-page">
     <h1>대관 스케줄</h1>
+    <section-tabs />
 
     <div class="google-calendar-container">
       <iframe :src="calendarSrc" width="100%" height="600" frameborder="0" scrolling="no"></iframe>

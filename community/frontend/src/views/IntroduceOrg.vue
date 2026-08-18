@@ -1,9 +1,10 @@
 <script lang="ts">
 import { defineComponent, onMounted } from 'vue';
+import SectionTabs from '@/components/common/SectionTabs.vue';
 
 export default defineComponent({
   name: 'introduceOrg',
-  components: { },
+  components: { SectionTabs },
   setup() {
 
     onMounted(() => {
@@ -18,6 +19,7 @@ export default defineComponent({
 <template>
   <div class="page-common introduce-page org">
     <h1>단체 소개</h1>
+    <section-tabs />
     <div class="wrapper">
       <div class="wrapper-item">
       <div class="theater-img">

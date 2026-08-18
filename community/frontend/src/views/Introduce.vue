@@ -1,10 +1,11 @@
 <script lang="ts">
 import { defineComponent, onMounted } from 'vue';
 import BaseImageSet from '@/components/common/BaseImageSet.vue';
+import SectionTabs from '@/components/common/SectionTabs.vue';
 
 export default defineComponent({
   name: 'introduce',
-  components: { BaseImageSet },
+  components: { BaseImageSet, SectionTabs },
   setup() {
     onMounted(() => {});
     return {};
@@ -15,6 +16,7 @@ export default defineComponent({
 <template>
   <div class="page-common introduce-page">
     <h1>극장 소개</h1>
+    <section-tabs />
     <div class="wrapper">
       <div v-reveal class="wrapper-item">
         <div class="theater-img">
