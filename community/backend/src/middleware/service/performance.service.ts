@@ -85,6 +85,27 @@ export const updatePerfo = async (
 };
 
 /**
+ * 조회수 증가 (원자적 +1)
+ * @param {string} perIdx
+ * @return {Promise<PerfoEntity[]>} 갱신된 행 (없으면 빈 배열)
+ */
+export const increasePerfoViews = async (
+  perIdx: string,
+): Promise<PerfoEntity[]> => {
+ try{
+  const data = await perfoRepo.increasePerfoViews(sql, perIdx);
+  return data
+ } catch (e: any) {
+  console.log(e)
+      throw new CustomError(
+        RESULT_CODE.DB_ERROR.code,
+        RESULT_CODE.DB_ERROR.msg,
+        e,
+      );
+    }
+};
+
+/**
  * 글 삭제 (소프트 삭제)
  * @param {string} perIdx
  * @return {Promise<PerfoEntity[]>} 삭제된 행 (없으면 빈 배열)

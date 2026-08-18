@@ -1,6 +1,14 @@
 import {keys} from 'lodash'
 
 /**
+ * LIKE/ILIKE 패턴 특수문자(%, _, \)를 이스케이프한다.
+ * 파라미터 바인딩으로 인젝션은 없지만, 검색어의 와일드카드가
+ * 그대로 동작해 의도치 않은 매칭/전체 스캔이 되는 것을 방지.
+ */
+export const escapeLike = (keyword: string): string =>
+  keyword.replace(/[\\%_]/g, (m) => `\\${m}`);
+
+/**
  * targetEntity 에 포함된 key에 value 적용
  * @param targetEntity
  * @param obj

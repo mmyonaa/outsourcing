@@ -19,10 +19,12 @@ export const mountDocs = (app: Koa) => {
   const specPath = path.join(__dirname, "../../../openapi.yaml");
 
   // 원본 yaml 제공 (별도 yaml 파서 없이 브라우저가 파싱)
+  // 부팅 시 1회만 읽어 캐시 — 요청마다 동기 파일 IO 를 하지 않는다
+  const spec = fs.readFileSync(specPath, "utf-8");
   const router = new Router();
   router.get("/api/docs/openapi.yaml", (ctx) => {
     ctx.type = "text/yaml; charset=utf-8";
-    ctx.body = fs.readFileSync(specPath, "utf-8");
+    ctx.body = spec;
   });
   app.use(router.routes());
   app.use(router.allowedMethods());

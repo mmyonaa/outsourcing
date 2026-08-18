@@ -4,7 +4,7 @@ import {
   SearchBannerDto,
   UPDATABLE_BANNER_COLUMNS,
 } from "./dto/banner.dto";
-import { MAX_ROWS } from "./dto/basic.dto";
+import { MAX_ROWS, getSafePagination } from "./dto/basic.dto";
 
 const DEFAULT_BANNER_ACTIVE_KEY = "default_banner_active";
 
@@ -35,6 +35,11 @@ export const setDefaultBannerActive = async (
 };
 
 export const getBannerList = (sql: postgres.Sql, reqParam: SearchBannerDto) => {
+  // rows 미지정 시 기존 동작(LIMIT 100) 유지, 지정 시 다른 리소스처럼 페이지네이션 적용
+  const { rows, offset } = getSafePagination({
+    ...reqParam,
+    rows: reqParam.rows ?? MAX_ROWS,
+  });
   return sql<BannerEntity[]>`
       SELECT *
       FROM public.banner
@@ -51,7 +56,7 @@ export const getBannerList = (sql: postgres.Sql, reqParam: SearchBannerDto) => {
               : sql``
           }
     ORDER BY display_order ASC, mod_dt DESC
-    LIMIT ${MAX_ROWS}
+    LIMIT ${rows} OFFSET ${offset}
   `;
 };
 

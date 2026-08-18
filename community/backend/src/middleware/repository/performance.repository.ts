@@ -5,6 +5,7 @@ import {
   UPDATABLE_PERFO_COLUMNS,
 } from "./dto/perfo.dto";
 import { getSafePagination } from "./dto/basic.dto";
+import { escapeLike } from "../utils/common.util";
 
 export const getPerfoList = (sql: postgres.Sql, reqParam: SearchPerfoDto) => {
   const { rows, offset } = getSafePagination(reqParam);
@@ -19,7 +20,7 @@ export const getPerfoList = (sql: postgres.Sql, reqParam: SearchPerfoDto) => {
     ${reqParam.category ? sql` AND category =${reqParam.category}` : sql``}
               ${
                 reqParam.keyword
-                  ? sql` AND title ILIKE ${"%" + reqParam.keyword + "%"}`
+                  ? sql` AND title ILIKE ${"%" + escapeLike(reqParam.keyword) + "%"}`
                   : sql``
               }
     ORDER BY reg_dt DESC
@@ -41,7 +42,7 @@ export const getPerfoListCount = (
     ${reqParam.category ? sql` AND category =${reqParam.category}` : sql``}
               ${
                 reqParam.keyword
-                  ? sql` AND title ILIKE ${"%" + reqParam.keyword + "%"}`
+                  ? sql` AND title ILIKE ${"%" + escapeLike(reqParam.keyword) + "%"}`
                   : sql``
               }      
     `;
@@ -85,6 +86,21 @@ export const updatePerfo = (
       ${sql(reqParam, ...cols)},
       mod_dt = CURRENT_TIMESTAMP
     WHERE per_idx = ${reqParam.perIdx}
+    RETURNING *
+  `;
+};
+
+export const increasePerfoViews = (
+  sql: postgres.Sql,
+  perIdx: string
+): Promise<PerfoEntity[]> => {
+  // 서버에서 원자적으로 +1 — 클라이언트가 보낸 값을 저장하는 방식의
+  // 경합(증가분 유실)/조작 문제가 없다. mod_dt는 건드리지 않는다
+  return sql<PerfoEntity[]>`
+    UPDATE public.performance SET
+      views = views + 1
+    WHERE per_idx = ${perIdx}
+      AND del_yn = 'N'
     RETURNING *
   `;
 };

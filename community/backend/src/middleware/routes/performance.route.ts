@@ -8,5 +8,6 @@ router.get("/perfo/getperfoList", perfoController.getPerfoList);
 router.post("/perfo/insertperfo", imageUpload.single('image'), perfoController.insertPerfo);
 router.post("/perfo/updateperfo", perfoController.updatePerfo);
 router.post("/perfo/deleteperfo", perfoController.deletePerfo);
+router.post("/perfo/increaseViews", perfoController.increasePerfoViews);
 
 export default router;

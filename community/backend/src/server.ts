@@ -44,6 +44,14 @@ export const getServer = async () => {
     } catch (err: any) {
       // 서버 로그에는 전체 에러를 남기되,
       console.error('Error 발생:', err);
+      // multer 에러는 status가 없어 500 '서버 오류'로 응답되던 것을 클라이언트 오류로 보정
+      if (err.name === 'MulterError') {
+        err.status = err.code === 'LIMIT_FILE_SIZE' ? 413 : 400;
+        err.expose = true;
+        if (err.code === 'LIMIT_FILE_SIZE') {
+          err.message = '파일 크기가 제한(20MB)을 초과했습니다.';
+        }
+      }
       const status = Number(err.status || err.statusCode) || 500;
       ctx.status = status;
       // 클라이언트에는 내부 정보(SQL 에러 등)를 노출하지 않는다.

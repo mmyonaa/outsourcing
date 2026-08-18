@@ -5,6 +5,7 @@ import {
   UPDATABLE_BOARD_COLUMNS,
 } from "./dto/board.dto";
 import { getSafePagination } from "./dto/basic.dto";
+import { escapeLike } from "../utils/common.util";
 
 export const getBoardList = (sql: postgres.Sql, reqParam: SearchBoardDto) => {
   const { rows, offset } = getSafePagination(reqParam);
@@ -26,7 +27,7 @@ export const getBoardList = (sql: postgres.Sql, reqParam: SearchBoardDto) => {
           }
           ${
             reqParam.keyword
-              ? sql` AND title ILIKE ${'%' + reqParam.keyword + '%'}`
+              ? sql` AND title ILIKE ${'%' + escapeLike(reqParam.keyword) + '%'}`
               : sql``
           }
     ORDER BY best_yn DESC, mod_dt DESC
@@ -55,7 +56,7 @@ export const getBoardListCount = (
           }
           ${
             reqParam.keyword
-              ? sql` AND title ILIKE ${'%' + reqParam.keyword + '%'}`
+              ? sql` AND title ILIKE ${'%' + escapeLike(reqParam.keyword) + '%'}`
               : sql``
           }
   `;
@@ -94,6 +95,22 @@ export const updateBoard = (
       ${sql(reqParam, ...cols)},
       mod_dt = CURRENT_TIMESTAMP
     WHERE board_idx = ${reqParam.boardIdx}
+    RETURNING *
+  `;
+};
+
+export const increaseBoardViews = (
+  sql: postgres.Sql,
+  boardIdx: string
+): Promise<BoardEntity[]> => {
+  // 서버에서 원자적으로 +1 — 클라이언트가 보낸 값을 저장하는 방식의
+  // 경합(증가분 유실)/조작 문제가 없다. mod_dt는 건드리지 않는다
+  // (목록이 mod_dt 정렬이라 조회만으로 순서가 바뀌면 안 됨)
+  return sql<BoardEntity[]>`
+    UPDATE public.board SET
+      views = views + 1
+    WHERE board_idx = ${boardIdx}
+      AND del_yn = 'N'
     RETURNING *
   `;
 };

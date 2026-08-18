@@ -121,6 +121,39 @@ export const deleteBoard = async (ctx: Context) => {
 }
 
 /**
+ * 조회수 증가 — update API와 달리 서버에서 원자적으로 +1
+ * @param {Context} ctx Koa context
+ * */
+export const increaseBoardViews = async (ctx: Context) => {
+  const result = new ResponseDto();
+  try {
+    const { boardIdx } = (ctx.request.body ?? {}) as { boardIdx?: string };
+
+    if (!boardIdx) {
+      throw new CustomError(
+        RESULT_CODE.INVALID_PARAMETER.code,
+        RESULT_CODE.INVALID_PARAMETER.msg
+      );
+    }
+
+    const resultData = await boardService.increaseBoardViews(boardIdx);
+
+    if (resultData.length === 0) {
+      throw new CustomError(
+        RESULT_CODE.BOARD_NOT_FOUND.code,
+        RESULT_CODE.BOARD_NOT_FOUND.msg
+      );
+    }
+
+    result.data = resultData;
+    result.setResultCode(RESULT_CODE.SUCCESS);
+  } catch (e) {
+    result.setErrorObject(e);
+  }
+  ctx.body = result;
+}
+
+/**
  * 이미지 업로드
  * @param {Context} ctx Koa context
  * */
