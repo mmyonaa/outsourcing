@@ -64,7 +64,7 @@ export const getBannerListCount = (
   sql: postgres.Sql,
   reqParam: SearchBannerDto
 ) => {
-  return sql<BannerEntity[]>`
+  return sql<{ totalCount: string }[]>`
     SELECT COUNT(*) as total_count
       FROM public.banner
       WHERE 1 = 1
@@ -85,16 +85,16 @@ export const getBannerListCount = (
 export const insertBanner = (
   sql: postgres.Sql,
   reqParam: BannerEntity
-): Promise<any> => {
-  return sql`
+): Promise<BannerEntity[]> => {
+  const cols: (keyof BannerEntity)[] = [
+    "imgUrl",
+    "swipeDuration",
+    "displayOrder",
+    "activeYn",
+  ];
+  return sql<BannerEntity[]>`
     INSERT INTO public.banner
-        ${sql(
-          reqParam,
-          "imgUrl",
-          "swipeDuration",
-          "displayOrder",
-          "activeYn"
-        )} RETURNING *
+        ${sql(reqParam, ...cols)} RETURNING *
   `;
 };
 
@@ -102,14 +102,14 @@ export const updateBanner = (
   sql: postgres.Sql,
   reqParam: BannerEntity,
   columns: (keyof BannerEntity)[] = UPDATABLE_BANNER_COLUMNS
-): Promise<any> => {
+): Promise<BannerEntity[]> => {
   // 허용 목록과 교집합만 SET — 미전송 필드가 NULL/기본값으로 덮이는 것 방지
   const cols = columns.filter((c) => UPDATABLE_BANNER_COLUMNS.includes(c));
   if (cols.length === 0) {
     // sql(reqParam) 에 컬럼이 하나도 없으면 전체 키가 SET 되므로 반드시 차단
     throw new Error("업데이트할 컬럼이 없습니다.");
   }
-  return sql`
+  return sql<BannerEntity[]>`
     UPDATE public.banner SET
       ${sql(reqParam, ...cols)},
       mod_dt = CURRENT_TIMESTAMP

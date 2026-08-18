@@ -31,10 +31,11 @@ export const getServer = async () => {
     })
   );
 
+  // 본문은 HTML 텍스트뿐 (이미지/파일은 S3 업로드 후 URL 참조) — 과도한 한도는 DoS 여지
   app.use(bodyParser({
-    jsonLimit: '20mb',
-    formLimit: '20mb',
-    textLimit: '20mb'
+    jsonLimit: '5mb',
+    formLimit: '5mb',
+    textLimit: '1mb'
   }));
 
   // 에러 처리 + 요청 로그 (라우터보다 먼저 등록해 모든 라우터를 감싼다)

@@ -17,10 +17,13 @@ export const getBoardList = async (ctx: Context) => {
     const reqParam = new SearchBoardDto();
     setEntityParameters(reqParam, ctx.request.query);
 
-    const resultData = await boardService.getBoardList(reqParam);
+    const [resultData, totalCount] = await Promise.all([
+      boardService.getBoardList(reqParam),
+      boardService.getBoardListCount(reqParam),
+    ]);
 
     result.data = resultData;
-    result.totalCount = await boardService.getBoardListCount(reqParam);
+    result.totalCount = totalCount;
     result.setResultCode(RESULT_CODE.SUCCESS);
   } catch (e) {
     result.setErrorObject(e);

@@ -17,10 +17,13 @@ export const getBannerList = async (ctx: Context) => {
     const reqParam = new SearchBannerDto();
     setEntityParameters(reqParam, ctx.request.query);
 
-    const resultData = await bannerService.getBannerList(reqParam);
+    const [resultData, totalCount] = await Promise.all([
+      bannerService.getBannerList(reqParam),
+      bannerService.getBannerListCount(reqParam),
+    ]);
 
     result.data = resultData;
-    result.totalCount = await bannerService.getBannerListCount(reqParam);
+    result.totalCount = totalCount;
     result.setResultCode(RESULT_CODE.SUCCESS);
   } catch (e) {
     result.setErrorObject(e);

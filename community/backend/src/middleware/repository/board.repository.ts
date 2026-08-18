@@ -39,7 +39,7 @@ export const getBoardListCount = (
   sql: postgres.Sql,
   reqParam: SearchBoardDto
 ) => {
-  return sql<BoardEntity[]>`
+  return sql<{ totalCount: string }[]>`
     SELECT COUNT(*) as total_count
       FROM public.board
       WHERE 1 = 1
@@ -65,17 +65,17 @@ export const getBoardListCount = (
 export const insertBoard = (
   sql: postgres.Sql,
   reqParam: BoardEntity
-): Promise<any> => {
-  return sql`
-    INSERT INTO public.board 
-        ${sql(
-          reqParam,
-          "title",
-          "body",
-          "bestYn",
-          "author",
-          "boardType"
-        )} RETURNING * 
+): Promise<BoardEntity[]> => {
+  const cols: (keyof BoardEntity)[] = [
+    "title",
+    "body",
+    "bestYn",
+    "author",
+    "boardType",
+  ];
+  return sql<BoardEntity[]>`
+    INSERT INTO public.board
+        ${sql(reqParam, ...cols)} RETURNING *
   `;
 };
 
@@ -83,14 +83,14 @@ export const updateBoard = (
   sql: postgres.Sql,
   reqParam: BoardEntity,
   columns: (keyof BoardEntity)[] = UPDATABLE_BOARD_COLUMNS
-): Promise<any> => {
+): Promise<BoardEntity[]> => {
   // 허용 목록과 교집합만 SET — 미전송 필드가 NULL/기본값으로 덮이는 것 방지
   const cols = columns.filter((c) => UPDATABLE_BOARD_COLUMNS.includes(c));
   if (cols.length === 0) {
     // sql(reqParam) 에 컬럼이 하나도 없으면 전체 키가 SET 되므로 반드시 차단
     throw new Error("업데이트할 컬럼이 없습니다.");
   }
-  return sql`
+  return sql<BoardEntity[]>`
     UPDATE public.board SET
       ${sql(reqParam, ...cols)},
       mod_dt = CURRENT_TIMESTAMP

@@ -32,7 +32,7 @@ export const getPerfoListCount = (
   sql: postgres.Sql,
   reqParam: SearchPerfoDto
 ) => {
-  return sql<PerfoEntity[]>`
+  return sql<{ totalCount: string }[]>`
     SELECT COUNT(*) as total_count
       FROM public.performance
       WHERE 1 = 1
@@ -51,20 +51,20 @@ export const getPerfoListCount = (
 export const insertPerfo = (
   sql: postgres.Sql,
   reqParam: PerfoEntity
-): Promise<any> => {
-  return sql`
+): Promise<PerfoEntity[]> => {
+  const cols: (keyof PerfoEntity)[] = [
+    "title",
+    "titleSec",
+    "titleThird",
+    "body",
+    "perType",
+    "author",
+    "imgUrl",
+    "category",
+  ];
+  return sql<PerfoEntity[]>`
     INSERT INTO public.performance
-        ${sql(
-          reqParam,
-          "title",
-          "titleSec",
-          "titleThird",
-          "body",
-          "perType",
-          "author",
-          "imgUrl",
-          "category"
-        )} RETURNING *
+        ${sql(reqParam, ...cols)} RETURNING *
   `;
 };
 
@@ -72,7 +72,7 @@ export const updatePerfo = (
   sql: postgres.Sql,
   reqParam: PerfoEntity,
   columns: (keyof PerfoEntity)[] = UPDATABLE_PERFO_COLUMNS
-): Promise<any> => {
+): Promise<PerfoEntity[]> => {
   // 허용 목록과 교집합만 SET — 미전송 필드가 NULL/기본값으로 덮이는 것 방지.
   // imgUrl도 "보낸 경우에만" SET 되므로 별도 truthy 분기가 필요 없다
   // (빈 문자열을 보내면 이미지 제거도 가능).
@@ -81,7 +81,7 @@ export const updatePerfo = (
     // sql(reqParam) 에 컬럼이 하나도 없으면 전체 키가 SET 되므로 반드시 차단
     throw new Error("업데이트할 컬럼이 없습니다.");
   }
-  return sql`
+  return sql<PerfoEntity[]>`
     UPDATE public.performance SET
       ${sql(reqParam, ...cols)},
       mod_dt = CURRENT_TIMESTAMP

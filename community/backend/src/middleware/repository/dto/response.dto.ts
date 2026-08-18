@@ -1,16 +1,14 @@
 import { IResultCode, RESULT_CODE } from "../../../types";
+import { CustomError } from "../../utils/custom.error";
 
 export class ResponseDto<T> {
-  resultCode = 0;
-  resultMsg: string = "";
+  resultCode = RESULT_CODE.FAILED.code;
+  resultMsg: string = RESULT_CODE.FAILED.msg;
   data: T | undefined;
   totalCount = 0;
 
-  constructor(data?: any) {
-    this.resultCode = RESULT_CODE.FAILED.code;
-    this.resultMsg = RESULT_CODE.FAILED.msg;
-    if (data) this.data = data;
-    this.totalCount = 0;
+  constructor(data?: T) {
+    if (data !== undefined && data !== null) this.data = data;
   }
 
   setResultCode(r: IResultCode) {
@@ -18,8 +16,13 @@ export class ResponseDto<T> {
     this.resultMsg = r.msg;
   }
 
-  setErrorObject(e: any) {
-    if (e.errorMessage) this.resultMsg = e.errorMessage;
-    if (e.errorCode) this.resultCode = e.errorCode;
+  setErrorObject(e: unknown) {
+    if (e instanceof CustomError) {
+      this.resultCode = e.errorCode;
+      this.resultMsg = e.errorMessage;
+    } else {
+      this.resultCode = RESULT_CODE.FAILED.code;
+      this.resultMsg = RESULT_CODE.FAILED.msg;
+    }
   }
 }

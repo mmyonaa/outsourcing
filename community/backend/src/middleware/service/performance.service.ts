@@ -1,127 +1,53 @@
 import * as perfoRepo from '../repository/performance.repository'
 import { PerfoEntity, SearchPerfoDto } from '../repository/dto/perfo.dto';
-import {sql} from '../provider/database.provider'
-import { RESULT_CODE } from '../../types';
-import { CustomError } from '../utils/custom.error';
+import { sql } from '../provider/database.provider'
+import { withDbError } from '../utils/common.util';
 
 /**
  * 글 조회
- * @param {SearchPerfoDto} reqParam
- * @return {Promise<PerfoEntity[]>}
  */
-export const getPerfoList = async (
+export const getPerfoList = (
   reqParam: SearchPerfoDto,
-): Promise<PerfoEntity[]> => {
- try{
-  const data = await perfoRepo.getPerfoList(sql, reqParam);
-  return data
- } catch (e: any) {
-  console.log(e)
-      throw new CustomError(
-        RESULT_CODE.DB_ERROR.code,
-        RESULT_CODE.DB_ERROR.msg,
-        e,
-      );
-    }
-};
+): Promise<PerfoEntity[]> =>
+  withDbError(() => perfoRepo.getPerfoList(sql, reqParam));
 
-export const getPerfoListCount = async (
+export const getPerfoListCount = (
   reqParam: SearchPerfoDto,
-): Promise<number> => {
- try{
-  const data = await perfoRepo.getPerfoListCount(sql, reqParam);
-  return data.length > 0 ? Number(data[0].totalCount) : 0;
- } catch (e: any) {
-  console.log(e)
-      throw new CustomError(
-        RESULT_CODE.DB_ERROR.code,
-        RESULT_CODE.DB_ERROR.msg,
-        e,
-      );
-    }
-};
+): Promise<number> =>
+  withDbError(async () => {
+    const data = await perfoRepo.getPerfoListCount(sql, reqParam);
+    return data.length > 0 ? Number(data[0].totalCount) : 0;
+  });
 
 /**
  * 글 등록
- * @param {PerfoEntity} reqParam
- * @return {Promise<PerfoEntity[]>}
  */
-export const insertPerfo = async (
+export const insertPerfo = (
   reqParam: PerfoEntity,
-): Promise<PerfoEntity[]> => {
- try{
-  const data = await perfoRepo.insertPerfo(sql, reqParam);
-  return data
- } catch (e: any) {
-  console.log(e)
-      throw new CustomError(
-        RESULT_CODE.DB_ERROR.code,
-        RESULT_CODE.DB_ERROR.msg,
-        e,
-      );
-    }
-};
+): Promise<PerfoEntity[]> =>
+  withDbError(() => perfoRepo.insertPerfo(sql, reqParam));
 
 /**
- * 글 수정
- * @param {PerfoEntity} reqParam
- * @return {Promise<PerfoEntity>}
+ * 글 수정 — columns: 실제 SET 할 컬럼(클라이언트가 보낸 필드)
  */
-export const updatePerfo = async (
+export const updatePerfo = (
   reqParam: PerfoEntity,
   columns?: (keyof PerfoEntity)[],
-): Promise<PerfoEntity> => {
- try{
-  const data = await perfoRepo.updatePerfo(sql, reqParam, columns);
-  return data
- } catch (e: any) {
-  console.log(e)
-      throw new CustomError(
-        RESULT_CODE.DB_ERROR.code,
-        RESULT_CODE.DB_ERROR.msg,
-        e,
-      );
-    }
-};
+): Promise<PerfoEntity[]> =>
+  withDbError(() => perfoRepo.updatePerfo(sql, reqParam, columns));
 
 /**
- * 조회수 증가 (원자적 +1)
- * @param {string} perIdx
- * @return {Promise<PerfoEntity[]>} 갱신된 행 (없으면 빈 배열)
+ * 조회수 증가 (원자적 +1) — 갱신된 행 반환 (없으면 빈 배열)
  */
-export const increasePerfoViews = async (
+export const increasePerfoViews = (
   perIdx: string,
-): Promise<PerfoEntity[]> => {
- try{
-  const data = await perfoRepo.increasePerfoViews(sql, perIdx);
-  return data
- } catch (e: any) {
-  console.log(e)
-      throw new CustomError(
-        RESULT_CODE.DB_ERROR.code,
-        RESULT_CODE.DB_ERROR.msg,
-        e,
-      );
-    }
-};
+): Promise<PerfoEntity[]> =>
+  withDbError(() => perfoRepo.increasePerfoViews(sql, perIdx));
 
 /**
- * 글 삭제 (소프트 삭제)
- * @param {string} perIdx
- * @return {Promise<PerfoEntity[]>} 삭제된 행 (없으면 빈 배열)
+ * 글 삭제 (소프트 삭제) — 삭제된 행 반환 (없으면 빈 배열)
  */
-export const deletePerfo = async (
+export const deletePerfo = (
   perIdx: string,
-): Promise<PerfoEntity[]> => {
- try{
-  const data = await perfoRepo.deletePerfo(sql, perIdx);
-  return data
- } catch (e: any) {
-  console.log(e)
-      throw new CustomError(
-        RESULT_CODE.DB_ERROR.code,
-        RESULT_CODE.DB_ERROR.msg,
-        e,
-      );
-    }
-};
+): Promise<PerfoEntity[]> =>
+  withDbError(() => perfoRepo.deletePerfo(sql, perIdx));
