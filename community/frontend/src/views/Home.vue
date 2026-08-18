@@ -113,9 +113,10 @@ export default defineComponent({
         });
     };
 
-    const loadBoardLit = async () => {
+    const loadBoardList = async () => {
       const param = new SearchBoardDto();
       param.boardType = TYPE_BOARD.NORMAL;
+      param.rows = 3; // 홈에는 3건만 노출
 
       await getBoardList(apiClient, param).then(res => {
         if (res.resultCode === 0 && res.data) {
@@ -130,7 +131,16 @@ export default defineComponent({
 
     const handleImageError = (event: Event) => {
       const target = event.target as HTMLImageElement;
+      target.onerror = null; // 기본 썸네일마저 깨질 때 에러 루프 방지
       target.src = '/assets/images/common/default-thumbnail.svg';
+    };
+
+    // 배너에 마우스를 올리는 동안 자동 슬라이드 일시정지 (접근성: 움직임 제어 수단 제공)
+    const pauseBannerAutoSlide = () => {
+      if (bannerIntervalId) {
+        clearInterval(bannerIntervalId);
+        bannerIntervalId = null;
+      }
     };
 
     const getCategoryLabel = (category: string | undefined) => {
@@ -148,7 +158,7 @@ export default defineComponent({
 
     onMounted(() => {
       loadBanners();
-      loadBoardLit();
+      loadBoardList();
       loadNormalPerformances();
       loadNextPerformances();
     });
@@ -176,6 +186,8 @@ export default defineComponent({
       nextBanner,
       prevBanner,
       goToBanner,
+      pauseBannerAutoSlide,
+      startBannerAutoSlide,
       TYPE_PERFO_CATEGORY,
     };
   },
@@ -184,8 +196,8 @@ export default defineComponent({
 
 <template>
   <div class="main-page-wrapper">
-    <section class="home-banner-section">
-      <div class="banner-slider">
+    <section class="home-banner-section" aria-label="홈 배너">
+      <div class="banner-slider" @mouseenter="pauseBannerAutoSlide" @mouseleave="startBannerAutoSlide">
         <transition name="fade" mode="out-in">
           <div v-if="currentBanner" :key="currentBannerIndex" class="banner-slide" :class="{ 'default-banner': currentBanner.isDefault }">
             <!-- 기본 텍스트 배너 -->
@@ -198,13 +210,13 @@ export default defineComponent({
           </div>
         </transition>
 
-        <button v-if="totalBannerCount > 1" class="banner-nav prev" @click="prevBanner">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <button v-if="totalBannerCount > 1" class="banner-nav prev" aria-label="이전 배너" @click="prevBanner">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path d="M15 18L9 12L15 6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
         </button>
-        <button v-if="totalBannerCount > 1" class="banner-nav next" @click="nextBanner">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <button v-if="totalBannerCount > 1" class="banner-nav next" aria-label="다음 배너" @click="nextBanner">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path d="M9 18L15 12L9 6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
         </button>
@@ -214,6 +226,8 @@ export default defineComponent({
             v-for="index in totalBannerCount"
             :key="index - 1"
             :class="['indicator', { active: index - 1 === currentBannerIndex }]"
+            :aria-label="`${index}번째 배너로 이동`"
+            :aria-current="index - 1 === currentBannerIndex"
             @click="goToBanner(index - 1)"></button>
         </div>
       </div>
