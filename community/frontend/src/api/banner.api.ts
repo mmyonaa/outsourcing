@@ -31,7 +31,7 @@ export function updateBanner(apiClient: AxiosInstance, params: BannerEntity): Pr
 /**
  * 배너 삭제 (resultCode 무관하게 응답 반환 - 기존 동작 유지)
  */
-export function deleteBanner(apiClient: AxiosInstance, params: any): Promise<ResponseDto<BannerEntity>> {
+export function deleteBanner(apiClient: AxiosInstance, params: Pick<BannerEntity, 'bannerIdx'>): Promise<ResponseDto<BannerEntity>> {
   return apiRequest<BannerEntity>(() => apiClient.post('/banner/deleteBanner', params), {
     strict: false,
   });

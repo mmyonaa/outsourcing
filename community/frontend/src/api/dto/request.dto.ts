@@ -1,4 +1,4 @@
-import AppConfig from '../../constants';
+import AppConfig from '@/constants';
 /**
  * 검색용 기본 DTO
  */

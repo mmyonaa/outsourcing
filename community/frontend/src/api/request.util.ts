@@ -5,7 +5,8 @@ import { ResponseDto } from '@/api/dto/response.dto';
  * API 호출 실패를 나타내는 타입화된 에러.
  * - resultCode/resultMsg가 있으면 서버가 비정상 resultCode를 반환한 경우
  * - 둘 다 없으면 네트워크/그 외 오류
- * message는 i18n 키 호환을 위해 기존과 동일하게 `msg.xxx` 형태를 유지한다.
+ * message는 사용자에게 노출될 수 있으므로 사람이 읽을 수 있는 문구를 담는다.
+ * (이 프로젝트에는 i18n이 없어 `msg.xxx` 키 형태는 그대로 노출되던 문제가 있었음)
  */
 export class ApiError extends Error {
   resultCode?: number;
@@ -42,12 +43,12 @@ export async function apiRequest<T>(
     res = await call();
   } catch (e) {
     console.error(e);
-    throw new ApiError('msg.RESULT_FAILED', undefined, undefined, e);
+    throw new ApiError('요청에 실패했습니다. 잠시 후 다시 시도해 주세요.', undefined, undefined, e);
   }
 
   if (strict && res.data?.resultCode !== 0) {
     console.error(res);
-    throw new ApiError(`msg.${res.data?.resultMsg ?? 'RESULT_FAILED'}`, res.data?.resultCode, res.data?.resultMsg);
+    throw new ApiError('요청을 처리하지 못했습니다.', res.data?.resultCode, res.data?.resultMsg);
   }
 
   return new ResponseDto<T>(res.data);

@@ -38,9 +38,12 @@ export const routesList = [
     component: () => import('../views/PerformanceDetail.vue'),
   },
   // 옛 URL(쿼리 파라미터 형식) → 새 경로 형식 리디렉션. id가 동일하므로 그대로 매핑.
+  // 문자열을 반환하면 vue-router가 원본 쿼리를 병합해 /notice/5?id=5 처럼 되므로
+  // query를 비운 객체를 반환한다.
   {
     path: '/performance/detail',
-    redirect: (to: RouteLocationNormalized) => (to.query.id ? `/performance/${to.query.id}` : '/performance'),
+    redirect: (to: RouteLocationNormalized) =>
+      to.query.id ? { path: `/performance/${to.query.id}`, query: {} } : { path: '/performance', query: {} },
   },
   // 예정 공연
   {
@@ -55,7 +58,8 @@ export const routesList = [
   },
   {
     path: '/performance/next/detail',
-    redirect: (to: RouteLocationNormalized) => (to.query.id ? `/performance/next/${to.query.id}` : '/performance/next'),
+    redirect: (to: RouteLocationNormalized) =>
+      to.query.id ? { path: `/performance/next/${to.query.id}`, query: {} } : { path: '/performance/next', query: {} },
   },
   // 3. 대관
   // 공간 안내
@@ -90,7 +94,8 @@ export const routesList = [
   },
   {
     path: '/notice/detail',
-    redirect: (to: RouteLocationNormalized) => (to.query.id ? `/notice/${to.query.id}` : '/notice'),
+    redirect: (to: RouteLocationNormalized) =>
+      to.query.id ? { path: `/notice/${to.query.id}`, query: {} } : { path: '/notice', query: {} },
   },
   // 보도자료
   {
@@ -105,7 +110,8 @@ export const routesList = [
   },
   {
     path: '/news/detail',
-    redirect: (to: RouteLocationNormalized) => (to.query.id ? `/news/${to.query.id}` : '/news'),
+    redirect: (to: RouteLocationNormalized) =>
+      to.query.id ? { path: `/news/${to.query.id}`, query: {} } : { path: '/news', query: {} },
   },
   //************ ADMIN ************* */
   {

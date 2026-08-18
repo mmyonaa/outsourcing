@@ -29,6 +29,6 @@ export function updatePerfo(apiClient: AxiosInstance, params: PerfoEntity): Prom
 /**
  * 공연 삭제 (resultCode 무관하게 응답 반환 - 기존 동작 유지)
  */
-export function deletePerfo(apiClient: AxiosInstance, params: any): Promise<ResponseDto<PerfoEntity>> {
+export function deletePerfo(apiClient: AxiosInstance, params: Pick<PerfoEntity, 'perIdx'>): Promise<ResponseDto<PerfoEntity>> {
   return apiRequest<PerfoEntity>(() => apiClient.post('/perfo/deleteperfo', params), { strict: false });
 }

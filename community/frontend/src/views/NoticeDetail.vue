@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, onMounted, onUnmounted, ref } from 'vue';
+import { computed, defineComponent, onMounted, onUnmounted, ref, watch } from 'vue';
 import BasePagination from '@/components/common/BasePagination.vue';
 import BaseShareButton from '@/components/common/BaseShareButton.vue';
 import { useRoute, useRouter } from 'vue-router';
@@ -8,6 +8,7 @@ import { getBoardList, updateBoard } from '@/api/board.api';
 import dayjs from 'dayjs';
 import { getApiClient } from '@/utils/apiClient';
 import { setMetaTags, setJsonLd, removeJsonLd, toPlainText } from '@/utils/seo.util';
+import { TYPE_BOARD } from '@/types';
 
 export default defineComponent({
   name: 'noticeDetail',
@@ -16,8 +17,10 @@ export default defineComponent({
     const totalPage = ref<number>(0); // 총 페이지
     const route = useRoute();
     const router = useRouter();
-    const noticeIdx = route.params.id
+    const noticeIdx = computed(() => String(route.params.id));
     const notice = ref<BoardEntity>(new BoardEntity())
+    const prevPost = ref<BoardEntity | null>(null); // 이전 글 (더 오래된)
+    const nextPost = ref<BoardEntity | null>(null); // 다음 글 (더 최신)
     const apiClient = getApiClient();
 
     const goBack = () => {
@@ -26,8 +29,8 @@ export default defineComponent({
 
     const loadBoardDetail = async() => {
       const param = new SearchBoardDto();
-      param.boardIdx = String(noticeIdx);
-      
+      param.boardIdx = noticeIdx.value;
+
       await getBoardList(apiClient, param)
       .then((res)=>{
         if(res.resultCode === 0 && res.data){
@@ -36,9 +39,28 @@ export default defineComponent({
       })
     }
 
+    // 목록 순서 기준 이전/다음 글 (목록은 최신순이므로 다음 인덱스 = 이전 글)
+    const loadAdjacentPosts = async () => {
+      const param = new SearchBoardDto();
+      param.boardType = TYPE_BOARD.NORMAL;
+      param.rows = 1000;
+
+      await getBoardList(apiClient, param)
+        .then(res => {
+          if (res.resultCode === 0 && res.data) {
+            const idx = res.data.findIndex(b => b.boardIdx === noticeIdx.value);
+            prevPost.value = idx >= 0 ? res.data[idx + 1] || null : null;
+            nextPost.value = idx > 0 ? res.data[idx - 1] : null;
+          }
+        })
+        .catch(() => {
+          prevPost.value = null;
+          nextPost.value = null;
+        });
+    };
 
     const updateViews = async () => {
-      notice.value.boardIdx = String(noticeIdx);
+      notice.value.boardIdx = noticeIdx.value;
       notice.value.views ++;
       await updateBoard(apiClient, notice.value)
     }
@@ -115,7 +137,22 @@ export default defineComponent({
       applySeo();
       await updateViews();
       setupFileDownloadLinks();
+      loadAdjacentPosts();
     });
+
+    // 이전/다음 글 이동 시 같은 컴포넌트가 재사용되므로 param 변경을 감지해 다시 로드
+    watch(
+      () => route.params.id,
+      async (id, oldId) => {
+        if (!id || id === oldId || !route.path.startsWith('/notice/')) return;
+        await loadBoardDetail();
+        applySeo();
+        await updateViews();
+        setupFileDownloadLinks();
+        loadAdjacentPosts();
+        window.scrollTo({ top: 0 });
+      },
+    );
 
     onUnmounted(() => {
       removeJsonLd('article');
@@ -123,6 +160,8 @@ export default defineComponent({
 
     return {
       notice,
+      prevPost,
+      nextPost,
       totalPage,
       dayjs,
       goBack
@@ -146,6 +185,18 @@ export default defineComponent({
       <span>조회수: {{ notice.views }}</span>
     </div>
     <div class="notice-content" v-html="notice.body"></div>
+
+    <!-- 이전/다음 글 -->
+    <nav v-if="prevPost || nextPost" class="post-nav" aria-label="이전 다음 글">
+      <router-link v-if="nextPost" :to="`/notice/${nextPost.boardIdx}`" class="post-nav-item">
+        <span class="post-nav-label">↑ 다음 글</span>
+        <span class="post-nav-title">{{ nextPost.title }}</span>
+      </router-link>
+      <router-link v-if="prevPost" :to="`/notice/${prevPost.boardIdx}`" class="post-nav-item">
+        <span class="post-nav-label">↓ 이전 글</span>
+        <span class="post-nav-title">{{ prevPost.title }}</span>
+      </router-link>
+    </nav>
 
     <!-- 🔽 돌아가기 버튼 -->
     <div class="back-button-wrapper">

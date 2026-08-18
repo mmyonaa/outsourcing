@@ -43,8 +43,16 @@ export function useAdminList<T, P>(options: AdminListOptions<T, P>) {
 
   /** 1페이지로 이동 후 재조회 (검색/필터 변경 시) */
   const goFirstPageAndLoad = () => {
-    router.push({ query: { ...route.query, pageNo: 1 } });
-    load();
+    const currentPage = route.query.pageNo ? Number(route.query.pageNo) : 1;
+    if (currentPage === 1) {
+      // 이미 1페이지면 push가 no-op이라 watch가 울리지 않으므로 직접 로드
+      load();
+    } else {
+      // 로드는 pageNo watch 한 곳에서만 트리거한다.
+      // (push 직후 동기 load()는 아직 갱신 전인 이전 pageNo로 요청을 만들어
+      //  중복 fetch + 응답 순서에 따라 이전 페이지가 표시되는 레이스가 있었다)
+      router.push({ query: { ...route.query, pageNo: 1 } });
+    }
   };
 
   // 페이지 번호 변경 감지
