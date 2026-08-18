@@ -1,20 +1,21 @@
 <script lang="ts">
-import { defineComponent, onMounted, ref } from 'vue';
-import BasePagination from '@/components/common/BasePagination.vue';
-import { useRoute, useRouter } from 'vue-router';
+import { defineComponent, onMounted, onUnmounted, ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { BoardEntity } from '@/api/dto/board.dto';
 import { getApiClient } from '@/utils/apiClient';
 import { insertBoard } from '@/api/board.api';
 import { STATE_YN, TYPE_BOARD } from '@/types';
+import { ALLOWED_UPLOAD_FILE_EXTENSIONS } from '@/constants';
 import Quill from 'quill';
 import 'quill/dist/quill.snow.css';
 
+// 커스텀 파일 첨부 아이콘 — 모듈 로드 시 1회만 등록 (마운트마다 재등록되어 경고가 나던 것 방지)
+const quillIcons = Quill.import('ui/icons') as Record<string, string>;
+quillIcons['file'] = '<svg viewBox="0 0 18 18"><path class="ql-stroke" d="M9,3V15M3,9H15"></path></svg>';
+
 export default defineComponent({
   name: 'adminNewsAssign',
-  components: { BasePagination },
   setup() {
-    const totalPage = ref<number>(0); // 총 페이지
-    const route = useRoute();
     const router = useRouter();
     const notice = ref<BoardEntity>(new BoardEntity());
     const apiClient = getApiClient();
@@ -38,7 +39,7 @@ export default defineComponent({
           },
         });
 
-        if (response.data.resultCode === 0 && response.data.data) {
+        if (response.data.resultCode === 0 && response.data.data?.imageUrl) {
           return response.data.data.imageUrl;
         }
         throw new Error('이미지 업로드 실패');
@@ -113,11 +114,19 @@ export default defineComponent({
     const fileHandler = () => {
       const input = document.createElement('input');
       input.setAttribute('type', 'file');
+      input.setAttribute('accept', ALLOWED_UPLOAD_FILE_EXTENSIONS.map(e => `.${e}`).join(','));
       input.click();
 
       input.onchange = async () => {
         const file = input.files?.[0];
         if (!file) return;
+
+        // 서버 화이트리스트와 동일 검사 — 업로드 후 실패보다 선택 즉시 안내
+        const ext = file.name.includes('.') ? file.name.split('.').pop()!.toLowerCase() : '';
+        if (!ALLOWED_UPLOAD_FILE_EXTENSIONS.includes(ext)) {
+          alert(`허용되지 않는 파일 형식입니다.\n허용: ${ALLOWED_UPLOAD_FILE_EXTENSIONS.join(', ')}`);
+          return;
+        }
 
         if (file.size > 20 * 1024 * 1024) {
           alert('파일 크기는 20MB 이하여야 합니다.');
@@ -141,10 +150,6 @@ export default defineComponent({
     // Quill 에디터 초기화
     const initQuillEditor = () => {
       if (!editorRef.value) return;
-
-      // 커스텀 파일 첨부 버튼 추가
-      const icons = Quill.import('ui/icons') as Record<string, string>;
-      icons['file'] = '<svg viewBox="0 0 18 18"><path class="ql-stroke" d="M9,3V15M3,9H15"></path></svg>';
 
       const toolbarOptions = [
         [{ header: [1, 2, 3, false] }],
@@ -191,12 +196,21 @@ export default defineComponent({
       notice.value.body = quillInstance.root.innerHTML;
       notice.value.bestYn = bestValue.value ? STATE_YN.Y : STATE_YN.N;
 
-      await insertBoard(apiClient, notice.value).then(res => {
-        if (res.resultCode === 0 && res.data) {
-          alert('보도자료 등록이 완료되었습니다.');
-          router.push('/admin/news');
-        }
-      });
+      // 실패 시에도 반드시 사용자에게 알린다 — 무반응이면 저장된 줄 알고
+      // 이탈해 작성 내용을 잃을 수 있다
+      await insertBoard(apiClient, notice.value)
+        .then(res => {
+          if (res.resultCode === 0 && res.data) {
+            alert('보도자료 등록이 완료되었습니다.');
+            router.push('/admin/news');
+          } else {
+            alert('등록에 실패했습니다. 잠시 후 다시 시도해 주세요.');
+          }
+        })
+        .catch(e => {
+          console.error(e);
+          alert('등록에 실패했습니다. 잠시 후 다시 시도해 주세요.');
+        });
     };
 
     onMounted(() => {
@@ -204,9 +218,12 @@ export default defineComponent({
       initQuillEditor();
     });
 
+    onUnmounted(() => {
+      quillInstance = null;
+    });
+
     return {
       notice,
-      totalPage,
       bestValue,
       editorRef,
       submitNotice,
