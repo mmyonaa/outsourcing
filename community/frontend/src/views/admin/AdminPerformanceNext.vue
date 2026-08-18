@@ -20,16 +20,18 @@ export default defineComponent({
     const apiClient = getApiClient();
     const selectedCategory = ref<string>('');
 
+    const ROWS_PER_PAGE = 8;
     const {
       items: perfos,
       totalPage,
+      currentPage,
       searchKeyword,
       isLoading,
       error,
       load: loadPerfoList,
       goFirstPageAndLoad,
     } = useAdminList<PerfoEntity, SearchPerfoDto>({
-      rows: 8,
+      rows: ROWS_PER_PAGE,
       buildParam: ({ page, rows, keyword }) => {
         const param = new SearchPerfoDto();
         param.perType = TYPE_PERFO.NEXT;
@@ -74,6 +76,7 @@ export default defineComponent({
 
     const handleImageError = (event: Event) => {
       const target = event.target as HTMLImageElement;
+      target.onerror = null; // 기본 썸네일마저 깨질 때 에러 루프 방지
       target.src = '/assets/images/common/default-thumbnail.svg';
     };
 
@@ -86,6 +89,8 @@ export default defineComponent({
     return {
       perfos,
       totalPage,
+      currentPage,
+      ROWS_PER_PAGE,
       dayjs,
       STATE_YN,
       searchKeyword,
@@ -170,7 +175,7 @@ export default defineComponent({
       <div class="notice-row" v-for="(perfo, index) in perfos" :key="perfo.perIdx">
         <!-- 데스크탑 행 -->
         <div class="row-content desktop-only clickable" tabindex="0" role="link" @click="goToDetail(perfo.perIdx)" @keydown.enter="goToDetail(perfo.perIdx)">
-          <div class="col index">{{ index + 1 }}</div>
+          <div class="col index">{{ (currentPage - 1) * ROWS_PER_PAGE + index + 1 }}</div>
 
           <div class="col thumbnail">
             <img
@@ -209,35 +214,6 @@ export default defineComponent({
 </template>
 
 <style scoped>
-/* 로딩/에러 상태 표시 */
-.list-status {
-  text-align: center;
-  padding: 3rem 1rem;
-  color: #666;
-  font-size: 15px;
-}
-
-.list-status--error {
-  color: #c0392b;
-}
-
-.retry-button {
-  display: inline-block;
-  margin-left: 0.75rem;
-  padding: 0.4rem 1rem;
-  border: 1px solid #c0392b;
-  border-radius: 6px;
-  background: #fff;
-  color: #c0392b;
-  cursor: pointer;
-  font-size: 14px;
-}
-
-.retry-button:hover {
-  background: #c0392b;
-  color: #fff;
-}
-
 /* 검색바와 카테고리 컨테이너 */
 .search-category-container {
   display: flex;

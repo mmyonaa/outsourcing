@@ -19,16 +19,18 @@ export default defineComponent({
     const router = useRouter();
     const apiClient = getApiClient();
 
+    const ROWS_PER_PAGE = 10;
     const {
       items: notices,
       totalPage,
+      currentPage,
       searchKeyword,
       isLoading,
       error,
-      load: loadBoardLit,
+      load: loadBoardList,
       goFirstPageAndLoad: handleSearch,
     } = useAdminList<BoardEntity, SearchBoardDto>({
-      rows: 10,
+      rows: ROWS_PER_PAGE,
       buildParam: ({ page, rows, keyword }) => {
         const param = new SearchBoardDto();
         param.boardType = TYPE_BOARD.NORMAL;
@@ -53,12 +55,14 @@ export default defineComponent({
     return {
       notices,
       totalPage,
+      currentPage,
+      ROWS_PER_PAGE,
       dayjs,
       STATE_YN,
       searchKeyword,
       isLoading,
       error,
-      loadBoardLit,
+      loadBoardList,
       handleSearch,
       assignNotice,
       goToDetail,
@@ -84,7 +88,7 @@ export default defineComponent({
     <div v-if="isLoading" class="notice-list">
       <list-row-skeleton v-for="n in 8" :key="n" />
     </div>
-    <error-state v-else-if="error" @retry="loadBoardLit" />
+    <error-state v-else-if="error" @retry="loadBoardList" />
 
     <!-- 결과가 있을 때 -->
     <div v-else-if="notices.length > 0" class="notice-list">
@@ -105,7 +109,7 @@ export default defineComponent({
             <img v-if="notice.bestYn === STATE_YN.Y" src="/assets/images/board/important.png" />
             <div v-else></div>
           </div>
-          <div class="col index">{{ index + 1 }}</div>
+          <div class="col index">{{ (currentPage - 1) * ROWS_PER_PAGE + index + 1 }}</div>
 
           <div class="col title">{{ notice.title }}</div>
           <div class="col views">{{ notice.views }}</div>
@@ -136,35 +140,6 @@ export default defineComponent({
 </template>
 
 <style scoped>
-/* 로딩/에러 상태 표시 */
-.list-status {
-  text-align: center;
-  padding: 3rem 1rem;
-  color: #666;
-  font-size: 15px;
-}
-
-.list-status--error {
-  color: #c0392b;
-}
-
-.retry-button {
-  display: inline-block;
-  margin-left: 0.75rem;
-  padding: 0.4rem 1rem;
-  border: 1px solid #c0392b;
-  border-radius: 6px;
-  background: #fff;
-  color: #c0392b;
-  cursor: pointer;
-  font-size: 14px;
-}
-
-.retry-button:hover {
-  background: #c0392b;
-  color: #fff;
-}
-
 /* 검색바와 등록 버튼을 감싸는 래퍼 */
 .search-action-wrapper {
   display: flex;

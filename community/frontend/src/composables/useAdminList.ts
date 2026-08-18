@@ -1,4 +1,4 @@
-import { onMounted, ref, watch, type Ref } from 'vue';
+import { computed, onMounted, ref, watch, type Ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import type { ResponseDto } from '@/api/dto/response.dto';
 import { useAsyncData } from '@/composables/useAsyncData';
@@ -24,13 +24,13 @@ export function useAdminList<T, P>(options: AdminListOptions<T, P>) {
   const items = ref<T[]>([]) as Ref<T[]>;
   const totalPage = ref<number>(0);
   const searchKeyword = ref<string>('');
+  const currentPage = computed(() => (route.query.pageNo ? Number(route.query.pageNo) : 1));
   const { isLoading, error, run } = useAsyncData();
 
   const load = () =>
     run(async () => {
-      const page = route.query.pageNo ? Number(route.query.pageNo) : 1;
       const param = options.buildParam({
-        page,
+        page: currentPage.value,
         rows: options.rows,
         keyword: searchKeyword.value || undefined,
       });
@@ -43,8 +43,7 @@ export function useAdminList<T, P>(options: AdminListOptions<T, P>) {
 
   /** 1페이지로 이동 후 재조회 (검색/필터 변경 시) */
   const goFirstPageAndLoad = () => {
-    const currentPage = route.query.pageNo ? Number(route.query.pageNo) : 1;
-    if (currentPage === 1) {
+    if (currentPage.value === 1) {
       // 이미 1페이지면 push가 no-op이라 watch가 울리지 않으므로 직접 로드
       load();
     } else {
@@ -63,5 +62,5 @@ export function useAdminList<T, P>(options: AdminListOptions<T, P>) {
 
   onMounted(() => load());
 
-  return { items, totalPage, searchKeyword, isLoading, error, load, goFirstPageAndLoad };
+  return { items, totalPage, currentPage, searchKeyword, isLoading, error, load, goFirstPageAndLoad };
 }
