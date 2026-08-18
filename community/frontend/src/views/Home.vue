@@ -17,8 +17,6 @@ export default defineComponent({
   components: { BaseImageSet },
   setup() {
     const router = useRouter();
-    const activeReserveIndex = ref<number>(0);
-    const activeRentalIndex = ref<number>(0);
     const apiClient = getApiClient();
     const notices = ref<BoardEntity[]>([]);
     const normalPerformances = ref<PerfoEntity[]>([]);
@@ -171,8 +169,6 @@ export default defineComponent({
       currentBannerIndex,
       totalBannerCount,
       currentBanner,
-      activeReserveIndex,
-      activeRentalIndex,
       dayjs,
       onClickRental,
       handleImageError,
@@ -245,12 +241,10 @@ export default defineComponent({
         </div>
         <div v-else-if="normalPerformances.length > 0" class="poster-gallery rental">
           <router-link
-            v-for="(performance, index) in normalPerformances"
+            v-for="performance in normalPerformances"
             :key="performance.perIdx"
             :to="`/performance/${performance.perIdx}`"
-            class="poster"
-            :class="{ active: activeRentalIndex === index }"
-            @mouseenter="activeRentalIndex = index">
+            class="poster">
             <div class="poster-image">
               <img loading="lazy" :src="performance.imgUrl || '/assets/images/common/default-thumbnail.svg'" :alt="performance.title" @error="handleImageError" />
             </div>
@@ -290,12 +284,10 @@ export default defineComponent({
         </div>
         <div v-else-if="nextPerformances.length > 0" class="poster-gallery text">
           <router-link
-            v-for="(performance, index) in nextPerformances"
+            v-for="performance in nextPerformances"
             :key="performance.perIdx"
             :to="`/performance/next/${performance.perIdx}`"
-            class="poster"
-            :class="{ active: activeReserveIndex === index }"
-            @mouseenter="activeReserveIndex = index">
+            class="poster">
             <div class="poster-image">
               <img loading="lazy" :src="performance.imgUrl || '/assets/images/common/default-thumbnail.svg'" :alt="performance.title" @error="handleImageError" />
             </div>

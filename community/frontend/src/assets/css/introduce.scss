@@ -165,9 +165,6 @@
   text-align: center;
   border: 2px solid transparent;
   transition: all 0.3s ease;
-  opacity: 0.4;            // 기본 dim 처리
-  filter: grayscale(60%);  // 회색톤 효과
-  transform: scale(0.97);
 
   img {
     width: 100%;
@@ -175,24 +172,16 @@
     border-radius: 8px;
     transition: transform 0.3s ease;
   }
+}
+
+// 공간 안내(rental) 썸네일 선택기: 선택되지 않은 썸네일만 살짝 dim.
+// 클릭 기반 선택 상태라 터치 기기에서도 의미가 유지된다.
+.rental-page .poster {
+  opacity: 0.55;
 
   &.active {
-    opacity: 1;               // 밝게 활성화
-    filter: none;             // 회색 제거
-    transform: scale(1.02);   // 살짝 확대
-
-    img {
-      transform: scale(1.05);
-    }
-
-    .description {
-      margin-top: 20px;
-      background-color: #f9f9f9;
-      padding: 12px;
-      border-radius: 6px;
-      font-size: 14px;
-      font-weight: bold;
-    }
+    opacity: 1;
+    border-color: $colorPrimary;
   }
 }
 

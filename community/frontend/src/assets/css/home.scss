@@ -41,6 +41,18 @@
     gap: 20px;
     padding: 20px;
 
+    // hover 가능한 기기 한정: 갤러리에 마우스를 올리면 나머지 카드만 살짝 dim.
+    // (터치 기기는 항상 전부 선명하게 유지)
+    @media (hover: hover) {
+      .poster {
+        transition: opacity 0.3s ease;
+      }
+
+      &:hover .poster:not(:hover) {
+        opacity: 0.6;
+      }
+    }
+
     @media (max-width: 1024px) {
       grid-template-columns: repeat(3, 1fr);
       .poster:nth-child(n + 4) {
