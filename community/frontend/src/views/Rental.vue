@@ -1,6 +1,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import SectionTabs from '@/components/common/SectionTabs.vue';
+import ImageLightbox from '@/components/common/ImageLightbox.vue';
 
 // '대관 관련 공지사항' 게시글 링크. 해당 공지를 다시 등록하면 이 값만 갱신하면 된다.
 // (글이 삭제되면 데드링크가 되므로 공지 교체 시 함께 확인할 것)
@@ -8,7 +9,7 @@ const RENTAL_NOTICE_PATH = '/notice/57275967-0e45-4878-b639-7a78c60bebe5';
 
 export default defineComponent({
   name: 'rental',
-  components: { SectionTabs },
+  components: { SectionTabs, ImageLightbox },
   setup() {
     const activeIndex = ref<number>(0);
     const posters = [
@@ -42,7 +43,9 @@ export default defineComponent({
     <div class="content-container">
       <!-- 좌측: 갤러리 -->
       <div class="gallery-section">
-        <img loading="lazy" :src="posters[activeIndex].image" class="big-image" alt="대관 포스터" />
+        <image-lightbox :src="posters[activeIndex].image" alt="극장 공간 사진">
+          <img loading="lazy" :src="posters[activeIndex].image" class="big-image" alt="극장 공간 사진" />
+        </image-lightbox>
         <div class="poster-gallery">
           <div class="poster" v-for="(poster, index) in posters" :key="index" :class="{ active: activeIndex === index }" @click="activeIndex = index">
             <img loading="lazy" :src="poster.image" :alt="'Poster ' + (index + 1)" />

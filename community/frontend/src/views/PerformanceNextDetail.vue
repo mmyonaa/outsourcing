@@ -1,6 +1,7 @@
 <script lang="ts">
 import { computed, defineComponent, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
 import BaseShareButton from '@/components/common/BaseShareButton.vue';
+import ImageLightbox from '@/components/common/ImageLightbox.vue';
 import { useRoute, useRouter } from 'vue-router';
 import { PerfoEntity, SearchPerfoDto } from '@/api/dto/perfo.dto';
 import { getPerfoList, increasePerfoViews } from '@/api/perfo.api';
@@ -11,7 +12,7 @@ import { setMetaTags, setJsonLd, removeJsonLd, toPlainText, extractEventDates } 
 
 export default defineComponent({
   name: 'performanceNextDetail',
-  components: { BaseShareButton },
+  components: { BaseShareButton, ImageLightbox },
   setup() {
     const route = useRoute();
     const router = useRouter();
@@ -238,11 +239,13 @@ export default defineComponent({
       <!-- 좌측: 포스터 -->
       <div class="left-section">
         <div class="thumbnail-wrapper">
+          <image-lightbox :src="performance.imgUrl" :alt="performance.title">
           <img
-            :src="performance.imgUrl || '/assets/images/common/default-thumbnail.svg'"
-            :alt="performance.title"
-            class="thumbnail-image"
-            @error="handleImageError" />
+              :src="performance.imgUrl || '/assets/images/common/default-thumbnail.svg'"
+              :alt="performance.title"
+              class="thumbnail-image"
+              @error="handleImageError" />
+          </image-lightbox>
         </div>
       </div>
 
