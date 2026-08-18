@@ -1,10 +1,9 @@
 <script lang="ts">
-import { computed, defineComponent, onMounted, onUnmounted, ref, watch } from 'vue';
-import BasePagination from '@/components/common/BasePagination.vue';
+import { computed, defineComponent, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
 import BaseShareButton from '@/components/common/BaseShareButton.vue';
 import { useRoute, useRouter } from 'vue-router';
 import { BoardEntity, SearchBoardDto } from '@/api/dto/board.dto';
-import { getBoardList, updateBoard } from '@/api/board.api';
+import { getBoardList, increaseBoardViews } from '@/api/board.api';
 import dayjs from 'dayjs';
 import { getApiClient } from '@/utils/apiClient';
 import { setMetaTags, setJsonLd, removeJsonLd, toPlainText } from '@/utils/seo.util';
@@ -12,13 +11,13 @@ import { TYPE_BOARD } from '@/types';
 
 export default defineComponent({
   name: 'newsDetail',
-  components: { BasePagination, BaseShareButton },
+  components: { BaseShareButton },
   setup() {
-    const totalPage = ref<number>(0); // 총 페이지
     const route = useRoute();
     const router = useRouter();
     const noticeIdx = computed(() => String(route.params.id));
     const notice = ref<BoardEntity>(new BoardEntity());
+    const notFound = ref(false);
     const prevPost = ref<BoardEntity | null>(null); // 이전 글 (더 오래된)
     const nextPost = ref<BoardEntity | null>(null); // 다음 글 (더 최신)
     const apiClient = getApiClient();
@@ -31,11 +30,19 @@ export default defineComponent({
       const param = new SearchBoardDto();
       param.boardIdx = noticeIdx.value;
 
-      await getBoardList(apiClient, param).then(res => {
-        if (res.resultCode === 0 && res.data) {
-          notice.value = res.data[0];
-        }
-      });
+      // 삭제된 글·잘못된 id 는 빈 배열로 오므로 length 까지 확인해야
+      // undefined 대입 → 이후 접근에서 크래시가 나지 않는다
+      await getBoardList(apiClient, param)
+        .then(res => {
+          if (res.resultCode === 0 && res.data && res.data.length > 0) {
+            notice.value = res.data[0];
+          } else {
+            notFound.value = true;
+          }
+        })
+        .catch(() => {
+          notFound.value = true;
+        });
     };
 
     // 작성일 최신순 기준 이전(더 오래된)/다음(더 최신) 글.
@@ -61,9 +68,10 @@ export default defineComponent({
     };
 
     const updateViews = async () => {
-      notice.value.boardIdx = noticeIdx.value;
+      // 조회수는 서버가 원자적으로 +1 한다.
+      // (전체 엔티티를 update API로 보내던 방식은 경합·본문 덮어쓰기 위험이 있었음)
+      await increaseBoardViews(apiClient, noticeIdx.value).catch(() => {});
       notice.value.views++;
-      await updateBoard(apiClient, notice.value);
     };
 
     // 로드된 글 내용으로 메타/OG/JSON-LD 갱신
@@ -93,9 +101,10 @@ export default defineComponent({
       });
     };
 
-    const setupFileDownloadLinks = () => {
-      // 파일 다운로드 링크에 download 속성 추가 및 클릭 이벤트 처리
-      setTimeout(() => {
+    const setupFileDownloadLinks = async () => {
+      // 본문(v-html)이 실제 DOM에 반영된 다음 틱에 링크를 찾는다 (setTimeout 타이밍 의존 제거)
+      await nextTick();
+      {
         const fileLinks = document.querySelectorAll<HTMLAnchorElement>(
           '.notice-content a[href*="amazonaws.com"], .notice-content a[href*="/uploads/"], .notice-content a[href*="/files/"]',
         );
@@ -130,27 +139,27 @@ export default defineComponent({
             }
           });
         });
-      }, 300);
+      }
     };
 
-    onMounted(async () => {
+    const init = async () => {
+      notFound.value = false;
       await loadBoardDetail();
+      if (notFound.value) return;
       applySeo();
       await updateViews();
       setupFileDownloadLinks();
       loadAdjacentPosts();
-    });
+    };
+
+    onMounted(init);
 
     // 이전/다음 글 이동 시 같은 컴포넌트가 재사용되므로 param 변경을 감지해 다시 로드
     watch(
       () => route.params.id,
       async (id, oldId) => {
         if (!id || id === oldId || !route.path.startsWith('/news/')) return;
-        await loadBoardDetail();
-        applySeo();
-        await updateViews();
-        setupFileDownloadLinks();
-        loadAdjacentPosts();
+        await init();
         window.scrollTo({ top: 0 });
       },
     );
@@ -163,7 +172,7 @@ export default defineComponent({
       notice,
       prevPost,
       nextPost,
-      totalPage,
+      notFound,
       dayjs,
       goBack,
     };
@@ -174,7 +183,14 @@ export default defineComponent({
 <template>
   <div class="page-common notice-page">
     <h1>보도자료 상세</h1>
-    <div class="notice-detail">
+
+    <!-- 삭제되었거나 존재하지 않는 id 로 진입한 경우 -->
+    <div v-if="notFound" class="detail-not-found">
+      <p>요청하신 글을 찾을 수 없습니다.<br />삭제되었거나 잘못된 주소일 수 있습니다.</p>
+      <button class="back-button" @click="goBack">← 목록으로 돌아가기</button>
+    </div>
+
+    <div v-else class="notice-detail">
       <div class="notice-title-row">
         <div class="notice-title">{{ notice.title }}</div>
         <base-share-button :title="notice.title" />
@@ -182,7 +198,7 @@ export default defineComponent({
 
       <div class="notice-meta">
         <span>작성자: {{ notice.author }}</span>
-        <span>작성일: {{ dayjs(notice.modDt).format('YY.MM.DD') }}</span>
+        <span>작성일: {{ dayjs(notice.regDt).format('YY.MM.DD') }}</span>
         <span>조회수: {{ notice.views }}</span>
       </div>
       <div class="notice-content" v-html="notice.body"></div>
@@ -208,6 +224,18 @@ export default defineComponent({
 </template>
 
 <style scoped>
+.detail-not-found {
+  text-align: center;
+  padding: 5rem 1rem;
+  color: #666;
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+.detail-not-found .back-button {
+  margin-top: 1.5rem;
+}
+
 .notice-content :deep(img) {
   max-width: 100%;
   height: auto;
