@@ -68,7 +68,22 @@ export default defineComponent({
     const handleImageSelect = (event: Event) => {
       const target = event.target as HTMLInputElement;
       if (target.files && target.files[0]) {
-        imageFile.value = target.files[0];
+        const file = target.files[0];
+
+        // 저장 버튼을 눌러야 알던 검증을 선택 즉시로 — 다른 admin 화면과 동일한 UX
+        if (!file.type.startsWith('image/')) {
+          alert('이미지 파일만 업로드 가능합니다.');
+          target.value = '';
+          return;
+        }
+
+        if (file.size > 5 * 1024 * 1024) {
+          alert('파일 크기는 5MB 이하여야 합니다.');
+          target.value = '';
+          return;
+        }
+
+        imageFile.value = file;
         const reader = new FileReader();
         reader.onload = e => {
           imagePreview.value = e.target?.result as string;
@@ -79,17 +94,6 @@ export default defineComponent({
 
     const uploadImage = async (): Promise<string | null> => {
       if (!imageFile.value) return null;
-
-      // 이미지 파일 유효성 검사
-      if (!imageFile.value.type.startsWith('image/')) {
-        alert('이미지 파일만 업로드 가능합니다.');
-        return null;
-      }
-
-      if (imageFile.value.size > 5 * 1024 * 1024) {
-        alert('파일 크기는 5MB 이하여야 합니다.');
-        return null;
-      }
 
       const formData = new FormData();
       formData.append('image', imageFile.value);
@@ -128,11 +132,14 @@ export default defineComponent({
       }
 
       try {
+        // 성공 alert 전에 서버 응답(resultCode)까지 확인한다
         if (isEditMode.value) {
-          await updateBanner(apiClient, currentBanner.value);
+          const res = await updateBanner(apiClient, currentBanner.value);
+          if (res.resultCode !== 0) throw new Error(res.resultMsg || 'update failed');
           alert('배너가 수정되었습니다.');
         } else {
-          await insertBanner(apiClient, currentBanner.value);
+          const res = await insertBanner(apiClient, currentBanner.value);
+          if (res.resultCode !== 0) throw new Error(res.resultMsg || 'insert failed');
           alert('배너가 등록되었습니다.');
         }
         closeModal();
@@ -147,7 +154,8 @@ export default defineComponent({
       if (!confirm('정말 삭제하시겠습니까?')) return;
 
       try {
-        await deleteBanner(apiClient, { bannerIdx: banner.bannerIdx });
+        const res = await deleteBanner(apiClient, { bannerIdx: banner.bannerIdx });
+        if (res.resultCode !== 0) throw new Error(res.resultMsg || 'delete failed');
         alert('배너가 삭제되었습니다.');
         loadBanners();
       } catch (error) {
@@ -161,7 +169,8 @@ export default defineComponent({
       updatedBanner.activeYn = banner.activeYn === 'Y' ? 'N' : 'Y';
 
       try {
-        await updateBanner(apiClient, updatedBanner);
+        const res = await updateBanner(apiClient, updatedBanner);
+        if (res.resultCode !== 0) throw new Error(res.resultMsg || 'update failed');
         loadBanners();
       } catch (error) {
         console.error('Failed to toggle active status:', error);
