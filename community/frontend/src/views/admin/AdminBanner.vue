@@ -259,6 +259,9 @@ export default defineComponent({
           <div class="form-group">
             <label>이미지 *</label>
             <p class="image-guide">권장 이미지 사이즈: 1920 x 600px (가로로 긴 형태)</p>
+            <p class="image-guide">
+              📱 모바일에서는 좌우가 잘려 보입니다. 텍스트·핵심 내용은 이미지 <strong>가로 중앙 60% 안</strong>에 배치해 주세요.
+            </p>
             <input type="file" accept="image/*" @change="handleImageSelect" />
             <div v-if="imagePreview" class="image-preview">
               <img :src="imagePreview" alt="Preview" />
