@@ -6,14 +6,13 @@ import ArrowDown from '@/components/header/ArrowDown.vue';
 import { initStore } from '@/stores/store-manager';
 import { POPUP_TYPE } from '@/types';
 import { computed, defineComponent, onMounted, onUnmounted, ref, watch } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 
 export default defineComponent({
   name: 'MegaMenu',
   components: { BaseInput, BaseLink, BaseImageSet, ArrowDown },
   setup() {
     const storeManager = initStore();
-    const router = useRouter();
     const route = useRoute();
 
     const isActive = ref<boolean>(false);
@@ -22,15 +21,6 @@ export default defineComponent({
 
     // (tablet ~ mobile) 사이드 메뉴 열림 여부
     const isSideMenuOpen = computed(() => storeManager.stateStore.popupMode?.type === POPUP_TYPE.TABLET_SIDE_MENU);
-
-    // 경로 기준으로 active 메뉴 판단용
-    // DEV 환경에서만 url 매핑 (필요하면 env에 따라 확장 가능)
-    const urlMap = {
-      introduce: '/introduce',
-      performance: '/performance',
-      rental: '/rental',
-      notice: '/notice',
-    };
 
     // 현재 상위 메뉴를 path 기준으로 판단하는 computed
     // '/introduce', '/introduce/org' 등 포함경로 체크 (startsWith)
@@ -63,11 +53,10 @@ export default defineComponent({
       else if (clientY <= 0 || clientX <= 0 || clientX >= window.innerWidth) isSubMenuVisible.value = false;
     };
 
-    // 메뉴 클릭 시 해당 경로로 이동 + 서브메뉴 닫기 + 팝업 닫기
-    const onClickMenu = (path: string) => {
+    // 메뉴 링크 클릭 시 서브메뉴/사이드 메뉴 닫기 (이동은 router-link가 담당)
+    const onCloseMenus = () => {
       storeManager.stateStore.setPopupMode({ type: POPUP_TYPE.NONE });
       isSubMenuVisible.value = false;
-      router.push(path);
       isTabletMenuVisibleType.value = null;
     };
 
@@ -90,10 +79,6 @@ export default defineComponent({
     // ESC로 사이드 메뉴 닫기
     const handleKeydown = (event: KeyboardEvent) => {
       if (event.key === 'Escape' && isSideMenuOpen.value) onClickTabletMenu(false);
-    };
-
-    const onClickLogo = () => {
-      onClickMenu(urlMap.introduce);
     };
 
     watch(
@@ -127,13 +112,12 @@ export default defineComponent({
       activeMenu,
       POPUP_TYPE,
       storeManager,
-      onClickMenu,
+      onCloseMenus,
       onClickOpenSubMenu,
       onClickTabletMenu,
       handleMouseEnter,
       handleMouseLeave,
       handleMouseSubLeave,
-      onClickLogo,
     };
   },
 });
@@ -144,16 +128,24 @@ export default defineComponent({
     <header :class="[{ 'active-border': isActive && headerType === 'opacity' }, { 'white-background': isSubMenuVisible }, headerType]">
       <div class="main-header-wrapper">
         <base-link class="main-header-logo" href="/">
-          <img src="/assets/images/logo/theater.png" alt="보광극장 로고" @click="onClickLogo" />
+          <img src="/assets/images/logo/theater.png" alt="보광극장 로고" />
         </base-link>
 
         <!-- PC main menu -->
         <section class="main-menu-section" @mouseenter="handleMouseEnter" @mouseleave="handleMouseLeave">
           <ul class="menu-list">
-            <li class="menu play" :class="{ active: activeMenu === 'introduce' }" @click="() => onClickMenu('/introduce')">소개</li>
-            <li class="menu studio" :class="{ active: activeMenu === 'performance' }" @click="() => onClickMenu('/performance')">활동</li>
-            <li class="menu asset" :class="{ active: activeMenu === 'rental' }" @click="() => onClickMenu('/rental')">대관</li>
-            <li class="menu community" :class="{ active: activeMenu === 'notice' }" @click="() => onClickMenu('/notice')">알림</li>
+            <li class="menu play" :class="{ active: activeMenu === 'introduce' }">
+              <router-link to="/introduce" @click="onCloseMenus">소개</router-link>
+            </li>
+            <li class="menu studio" :class="{ active: activeMenu === 'performance' }">
+              <router-link to="/performance" @click="onCloseMenus">활동</router-link>
+            </li>
+            <li class="menu asset" :class="{ active: activeMenu === 'rental' }">
+              <router-link to="/rental" @click="onCloseMenus">대관</router-link>
+            </li>
+            <li class="menu community" :class="{ active: activeMenu === 'notice' }">
+              <router-link to="/notice" @click="onCloseMenus">알림</router-link>
+            </li>
           </ul>
         </section>
 
@@ -172,22 +164,22 @@ export default defineComponent({
       <transition name="dropdown">
         <section v-show="isSubMenuVisible" class="sub-menu-section menu-list" @mouseleave="handleMouseSubLeave">
           <ul class="sub-menu-list play menu">
-            <li @click="() => onClickMenu('/introduce')">극장 소개</li>
-            <li @click="() => onClickMenu('/introduce/org')">단체 소개</li>
-            <li @click="() => onClickMenu('/introduce/route')">오시는 길</li>
+            <li><router-link to="/introduce" @click="onCloseMenus">극장 소개</router-link></li>
+            <li><router-link to="/introduce/org" @click="onCloseMenus">단체 소개</router-link></li>
+            <li><router-link to="/introduce/route" @click="onCloseMenus">오시는 길</router-link></li>
           </ul>
           <ul class="sub-menu-list studio menu">
-            <li @click="() => onClickMenu('/performance')">자체 프로그램</li>
-            <li @click="() => onClickMenu('/performance/next')">대관 프로그램</li>
+            <li><router-link to="/performance" @click="onCloseMenus">자체 프로그램</router-link></li>
+            <li><router-link to="/performance/next" @click="onCloseMenus">대관 프로그램</router-link></li>
           </ul>
           <ul class="sub-menu-list asset menu">
-            <li @click="() => onClickMenu('/rental')">공간 안내</li>
-            <li @click="() => onClickMenu('/rental/schedule')">대관 일정</li>
-            <li @click="() => onClickMenu('/rental/info')">대관 신청 링크</li>
+            <li><router-link to="/rental" @click="onCloseMenus">공간 안내</router-link></li>
+            <li><router-link to="/rental/schedule" @click="onCloseMenus">대관 일정</router-link></li>
+            <li><router-link to="/rental/info" @click="onCloseMenus">대관 신청 링크</router-link></li>
           </ul>
           <ul class="sub-menu-list community menu">
-            <li @click="() => onClickMenu('/notice')">공지사항</li>
-            <li @click="() => onClickMenu('/news')">보도자료</li>
+            <li><router-link to="/notice" @click="onCloseMenus">공지사항</router-link></li>
+            <li><router-link to="/news" @click="onCloseMenus">보도자료</router-link></li>
           </ul>
         </section>
       </transition>
@@ -221,9 +213,9 @@ export default defineComponent({
               class="sub-menu-tablet"
               :class="{ opened: isTabletMenuVisibleType === 'introduce' }">
               <ul>
-                <li @click="() => onClickMenu('/introduce')">극장 소개</li>
-                <li @click="() => onClickMenu('/introduce/org')">단체 소개</li>
-                <li @click="() => onClickMenu('/introduce/route')">오시는 길</li>
+                <li><router-link to="/introduce" @click="onCloseMenus">극장 소개</router-link></li>
+                <li><router-link to="/introduce/org" @click="onCloseMenus">단체 소개</router-link></li>
+                <li><router-link to="/introduce/route" @click="onCloseMenus">오시는 길</router-link></li>
               </ul>
             </section>
           </transition>
@@ -241,8 +233,8 @@ export default defineComponent({
               class="sub-menu-tablet"
               :class="{ opened: isTabletMenuVisibleType === 'performance' }">
               <ul>
-                <li @click="() => onClickMenu('/performance')">자체 프로그램</li>
-                <li @click="() => onClickMenu('/performance/next')">대관 프로그램</li>
+                <li><router-link to="/performance" @click="onCloseMenus">자체 프로그램</router-link></li>
+                <li><router-link to="/performance/next" @click="onCloseMenus">대관 프로그램</router-link></li>
               </ul>
             </section>
           </transition>
@@ -257,9 +249,9 @@ export default defineComponent({
           <transition name="dropdown">
             <section v-show="isTabletMenuVisibleType === 'rental'" class="sub-menu-tablet" :class="{ opened: isTabletMenuVisibleType === 'rental' }">
               <ul>
-                <li @click="() => onClickMenu('/rental')">공간 안내</li>
-                <li @click="() => onClickMenu('/rental/schedule')">대관 일정</li>
-                <li @click="() => onClickMenu('/rental/info')">대관 신청 링크</li>
+                <li><router-link to="/rental" @click="onCloseMenus">공간 안내</router-link></li>
+                <li><router-link to="/rental/schedule" @click="onCloseMenus">대관 일정</router-link></li>
+                <li><router-link to="/rental/info" @click="onCloseMenus">대관 신청 링크</router-link></li>
               </ul>
             </section>
           </transition>
@@ -274,8 +266,8 @@ export default defineComponent({
           <transition name="dropdown">
             <section v-show="isTabletMenuVisibleType === 'notice'" class="sub-menu-tablet" :class="{ opened: isTabletMenuVisibleType === 'notice' }">
               <ul>
-                <li @click="() => onClickMenu('/notice')">공지사항</li>
-                <li @click="() => onClickMenu('/news')">보도자료</li>
+                <li><router-link to="/notice" @click="onCloseMenus">공지사항</router-link></li>
+                <li><router-link to="/news" @click="onCloseMenus">보도자료</router-link></li>
               </ul>
             </section>
           </transition>
