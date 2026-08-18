@@ -174,7 +174,7 @@ export default defineComponent({
           <ul class="sub-menu-list asset menu">
             <li><router-link to="/rental" @click="onCloseMenus">공간 안내</router-link></li>
             <li><router-link to="/rental/schedule" @click="onCloseMenus">대관 일정</router-link></li>
-            <li><router-link to="/rental/info" @click="onCloseMenus">대관 신청 링크</router-link></li>
+            <li><router-link to="/rental/info" @click="onCloseMenus">대관 신청</router-link></li>
           </ul>
           <ul class="sub-menu-list community menu">
             <li><router-link to="/notice" @click="onCloseMenus">공지사항</router-link></li>
@@ -250,7 +250,7 @@ export default defineComponent({
               <ul>
                 <li><router-link to="/rental" @click="onCloseMenus">공간 안내</router-link></li>
                 <li><router-link to="/rental/schedule" @click="onCloseMenus">대관 일정</router-link></li>
-                <li><router-link to="/rental/info" @click="onCloseMenus">대관 신청 링크</router-link></li>
+                <li><router-link to="/rental/info" @click="onCloseMenus">대관 신청</router-link></li>
               </ul>
             </section>
           </transition>

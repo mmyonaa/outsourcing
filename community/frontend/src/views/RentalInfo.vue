@@ -10,7 +10,7 @@ export default defineComponent({
 
 <template>
   <div class="page-common rental-page">
-    <h1>대관 신청 링크</h1>
+    <h1>대관 신청 안내</h1>
     <section-tabs />
     <div class="content-wrapper">
       <p class="description">아래 링크를 통해 극장 대관 신청서를 작성해 주세요.</p>

@@ -23,8 +23,8 @@ export default defineComponent({
         <div class="footer-top-right">
           <nav class="footer-links" aria-label="푸터 바로가기">
             <ul>
-              <li><router-link to="/performance">공연</router-link></li>
-              <li><router-link to="/rental/info">대관 안내</router-link></li>
+              <li><router-link to="/performance">활동</router-link></li>
+              <li><router-link to="/rental/info">대관 신청</router-link></li>
               <li><router-link to="/notice">공지사항</router-link></li>
               <li><router-link to="/introduce/route">오시는 길</router-link></li>
             </ul>
