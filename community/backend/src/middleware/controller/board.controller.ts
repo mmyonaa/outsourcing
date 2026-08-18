@@ -5,7 +5,7 @@ import { setEntityParameters } from '../utils/common.util';
 import { RESULT_CODE } from '../../types';
 import * as boardService from '../service/board.service'
 import { CustomError } from '../utils/custom.error';
-import { uploadToS3 } from '../utils/s3.util';
+import { uploadToS3, decodeOriginalName } from '../utils/s3.util';
 
 /**
  * 글 조회
@@ -174,7 +174,8 @@ export const uploadFile = async (ctx: Context) => {
 
     result.data = {
       fileUrl,
-      fileName: file.originalname
+      // multer가 latin1로 디코딩한 파일명을 utf8로 복원 (한글 파일명 깨짐 방지)
+      fileName: decodeOriginalName(file.originalname)
     };
     result.setResultCode(RESULT_CODE.SUCCESS);
   } catch (e) {
