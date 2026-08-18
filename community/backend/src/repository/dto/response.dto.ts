@@ -1,4 +1,4 @@
-import { IResultCode, RESULT_CODE } from "../../../types";
+import { IResultCode, RESULT_CODE } from "../../types";
 import { CustomError } from "../../utils/custom.error";
 
 export class ResponseDto<T> {

@@ -1,7 +1,7 @@
 import * as bannerRepo from '../repository/banner.repository'
 import { BannerEntity, SearchBannerDto } from '../repository/dto/banner.dto';
 import { sql } from '../provider/database.provider'
-import { STATE_YN } from '../../types';
+import { STATE_YN } from '../types';
 import { withDbError } from '../utils/common.util';
 
 /**

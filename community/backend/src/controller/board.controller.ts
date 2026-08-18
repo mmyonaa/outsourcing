@@ -2,7 +2,7 @@ import { Context } from 'koa'
 import { ResponseDto } from '../repository/dto/response.dto';
 import { BoardEntity, SearchBoardDto, UPDATABLE_BOARD_COLUMNS } from '../repository/dto/board.dto';
 import { setEntityParameters } from '../utils/common.util';
-import { RESULT_CODE } from '../../types';
+import { RESULT_CODE } from '../types';
 import * as boardService from '../service/board.service'
 import { CustomError } from '../utils/custom.error';
 import { uploadToS3, decodeOriginalName } from '../utils/s3.util';

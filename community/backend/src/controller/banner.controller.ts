@@ -2,7 +2,7 @@ import { Context } from 'koa'
 import { ResponseDto } from '../repository/dto/response.dto';
 import { BannerEntity, SearchBannerDto, UPDATABLE_BANNER_COLUMNS } from '../repository/dto/banner.dto';
 import { setEntityParameters } from '../utils/common.util';
-import { RESULT_CODE } from '../../types';
+import { RESULT_CODE } from '../types';
 import * as bannerService from '../service/banner.service'
 import { CustomError } from '../utils/custom.error';
 import { uploadToS3 } from '../utils/s3.util';

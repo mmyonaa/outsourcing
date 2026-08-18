@@ -1,6 +1,6 @@
 import {keys} from 'lodash'
 import { CustomError } from './custom.error';
-import { RESULT_CODE } from '../../types';
+import { RESULT_CODE } from '../types';
 
 /**
  * LIKE/ILIKE 패턴 특수문자(%, _, \)를 이스케이프한다.

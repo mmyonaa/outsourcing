@@ -14,9 +14,9 @@ import path from "path";
  */
 export const mountDocs = (app: Koa) => {
   // 실행 위치(cwd)와 무관하게 backend/openapi.yaml 을 찾는다.
-  // dev: src/middleware/docs → ../../../ = backend/
-  // prod: dist/middleware/docs → ../../../ = backend/
-  const specPath = path.join(__dirname, "../../../openapi.yaml");
+  // dev: src/docs → ../../ = backend/
+  // prod: dist/docs → ../../ = backend/
+  const specPath = path.join(__dirname, "../../openapi.yaml");
 
   // 원본 yaml 제공 (별도 yaml 파서 없이 브라우저가 파싱)
   // 부팅 시 1회만 읽어 캐시 — 요청마다 동기 파일 IO 를 하지 않는다

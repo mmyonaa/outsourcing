@@ -1,11 +1,11 @@
 import Koa from 'koa';
 import bodyParser from 'koa-bodyparser';
 import cors from '@koa/cors';
-import boardRouter from './middleware/routes/board.route';
-import perfoRouter from './middleware/routes/performance.route';
-import bannerRouter from './middleware/routes/banner.route';
+import boardRouter from './routes/board.route';
+import perfoRouter from './routes/performance.route';
+import bannerRouter from './routes/banner.route';
 import Router from '@koa/router';
-import { mountDocs } from './middleware/docs/swagger';
+import { mountDocs } from './docs/swagger';
 
 export const getServer = async () => {
   const app = new Koa();

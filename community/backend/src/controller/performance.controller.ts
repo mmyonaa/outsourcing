@@ -2,7 +2,7 @@ import { Context } from "koa";
 import { ResponseDto } from "../repository/dto/response.dto";
 import { PerfoEntity, SearchPerfoDto, UPDATABLE_PERFO_COLUMNS } from "../repository/dto/perfo.dto";
 import { setEntityParameters } from "../utils/common.util";
-import { RESULT_CODE } from "../../types";
+import { RESULT_CODE } from "../types";
 import * as perfoService from "../service/performance.service";
 import { CustomError } from "../utils/custom.error";
 import { uploadToS3 } from "../utils/s3.util";

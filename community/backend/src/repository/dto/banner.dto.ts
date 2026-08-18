@@ -1,4 +1,4 @@
-import { STATE_YN } from "../../../types";
+import { STATE_YN } from "../../types";
 import { BasicListDto } from "./basic.dto";
 
 export class SearchBannerDto extends BasicListDto {
