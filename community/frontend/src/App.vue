@@ -16,28 +16,23 @@ import { RouterView, useRoute } from 'vue-router';
 // 페이지별 메타는 프리렌더(ssg/prerender-seo.ts) + 라우터 beforeEach(setMetaTags)가 담당한다.
 
 const storeManager = initStore();
-const apiClient = getApiClient(AppConfig.API_SERVER, storeManager);
+getApiClient(AppConfig.API_SERVER);
 const route = useRoute();
-const isOpenMobileMenu = computed(() => storeManager.commonStore.isOpenMobileMenu);
-const isHiddenHeader = computed(() => route.name === 'Write' || route.name === 'Edit' || route.name === 'LoginSuccess');
-const isHiddenFooter = computed(() => route.name === 'Write' || route.name === 'Edit' || route.name === 'LoginSuccess');
 const isPopupBg = computed(() => storeManager.stateStore.popupMode?.type === POPUP_TYPE.TABLET_SIDE_MENU);
 
 const onClickBg = () => {
   storeManager.stateStore.setPopupMode({ type: POPUP_TYPE.NONE });
 };
-
-
 </script>
 
 <template>
 	<div class="popup-bg" v-if="isPopupBg" @click="onClickBg"></div>
-  <admin-mega-menu v-if="route.path.startsWith('/admin')" :class="{ 'is-hidden': isHiddenHeader }"></admin-mega-menu>
-  <mega-menu v-else :class="{ 'is-hidden': isHiddenHeader }"></mega-menu>
-  <div class="page" :class="[{ 'hidden-header': isHiddenHeader, 'search-bar-open-page': storeManager.stateStore.isOpenSearchBar }]">
+  <admin-mega-menu v-if="route.path.startsWith('/admin')"></admin-mega-menu>
+  <mega-menu v-else></mega-menu>
+  <div class="page">
     <router-view :key="$route.path" />
   </div>
-  <layout-footer :class="{ 'is-hidden': isHiddenFooter }"></layout-footer>
+  <layout-footer></layout-footer>
   <scroll-to-top />
 </template>
 

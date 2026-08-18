@@ -1,44 +1,21 @@
 import axios, { type AxiosInstance } from 'axios';
 import AppConfig from '../constants';
-import { StoreManager } from '@/stores/store-manager';
 
+// 이 사이트는 로그인이 없는 설계라 인증 토큰 배관(setApiToken/getApiHeader)은 제거됨.
+// 공통 헤더는 axios 인스턴스 기본값으로 충분하다.
 let apiClient: AxiosInstance | undefined;
-let apiToken: string | undefined;
 
-export function setApiToken(token: string): void {
-  if (!token || token === '') return;
-  apiToken = token;
-  if (apiClient) apiClient.defaults.headers.common['Authorization'] = `BK_THEATER ` + token;
-}
-
-export function setApiBaseUrl(url: string): void {
-  if (apiClient) apiClient.defaults.baseURL = url;
-}
-
-export const getApiHeader = () => {
-  const header = {
-    'Content-type': 'application/json',
-  };
-  if (apiToken) Object.assign(header, { Authorization: `BK_THEATER ${apiToken}` });
-
-  return {
-    headers: header,
-  };
-};
-
-export function getApiClient(baseUrl = AppConfig.API_SERVER, storeManager?: StoreManager): AxiosInstance {
+export function getApiClient(baseUrl = AppConfig.API_SERVER): AxiosInstance {
   if (!apiClient) {
     apiClient = axios.create({
-      baseURL: AppConfig.API_SERVER,
+      baseURL: baseUrl,
       headers: {
-        'Content-type': 'application/json',
+        'Content-Type': 'application/json',
       },
     });
   }
 
-  setApiBaseUrl(baseUrl);
-
-  if (storeManager?.dataStore.authToken) setApiToken(storeManager.dataStore.authToken);
+  apiClient.defaults.baseURL = baseUrl;
 
   return apiClient;
 }

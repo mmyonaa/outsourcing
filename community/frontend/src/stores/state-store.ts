@@ -8,13 +8,11 @@ export interface PopupMode {
   detail?: any;
 }
 export const useStateStore = defineStore('state', () => {
-  const popupMode = ref<PopupMode>(); // 로그인 인증 토큰
-  const isLoading = ref<boolean>(false);
-  const isOpenSearchBar = ref<boolean>(false);
+  const popupMode = ref<PopupMode>(); // 현재 열린 팝업 종류
 
   function setPopupMode(v: PopupMode) {
     popupMode.value = v;
-    if (typeof Window === 'undefined') return;
+    if (typeof window === 'undefined') return;
     if (popupMode.value.type !== POPUP_TYPE.NONE && popupMode.value.type !== POPUP_TYPE.COPY_TOAST) {
       scrollDisable();
     } else {
@@ -22,19 +20,8 @@ export const useStateStore = defineStore('state', () => {
     }
   }
 
-  function setLoading(v: boolean) {
-    isLoading.value = v;
-  }
-  function setIsOpenSearchBar(v: boolean) {
-    isOpenSearchBar.value = v;
-  }
-
   return {
     popupMode,
-    isLoading,
-    isOpenSearchBar,
     setPopupMode,
-    setLoading,
-    setIsOpenSearchBar,
   };
 });

@@ -1,7 +1,6 @@
 import type { AxiosInstance } from 'axios';
 import { ResponseDto } from '@/api/dto/response.dto';
 import { PerfoEntity, SearchPerfoDto } from '@/api/dto/perfo.dto';
-import { getApiHeader } from '@/utils/apiClient';
 import { apiRequest } from '@/api/request.util';
 
 /**
@@ -9,7 +8,7 @@ import { apiRequest } from '@/api/request.util';
  */
 export function getPerfoList(apiClient: AxiosInstance, params: SearchPerfoDto): Promise<ResponseDto<PerfoEntity[]>> {
   return apiRequest<PerfoEntity[]>(() =>
-    apiClient.get('/perfo/getperfoList', { headers: getApiHeader().headers, params }),
+    apiClient.get('/perfo/getperfoList', { params }),
   );
 }
 
@@ -17,19 +16,19 @@ export function getPerfoList(apiClient: AxiosInstance, params: SearchPerfoDto): 
  * 공연 등록
  */
 export function insertPerfo(apiClient: AxiosInstance, params: PerfoEntity): Promise<ResponseDto<PerfoEntity>> {
-  return apiRequest<PerfoEntity>(() => apiClient.post('/perfo/insertperfo', params, getApiHeader()));
+  return apiRequest<PerfoEntity>(() => apiClient.post('/perfo/insertperfo', params));
 }
 
 /**
  * 공연 수정 (resultCode 무관하게 응답 반환 - 기존 동작 유지)
  */
 export function updatePerfo(apiClient: AxiosInstance, params: PerfoEntity): Promise<ResponseDto<PerfoEntity>> {
-  return apiRequest<PerfoEntity>(() => apiClient.post('/perfo/updateperfo', params, getApiHeader()), { strict: false });
+  return apiRequest<PerfoEntity>(() => apiClient.post('/perfo/updateperfo', params), { strict: false });
 }
 
 /**
  * 공연 삭제 (resultCode 무관하게 응답 반환 - 기존 동작 유지)
  */
 export function deletePerfo(apiClient: AxiosInstance, params: any): Promise<ResponseDto<PerfoEntity>> {
-  return apiRequest<PerfoEntity>(() => apiClient.post('/perfo/deleteperfo', params, getApiHeader()), { strict: false });
+  return apiRequest<PerfoEntity>(() => apiClient.post('/perfo/deleteperfo', params), { strict: false });
 }
