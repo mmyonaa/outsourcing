@@ -20,6 +20,9 @@ export default defineComponent({
     const isSubMenuVisible = ref<boolean>(false);
     const isTabletMenuVisibleType = ref<string | null>(null);
 
+    // (tablet ~ mobile) 사이드 메뉴 열림 여부
+    const isSideMenuOpen = computed(() => storeManager.stateStore.popupMode?.type === POPUP_TYPE.TABLET_SIDE_MENU);
+
     // 경로 기준으로 active 메뉴 판단용
     // DEV 환경에서만 url 매핑 (필요하면 env에 따라 확장 가능)
     const urlMap = {
@@ -84,6 +87,11 @@ export default defineComponent({
       isActive.value = window.scrollY > 0;
     };
 
+    // ESC로 사이드 메뉴 닫기
+    const handleKeydown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && isSideMenuOpen.value) onClickTabletMenu(false);
+    };
+
     const onClickLogo = () => {
       onClickMenu(urlMap.introduce);
     };
@@ -94,21 +102,27 @@ export default defineComponent({
         if (storeManager.stateStore.popupMode?.type !== POPUP_TYPE.TABLET_SIDE_MENU) {
           isTabletMenuVisibleType.value = null;
         }
+        // 사이드 메뉴 오픈 중 배경 스크롤 잠금
+        document.body.style.overflow = isSideMenuOpen.value ? 'hidden' : '';
       },
     );
 
     onMounted(() => {
       document.addEventListener('scroll', handleScroll);
+      document.addEventListener('keydown', handleKeydown);
     });
 
     onUnmounted(() => {
       document.removeEventListener('scroll', handleScroll);
+      document.removeEventListener('keydown', handleKeydown);
+      document.body.style.overflow = '';
     });
 
     return {
       isActive,
       headerType,
       isSubMenuVisible,
+      isSideMenuOpen,
       isTabletMenuVisibleType,
       activeMenu,
       POPUP_TYPE,
@@ -180,8 +194,11 @@ export default defineComponent({
     </header>
 
     <!-- Tablet & mobile side menu -->
+    <transition name="fade">
+      <div v-show="isSideMenuOpen" class="side-menu-backdrop" @click="onClickTabletMenu(false)"></div>
+    </transition>
     <transition name="slide">
-      <section v-show="storeManager.stateStore.popupMode?.type === POPUP_TYPE.TABLET_SIDE_MENU" class="main-menu-section-tablet">
+      <section v-show="isSideMenuOpen" class="main-menu-section-tablet">
         <ul>
           <li class="close-wrapper">
             <img class="logo-img" src="/assets/images/logo/theater.png" alt="보광극장 로고" />

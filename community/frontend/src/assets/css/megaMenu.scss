@@ -334,6 +334,24 @@ header {
   }
 }
 
+// 사이드 메뉴 뒤 딤 배경 (탭하면 메뉴 닫힘)
+.side-menu-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 101;
+
+  &.fade-enter-active,
+  &.fade-leave-active {
+    transition: opacity 0.3s ease;
+  }
+
+  &.fade-enter-from,
+  &.fade-leave-to {
+    opacity: 0;
+  }
+}
+
 // 우측에서 슬라이드로 열리는 menu
 .main-menu-section-tablet {
   background-color: $colorWhite;
