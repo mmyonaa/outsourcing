@@ -51,7 +51,6 @@ export const createApp = ViteSSG(
     // 스크롤 리빌 애니메이션 (전역 디렉티브)
     app.directive('reveal', vReveal);
 
-    // @ts-ignore
     if (import.meta.env.SSR) initialState.pinia = pinia.state.value;
     else pinia.state.value = initialState.pinia || {};
 
