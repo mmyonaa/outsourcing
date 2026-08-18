@@ -7,10 +7,12 @@ import { getBannerList } from '@/api/banner.api';
 import { BannerEntity, SearchBannerDto } from '@/api/dto/banner.dto';
 import BaseImageSet from '@/components/common/BaseImageSet.vue';
 import { getApiClient } from '@/utils/apiClient';
+import { handleImageError } from '@/utils/common-util';
+import { getCategoryLabel } from '@/utils/perfo-util';
 import { defineComponent, onMounted, onUnmounted, ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import dayjs from 'dayjs';
-import { TYPE_BOARD, TYPE_PERFO, TYPE_PERFO_CATEGORY } from '@/types';
+import { TYPE_BOARD, TYPE_PERFO } from '@/types';
 
 export default defineComponent({
   name: 'Home',
@@ -129,30 +131,11 @@ export default defineComponent({
       router.push('/rental/info');
     };
 
-    const handleImageError = (event: Event) => {
-      const target = event.target as HTMLImageElement;
-      target.onerror = null; // 기본 썸네일마저 깨질 때 에러 루프 방지
-      target.src = '/assets/images/common/default-thumbnail.svg';
-    };
-
     // 배너에 마우스를 올리는 동안 자동 슬라이드 일시정지 (접근성: 움직임 제어 수단 제공)
     const pauseBannerAutoSlide = () => {
       if (bannerIntervalId) {
         clearInterval(bannerIntervalId);
         bannerIntervalId = null;
-      }
-    };
-
-    const getCategoryLabel = (category: string | undefined) => {
-      switch (category) {
-        case TYPE_PERFO_CATEGORY.PERFO:
-          return '공연';
-        case TYPE_PERFO_CATEGORY.EDU:
-          return '교육';
-        case TYPE_PERFO_CATEGORY.EVENT:
-          return '행사';
-        default:
-          return '';
       }
     };
 
@@ -188,7 +171,6 @@ export default defineComponent({
       goToBanner,
       pauseBannerAutoSlide,
       startBannerAutoSlide,
-      TYPE_PERFO_CATEGORY,
     };
   },
 });
