@@ -94,15 +94,30 @@ export default defineComponent({
 </script>
 
 <template>
-  <div v-if="totalPages > 1" class="pagination">
+  <nav v-if="totalPages > 1" class="pagination" aria-label="페이지네이션">
     <base-image-set
       src="/assets/images/common/icons/left-black-arrow.webp"
       :img-sets="3"
       class="page-number"
       :class="{ noCursor: currentPage === 1 }"
-      @click="prevNum" />
+      role="button"
+      tabindex="0"
+      aria-label="이전 페이지"
+      :aria-disabled="currentPage === 1"
+      @click="prevNum"
+      @keydown.enter="prevNum" />
     <section class="page-number-section">
-      <span v-for="page in generatePageNumbers()" :key="page" :class="{ active: currentPage === page }" class="page-number" @click="goToPage(page)">
+      <span
+        v-for="page in generatePageNumbers()"
+        :key="page"
+        :class="{ active: currentPage === page }"
+        class="page-number"
+        role="button"
+        tabindex="0"
+        :aria-label="`${page}페이지`"
+        :aria-current="currentPage === page ? 'page' : undefined"
+        @click="goToPage(page)"
+        @keydown.enter="goToPage(page)">
         {{ page }}
       </span>
     </section>
@@ -111,8 +126,13 @@ export default defineComponent({
       :img-sets="3"
       class="page-number"
       :class="{ noCursor: currentPage === totalPages }"
-      @click="nextNum" />
-  </div>
+      role="button"
+      tabindex="0"
+      aria-label="다음 페이지"
+      :aria-disabled="currentPage === totalPages"
+      @click="nextNum"
+      @keydown.enter="nextNum" />
+  </nav>
 </template>
 
 <style scoped></style>
