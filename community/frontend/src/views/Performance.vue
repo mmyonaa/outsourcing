@@ -476,7 +476,7 @@ export default defineComponent({
 /* 카테고리 태그와 제목을 한 줄에 배치 */
 .category-title-wrapper {
   display: flex;
-  align-items: center;
+  align-items: flex-start; /* 제목 2줄일 때 태그를 첫 줄에 정렬 */
   gap: 0.8rem;
   margin-bottom: 0.2rem;
 }
@@ -514,8 +514,9 @@ export default defineComponent({
   font-weight: 700;
   color: #333;
   overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   line-height: 1.4;
   margin: 0;
   flex: 1;
