@@ -10,6 +10,7 @@ export class SearchPerfoDto extends BasicListDto {
 
 // updatePerfo 에서 수정을 허용하는 컬럼 — 클라이언트가 실제로 보낸 필드와
 // 교집합을 내어 그 컬럼만 SET 한다.
+// views 는 increaseViews 엔드포인트로만 변경 가능 (임의 값 저장 방지)
 export const UPDATABLE_PERFO_COLUMNS: (keyof PerfoEntity)[] = [
   "title",
   "titleSec",
@@ -17,7 +18,6 @@ export const UPDATABLE_PERFO_COLUMNS: (keyof PerfoEntity)[] = [
   "body",
   "category",
   "imgUrl",
-  "views",
 ];
 
 export class PerfoEntity {
