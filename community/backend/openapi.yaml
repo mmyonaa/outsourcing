@@ -84,6 +84,7 @@ paths:
     post:
       tags: [performance]
       summary: 공연 수정
+      description: 요청에 포함된 필드만 수정됩니다(부분 수정). 삭제는 deleteperfo 를 사용하세요.
       requestBody:
         required: true
         content:
@@ -99,6 +100,23 @@ paths:
     post:
       tags: [performance]
       summary: 공연 삭제
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [perIdx]
+              properties:
+                perIdx: { type: string }
+      responses:
+        "200": { $ref: "#/components/responses/PerfoSingle" }
+
+  /perfo/increaseViews:
+    post:
+      tags: [performance]
+      summary: 공연 조회수 증가
+      description: 서버에서 원자적으로 조회수를 +1 합니다. update API로 조회수를 보내는 방식 대신 사용하세요.
       requestBody:
         required: true
         content:
@@ -154,6 +172,7 @@ paths:
     post:
       tags: [board]
       summary: 게시글 수정
+      description: 요청에 포함된 필드만 수정됩니다(부분 수정). 삭제는 deleteBoard 를 사용하세요.
       requestBody:
         required: true
         content:
@@ -169,6 +188,23 @@ paths:
     post:
       tags: [board]
       summary: 게시글 삭제
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [boardIdx]
+              properties:
+                boardIdx: { type: string }
+      responses:
+        "200": { $ref: "#/components/responses/BoardSingle" }
+
+  /board/increaseViews:
+    post:
+      tags: [board]
+      summary: 게시글 조회수 증가
+      description: 서버에서 원자적으로 조회수를 +1 합니다. update API로 조회수를 보내는 방식 대신 사용하세요.
       requestBody:
         required: true
         content:
@@ -253,6 +289,7 @@ paths:
     post:
       tags: [banner]
       summary: 배너 수정
+      description: 요청에 포함된 필드만 수정됩니다(부분 수정). 기본 배너(bannerIdx=default)는 활성 상태만 갱신됩니다.
       requestBody:
         required: true
         content:
