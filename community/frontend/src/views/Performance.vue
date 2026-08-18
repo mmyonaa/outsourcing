@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, onMounted, ref, watch } from 'vue';
+import { computed, defineComponent, onMounted, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import BasePagination from '@/components/common/BasePagination.vue';
 import EmptyState from '@/components/common/EmptyState.vue';
@@ -27,14 +27,14 @@ export default defineComponent({
     const searchKeyword = ref<string>('');
     const selectedCategory = ref<string>('');
     const ROWS_PER_PAGE = 8; // 한 페이지당 8개
+    const currentPage = computed(() => (route.query.pageNo ? Number(route.query.pageNo) : 1));
 
     const loadPerfoList = async () => {
-      const currentPage = route.query.pageNo ? Number(route.query.pageNo) : 1;
       const param = new SearchPerfoDto();
       param.perType = TYPE_PERFO.NORMAL;
       param.keyword = searchKeyword.value || undefined;
       param.category = selectedCategory.value || undefined;
-      param.page = currentPage;
+      param.page = currentPage.value;
       param.rows = ROWS_PER_PAGE;
       appliedKeyword.value = searchKeyword.value;
 
@@ -58,10 +58,16 @@ export default defineComponent({
         });
     };
 
+    // 1페이지로 이동 후 재조회. 로드는 pageNo watch 한 곳에서만 트리거한다.
+    // (push + 직접 load() 를 같이 하면 같은 요청이 2번 나가고, 응답 순서에 따라
+    //  이전 페이지 결과가 화면을 덮는 레이스가 있었다)
+    const goFirstPageAndLoad = () => {
+      if (currentPage.value === 1) loadPerfoList();
+      else router.push({ query: { ...route.query, pageNo: 1 } });
+    };
+
     const handleSearch = () => {
-      // 검색 시 1페이지로 이동하고 데이터 로드
-      router.push({ query: { ...route.query, pageNo: 1 } });
-      loadPerfoList();
+      goFirstPageAndLoad();
     };
 
     const filterByCategory = (category: string) => {
@@ -70,9 +76,7 @@ export default defineComponent({
       } else {
         selectedCategory.value = category;
       }
-      // 필터 변경 시 1페이지로 이동하고 데이터 로드
-      router.push({ query: { ...route.query, pageNo: 1 } });
-      loadPerfoList();
+      goFirstPageAndLoad();
     };
 
     const getCategoryLabel = (category: string | undefined) => {
@@ -91,13 +95,12 @@ export default defineComponent({
     const resetFilters = () => {
       searchKeyword.value = '';
       selectedCategory.value = '';
-      // 초기화 시 1페이지로 이동하고 데이터 로드
-      router.push({ query: { ...route.query, pageNo: 1 } });
-      loadPerfoList();
+      goFirstPageAndLoad();
     };
 
     const handleImageError = (event: Event) => {
       const target = event.target as HTMLImageElement;
+      target.onerror = null; // 기본 썸네일마저 깨질 때 에러 루프 방지
       target.src = '/assets/images/common/default-thumbnail.svg';
     };
 
@@ -105,6 +108,8 @@ export default defineComponent({
     watch(
       () => route.query.pageNo,
       () => {
+        // 상세로 이탈할 때도 pageNo가 사라지며 watch가 발동하므로, 이 페이지일 때만 로드
+        if (route.name !== 'performance') return;
         loadPerfoList();
       }
     );

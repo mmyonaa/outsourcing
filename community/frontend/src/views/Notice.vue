@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, onMounted, ref, watch } from 'vue';
+import { computed, defineComponent, onMounted, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import BasePagination from '@/components/common/BasePagination.vue';
 import EmptyState from '@/components/common/EmptyState.vue';
@@ -7,7 +7,7 @@ import ErrorState from '@/components/common/ErrorState.vue';
 import ListRowSkeleton from '@/components/common/ListRowSkeleton.vue';
 import { BoardEntity, SearchBoardDto } from '@/api/dto/board.dto';
 import { getApiClient } from '@/utils/apiClient';
-import { getBoardList, updateBoard } from '@/api/board.api';
+import { getBoardList } from '@/api/board.api';
 import dayjs from 'dayjs';
 import { STATE_YN, TYPE_BOARD } from '@/types';
 import SectionTabs from '@/components/common/SectionTabs.vue';
@@ -27,17 +27,18 @@ export default defineComponent({
     const error = ref<boolean>(false);
     const searchKeyword = ref<string>('');
     const ROWS_PER_PAGE = 10; // 한 페이지당 10개
+    const currentPage = computed(() => (route.query.pageNo ? Number(route.query.pageNo) : 1));
 
-    const loadBoardLit = async () => {
-      const currentPage = route.query.pageNo ? Number(route.query.pageNo) : 1;
+    const loadBoardList = async () => {
       const param = new SearchBoardDto();
       param.boardType = TYPE_BOARD.NORMAL;
       param.keyword = searchKeyword.value || undefined;
-      param.page = currentPage;
+      param.page = currentPage.value;
       param.rows = ROWS_PER_PAGE;
       appliedKeyword.value = searchKeyword.value;
 
       loading.value = true;
+      error.value = false; // 재시도 시 에러 화면이 영영 남지 않도록 리셋
       await getBoardList(apiClient, param)
         .then(res => {
           if (res.resultCode === 0 && res.data) {
@@ -56,17 +57,21 @@ export default defineComponent({
         });
     };
 
+    // 1페이지로 이동 후 재조회. 로드는 pageNo watch 한 곳에서만 트리거한다.
+    // (push + 직접 load() 를 같이 하면 같은 요청이 2번 나가고, 응답 순서에 따라
+    //  이전 페이지 결과가 화면을 덮는 레이스가 있었다)
+    const goFirstPageAndLoad = () => {
+      if (currentPage.value === 1) loadBoardList();
+      else router.push({ query: { ...route.query, pageNo: 1 } });
+    };
+
     const handleSearch = () => {
-      // 검색 시 1페이지로 이동하고 데이터 로드
-      router.push({ query: { ...route.query, pageNo: 1 } });
-      loadBoardLit();
+      goFirstPageAndLoad();
     };
 
     const resetSearch = () => {
       searchKeyword.value = '';
-      // 초기화 시 1페이지로 이동하고 데이터 로드
-      router.push({ query: { ...route.query, pageNo: 1 } });
-      loadBoardLit();
+      goFirstPageAndLoad();
     };
 
     const goToDetail = (boardIdx: string | undefined) => {
@@ -79,18 +84,22 @@ export default defineComponent({
     watch(
       () => route.query.pageNo,
       () => {
-        loadBoardLit();
+        // 상세로 이탈할 때도 pageNo가 사라지며 watch가 발동하므로, 이 페이지일 때만 로드
+        if (route.name !== 'notice') return;
+        loadBoardList();
       }
     );
 
     onMounted(() => {
-      loadBoardLit();
+      loadBoardList();
     });
     return {
       notices,
       loading,
       error,
-      loadBoardLit,
+      loadBoardList,
+      currentPage,
+      ROWS_PER_PAGE,
       totalPage,
       totalCount,
       appliedKeyword,
@@ -138,7 +147,7 @@ export default defineComponent({
     </div>
 
     <!-- 불러오기 실패 -->
-    <error-state v-else-if="error" @retry="loadBoardLit" />
+    <error-state v-else-if="error" @retry="loadBoardList" />
 
     <!-- 결과가 있을 때 -->
     <div v-reveal v-else-if="notices.length > 0" class="notice-list">
@@ -159,7 +168,7 @@ export default defineComponent({
             <img v-if="notice.bestYn === STATE_YN.Y" src="/assets/images/board/important.png" />
             <div v-else></div>
           </div>
-          <div class="col index">{{ index + 1 }}</div>
+          <div class="col index">{{ (currentPage - 1) * ROWS_PER_PAGE + index + 1 }}</div>
 
           <div class="col title">{{ notice.title }}</div>
           <div class="col views">{{ notice.views }}</div>
