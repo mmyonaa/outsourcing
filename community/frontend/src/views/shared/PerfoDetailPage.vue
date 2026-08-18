@@ -157,9 +157,9 @@ export default defineComponent({
 
     // 관련 공연 카드로 이동하면 라우트만 바뀌고 컴포넌트는 재사용되므로 id를 감시해 재로딩
     watch(currentId, () => {
-      // 목록으로 이탈할 때도 watch가 발동하는데, 그때 params.id 가 사라져
-      // "undefined" id 로 API 를 호출하게 되므로 가드한다
-      if (!route.params.id) return;
+      // 이 상세 계열을 벗어나는 이동(목록 이탈, 다른 :id 라우트)에서도 watch가
+      // 발동할 수 있으므로 현재 경로가 이 페이지일 때만 재로딩한다
+      if (!route.params.id || !route.path.startsWith(`${props.listPath}/`)) return;
       init();
     });
 

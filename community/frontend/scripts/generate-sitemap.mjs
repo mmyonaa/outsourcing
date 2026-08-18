@@ -84,7 +84,7 @@ const DYNAMIC_SOURCES = [
     priority: '0.6',
   },
   {
-    name: '역대 공연',
+    name: '자체 프로그램',
     path: '/perfo/getperfoList',
     query: { perType: 'NORMAL' },
     toUrl: (it) => (it.perIdx ? `/performance/${it.perIdx}` : null),
@@ -92,7 +92,7 @@ const DYNAMIC_SOURCES = [
     priority: '0.7',
   },
   {
-    name: '예정 공연',
+    name: '대관 프로그램',
     path: '/perfo/getperfoList',
     query: { perType: 'NEXT' },
     toUrl: (it) => (it.perIdx ? `/performance/next/${it.perIdx}` : null),
