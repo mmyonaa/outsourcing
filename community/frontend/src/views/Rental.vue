@@ -1,6 +1,10 @@
 <script lang="ts">
-import { defineComponent, onMounted, ref } from 'vue';
+import { defineComponent, ref } from 'vue';
 import SectionTabs from '@/components/common/SectionTabs.vue';
+
+// '대관 관련 공지사항' 게시글 링크. 해당 공지를 다시 등록하면 이 값만 갱신하면 된다.
+// (글이 삭제되면 데드링크가 되므로 공지 교체 시 함께 확인할 것)
+const RENTAL_NOTICE_PATH = '/notice/57275967-0e45-4878-b639-7a78c60bebe5';
 
 export default defineComponent({
   name: 'rental',
@@ -8,36 +12,18 @@ export default defineComponent({
   setup() {
     const activeIndex = ref<number>(0);
     const posters = [
-      {
-        image: '/assets/images/theater/theater-1.JPG',
-        description: 'Image 1에 대한 설명입니다.',
-      },
-      {
-        image: '/assets/images/theater/theater-2.JPG',
-        description: 'Image 2에 대한 설명입니다.',
-      },
-      {
-        image: '/assets/images/theater/theater-3.JPG',
-        description: 'Image 3에 대한 설명입니다.',
-      },
-      {
-        image: '/assets/images/theater/theater-4.JPG',
-        description: 'Image 4에 대한 설명입니다.',
-      },
-      {
-        image: '/assets/images/theater/theater-5.JPG',
-        description: 'Image 5에 대한 설명입니다.',
-      },
-      {
-        image: '/assets/images/theater/theater-6.JPG',
-        description: 'Image 6에 대한 설명입니다.',
-      },
+      { image: '/assets/images/theater/theater-1.JPG' },
+      { image: '/assets/images/theater/theater-2.JPG' },
+      { image: '/assets/images/theater/theater-3.JPG' },
+      { image: '/assets/images/theater/theater-4.JPG' },
+      { image: '/assets/images/theater/theater-5.JPG' },
+      { image: '/assets/images/theater/theater-6.JPG' },
     ];
 
-    onMounted(() => {});
     return {
       posters,
       activeIndex,
+      RENTAL_NOTICE_PATH,
     };
   },
 });
@@ -66,7 +52,7 @@ export default defineComponent({
 
       <!-- 우측: 추가 이미지 -->
       <div class="info-section">
-        <router-link to="/notice/57275967-0e45-4878-b639-7a78c60bebe5" class="down-link">
+        <router-link :to="RENTAL_NOTICE_PATH" class="down-link">
           대관 관련 자료 다운받기
         </router-link>
         <img src="/assets/images/theater/pyo.png" alt="극장 정보" class="info-image" />

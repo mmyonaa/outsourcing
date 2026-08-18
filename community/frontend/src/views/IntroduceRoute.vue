@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, onMounted, ref } from 'vue';
+import { defineComponent, onMounted, onUnmounted, ref } from 'vue';
 import copy from 'copy-to-clipboard';
 import SectionTabs from '@/components/common/SectionTabs.vue';
 
@@ -18,9 +18,9 @@ export default defineComponent({
   name: 'IntroduceRoute',
   components: { SectionTabs },
   setup() {
-    const mapContainer = ref<HTMLElement | null>(null);
     const mapFailed = ref<boolean>(false); // SDK 로드 실패 시 폴백 표시
     const addressCopied = ref<boolean>(false);
+    let retryTimerId: ReturnType<typeof setTimeout> | null = null; // SDK 로드 재시도 타이머 (unmount 시 정리)
 
     const kakaoMapUrl = `https://map.kakao.com/link/map/보광극장,${THEATER_LAT},${THEATER_LNG}`;
     const kakaoRouteUrl = `https://map.kakao.com/link/to/보광극장,${THEATER_LAT},${THEATER_LNG}`;
@@ -40,13 +40,17 @@ export default defineComponent({
         if (window.kakao && window.kakao.maps) {
           window.kakao.maps.load(() => initMap());
         } else if (attempt < 20) {
-          setTimeout(() => tryInit(attempt + 1), 150);
+          retryTimerId = setTimeout(() => tryInit(attempt + 1), 150);
         } else {
           // SDK 로드 실패: 빈 박스 대신 폴백 안내 표시
           mapFailed.value = true;
         }
       };
       tryInit();
+    });
+
+    onUnmounted(() => {
+      if (retryTimerId) clearTimeout(retryTimerId);
     });
 
     const initMap = () => {
@@ -80,7 +84,6 @@ export default defineComponent({
     };
 
     return {
-      mapContainer,
       mapFailed,
       addressCopied,
       copyAddress,

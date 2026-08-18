@@ -44,7 +44,7 @@ export default defineComponent({
     <section-tabs />
 
     <div class="google-calendar-container">
-      <iframe :src="calendarSrc" width="100%" height="600" frameborder="0" scrolling="no"></iframe>
+      <iframe :src="calendarSrc" title="보광극장 대관 스케줄 캘린더" width="100%" height="600"></iframe>
     </div>
 
     <!-- 스케줄 확인 → 대관 신청 유도 -->
