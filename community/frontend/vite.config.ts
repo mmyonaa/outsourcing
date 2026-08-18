@@ -14,9 +14,14 @@ export default defineConfig({
       injectRegister: null,
       registerType: 'autoUpdate',
       workbox: {
-        globPatterns: ['**/*{js,html,wasm,css}'],
+        // 앱 셸 자산 + 루트 index.html 만 프리캐시한다.
+        // (기존 '**/*{js,html,wasm,css}' 는 점(.) 누락으로 "js로 끝나는 아무 파일"을 매칭했고,
+        //  html 포함으로 프리렌더된 모든 상세 페이지가 프리캐시되어 글이 늘수록
+        //  첫 방문 다운로드가 비대해지는 문제가 있었다)
+        globPatterns: ['**/*.{js,css,wasm}', 'index.html'],
         maximumFileSizeToCacheInBytes: 5000000,
-        cleanupOutdatedCaches: false,
+        // 배포마다 옛 프리캐시를 정리해 사용자 스토리지가 계속 불어나지 않게 한다
+        cleanupOutdatedCaches: true,
         // /api/* (Swagger 문서 포함)는 SPA가 아니므로 서비스워커의
         // index.html 네비게이션 폴백에서 제외한다
         navigateFallbackDenylist: [/^\/api\//],

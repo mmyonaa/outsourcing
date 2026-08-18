@@ -532,6 +532,17 @@ export default defineComponent({
   border-radius: 12px;
   background: #f5f5f5;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  position: relative;
+}
+
+/* 흰 배경 포스터 경계선 오버레이 */
+.related-image::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.06);
+  pointer-events: none;
 }
 
 .related-image img {
