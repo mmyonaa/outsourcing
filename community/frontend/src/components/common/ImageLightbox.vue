@@ -72,9 +72,11 @@ export default defineComponent({
 </template>
 
 <style scoped>
+/* 기본은 흐름 높이(auto). 부모가 stretch되는 그리드/플렉스에서 height:100%를 쓰면
+   래퍼가 부풀어 뒤 요소를 밀어내므로, 꽉 채움이 필요한 곳에서만 :deep으로 지정한다. */
 .lightbox-trigger {
+  display: block;
   width: 100%;
-  height: 100%;
 }
 
 .lightbox-trigger.zoomable {

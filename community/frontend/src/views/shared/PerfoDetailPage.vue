@@ -298,6 +298,11 @@ export default defineComponent({
   position: relative;
 }
 
+/* 고정 비율(5/8) 래퍼를 라이트박스 트리거가 꽉 채우도록 */
+.thumbnail-wrapper :deep(.lightbox-trigger) {
+  height: 100%;
+}
+
 /* 흰 배경 포스터 경계선 오버레이 */
 .thumbnail-wrapper::after {
   content: '';
