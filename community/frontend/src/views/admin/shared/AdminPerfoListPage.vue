@@ -112,29 +112,31 @@ export default defineComponent({
 
     <!-- 검색바와 카테고리 필터 -->
     <div class="search-category-container">
-      <!-- 카테고리 필터 버튼 -->
+      <!-- 카테고리 필터 버튼 (공개 목록과 동일한 칩 디자인) -->
       <div class="category-filter-wrapper">
-        <button
-          class="category-filter-btn category-perfo"
-          :class="{ active: selectedCategory === TYPE_PERFO_CATEGORY.PERFO }"
-          @click="filterByCategory(TYPE_PERFO_CATEGORY.PERFO)">
-          공연
-        </button>
-        <button
-          class="category-filter-btn category-edu"
-          :class="{ active: selectedCategory === TYPE_PERFO_CATEGORY.EDU }"
-          @click="filterByCategory(TYPE_PERFO_CATEGORY.EDU)">
-          교육
-        </button>
-        <button
-          class="category-filter-btn category-event"
-          :class="{ active: selectedCategory === TYPE_PERFO_CATEGORY.EVENT }"
-          @click="filterByCategory(TYPE_PERFO_CATEGORY.EVENT)">
-          행사
-        </button>
+        <div class="category-chips">
+          <button
+            class="category-filter-btn category-perfo"
+            :class="{ active: selectedCategory === TYPE_PERFO_CATEGORY.PERFO }"
+            @click="filterByCategory(TYPE_PERFO_CATEGORY.PERFO)">
+            공연
+          </button>
+          <button
+            class="category-filter-btn category-edu"
+            :class="{ active: selectedCategory === TYPE_PERFO_CATEGORY.EDU }"
+            @click="filterByCategory(TYPE_PERFO_CATEGORY.EDU)">
+            교육
+          </button>
+          <button
+            class="category-filter-btn category-event"
+            :class="{ active: selectedCategory === TYPE_PERFO_CATEGORY.EVENT }"
+            @click="filterByCategory(TYPE_PERFO_CATEGORY.EVENT)">
+            행사
+          </button>
+        </div>
         <button class="reset-filter-btn" @click="resetFilters">
           <span class="reset-icon">↻</span>
-          초기화
+          <span class="reset-text">초기화</span>
         </button>
       </div>
 
@@ -253,79 +255,126 @@ export default defineComponent({
   transform: translateY(0);
 }
 
-/* 카테고리 필터 버튼 */
+/* 카테고리 필터 영역: 칩 그룹 + 초기화 — 공개 목록(PerfoListPage)과 동일한 디자인 */
 .category-filter-wrapper {
   display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: nowrap;
+}
+
+.category-chips {
+  display: flex;
   gap: 0.75rem;
-  flex-wrap: wrap;
 }
 
+/* 카테고리 필터 버튼 - 알약(pill) + 카테고리 색상 도트 */
 .category-filter-btn {
-  padding: 1.2rem 1.8rem;
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1.35rem;
+  border-radius: 999px;
+  font-size: 15px;
+  font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.18s ease;
   white-space: nowrap;
+  background: #fff;
+  border: 1.5px solid #e6e6e6;
+  color: #555;
 }
 
-.category-filter-btn.category-perfo {
-  background: rgba(115, 110, 146, 0.15);
-  color: #736e92;
-  border: 1.5px solid rgba(115, 110, 146, 0.3);
+/* 카테고리 색상 도트 */
+.category-filter-btn::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: background 0.18s ease;
 }
 
-.category-filter-btn.category-edu {
-  background: rgba(167, 47, 71, 0.15);
-  color: #a72f47;
-  border: 1.5px solid rgba(167, 47, 71, 0.3);
+.category-filter-btn.category-perfo::before {
+  background: #736e92;
+}
+.category-filter-btn.category-edu::before {
+  background: #a72f47;
+}
+.category-filter-btn.category-event::before {
+  background: #585440;
 }
 
-.category-filter-btn.category-event {
-  background: rgba(88, 84, 64, 0.15);
-  color: #585440;
-  border: 1.5px solid rgba(88, 84, 64, 0.3);
-}
-
+/* 호버(비활성): 해당 카테고리 색으로 테두리 + 연한 배경 */
 .category-filter-btn:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+.category-filter-btn.category-perfo:hover {
+  border-color: #736e92;
+  background: rgba(115, 110, 146, 0.07);
+}
+.category-filter-btn.category-edu:hover {
+  border-color: #a72f47;
+  background: rgba(167, 47, 71, 0.07);
+}
+.category-filter-btn.category-event:hover {
+  border-color: #585440;
+  background: rgba(88, 84, 64, 0.07);
 }
 
 .category-filter-btn:active {
   transform: translateY(0);
 }
 
+/* 활성 필터: 해당 카테고리 색으로 채우고 색 그림자로 강조, 도트는 흰색 */
 .category-filter-btn.active {
-  transform: scale(1.05);
+  color: #fff;
+}
+.category-filter-btn.active::before {
+  background: #fff;
+}
+.category-filter-btn.active.category-perfo {
+  background: #736e92;
+  border-color: #736e92;
+  box-shadow: 0 4px 14px rgba(115, 110, 146, 0.4);
+}
+.category-filter-btn.active.category-edu {
+  background: #a72f47;
+  border-color: #a72f47;
+  box-shadow: 0 4px 14px rgba(167, 47, 71, 0.4);
+}
+.category-filter-btn.active.category-event {
+  background: #585440;
+  border-color: #585440;
+  box-shadow: 0 4px 14px rgba(88, 84, 64, 0.4);
 }
 
-/* 초기화 버튼 */
+/* 초기화 버튼 - 고스트 알약 */
 .reset-filter-btn {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 1.2rem 1.5rem;
-  border-radius: 8px;
-  font-size: 16px;
+  gap: 0.4rem;
+  padding: 0.85rem 1.1rem;
+  border-radius: 999px;
+  font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.18s ease;
   white-space: nowrap;
   background: transparent;
-  color: #888;
+  color: #999;
   border: none;
 }
 
 .reset-filter-btn .reset-icon {
-  font-size: 20px;
-  transition: transform 0.3s ease;
+  font-size: 18px;
+  transition: transform 0.4s ease;
 }
 
 .reset-filter-btn:hover {
-  color: #555;
-  background: rgba(0, 0, 0, 0.05);
+  color: #a72f47;
+  background: rgba(167, 47, 71, 0.08);
 }
 
 .reset-filter-btn:hover .reset-icon {
