@@ -3,14 +3,13 @@ import BaseLink from '@/components/common/BaseLink.vue';
 import { initStore } from '@/stores/store-manager';
 import { POPUP_TYPE } from '@/types';
 import { computed, defineComponent, ref, watch } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 
 export default defineComponent({
   name: 'AdminMegaMenu',
   components: { BaseLink },
   setup() {
     const storeManager = initStore();
-    const router = useRouter();
     const route = useRoute();
 
     const isSubMenuVisible = ref<boolean>(false);
@@ -42,11 +41,10 @@ export default defineComponent({
       else if (clientY <= 0 || clientX <= 0 || clientX >= window.innerWidth) isSubMenuVisible.value = false;
     };
 
-    // 메뉴 클릭 시 해당 경로로 이동 + 서브메뉴 닫기 + 팝업 닫기
-    const onClickMenu = (path: string) => {
+    // 메뉴 링크 클릭 시 서브메뉴/팝업 닫기 (이동은 router-link가 담당)
+    const onCloseMenus = () => {
       storeManager.stateStore.setPopupMode({ type: POPUP_TYPE.NONE });
       isSubMenuVisible.value = false;
-      router.push('/admin' + path);
       isTabletMenuVisibleType.value = null;
     };
 
@@ -77,7 +75,7 @@ export default defineComponent({
       activeMenu,
       POPUP_TYPE,
       storeManager,
-      onClickMenu,
+      onCloseMenus,
       onClickOpenSubMenu,
       onClickTabletMenu,
       handleMouseEnter,
@@ -101,9 +99,15 @@ export default defineComponent({
         <!-- PC main menu -->
         <section class="main-menu-section" @mouseenter="handleMouseEnter" @mouseleave="handleMouseLeave">
           <ul class="menu-list">
-            <li class="menu play" :class="{ active: activeMenu === 'banner' }" @click="() => onClickMenu('/banner')">배너</li>
-            <li class="menu studio" :class="{ active: activeMenu === 'performance' }" @click="() => onClickMenu('/performance')">활동</li>
-            <li class="menu community" :class="{ active: activeMenu === 'notice' }" @click="() => onClickMenu('/notice')">알림</li>
+            <li class="menu play" :class="{ active: activeMenu === 'banner' }">
+              <router-link to="/admin/banner" @click="onCloseMenus">배너</router-link>
+            </li>
+            <li class="menu studio" :class="{ active: activeMenu === 'performance' }">
+              <router-link to="/admin/performance" @click="onCloseMenus">활동</router-link>
+            </li>
+            <li class="menu community" :class="{ active: activeMenu === 'notice' }">
+              <router-link to="/admin/notice" @click="onCloseMenus">알림</router-link>
+            </li>
           </ul>
         </section>
 
@@ -122,15 +126,15 @@ export default defineComponent({
       <transition name="dropdown">
         <section v-show="isSubMenuVisible" class="sub-menu-section menu-list admin" @mouseleave="handleMouseSubLeave">
           <ul class="sub-menu-list play menu">
-            <li @click="() => onClickMenu('/banner')">배너 등록</li>
+            <li><router-link to="/admin/banner" @click="onCloseMenus">배너 등록</router-link></li>
           </ul>
           <ul class="sub-menu-list studio menu">
-            <li @click="() => onClickMenu('/performance')">자체 프로그램 등록</li>
-            <li @click="() => onClickMenu('/performance/next')">대관 프로그램 등록</li>
+            <li><router-link to="/admin/performance" @click="onCloseMenus">자체 프로그램 등록</router-link></li>
+            <li><router-link to="/admin/performance/next" @click="onCloseMenus">대관 프로그램 등록</router-link></li>
           </ul>
           <ul class="sub-menu-list community menu">
-            <li @click="() => onClickMenu('/notice')">공지 작성</li>
-            <li @click="() => onClickMenu('/news')">보도자료 작성</li>
+            <li><router-link to="/admin/notice" @click="onCloseMenus">공지 작성</router-link></li>
+            <li><router-link to="/admin/news" @click="onCloseMenus">보도자료 작성</router-link></li>
           </ul>
         </section>
       </transition>
