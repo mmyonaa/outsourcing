@@ -177,7 +177,7 @@ header {
     color: $colorFont;
     font-size: 20px;
     line-height: 20px;
-    font-weight: 500; // sofia pro라서 weight + 100
+    font-weight: 500; // 라틴 폰트 +100 시프트 (fonts.scss 참고)
     // 패딩을 링크로 옮겨 li 전체가 클릭 영역이 되도록 함
     padding: 0;
     a {
@@ -190,7 +190,7 @@ header {
       font: inherit;
     }
     &.active {
-      font-weight: 800; // sofia pro라서 weight + 100
+      font-weight: 800; // 라틴 폰트 +100 시프트 (fonts.scss 참고)
       color: $colorPrimary;
     }
     &:hover {
@@ -309,17 +309,17 @@ header {
     padding: 11px 8px;
     color: $colorComm;
     font-size: 16px;
-    font-weight: 800; // sofia pro라서 weight + 100
+    font-weight: 800; // 라틴 폰트 +100 시프트 (fonts.scss 참고)
     @include tablet-header {
       padding: 12px 6px;
       font-size: 18px;
       font-size: 18px;
-      font-weight: 700; // sofia pro라서 weight + 100
+      font-weight: 700; // 라틴 폰트 +100 시프트 (fonts.scss 참고)
     }
     @include mobile-header {
       padding: 11px 8px;
       font-size: 16px;
-      font-weight: 800; // sofia pro라서 weight + 100
+      font-weight: 800; // 라틴 폰트 +100 시프트 (fonts.scss 참고)
     }
   }
 
@@ -407,7 +407,7 @@ header {
     list-style: none;
     width: calc(100% - 30px);
     font-size: 20px;
-    font-weight: 700; // sofia pro라서 weight + 100
+    font-weight: 700; // 라틴 폰트 +100 시프트 (fonts.scss 참고)
     line-height: 20px;
     padding: 13px 0;
     display: flex;
@@ -490,15 +490,15 @@ header {
     }
     .placeholder {
       font-size: 16px;
-      font-weight: 700; // sofia pro라서 weight + 100
+      font-weight: 700; // 라틴 폰트 +100 시프트 (fonts.scss 참고)
       color: $colorText;
       @include tablet-header {
         font-size: 18px;
-        font-weight: 700; // sofia pro라서 weight + 100
+        font-weight: 700; // 라틴 폰트 +100 시프트 (fonts.scss 참고)
       }
       @include mobile-header {
         font-size: 16px;
-        font-weight: 700; // sofia pro라서 weight + 100
+        font-weight: 700; // 라틴 폰트 +100 시프트 (fonts.scss 참고)
       }
     }
   }

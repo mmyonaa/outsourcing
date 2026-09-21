@@ -1,209 +1,143 @@
+// ===========================================================================
+// 본문 폰트 "BKTheater"
+//
+// 한 패밀리 이름 아래 두 폰트를 unicode-range 로 나눠 쓴다.
+//   · 라틴(영문·숫자·기호) → Plus Jakarta Sans
+//   · 그 외 전체(한글 포함) → SUIT
+//
+// 두 폰트 모두 SIL Open Font License 1.1 이며 이 저장소에서 직접 서빙한다.
+//   public/assets/fonts/plus-jakarta-sans/OFL.txt
+//   public/assets/fonts/suit/LICENSE.md
+// ===========================================================================
+
+// --- 기본 폰트: SUIT (가변 폰트) ------------------------------------------
+// unicode-range 를 두지 않아 라틴 외 모든 문자(한글 포함)를 담당한다.
+//
+// 굵기별로 같은 파일을 9번 선언한다. `font-weight: 100 900` 범위 하나로 합치면
+// 아래 라틴 face 들이 단일 굵기값(200..900)을 갖고 있어 굵기 매칭에서 우선되고,
+// 한글이 SUIT 를 못 찾아 시스템 폰트로 폴백된다. 중복처럼 보여도 합치지 말 것.
 @font-face {
-  font-family: "Famppy";
-  src:
-          url("https://fonts.famppy.com/suit/SUIT-Variable.woff2") format("woff2"),
-          url("https://fonts.famppy.com/suit/SUIT-Variable.woff") format("woff"),
-          url("https://fonts.famppy.com/suit/SUIT-Variable.eot") format("eot");
-  /* font-weight: 400; */
+  font-family: "BKTheater";
+  src: url("/assets/fonts/suit/SUIT-Variable.woff2") format("woff2");
   font-weight: 100;
-  /* 	unicode-range: U+AC00-D7A3; */
 }
-
 @font-face {
-  font-family: "Famppy";
-  src:
-          url("https://fonts.famppy.com/suit/SUIT-Variable.woff2") format("woff2"),
-          url("https://fonts.famppy.com/suit/SUIT-Variable.woff") format("woff"),
-          url("https://fonts.famppy.com/suit/SUIT-Variable.eot") format("eot");
-  /* font-weight: 400; */
+  font-family: "BKTheater";
+  src: url("/assets/fonts/suit/SUIT-Variable.woff2") format("woff2");
   font-weight: 200;
-  /* 	unicode-range: U+AC00-D7A3; */
 }
-
 @font-face {
-  font-family: "Famppy";
-  src:
-          url("https://fonts.famppy.com/suit/SUIT-Variable.woff2") format("woff2"),
-          url("https://fonts.famppy.com/suit/SUIT-Variable.woff") format("woff"),
-          url("https://fonts.famppy.com/suit/SUIT-Variable.eot") format("eot");
-  /* font-weight: 400; */
+  font-family: "BKTheater";
+  src: url("/assets/fonts/suit/SUIT-Variable.woff2") format("woff2");
   font-weight: 300;
-  /* 	unicode-range: U+AC00-D7A3; */
 }
-
 @font-face {
-  font-family: "Famppy";
-  src:
-          url("https://fonts.famppy.com/suit/SUIT-Variable.woff2") format("woff2"),
-          url("https://fonts.famppy.com/suit/SUIT-Variable.woff") format("woff"),
-          url("https://fonts.famppy.com/suit/SUIT-Variable.eot") format("eot");
-  /* font-weight: 400; */
+  font-family: "BKTheater";
+  src: url("/assets/fonts/suit/SUIT-Variable.woff2") format("woff2");
   font-weight: 400;
-  /* 	unicode-range: U+AC00-D7A3; */
 }
-
 @font-face {
-  font-family: "Famppy";
-  src:
-          url("https://fonts.famppy.com/suit/SUIT-Variable.woff2") format("woff2"),
-          url("https://fonts.famppy.com/suit/SUIT-Variable.woff") format("woff"),
-          url("https://fonts.famppy.com/suit/SUIT-Variable.eot") format("eot");
-  /* font-weight: 400; */
+  font-family: "BKTheater";
+  src: url("/assets/fonts/suit/SUIT-Variable.woff2") format("woff2");
   font-weight: 500;
-  /* 	unicode-range: U+AC00-D7A3; */
 }
-
 @font-face {
-  font-family: "Famppy";
-  src:
-          url("https://fonts.famppy.com/suit/SUIT-Variable.woff2") format("woff2"),
-          url("https://fonts.famppy.com/suit/SUIT-Variable.woff") format("woff"),
-          url("https://fonts.famppy.com/suit/SUIT-Variable.eot") format("eot");
-  /* font-weight: 400; */
+  font-family: "BKTheater";
+  src: url("/assets/fonts/suit/SUIT-Variable.woff2") format("woff2");
   font-weight: 600;
-  /* 	unicode-range: U+AC00-D7A3; */
 }
-
 @font-face {
-  font-family: "Famppy";
-  src:
-          url("https://fonts.famppy.com/suit/SUIT-Variable.woff2") format("woff2"),
-          url("https://fonts.famppy.com/suit/SUIT-Variable.woff") format("woff"),
-          url("https://fonts.famppy.com/suit/SUIT-Variable.eot") format("eot");
-  /* font-weight: 400; */
+  font-family: "BKTheater";
+  src: url("/assets/fonts/suit/SUIT-Variable.woff2") format("woff2");
   font-weight: 700;
-  /* 	unicode-range: U+AC00-D7A3; */
 }
-
 @font-face {
-  font-family: "Famppy";
-  src:
-          url("https://fonts.famppy.com/suit/SUIT-Variable.woff2") format("woff2"),
-          url("https://fonts.famppy.com/suit/SUIT-Variable.woff") format("woff"),
-          url("https://fonts.famppy.com/suit/SUIT-Variable.eot") format("eot");
-  /* font-weight: 400; */
+  font-family: "BKTheater";
+  src: url("/assets/fonts/suit/SUIT-Variable.woff2") format("woff2");
   font-weight: 800;
-  /* 	unicode-range: U+AC00-D7A3; */
 }
-
 @font-face {
-  font-family: "Famppy";
-  src:
-          url("https://fonts.famppy.com/suit/SUIT-Variable.woff2") format("woff2"),
-          url("https://fonts.famppy.com/suit/SUIT-Variable.woff") format("woff"),
-          url("https://fonts.famppy.com/suit/SUIT-Variable.eot") format("eot");
-  /* font-weight: 400; */
+  font-family: "BKTheater";
+  src: url("/assets/fonts/suit/SUIT-Variable.woff2") format("woff2");
   font-weight: 900;
-  /* 	unicode-range: U+AC00-D7A3; */
 }
 
+// --- 라틴: Plus Jakarta Sans ----------------------------------------------
+// 굵기 매핑 주의: 선언한 font-weight 보다 "한 단계 가벼운" 실물을 연결한다.
+//   (예: font-weight 500 → 실물 Regular 400)
+//   이전에 쓰던 라틴 폰트가 동일한 +100 시프트 구성이었고 컴포넌트 CSS 전체가
+//   그 전제로 작성돼 있어, 겉보기 굵기를 보존하려고 그대로 승계했다.
+//
+// ascent/descent-override 도 이전 값을 유지한다. 이 값들이 라인박스 높이를
+// 폰트와 무관하게 고정해 주므로, 폰트를 바꿔도 레이아웃이 밀리지 않는다.
+
 @font-face {
-  font-family: "Famppy";
-  src:
-          local("Sofia Pro UltraLight"),
-          url("https://fonts.famppy.com/sofia-pro/Sofia Pro UltraLight Az.woff2") format("woff2"),
-          url("https://fonts.famppy.com/sofia-pro/Sofia Pro UltraLight Az.woff") format("woff"),
-          url("https://fonts.famppy.com/sofia-pro/Sofia Pro UltraLight Az.eot") format("eot");
-  //font-weight: 100;
-  font-weight: 200;
+  font-family: "BKTheater";
+  src: url("/assets/fonts/plus-jakarta-sans/PlusJakartaSans-ExtraLight.woff2") format("woff2");
+  font-weight: 200; // 실물 ExtraLight — 100 단계가 없어 300과 동일한 실물
   unicode-range: U+0041-005A, U+0061-007A, U+0030-0039, U+0020-002F, U+003A-0040, U+005B-0060, U+007B-007E;
   ascent-override: 90%;
   descent-override: 15%;
 }
 
 @font-face {
-  font-family: "Famppy";
-  src:
-          local("Sofia Pro ExtraLight"),
-          url("https://fonts.famppy.com/sofia-pro/Sofia Pro ExtraLight Az.woff2") format("woff2"),
-          url("https://fonts.famppy.com/sofia-pro/Sofia Pro ExtraLight Az.woff") format("woff"),
-          url("https://fonts.famppy.com/sofia-pro/Sofia Pro ExtraLight Az.eot") format("eot");
-  //font-weight: 200;
-  font-weight: 300;
+  font-family: "BKTheater";
+  src: url("/assets/fonts/plus-jakarta-sans/PlusJakartaSans-ExtraLight.woff2") format("woff2");
+  font-weight: 300; // 실물 ExtraLight
   unicode-range: U+0041-005A, U+0061-007A, U+0030-0039, U+0020-002F, U+003A-0040, U+005B-0060, U+007B-007E;
   ascent-override: 90%;
   descent-override: 15%;
 }
 
 @font-face {
-  font-family: "Famppy";
-  src:
-          local("Sofia Pro Light"),
-          url("https://fonts.famppy.com/sofia-pro/Sofia Pro Light Az.woff2") format("woff2"),
-          url("https://fonts.famppy.com/sofia-pro/Sofia Pro Light Az.woff") format("woff"),
-          url("https://fonts.famppy.com/sofia-pro/Sofia Pro Light Az.eot") format("eot");
-  //font-weight: 300;
-  font-weight: 400;
+  font-family: "BKTheater";
+  src: url("/assets/fonts/plus-jakarta-sans/PlusJakartaSans-Light.woff2") format("woff2");
+  font-weight: 400; // 실물 Light
   unicode-range: U+0041-005A, U+0061-007A, U+0030-0039, U+0020-002F, U+003A-0040, U+005B-0060, U+007B-007E;
   ascent-override: 90%;
   descent-override: 15%;
 }
 
 @font-face {
-  font-family: "Famppy";
-  src:
-          local("Sofia Pro Regular"),
-          url("https://fonts.famppy.com/sofia-pro/Sofia Pro Regular Az.woff2") format("woff2"),
-          url("https://fonts.famppy.com/sofia-pro/Sofia Pro Regular Az.woff") format("woff"),
-          url("https://fonts.famppy.com/sofia-pro/Sofia Pro Regular Az.eot") format("eot");
-  //font-weight: 400;
-  font-weight: 500;
+  font-family: "BKTheater";
+  src: url("/assets/fonts/plus-jakarta-sans/PlusJakartaSans-Regular.woff2") format("woff2");
+  font-weight: 500; // 실물 Regular
   unicode-range: U+0041-005A, U+0061-007A, U+0030-0039, U+0020-002F, U+003A-0040, U+005B-0060, U+007B-007E;
   ascent-override: 90%;
   descent-override: 15%;
 }
 
 @font-face {
-  font-family: "Famppy";
-  src:
-          local("Sofia Pro Medium"),
-          url("https://fonts.famppy.com/sofia-pro/Sofia Pro Medium Az.woff2") format("woff2"),
-          url("https://fonts.famppy.com/sofia-pro/Sofia Pro Medium Az.woff") format("woff"),
-          url("https://fonts.famppy.com/sofia-pro/Sofia Pro Medium Az.eot") format("eot");
-  //font-weight: 500;
-  font-weight: 600;
+  font-family: "BKTheater";
+  src: url("/assets/fonts/plus-jakarta-sans/PlusJakartaSans-Medium.woff2") format("woff2");
+  font-weight: 600; // 실물 Medium
   unicode-range: U+0041-005A, U+0061-007A, U+0030-0039, U+0020-002F, U+003A-0040, U+005B-0060, U+007B-007E;
   ascent-override: 90%;
   descent-override: 15%;
 }
 
 @font-face {
-  font-family: "Famppy";
-  src:
-          local("Sofia Pro SemiBold"),
-          url("https://fonts.famppy.com/sofia-pro/Sofia Pro Semi Bold Az.woff2") format("woff2"),
-          url("https://fonts.famppy.com/sofia-pro/Sofia Pro Semi Bold Az.woff") format("woff"),
-          url("https://fonts.famppy.com/sofia-pro/Sofia Pro Semi Bold Az.eot") format("eot");
-  //font-weight: 600;
-  font-weight: 700;
+  font-family: "BKTheater";
+  src: url("/assets/fonts/plus-jakarta-sans/PlusJakartaSans-SemiBold.woff2") format("woff2");
+  font-weight: 700; // 실물 SemiBold
   unicode-range: U+0041-005A, U+0061-007A, U+0030-0039, U+0020-002F, U+003A-0040, U+005B-0060, U+007B-007E;
   ascent-override: 90%;
   descent-override: 15%;
 }
 
 @font-face {
-  font-family: "Famppy";
-  src:
-          local("Sofia Pro Bold"),
-          url("https://fonts.famppy.com/sofia-pro/Sofia Pro Bold Az.woff2") format("woff2"),
-          url("https://fonts.famppy.com/sofia-pro/Sofia Pro Bold Az.woff2") format("woff"),
-          url("https://fonts.famppy.com/sofia-pro/Sofia Pro Bold Az.eot") format("eot");
-  //font-weight: 700;
-  font-weight: 800;
+  font-family: "BKTheater";
+  src: url("/assets/fonts/plus-jakarta-sans/PlusJakartaSans-Bold.woff2") format("woff2");
+  font-weight: 800; // 실물 Bold
   unicode-range: U+0041-005A, U+0061-007A, U+0030-0039, U+0020-002F, U+003A-0040, U+005B-0060, U+007B-007E;
   ascent-override: 90%;
   descent-override: 15%;
 }
 
 @font-face {
-  font-family: "Famppy";
-  src:
-          local("Sofia Pro Black"),
-          url("https://fonts.famppy.com/sofia-pro/Sofia Pro Black Az.woff2") format("woff2"),
-          url("https://fonts.famppy.com/sofia-pro/Sofia Pro Black Az.woff") format("woff"),
-          url("https://fonts.famppy.com/sofia-pro/Sofia Pro Black Az.eot") format("eot");
-  //font-weight: 800;
-  font-weight: 900;
+  font-family: "BKTheater";
+  src: url("/assets/fonts/plus-jakarta-sans/PlusJakartaSans-ExtraBold.woff2") format("woff2");
+  font-weight: 900; // 실물 ExtraBold
   unicode-range: U+0041-005A, U+0061-007A, U+0030-0039, U+0020-002F, U+003A-0040, U+005B-0060, U+007B-007E;
   ascent-override: 90%;
   descent-override: 15%;
