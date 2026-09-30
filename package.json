@@ -1,0 +1,8 @@
+{
+  "name": "outsourcing",
+  "private": true,
+  "description": "보광극장 사이트 — 루트는 검증 진입점만 들고 있다(워크스페이스 아님)",
+  "scripts": {
+    "typecheck": "pnpm --dir community/frontend type-check && pnpm --dir community/backend exec tsc --noEmit"
+  }
+}
