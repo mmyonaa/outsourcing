@@ -29,3 +29,7 @@ v1.0.0 ~ v1.5.1 의 8개 버전이 모두 같은 이름의 git 태그와 1:1 로
   `community/ecosystem.config.js` 도 추적 대상이 아니다(`.example` 만 커밋돼 있다).
   배포 키(`community/bktheater.pem`)가 작업 트리에 있지만 git 에는 없다 — 그대로 둔다.
 - 배포는 AWS EC2 + pm2 + Nginx. 프론트는 정적 산출물이라 빌드 결과를 올린다.
+- **정적 자원과 API 가 동시에 깨지면 코드가 아니라 TLS 인증서를 먼저 본다.** 폰트·이미지·favicon
+  이 전부 실패하면서 `ApiError: 요청에 실패했습니다` 가 같이 뜨는 증상은 Let's Encrypt 인증서
+  만료(`ERR_CERT_DATE_INVALID`) 하나에서 파생된다 — `request.util` 은 그걸 받아 적을 뿐이다.
+  갱신 후 `systemctl reload nginx` 를 빼면 Nginx 가 구 인증서를 계속 내려준다.
