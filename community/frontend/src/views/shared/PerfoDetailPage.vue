@@ -1,16 +1,38 @@
 <script lang="ts">
-import { computed, defineComponent, onMounted, onUnmounted, ref, watch } from 'vue';
+import { computed, defineComponent, onMounted, onServerPrefetch, onUnmounted, ref, watch } from 'vue';
 import BaseShareButton from '@/components/common/BaseShareButton.vue';
 import ImageLightbox from '@/components/common/ImageLightbox.vue';
 import { useRoute, useRouter } from 'vue-router';
 import { PerfoEntity, SearchPerfoDto } from '@/api/dto/perfo.dto';
 import { getPerfoList, increasePerfoViews } from '@/api/perfo.api';
+import { ApiError } from '@/api/request.util';
 import dayjs from 'dayjs';
 import { getApiClient } from '@/utils/apiClient';
 import { handleImageError } from '@/utils/common-util';
 import { getCategoryLabel } from '@/utils/perfo-util';
 import { setupFileDownloadLinks } from '@/utils/file-download';
-import { setMetaTags, setJsonLd, removeJsonLd, toPlainText, extractEventDates } from '@/utils/seo.util';
+import {
+  setMetaTags,
+  setJsonLd,
+  removeJsonLd,
+  toPlainText,
+  extractEventDates,
+  setRobotsMeta,
+  pageSeoConfig,
+  ROBOTS_INDEX,
+  ROBOTS_NOINDEX,
+  SITE_URL,
+} from '@/utils/seo.util';
+import { usePrerenderStore } from '@/stores/prerender-store';
+import { TYPE_PERFO } from '@/types';
+
+// 프로그램 유형별 정식 경로. 공연은 id 로만 조회되므로 /performance/<대관 공연 id> 처럼
+// 다른 유형의 경로로도 열린다. 옛 사이트의 `/performance/detail?id=` 는 유형 구분 없이
+// 한 주소를 썼기 때문에 그 리디렉션이 실제로 엉뚱한 경로로 떨어진다 — 여기서 바로잡는다.
+const PATH_BY_PERFO_TYPE: Record<string, string> = {
+  [TYPE_PERFO.NORMAL]: '/performance',
+  [TYPE_PERFO.NEXT]: '/performance/next',
+};
 
 /**
  * 자체/대관 프로그램 상세 공용 페이지.
@@ -32,31 +54,50 @@ export default defineComponent({
     const route = useRoute();
     const router = useRouter();
     const currentId = computed(() => String(route.params.id));
-    const performance = ref<PerfoEntity>(new PerfoEntity());
+    const prerender = usePrerenderStore();
+    // 프리렌더가 담아 둔 공연이 있으면 그걸로 첫 렌더를 한다. SSR 과 클라이언트 첫 렌더가
+    // 같은 데이터를 쓰므로 하이드레이션 불일치도, 본문이 잠깐 비는 깜빡임도 없다.
+    const prefetched = prerender.take<PerfoEntity>(route.path);
+    const performance = ref<PerfoEntity>(Object.assign(new PerfoEntity(), prefetched));
     const relatedPerformances = ref<PerfoEntity[]>([]);
     const notFound = ref(false);
+    // "서버가 공연이 없다고 답했다" — 통신 실패와 구분한다. 통신 실패에 noindex 를 걸면
+    // API 가 잠깐 끊긴 사이 크롤링된 멀쩡한 공연이 색인에서 빠진다.
+    const confirmedMissing = ref(false);
     const apiClient = getApiClient();
 
     const goBack = () => {
       router.push(props.listPath);
     };
 
-    const loadPerfoDetail = async () => {
+    /** @returns 프로그램 유형이 달라 정식 경로로 이동시켰으면 true (이후 초기화를 중단해야 한다) */
+    const loadPerfoDetail = async (): Promise<boolean> => {
       const param = new SearchPerfoDto();
       param.perIdx = currentId.value;
 
       // 삭제된 글·잘못된 id 는 빈 배열로 오므로 length 까지 확인해야
       // undefined 대입 → 이후 접근에서 크래시가 나지 않는다
-      await getPerfoList(apiClient, param)
+      return await getPerfoList(apiClient, param)
         .then(res => {
           if (res.resultCode === 0 && res.data && res.data.length > 0) {
             performance.value = res.data[0];
+            const canonicalPath = PATH_BY_PERFO_TYPE[performance.value.perType ?? ''];
+            if (canonicalPath && canonicalPath !== props.listPath) {
+              router.replace(`${canonicalPath}/${currentId.value}`);
+              return true;
+            }
           } else {
             notFound.value = true;
+            confirmedMissing.value = true;
           }
+          return false;
         })
-        .catch(() => {
+        .catch((err: unknown) => {
           notFound.value = true;
+          // 서버가 resultCode 를 돌려줬다면(잘못된 id 로 조회 실패 등) 답을 받은 것이다.
+          // resultCode 가 없으면 통신 자체가 실패한 것이므로 색인 상태를 건드리지 않는다.
+          confirmedMissing.value = err instanceof ApiError && err.resultCode !== undefined;
+          return false;
         });
     };
 
@@ -89,13 +130,16 @@ export default defineComponent({
       if (!performance.value.title) return;
       const description = toPlainText(performance.value.body);
       const ogImage = performance.value.imgUrl || undefined;
+      // 두 번째 인자로 경로를 넘겨 canonical/og:url 을 쿼리스트링 없는 정식 주소로 만든다.
+      // (window.location.href 를 쓰면 ?utm_source=... 가 붙은 채 들어온 방문이
+      //  그 주소를 canonical 로 선언해 검색엔진이 별개 페이지로 본다)
       setMetaTags({
         title: `${performance.value.title} | 보광극장`,
         description,
         ogTitle: `${performance.value.title} | 보광극장`,
         ogDescription: description,
         ...(ogImage ? { ogImage } : {}),
-      });
+      }, route.path);
       // startDate 없는 Event 마크업은 Search Console 심각 오류가 되므로,
       // 텍스트에서 공연 기간을 찾은 경우에만 Event 스키마를 출력한다
       const dates = extractEventDates([
@@ -132,7 +176,7 @@ export default defineComponent({
             '@type': 'PerformingGroup',
             name: performance.value.title,
           },
-          url: window.location.href,
+          url: SITE_URL + route.path,
         });
       } else {
         removeJsonLd('article');
@@ -140,18 +184,37 @@ export default defineComponent({
     };
 
     const init = async () => {
-      // 다른 상세로 이동 시 이전 데이터 잔상 제거 + 상단으로
-      performance.value = new PerfoEntity();
-      relatedPerformances.value = [];
       notFound.value = false;
-      window.scrollTo({ top: 0 });
-      await loadPerfoDetail();
-      if (notFound.value) return;
+      confirmedMissing.value = false;
+      const redirected = await loadPerfoDetail();
+      if (redirected) return;
+      if (notFound.value) {
+        // 서버는 없는 주소에도 홈 HTML 을 200 으로 준다. noindex 를 걸지 않으면
+        // 검색엔진이 이 주소를 홈페이지 사본(soft 404)으로 색인한다.
+        // 통신 실패일 때는 건드리지 않는다 — 공연은 멀쩡한데 색인만 빠질 수 있다.
+        if (confirmedMissing.value) {
+          setMetaTags({ ...pageSeoConfig.notFound, canonical: SITE_URL + route.path });
+          setRobotsMeta(ROBOTS_NOINDEX);
+        }
+        return;
+      }
       applySeo();
       await updateViews();
       await loadRelated();
       setupFileDownloadLinks();
     };
+
+    // 빌드(프리렌더) 시점에 본문을 받아 정적 HTML 에 담는다.
+    // 조회수 증가·관련 공연 조회는 빌드 때 할 일이 아니므로 상세만 받는다.
+    onServerPrefetch(async () => {
+      await loadPerfoDetail();
+      if (notFound.value) {
+        // 빌드 중 통신이 실패했을 뿐일 수 있다 — "찾을 수 없음" 을 정적 HTML 에 굽지 않는다
+        notFound.value = false;
+        return;
+      }
+      prerender.set(route.path, performance.value);
+    });
 
     onMounted(init);
 
@@ -160,11 +223,17 @@ export default defineComponent({
       // 이 상세 계열을 벗어나는 이동(목록 이탈, 다른 :id 라우트)에서도 watch가
       // 발동할 수 있으므로 현재 경로가 이 페이지일 때만 재로딩한다
       if (!route.params.id || !route.path.startsWith(`${props.listPath}/`)) return;
+      // 이전 데이터 잔상 제거 + 상단으로 (첫 진입에는 지울 잔상이 없으므로 여기서만 한다)
+      performance.value = new PerfoEntity();
+      relatedPerformances.value = [];
+      window.scrollTo({ top: 0 });
       init();
     });
 
     onUnmounted(() => {
       removeJsonLd('article');
+      // SPA 라 head 가 그대로 남는다 — 없는 공연에서 나갈 때 색인 허용으로 되돌린다
+      setRobotsMeta(ROBOTS_INDEX);
     });
 
     return {
@@ -225,7 +294,8 @@ export default defineComponent({
             <span>조회수: {{ performance.views }}</span>
           </div>
 
-          <div class="notice-content" v-html="performance.body"></div>
+          <!-- body 가 없는 동안 v-html 이 "undefined" 를 그대로 찍지 않도록 빈 문자열로 받는다 -->
+          <div class="notice-content" v-html="performance.body || ''"></div>
         </div>
 
         <div class="back-button-wrapper">
