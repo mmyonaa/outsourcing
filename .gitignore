@@ -6,6 +6,10 @@
 # Configuration files with sensitive data
 *.conf
 myapp.conf
+# 단, 실서버 nginx 설정의 거울은 추적한다. 민감정보가 없고(인증서 경로뿐, 키 아님)
+# 라우팅 규칙이 EC2 한 대에만 남으면 인스턴스 유실 시 복구할 근거가 없다.
+# 이 줄이 없으면 위 *.conf 에 걸려 파일을 지웠다 다시 만드는 순간 조용히 빠진다.
+!community/nginx.conf
 
 # Node modules
 node_modules/
