@@ -1,13 +1,34 @@
 <script lang="ts">
-import { computed, defineComponent, onMounted, onUnmounted, ref, watch } from 'vue';
+import { computed, defineComponent, onMounted, onServerPrefetch, onUnmounted, ref, watch } from 'vue';
 import BaseShareButton from '@/components/common/BaseShareButton.vue';
 import { useRoute, useRouter } from 'vue-router';
 import { BoardEntity, SearchBoardDto } from '@/api/dto/board.dto';
 import { getBoardList, increaseBoardViews } from '@/api/board.api';
+import { ApiError } from '@/api/request.util';
 import dayjs from 'dayjs';
 import { getApiClient } from '@/utils/apiClient';
-import { setMetaTags, setJsonLd, removeJsonLd, toPlainText } from '@/utils/seo.util';
+import {
+  setMetaTags,
+  setJsonLd,
+  removeJsonLd,
+  toPlainText,
+  setRobotsMeta,
+  pageSeoConfig,
+  ROBOTS_INDEX,
+  ROBOTS_NOINDEX,
+  SITE_URL,
+} from '@/utils/seo.util';
 import { setupFileDownloadLinks } from '@/utils/file-download';
+import { usePrerenderStore } from '@/stores/prerender-store';
+import { TYPE_BOARD } from '@/types';
+
+// 글 종류별 정식 경로. 글은 id 로만 조회되므로 /notice/<보도자료 id> 처럼
+// 다른 종류의 경로로도 열린다 — 그대로 두면 같은 글이 두 주소로 노출돼
+// 검색엔진이 중복 페이지로 본다.
+const PATH_BY_BOARD_TYPE: Record<string, string> = {
+  [TYPE_BOARD.NORMAL]: '/notice',
+  [TYPE_BOARD.NEWS]: '/news',
+};
 
 /**
  * 공지사항/보도자료 상세 공용 페이지.
@@ -29,8 +50,15 @@ export default defineComponent({
     const route = useRoute();
     const router = useRouter();
     const noticeIdx = computed(() => String(route.params.id));
-    const notice = ref<BoardEntity>(new BoardEntity());
+    const prerender = usePrerenderStore();
+    // 프리렌더가 담아 둔 글이 있으면 그걸로 첫 렌더를 한다. SSR 과 클라이언트 첫 렌더가
+    // 같은 데이터를 쓰므로 하이드레이션 불일치도, 본문이 잠깐 비는 깜빡임도 없다.
+    const prefetched = prerender.take<BoardEntity>(route.path);
+    const notice = ref<BoardEntity>(Object.assign(new BoardEntity(), prefetched));
     const notFound = ref(false);
+    // "서버가 글이 없다고 답했다" — 통신 실패와 구분한다. 통신 실패에 noindex 를 걸면
+    // API 가 잠깐 끊긴 사이 크롤링된 멀쩡한 글이 색인에서 빠진다.
+    const confirmedMissing = ref(false);
     const prevPost = ref<BoardEntity | null>(null); // 이전 글 (더 오래된)
     const nextPost = ref<BoardEntity | null>(null); // 다음 글 (더 최신)
     const apiClient = getApiClient();
@@ -39,22 +67,34 @@ export default defineComponent({
       router.push(props.listPath);
     };
 
-    const loadBoardDetail = async () => {
+    /** @returns 글 종류가 달라 정식 경로로 이동시켰으면 true (이후 초기화를 중단해야 한다) */
+    const loadBoardDetail = async (): Promise<boolean> => {
       const param = new SearchBoardDto();
       param.boardIdx = noticeIdx.value;
 
       // 삭제된 글·잘못된 id 는 빈 배열로 오므로 length 까지 확인해야
       // undefined 대입 → 이후 접근에서 크래시가 나지 않는다
-      await getBoardList(apiClient, param)
+      return await getBoardList(apiClient, param)
         .then(res => {
           if (res.resultCode === 0 && res.data && res.data.length > 0) {
             notice.value = res.data[0];
+            const canonicalPath = PATH_BY_BOARD_TYPE[notice.value.boardType ?? ''];
+            if (canonicalPath && canonicalPath !== props.listPath) {
+              router.replace(`${canonicalPath}/${noticeIdx.value}`);
+              return true;
+            }
           } else {
             notFound.value = true;
+            confirmedMissing.value = true;
           }
+          return false;
         })
-        .catch(() => {
+        .catch((err: unknown) => {
           notFound.value = true;
+          // 서버가 resultCode 를 돌려줬다면(잘못된 id 로 조회 실패 등) 답을 받은 것이다.
+          // resultCode 가 없으면 통신 자체가 실패한 것이므로 색인 상태를 건드리지 않는다.
+          confirmedMissing.value = err instanceof ApiError && err.resultCode !== undefined;
+          return false;
         });
     };
 
@@ -91,12 +131,15 @@ export default defineComponent({
     const applySeo = () => {
       if (!notice.value.title) return;
       const description = toPlainText(notice.value.body);
+      // 두 번째 인자로 경로를 넘겨 canonical/og:url 을 쿼리스트링 없는 정식 주소로 만든다.
+      // (window.location.href 를 쓰면 ?utm_source=... 가 붙은 채 들어온 방문이
+      //  그 주소를 canonical 로 선언해 검색엔진이 별개 페이지로 본다)
       setMetaTags({
         title: `${notice.value.title} | 보광극장`,
         description,
         ogTitle: `${notice.value.title} | 보광극장`,
         ogDescription: description,
-      });
+      }, route.path);
       setJsonLd('article', {
         '@context': 'https://schema.org',
         '@type': 'NewsArticle',
@@ -110,19 +153,42 @@ export default defineComponent({
           name: '보광극장',
           logo: { '@type': 'ImageObject', url: 'https://bktheater.com/assets/og-image.jpg' },
         },
-        mainEntityOfPage: window.location.href,
+        mainEntityOfPage: SITE_URL + route.path,
       });
     };
 
     const init = async () => {
       notFound.value = false;
-      await loadBoardDetail();
-      if (notFound.value) return;
+      confirmedMissing.value = false;
+      const redirected = await loadBoardDetail();
+      if (redirected) return;
+      if (notFound.value) {
+        // 서버는 없는 주소에도 홈 HTML 을 200 으로 준다. noindex 를 걸지 않으면
+        // 검색엔진이 이 주소를 홈페이지 사본(soft 404)으로 색인한다.
+        // 통신 실패일 때는 건드리지 않는다 — 글은 멀쩡한데 색인만 빠질 수 있다.
+        if (confirmedMissing.value) {
+          setMetaTags({ ...pageSeoConfig.notFound, canonical: SITE_URL + route.path });
+          setRobotsMeta(ROBOTS_NOINDEX);
+        }
+        return;
+      }
       applySeo();
       await updateViews();
       setupFileDownloadLinks();
       loadAdjacentPosts();
     };
+
+    // 빌드(프리렌더) 시점에 본문을 받아 정적 HTML 에 담는다.
+    // 조회수 증가·이전/다음 글 조회는 빌드 때 할 일이 아니므로 상세만 받는다.
+    onServerPrefetch(async () => {
+      await loadBoardDetail();
+      if (notFound.value) {
+        // 빌드 중 통신이 실패했을 뿐일 수 있다 — "찾을 수 없음" 을 정적 HTML 에 굽지 않는다
+        notFound.value = false;
+        return;
+      }
+      prerender.set(route.path, notice.value);
+    });
 
     onMounted(init);
 
@@ -131,6 +197,7 @@ export default defineComponent({
       () => route.params.id,
       async (id, oldId) => {
         if (!id || id === oldId || !route.path.startsWith(`${props.listPath}/`)) return;
+        notice.value = new BoardEntity();
         await init();
         window.scrollTo({ top: 0 });
       },
@@ -138,6 +205,8 @@ export default defineComponent({
 
     onUnmounted(() => {
       removeJsonLd('article');
+      // SPA 라 head 가 그대로 남는다 — 없는 글에서 나갈 때 색인 허용으로 되돌린다
+      setRobotsMeta(ROBOTS_INDEX);
     });
 
     return {
@@ -173,7 +242,8 @@ export default defineComponent({
         <span>작성일: {{ dayjs(notice.regDt).format('YY.MM.DD') }}</span>
         <span>조회수: {{ notice.views }}</span>
       </div>
-      <div class="notice-content" v-html="notice.body"></div>
+      <!-- body 가 없는 동안 v-html 이 "undefined" 를 그대로 찍지 않도록 빈 문자열로 받는다 -->
+      <div class="notice-content" v-html="notice.body || ''"></div>
 
       <!-- 이전/다음 글 -->
       <nav v-if="prevPost || nextPost" class="post-nav" aria-label="이전 다음 글">

@@ -82,6 +82,33 @@ export const setMetaTags = (config: MetaTagsConfig, path?: string) => {
   link.setAttribute('href', canonical);
 };
 
+/** robots 메타 태그의 기본값 (index.html 에 박혀 있는 값과 같다) */
+export const ROBOTS_INDEX = 'index, follow';
+/** 색인에서 빼야 하는 페이지에 쓰는 값 */
+export const ROBOTS_NOINDEX = 'noindex, follow';
+
+/**
+ * robots 메타 태그를 바꾼다.
+ *
+ * 이 사이트는 매칭되지 않는 주소에도 서버가 홈 HTML 을 200 으로 돌려준다(SPA 폴백).
+ * 그대로 두면 없는 글·오타 주소가 전부 "홈페이지 사본"으로 보여 Search Console 의
+ * soft 404 · 중복 페이지로 쌓인다. 없는 페이지에 noindex 를 걸어 끊는다.
+ *
+ * index.html 이 robots 와 googlebot 두 태그를 들고 있으므로 둘 다 갱신한다.
+ */
+export const setRobotsMeta = (content: string) => {
+  if (typeof document === 'undefined') return;
+  for (const name of ['robots', 'googlebot']) {
+    let meta = document.querySelector(`meta[name="${name}"]`) as HTMLMetaElement | null;
+    if (!meta) {
+      meta = document.createElement('meta');
+      meta.setAttribute('name', name);
+      document.head.appendChild(meta);
+    }
+    meta.setAttribute('content', content);
+  }
+};
+
 /**
  * HTML 문자열에서 태그를 제거하고 메타 description 용으로 길이를 제한한다.
  */
@@ -238,5 +265,9 @@ export const pageSeoConfig: Record<string, MetaTagsConfig> = {
     title: '보도자료 | 보광극장',
     description: '보광극장 관련 보도자료와 언론 보도 소식을 확인하세요.',
     keywords: '보광극장 보도자료, 보광 극장 언론, 공연장 뉴스',
+  },
+  notFound: {
+    title: '페이지를 찾을 수 없습니다 | 보광극장',
+    description: '요청하신 주소에 해당하는 페이지가 없습니다.',
   },
 };

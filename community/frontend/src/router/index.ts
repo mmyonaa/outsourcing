@@ -184,4 +184,12 @@ export const routesList = [
     name: 'adminPerformanceNextAssign',
     component: () => import('../views/admin/AdminPerformanceNextAssign.vue'),
   },
+  // 어느 라우트에도 맞지 않는 주소. 서버가 매칭 실패 시에도 index.html 을 200 으로
+  // 내려주므로, 이 라우트가 없으면 없는 주소가 홈페이지 사본으로 색인된다.
+  // 반드시 목록 맨 끝에 둔다(먼저 선언된 라우트가 우선 매칭됨).
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'notFound',
+    component: () => import('../views/NotFound.vue'),
+  },
 ];
