@@ -29,6 +29,7 @@ outsourcing/
 ├── docs/                          # 일반 문서 (구글 캘린더 연동 등)
 └── community/
     ├── ecosystem.config.example.js  # PM2 배포 설정 예시 (실제 파일은 gitignore)
+    ├── nginx.conf                   # 실서버 /etc/nginx/conf.d/myapp.conf 의 거울 (배포본 아님)
     ├── docs/                        # 운영/기술 문서
     │   ├── ARCHITECTURE.md          # 아키텍처 다이어그램 (Mermaid)
     │   ├── ERD.md                   # DB 스키마 다이어그램
