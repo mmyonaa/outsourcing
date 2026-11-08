@@ -316,7 +316,7 @@ export default defineComponent({
           :key="p.perIdx"
           :to="`${listPath}/${p.perIdx}`"
           class="related-card">
-          <div class="related-image">
+          <div class="related-image" :style="{ '--thumb': `url(${p.imgUrl || '/assets/images/common/default-thumbnail.svg'})` }">
             <img loading="lazy" :src="p.imgUrl || '/assets/images/common/default-thumbnail.svg'" :alt="p.title" @error="handleImageError" />
           </div>
           <div class="related-body">
@@ -601,6 +601,17 @@ export default defineComponent({
   position: relative;
 }
 
+/* 빈 여백을 같은 이미지를 흐리게 키운 배경으로 채운다 */
+.related-image::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  background: var(--thumb) center / cover no-repeat;
+  filter: blur(18px) saturate(1.1);
+  transform: scale(1.3);
+}
+
 /* 흰 배경 포스터 경계선 오버레이 */
 .related-image::after {
   content: '';
@@ -612,6 +623,7 @@ export default defineComponent({
 }
 
 .related-image img {
+  position: relative;
   width: 100%;
   height: 100%;
   object-fit: contain;

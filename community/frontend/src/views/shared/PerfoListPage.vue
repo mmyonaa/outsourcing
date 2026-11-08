@@ -208,7 +208,7 @@ export default defineComponent({
     <div v-else-if="performances.length > 0" class="performance-grid">
       <div v-reveal="Math.min(index * 60, 360)" class="performance-card" v-for="(performance, index) in performances" :key="performance.perIdx">
         <router-link :to="`${detailPathPrefix}/${performance.perIdx}`" class="card-link">
-          <div class="card-image">
+          <div class="card-image" :style="{ '--thumb': `url(${performance.imgUrl || '/assets/images/common/default-thumbnail.svg'})` }">
             <img loading="lazy" :src="performance.imgUrl || '/assets/images/common/default-thumbnail.svg'" :alt="performance.title" @error="handleImageError" />
           </div>
           <div class="card-content">
@@ -443,6 +443,16 @@ export default defineComponent({
   position: relative;
 }
 
+/* 빈 여백을 같은 이미지를 흐리게 키운 배경으로 채운다 */
+.card-image::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--thumb) center / cover no-repeat;
+  filter: blur(18px) saturate(1.1);
+  transform: scale(1.3);
+}
+
 /* 흰 배경 포스터가 카드에 묻히지 않도록 얇은 경계선 오버레이 */
 .card-image::after {
   content: '';
@@ -453,6 +463,7 @@ export default defineComponent({
 }
 
 .card-image img {
+  position: relative;
   width: 100%;
   height: 100%;
   object-fit: contain;
