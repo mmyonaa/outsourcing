@@ -316,7 +316,7 @@ export default defineComponent({
           :key="p.perIdx"
           :to="`${listPath}/${p.perIdx}`"
           class="related-card">
-          <div class="related-image">
+          <div class="related-image" :style="{ '--thumb': `url(${p.imgUrl || '/assets/images/common/default-thumbnail.svg'})` }">
             <img loading="lazy" :src="p.imgUrl || '/assets/images/common/default-thumbnail.svg'" :alt="p.title" @error="handleImageError" />
           </div>
           <div class="related-body">
@@ -360,7 +360,6 @@ export default defineComponent({
 
 .thumbnail-wrapper {
   width: 100%;
-  aspect-ratio: 5 / 8;
   overflow: hidden;
   border-radius: 16px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
@@ -368,9 +367,9 @@ export default defineComponent({
   position: relative;
 }
 
-/* 고정 비율(5/8) 래퍼를 라이트박스 트리거가 꽉 채우도록 */
+/* 원본 비율 그대로 보여 주므로 높이는 이미지가 결정한다 */
 .thumbnail-wrapper :deep(.lightbox-trigger) {
-  height: 100%;
+  display: block;
 }
 
 /* 흰 배경 포스터 경계선 오버레이 */
@@ -384,9 +383,9 @@ export default defineComponent({
 }
 
 .thumbnail-image {
+  display: block;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;
   transition: transform 0.5s ease;
 }
 
@@ -538,9 +537,16 @@ export default defineComponent({
 
 /* 다른 공연 보기 */
 .related-section {
-  margin-top: 3.5rem;
-  padding-top: 2.5rem;
+  margin-top: 6rem;
+  padding-top: 3rem;
   border-top: 1px solid #ececec;
+}
+
+@media (max-width: 768px) {
+  .related-section {
+    margin-top: 4rem;
+    padding-top: 2rem;
+  }
 }
 
 .related-header {
@@ -602,6 +608,17 @@ export default defineComponent({
   position: relative;
 }
 
+/* 빈 여백을 같은 이미지를 흐리게 키운 배경으로 채운다 */
+.related-image::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  background: var(--thumb) center / cover no-repeat;
+  filter: blur(18px) saturate(1.1);
+  transform: scale(1.3);
+}
+
 /* 흰 배경 포스터 경계선 오버레이 */
 .related-image::after {
   content: '';
@@ -613,9 +630,10 @@ export default defineComponent({
 }
 
 .related-image img {
+  position: relative;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   transition: transform 0.4s ease;
 }
 

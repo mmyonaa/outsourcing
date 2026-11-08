@@ -208,7 +208,7 @@ export default defineComponent({
     <div v-else-if="performances.length > 0" class="performance-grid">
       <div v-reveal="Math.min(index * 60, 360)" class="performance-card" v-for="(performance, index) in performances" :key="performance.perIdx">
         <router-link :to="`${detailPathPrefix}/${performance.perIdx}`" class="card-link">
-          <div class="card-image">
+          <div class="card-image" :style="{ '--thumb': `url(${performance.imgUrl || '/assets/images/common/default-thumbnail.svg'})` }">
             <img loading="lazy" :src="performance.imgUrl || '/assets/images/common/default-thumbnail.svg'" :alt="performance.title" @error="handleImageError" />
           </div>
           <div class="card-content">
@@ -443,6 +443,16 @@ export default defineComponent({
   position: relative;
 }
 
+/* 빈 여백을 같은 이미지를 흐리게 키운 배경으로 채운다 */
+.card-image::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--thumb) center / cover no-repeat;
+  filter: blur(18px) saturate(1.1);
+  transform: scale(1.3);
+}
+
 /* 흰 배경 포스터가 카드에 묻히지 않도록 얇은 경계선 오버레이 */
 .card-image::after {
   content: '';
@@ -453,9 +463,10 @@ export default defineComponent({
 }
 
 .card-image img {
+  position: relative;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   transition: transform 0.3s;
 }
 
@@ -511,6 +522,8 @@ export default defineComponent({
   font-size: 16px;
   font-weight: 700;
   color: #333;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
   overflow: hidden;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -548,10 +561,6 @@ export default defineComponent({
 }
 
 /* 페이지네이션 */
-.pagination-section {
-  margin-top: 3rem;
-}
-
 /* 반응형 */
 @media (max-width: 1200px) {
   .performance-grid {
@@ -561,12 +570,9 @@ export default defineComponent({
 }
 
 /* 태블릿 이하: 필터/검색 세로 스택 (칩 가운데, 검색바 full-width) */
+/* 태블릿 이하: 필터/검색 세로 스택 (칩 가운데, 검색바 full-width).
+   그리드는 홈과 같이 600px 까지 3열을 유지한다 */
 @media (max-width: 900px) {
-  .performance-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
-  }
-
   .search-category-container {
     flex-direction: column;
     align-items: stretch;
@@ -618,11 +624,8 @@ export default defineComponent({
   }
 }
 
+/* 좁은 화면에서도 홈과 같은 2열을 유지한다 — 1열이면 5:8 카드가 화면 한 장을 다 차지한다 */
 @media (max-width: 480px) {
-  .performance-grid {
-    grid-template-columns: 1fr;
-  }
-
   /* 좁은 화면: 칩이 폭을 균등 분할, 초기화는 아이콘만 */
   .category-chips {
     flex: 1;

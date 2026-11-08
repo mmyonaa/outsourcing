@@ -84,7 +84,7 @@ export default defineComponent({
 <style scoped>
 /* 대관 절차 섹션 */
 .procedure-section {
-  margin-top: 5rem;
+  margin-top: 4rem;
   padding: 3rem 0;
   max-width: 1200px;
   margin-left: auto;
@@ -150,7 +150,7 @@ export default defineComponent({
 
 /* 필수 제출 서류 섹션 */
 .documents-section {
-  margin-top: 5rem;
+  margin-top: 4rem;
   padding: 3rem 0;
   max-width: 1200px;
   margin-left: auto;
@@ -224,7 +224,7 @@ export default defineComponent({
 
 /* 환불 규정 섹션 */
 .refund-section {
-  margin-top: 5rem;
+  margin-top: 4rem;
   padding: 3rem 0;
   max-width: 1200px;
   margin-left: auto;

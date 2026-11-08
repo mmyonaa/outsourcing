@@ -241,7 +241,7 @@ export default defineComponent({
             :key="performance.perIdx"
             :to="`/performance/${performance.perIdx}`"
             class="poster">
-            <div class="poster-image">
+            <div class="poster-image" :style="{ '--thumb': `url(${performance.imgUrl || '/assets/images/common/default-thumbnail.svg'})` }">
               <img loading="lazy" :src="performance.imgUrl || '/assets/images/common/default-thumbnail.svg'" :alt="performance.title" @error="handleImageError" />
             </div>
             <div class="poster-content">
@@ -284,7 +284,7 @@ export default defineComponent({
             :key="performance.perIdx"
             :to="`/performance/next/${performance.perIdx}`"
             class="poster">
-            <div class="poster-image">
+            <div class="poster-image" :style="{ '--thumb': `url(${performance.imgUrl || '/assets/images/common/default-thumbnail.svg'})` }">
               <img loading="lazy" :src="performance.imgUrl || '/assets/images/common/default-thumbnail.svg'" :alt="performance.title" @error="handleImageError" />
             </div>
             <div class="poster-content">

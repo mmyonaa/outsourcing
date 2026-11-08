@@ -45,7 +45,16 @@
         font-size: 18px;
         font-weight: 600;
       }
-  
+
+      // 오시는 길의 소제목(대중교통·자가용) — 앞 문단과 붙지 않게 띄운다
+      h2 {
+        margin-bottom: 0.5rem;
+
+        &:not(:first-child) {
+          margin-top: 1.75rem;
+        }
+      }
+
       .text-divider {
         height: 2px;
         background-color: $colorGray300;
