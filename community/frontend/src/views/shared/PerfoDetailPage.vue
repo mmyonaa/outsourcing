@@ -360,7 +360,6 @@ export default defineComponent({
 
 .thumbnail-wrapper {
   width: 100%;
-  aspect-ratio: 5 / 8;
   overflow: hidden;
   border-radius: 16px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
@@ -368,9 +367,9 @@ export default defineComponent({
   position: relative;
 }
 
-/* 고정 비율(5/8) 래퍼를 라이트박스 트리거가 꽉 채우도록 */
+/* 원본 비율 그대로 보여 주므로 높이는 이미지가 결정한다 */
 .thumbnail-wrapper :deep(.lightbox-trigger) {
-  height: 100%;
+  display: block;
 }
 
 /* 흰 배경 포스터 경계선 오버레이 */
@@ -384,9 +383,9 @@ export default defineComponent({
 }
 
 .thumbnail-image {
+  display: block;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;
   transition: transform 0.5s ease;
 }
 
@@ -615,7 +614,7 @@ export default defineComponent({
 .related-image img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   transition: transform 0.4s ease;
 }
 

@@ -455,7 +455,7 @@ export default defineComponent({
 .card-image img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   transition: transform 0.3s;
 }
 
@@ -511,6 +511,8 @@ export default defineComponent({
   font-size: 16px;
   font-weight: 700;
   color: #333;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
   overflow: hidden;
   display: -webkit-box;
   -webkit-line-clamp: 2;

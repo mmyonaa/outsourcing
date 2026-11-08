@@ -401,7 +401,8 @@ export default defineComponent({
 .thumbnail-img {
   width: 60px;
   height: 60px;
-  object-fit: cover;
+  object-fit: contain;
+  background: #f5f5f5;
   border-radius: 6px;
   border: 1px solid #e0e0e0;
 }
