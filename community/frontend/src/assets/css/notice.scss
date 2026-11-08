@@ -298,8 +298,10 @@
 
 // 페이지네이션 영역
 .pagination-section {
-  padding-top: 5rem;
-  padding-bottom: 9.25rem;
+  // 아래 여백은 .page-common 의 padding-bottom(80px)이 담당한다 —
+  // 페이지가 1장이라 페이지네이션이 숨겨져도 빈 띠가 남지 않게 한다
+  padding-top: 2rem;
+  padding-bottom: 0;
   .pagination {
     display: flex;
     justify-content: center;

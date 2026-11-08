@@ -537,9 +537,16 @@ export default defineComponent({
 
 /* 다른 공연 보기 */
 .related-section {
-  margin-top: 3.5rem;
-  padding-top: 2.5rem;
+  margin-top: 6rem;
+  padding-top: 3rem;
   border-top: 1px solid #ececec;
+}
+
+@media (max-width: 768px) {
+  .related-section {
+    margin-top: 4rem;
+    padding-top: 2rem;
+  }
 }
 
 .related-header {

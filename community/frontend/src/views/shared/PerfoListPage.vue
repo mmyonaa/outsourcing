@@ -561,10 +561,6 @@ export default defineComponent({
 }
 
 /* 페이지네이션 */
-.pagination-section {
-  margin-top: 3rem;
-}
-
 /* 반응형 */
 @media (max-width: 1200px) {
   .performance-grid {
@@ -574,12 +570,9 @@ export default defineComponent({
 }
 
 /* 태블릿 이하: 필터/검색 세로 스택 (칩 가운데, 검색바 full-width) */
+/* 태블릿 이하: 필터/검색 세로 스택 (칩 가운데, 검색바 full-width).
+   그리드는 홈과 같이 600px 까지 3열을 유지한다 */
 @media (max-width: 900px) {
-  .performance-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
-  }
-
   .search-category-container {
     flex-direction: column;
     align-items: stretch;
@@ -631,11 +624,8 @@ export default defineComponent({
   }
 }
 
+/* 좁은 화면에서도 홈과 같은 2열을 유지한다 — 1열이면 5:8 카드가 화면 한 장을 다 차지한다 */
 @media (max-width: 480px) {
-  .performance-grid {
-    grid-template-columns: 1fr;
-  }
-
   /* 좁은 화면: 칩이 폭을 균등 분할, 초기화는 아이콘만 */
   .category-chips {
     flex: 1;
